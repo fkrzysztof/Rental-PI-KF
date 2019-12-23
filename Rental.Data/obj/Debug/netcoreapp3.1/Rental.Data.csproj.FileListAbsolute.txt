@@ -5,3 +5,4 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcor
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\bin\Debug\netcoreapp3.1\Rental.Data.pdb
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.dll
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.pdb
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.csprojAssemblyReference.cache
