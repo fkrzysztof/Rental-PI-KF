@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rental.Intranet", "Rental-PI-KF\Rental.Intranet.csproj", "{507E1735-097E-495A-A542-271B3FD1CD17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rental.Data", "Rental.Data\Rental.Data.csproj", "{6BCEB3BD-9DA1-4856-A637-D9EF30627B2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{507E1735-097E-495A-A542-271B3FD1CD17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{507E1735-097E-495A-A542-271B3FD1CD17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{507E1735-097E-495A-A542-271B3FD1CD17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{507E1735-097E-495A-A542-271B3FD1CD17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BCEB3BD-9DA1-4856-A637-D9EF30627B2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BCEB3BD-9DA1-4856-A637-D9EF30627B2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BCEB3BD-9DA1-4856-A637-D9EF30627B2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BCEB3BD-9DA1-4856-A637-D9EF30627B2A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BA3BD98-706E-4653-92DB-FF3793B3DB98}
+	EndGlobalSection
+EndGlobal

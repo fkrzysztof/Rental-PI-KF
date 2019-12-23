@@ -1,0 +1,8 @@
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\bin\Debug\netcoreapp3.1\Rental.Data.deps.json
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\bin\Debug\netcoreapp3.1\Rental.Data.dll
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.AssemblyInfoInputs.cache
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.AssemblyInfo.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\bin\Debug\netcoreapp3.1\Rental.Data.pdb
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.dll
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.pdb
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.csprojAssemblyReference.cache
