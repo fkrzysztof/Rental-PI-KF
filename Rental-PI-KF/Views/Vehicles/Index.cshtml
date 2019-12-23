@@ -1,0 +1,161 @@
+﻿@model IEnumerable<Rental_Data.Data.Rental.Vehicle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BrandID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleModelID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearOfProduction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RentalAgencyID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EngineCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EquipmentID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GeneralTypeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExactTypeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EngineTypeID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mileage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ColourID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VIN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberPlate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EnginePower)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GearBoxID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WheelDriveID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfSeats)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfDoors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleModelID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.YearOfProduction)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RentalAgencyID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EngineCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EquipmentID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GeneralTypeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExactTypeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EngineTypeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Mileage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ColourID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VIN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberPlate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnginePower)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GearBoxID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WheelDriveID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfSeats)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfDoors)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VehicleID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.VehicleID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.VehicleID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
