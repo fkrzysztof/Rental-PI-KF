@@ -11,7 +11,7 @@ namespace Rental_Data.Data.Rental
         public int WheelDriveID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         public ICollection<Vehicle> Vehicles { get; set; }
     }

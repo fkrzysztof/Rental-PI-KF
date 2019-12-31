@@ -11,7 +11,7 @@ namespace Rental_Data.Data.Rental
         [Key]
         public int AirConditioningID { get; set; }
         public string Type { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         public ICollection<Equipment> Equipment { get; set; }
     }

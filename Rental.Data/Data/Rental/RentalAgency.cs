@@ -19,7 +19,7 @@ namespace Rental_Data.Data.Rental
         public string Email2 { get; set; }
         public DateTime? DateAdded { get; set; }
         public string Annotation { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         public int VehicleID { get; set; }
             public Vehicle Vehicle { get; set; }

@@ -12,7 +12,6 @@ namespace Rental.Data
         {
         }
 
-        public DbSet<TableTest> TableTests { get; set; }
 
         //Strona
         public DbSet<Page> Pages { get; set; }

@@ -27,6 +27,6 @@ namespace Rental_Data.Data.Rental
         public int VehicleID { get; set; }
             public Vehicle Vehicle { get; set; }
 
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

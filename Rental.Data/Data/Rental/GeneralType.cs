@@ -12,7 +12,7 @@ namespace Rental_Data.Data.Rental
         public int GeneralTypeID { get; set; }
 
         public string Name { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         public ICollection<Vehicle> Vehicles { get; set; }
         //public ICollection<ExactType> ExactTypes { get; set; }

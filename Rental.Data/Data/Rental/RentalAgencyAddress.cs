@@ -14,7 +14,7 @@ namespace Rental_Data.Data.Rental
         public string Street { get; set; }
         public string Number { get; set; }
         public string ZIPCode { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         public int RentalAgencyID { get; set; }
             public RentalAgency RentalAgency { get; set; }

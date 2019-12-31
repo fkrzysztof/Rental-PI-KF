@@ -325,3 +325,13 @@ C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcorea
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\Rental.Data.pdb
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.Views.pdb
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.csproj.CopyComplete
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Create.cshtml.g.cs
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Delete.cshtml.g.cs
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Details.cshtml.g.cs
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Edit.cshtml.g.cs
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Index.cshtml.g.cs
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Create.cshtml.g.cs
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Delete.cshtml.g.cs
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Details.cshtml.g.cs
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Edit.cshtml.g.cs
+C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Index.cshtml.g.cs

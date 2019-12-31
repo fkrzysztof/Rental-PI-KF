@@ -13,4 +13,3 @@ C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreap
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.AssemblyInfo.cs
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.dll
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.pdb
-C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental.Data\obj\Debug\netcoreapp3.1\Rental.Data.csprojAssemblyReference.cache

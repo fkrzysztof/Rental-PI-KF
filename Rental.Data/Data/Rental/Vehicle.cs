@@ -61,6 +61,6 @@ namespace Rental_Data.Data.Rental
         
         public ICollection<CurrentPrice> CurrentPrices { get; set; }
       
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }

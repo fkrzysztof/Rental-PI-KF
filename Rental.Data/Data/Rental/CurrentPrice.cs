@@ -18,6 +18,6 @@ namespace Rental_Data.Data.Rental
         public decimal? Price { get; set; }
         public DateTime? DateTimeFrom { get; set; }
         public DateTime? DateTimeTo { get; set; }
-        public bool? IsActive { get; set; }
+        public bool IsActive { get; set; }
     }
 }
