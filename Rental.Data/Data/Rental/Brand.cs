@@ -13,7 +13,7 @@ namespace Rental_Data.Data.Rental
         public int BrandID { get; set; }
         
         //public virtual ICollection<VehicleModel> VehicleModel { get; set; }
-        //public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public ICollection<Vehicle> Vehicles { get; set; }
         
         public string Name { get; set; }
         public bool? IsActive { get; set; }

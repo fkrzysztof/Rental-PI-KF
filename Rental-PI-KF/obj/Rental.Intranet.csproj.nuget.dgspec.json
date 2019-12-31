@@ -1,25 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\Rental.Intranet.csproj": {}
+    "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\Rental.Intranet.csproj": {}
   },
   "projects": {
-    "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\Rental.Intranet.csproj": {
+    "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\Rental.Intranet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\Rental.Intranet.csproj",
+        "projectUniqueName": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\Rental.Intranet.csproj",
         "projectName": "Rental.Intranet",
-        "projectPath": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\Rental.Intranet.csproj",
-        "packagesPath": "C:\\Users\\krzys\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\obj\\",
+        "projectPath": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\Rental.Intranet.csproj",
+        "packagesPath": "C:\\Users\\Ja\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental-PI-KF\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\krzys\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Ja\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -31,8 +30,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj": {
-                "projectPath": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj"
+              "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj": {
+                "projectPath": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj"
               }
             }
           }
@@ -101,22 +100,21 @@
         }
       }
     },
-    "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj": {
+    "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj",
+        "projectUniqueName": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj",
         "projectName": "Rental.Data",
-        "projectPath": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj",
-        "packagesPath": "C:\\Users\\krzys\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\obj\\",
+        "projectPath": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj",
+        "packagesPath": "C:\\Users\\Ja\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\krzys\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\Ja\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"

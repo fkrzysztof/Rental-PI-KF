@@ -17,6 +17,6 @@ namespace Rental_Data.Data.Rental
         public bool? IsActive { get; set; }
 
         public int RentalAgencyID { get; set; }
-            //public virtual RentalAgency RentalAgency { get; set; }
+            public RentalAgency RentalAgency { get; set; }
     }
 }

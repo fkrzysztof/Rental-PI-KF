@@ -10,8 +10,10 @@ namespace Rental_Data.Data.Rental
     {
         [Key]
         public int PictureID { get; set; }
+        
         public int VehicleID { get; set; }
-            //public Vehicle Vehicle { get; set; }
+            public Vehicle Vehicle { get; set; }
+        
         public string URL { get; set; }
         public bool? IsActive { get; set; }
     }

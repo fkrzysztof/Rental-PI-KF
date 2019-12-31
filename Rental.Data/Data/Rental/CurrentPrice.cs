@@ -13,7 +13,7 @@ namespace Rental_Data.Data.Rental
 
 
         public int VehicleID { get; set; }
-        //public Vehicle Vehicle { get; set;}
+            public Vehicle Vehicle { get; set;}
         
         public decimal? Price { get; set; }
         public DateTime? DateTimeFrom { get; set; }

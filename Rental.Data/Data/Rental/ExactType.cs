@@ -11,12 +11,12 @@ namespace Rental_Data.Data.Rental
         [Key]
         public int ExactTypeID { get; set; }
 
-        public int GeneralTypeID { get; set; }
-        //public GeneralType GeneralType { get; set; }
+        //public int GeneralTypeID { get; set; }
+          //  public GeneralType GeneralType { get; set; }
 
         public string Name { get; set; }
         public bool? IsActive { get; set; }
 
-        //public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public ICollection<Vehicle> Vehicles { get; set; }
     }
 }

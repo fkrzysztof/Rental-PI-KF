@@ -13,6 +13,6 @@ namespace Rental_Data.Data.Rental
         public string Description { get; set; }
         public bool? IsActive { get; set; }
 
-        //public virtual ICollection<Vehicle> Vehicles {get; set;}
+        public ICollection<Vehicle> Vehicles {get; set;}
     }
 }

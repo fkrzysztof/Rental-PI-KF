@@ -9,10 +9,7 @@ namespace Rental_Data.Data.Rental
     public class RentalAgency
     {
         [Key]
-        public int RentalAgencyID { get; set; }
-
-        //public virtual RentalAgencyAddress RentalAgencyAddress { get; set; }
-        
+        public int RentalAgencyID { get; set; }       
         public string ContactPerson { get; set; }
         public string Number { get; set; }
         public string Name { get; set; }
@@ -24,7 +21,10 @@ namespace Rental_Data.Data.Rental
         public string Annotation { get; set; }
         public bool? IsActive { get; set; }
 
-        //public virtual ICollection<Vehicle> Vehicles { get; set; }
+        public int VehicleID { get; set; }
+            public Vehicle Vehicle { get; set; }
+
+        public RentalAgencyAddress RentalAgencyAddress { get; set; }
 
         //mozna dodac regony itd.
 
