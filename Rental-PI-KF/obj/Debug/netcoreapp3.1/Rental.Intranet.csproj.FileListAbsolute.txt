@@ -157,8 +157,6 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netco
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Create.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Delete.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Details.cshtml.g.cs
@@ -335,3 +333,15 @@ C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcorea
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Details.cshtml.g.cs
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Edit.cshtml.g.cs
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Index.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Create.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Delete.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Details.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Edit.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Index.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Create.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Delete.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Details.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Edit.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Index.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.MvcApplicationPartsAssemblyInfo.cache

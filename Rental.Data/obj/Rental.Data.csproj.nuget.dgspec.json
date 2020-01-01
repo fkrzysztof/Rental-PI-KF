@@ -1,24 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj": {}
+    "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj": {
+    "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj",
+        "projectUniqueName": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj",
         "projectName": "Rental.Data",
-        "projectPath": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj",
-        "packagesPath": "C:\\Users\\Ja\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ja\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\obj\\",
+        "projectPath": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\Rental.Data.csproj",
+        "packagesPath": "C:\\Users\\krzys\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\krzys\\Documents\\Programowanie\\Rental-PI-KF\\Rental.Data\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\Ja\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\krzys\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"

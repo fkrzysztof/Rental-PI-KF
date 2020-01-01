@@ -700,6 +700,9 @@ namespace Rental.Data
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("BrandID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 

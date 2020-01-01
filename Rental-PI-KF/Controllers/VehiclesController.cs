@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -56,16 +55,28 @@ namespace Rental_PI_KF.Controllers
         public IActionResult Create()
         {
             
-            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "Name"); //zmiana
+            ViewBag.BrandID = new SelectList(_context.Brands, "BrandID", "Name"); //zmiana
+            //ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "Name"); //zmiana
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID");
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID");
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID");
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID");
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID");
-            ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID");
+            //ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID");
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID");
             return View();
         }
+
+        //JS 
+        public JsonResult GetModelList(int BrandID)
+        {
+            List<VehicleModel> VehicleModelsList = new List<VehicleModel>();
+            VehicleModelsList  = _context.VehicleModels.Where(x => x.BrandID == BrandID).ToList();
+            VehicleModelsList.Insert(0, new VehicleModel { VehicleModelID = 0, Name = "Wybierz model Auta" });
+            return Json(new SelectList(VehicleModelsList, "VehicleModelID", "Name"));
+        }
+
+
 
         // POST: Vehicles/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

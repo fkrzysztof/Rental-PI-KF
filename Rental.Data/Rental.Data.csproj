@@ -9,6 +9,20 @@
     <Compile Remove="Data\Migrations\20191231180914_add-relations.Designer.cs" />
     <Compile Remove="Data\Migrations\20191231184051_Relation-remove-general-exact.cs" />
     <Compile Remove="Data\Migrations\20191231184051_Relation-remove-general-exact.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191231185221_Relations-1.0.cs" />
+    <Compile Remove="Data\Migrations\20191231185221_Relations-1.0.Designer.cs" />
+    <Compile Remove="Data\Migrations\20191231190937_Relations-IsActive-bool.cs" />
+    <Compile Remove="Data\Migrations\20191231190937_Relations-IsActive-bool.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200101165333_Add-Brand-in-VehicleModel.cs" />
+    <Compile Remove="Data\Migrations\20200101165333_Add-Brand-in-VehicleModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200101165919_Add-Brand-in-VehicleModel1.cs" />
+    <Compile Remove="Data\Migrations\20200101165919_Add-Brand-in-VehicleModel1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200101170422_Add-Brand-in-VehicleModel.cs" />
+    <Compile Remove="Data\Migrations\20200101170422_Add-Brand-in-VehicleModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200101170809_Add-Brand-in-VehicleModel.cs" />
+    <Compile Remove="Data\Migrations\20200101170809_Add-Brand-in-VehicleModel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200101204644_Database-basic-1.0.cs" />
+    <Compile Remove="Data\Migrations\20200101204644_Database-basic-1.0.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

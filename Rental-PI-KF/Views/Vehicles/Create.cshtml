@@ -13,13 +13,35 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="BrandID" class="control-label"></label>
-                <select asp-for="BrandID" class ="form-control" asp-items="ViewBag.BrandID"></select>
+                @*<label asp-for="BrandID" class="control-label"></label>
+                <select asp-for="BrandID" class ="form-control" asp-items="ViewBag.BrandID"></select>*@
+                @if(ViewBag.BrandID != null)
+                {
+                    @Html.DropDownListFor(model => model.BrandID, ViewBag.BrandID as SelectList, "--wybierz markę--", new { @class="form-control" } )
+                }
             </div>
             <div class="form-group">
-                <label asp-for="VehicleModelID" class="control-label"></label>
-                <select asp-for="VehicleModelID" class ="form-control" asp-items="ViewBag.VehicleModelID"></select>
+                @*<label asp-for="VehicleModelID" class="control-label"></label>
+                <select asp-for="VehicleModelID" class ="form-control" asp-items="ViewBag.VehicleModelID"></select>*@
+                @*@Html.DropDownListFor(model => model.VehicleModelID, new SelectList(" "), "--wybierz model--", new { @class = "form-control" })*@
+               
             </div>
+
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $("#BrandID").change(function () {
+                        $.get("Home/GetModelList", { BrandID: $("#BrandID").val() }, function (data) {
+                            $("#VehicleModelID").empty();
+                            $.each(data, function (index, row) {
+                                $("#VehicleModelID").append("<option value='" + row.VehicleModelID + "'>" + row.Name + "</option>")
+                            });
+                        });
+                    });
+                });
+            </script>
+
+
             <div class="form-group">
                 <label asp-for="YearOfProduction" class="control-label"></label>
                 <input asp-for="YearOfProduction" class="form-control" />

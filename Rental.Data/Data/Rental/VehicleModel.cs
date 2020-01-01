@@ -11,7 +11,9 @@ namespace Rental_Data.Data.Rental
         public int VehicleModelID { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
-    
+        
+        public int BrandID { get; set; }
+            //public Brand GetBrand { get; set; }
         public ICollection<Vehicle> Vehicles { get; set; }
         //public virtual Brand Brand { get; set; }
 
