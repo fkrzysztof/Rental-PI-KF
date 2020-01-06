@@ -33,6 +33,7 @@
           "Microsoft.Extensions.Logging.Debug": "3.1.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "3.1.0",
           "Rental.Data": "1.0.0",
+          "jQuery": "1.10.2",
           "Microsoft.AspNetCore.Antiforgery": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "3.1.0.0",
           "Microsoft.AspNetCore.Authentication.Cookies": "3.1.0.0",
@@ -323,6 +324,7 @@
           "Rental.Intranet.dll": {}
         }
       },
+      "jQuery/1.10.2": {},
       "Microsoft.AspNetCore.Cryptography.Internal/3.1.0": {},
       "Microsoft.AspNetCore.Cryptography.KeyDerivation/3.1.0": {
         "dependencies": {
@@ -4010,6 +4012,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "jQuery/1.10.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-uPspgAZqsXYOwLW+Kf3uRxdFAyX1EiEd6AWJhCsnZNVsUJmEbsZSxA0P+ku6oAhHI682TOSwkbmmJPwFgdY5cA==",
+      "path": "jquery/1.10.2",
+      "hashPath": "jquery.1.10.2.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/3.1.0": {
       "type": "package",

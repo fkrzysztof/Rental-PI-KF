@@ -14,32 +14,99 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 @*<label asp-for="BrandID" class="control-label"></label>
-                <select asp-for="BrandID" class ="form-control" asp-items="ViewBag.BrandID"></select>*@
-                @if(ViewBag.BrandID != null)
-                {
-                    @Html.DropDownListFor(model => model.BrandID, ViewBag.BrandID as SelectList, "--wybierz markę--", new { @class="form-control" } )
-                }
+            <select asp-for="BrandID" class ="form-control" asp-items="ViewBag.BrandID"></select>*@
+
+                @*<select id="BrandID" name="BrandID" asp-for="BrandID" asp-items='@(new SelectList(ViewBag.Brands,"BrandID","Name"))'>
+                <option>Wybierz Markę</option>
+            </select>*@
+                <select asp-for="BrandID"
+                        class="form-control"
+                        asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))"></select>
+
             </div>
             <div class="form-group">
                 @*<label asp-for="VehicleModelID" class="control-label"></label>
-                <select asp-for="VehicleModelID" class ="form-control" asp-items="ViewBag.VehicleModelID"></select>*@
+            <select asp-for="VehicleModelID" class ="form-control" asp-items="ViewBag.VehicleModelID"></select>*@
                 @*@Html.DropDownListFor(model => model.VehicleModelID, new SelectList(" "), "--wybierz model--", new { @class = "form-control" })*@
-               
+
+                @*<select id="ModelID" name="ModelID" asp-for="VehicleModelID" asp-items='@(new SelectList(string.Empty,"VehicleModelID","Name"))'>
+            </select>*@
+
+                <select class="form-control" id="VehicleModelID" name="VehicleModelID" asp-for="VehicleModelID"
+                        asp-items="@(new SelectList(string.Empty, "VehicleModelID", "Name"))"></select>
+
             </div>
 
-            <script src="~/lib/jquery/dist/jquery.min.js"></script>
-            <script>
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script type="text/javascript">
+
                 $(document).ready(function () {
-                    $("#BrandID").change(function () {
-                        $.get("Home/GetModelList", { BrandID: $("#BrandID").val() }, function (data) {
+                    var items = "<option value='0'>SELECT</option>";
+                    $('#VehicleModelID').html(items);
+                });
+
+                $(document).ready(function () {
+                    $('#BrandID').change(function () {
+                        var url = '@Url.Content("~/")' + "Vehicles/GetModel";
+                        //var url =  = "Vehicles/GetModel";
+                        var ddlsource = "#BrandID";
+                        $.getJSON(url, { BrandID: $(ddlsource).val() }, function (data) {
+                            var items = '';
                             $("#VehicleModelID").empty();
-                            $.each(data, function (index, row) {
-                                $("#VehicleModelID").append("<option value='" + row.VehicleModelID + "'>" + row.Name + "</option>")
+                            $.each(data, function (i, modele) {
+                                items += "<option value='" + modele.value + "'>" + modele.text + "</option>";
                             });
+                            $('#VehicleModelID').html(items);
                         });
                     });
                 });
+
             </script>
+
+            ************************* usunac JQuery 1.10.2
+            krok 15 nie skonczone
+
+
+
+
+
+
+            @*<script src="~/js/jquery-1.10.2.js"></script>*@
+            @*<script src="~/lib/jquery/dist/jquery.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $("#BrandID").change(function() {
+
+                    var url = '@Url.Content("~/")' + "Vehicles/GetModelByID";
+                    var ddlsource = "#BrandID";
+                    $.getJSON(url, { BrandID: $(ddlsource).val }, function (data) {
+                        var items = '';
+                        $("#ModelID").empty();
+                        $.each(data, function (i, row) {
+                            items += "<option value='" + row.value + "'>" + row.text + "</option>";
+                        });
+                        $("#ModelID").html(items);
+                    })
+                });
+            });
+
+
+        </script>*@
+
+
+
+            @*<script>
+            $(document).ready(function () {
+                $("#BrandID").change(function () {
+                    $.get("Home/GetModelList", { BrandID: $("#BrandID").val() }, function (data) {
+                        $("#VehicleModelID").empty();
+                        $.each(data, function (index, row) {
+                            $("#VehicleModelID").append("<option value='" + row.VehicleModelID + "'>" + row.Name + "</option>")
+                        });
+                    });
+                });
+            });
+        </script>*@
 
 
             <div class="form-group">
@@ -59,15 +126,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="GeneralTypeID" class="control-label"></label>
-                <select asp-for="GeneralTypeID" class ="form-control" asp-items="ViewBag.GeneralTypeID"></select>
+                <select asp-for="GeneralTypeID" class="form-control" asp-items="ViewBag.GeneralTypeID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="ExactTypeID" class="control-label"></label>
-                <select asp-for="ExactTypeID" class ="form-control" asp-items="ViewBag.ExactTypeID"></select>
+                <select asp-for="ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="EngineTypeID" class="control-label"></label>
-                <select asp-for="EngineTypeID" class ="form-control" asp-items="ViewBag.EngineTypeID"></select>
+                <select asp-for="EngineTypeID" class="form-control" asp-items="ViewBag.EngineTypeID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="Mileage" class="control-label"></label>
@@ -76,7 +143,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ColourID" class="control-label"></label>
-                <select asp-for="ColourID" class ="form-control" asp-items="ViewBag.ColourID"></select>
+                <select asp-for="ColourID" class="form-control" asp-items="ViewBag.ColourID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="VIN" class="control-label"></label>
@@ -105,11 +172,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="GearBoxID" class="control-label"></label>
-                <select asp-for="GearBoxID" class ="form-control" asp-items="ViewBag.GearBoxID"></select>
+                <select asp-for="GearBoxID" class="form-control" asp-items="ViewBag.GearBoxID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="WheelDriveID" class="control-label"></label>
-                <select asp-for="WheelDriveID" class ="form-control" asp-items="ViewBag.WheelDriveID"></select>
+                <select asp-for="WheelDriveID" class="form-control" asp-items="ViewBag.WheelDriveID"></select>
             </div>
             <div class="form-group">
                 <label asp-for="NumberOfSeats" class="control-label"></label>

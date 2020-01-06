@@ -54,8 +54,17 @@ namespace Rental_PI_KF.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            
-            ViewBag.BrandID = new SelectList(_context.Brands, "BrandID", "Name"); //zmiana
+
+            //podejscie 3
+            List<Brand> brandList = new List<Brand>();
+            brandList = _context.Brands.ToList();
+            brandList.Insert(0, new Brand { BrandID = 0, Name = "Select" });
+            ViewBag.ListOfBrads = brandList;
+
+
+
+            //ViewBag.Brands = _context.Brands.ToList();
+            //ViewBag.BrandID = new SelectList(_context.Brands, "BrandID", "Name"); //zmiana
             //ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "Name"); //zmiana
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID");
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID");
@@ -68,13 +77,24 @@ namespace Rental_PI_KF.Controllers
         }
 
         //JS 
-        public JsonResult GetModelList(int BrandID)
+        public JsonResult GetModel( int BrandID)
         {
-            List<VehicleModel> VehicleModelsList = new List<VehicleModel>();
-            VehicleModelsList  = _context.VehicleModels.Where(x => x.BrandID == BrandID).ToList();
-            VehicleModelsList.Insert(0, new VehicleModel { VehicleModelID = 0, Name = "Wybierz model Auta" });
-            return Json(new SelectList(VehicleModelsList, "VehicleModelID", "Name"));
+            List<VehicleModel> vehicleModelsList = new List<VehicleModel>();
+            vehicleModelsList = _context.VehicleModels.Where(x => x.BrandID == BrandID).ToList();
+            vehicleModelsList.Insert(0, new VehicleModel { VehicleModelID = 0, Name = "select" });
+            return Json(new SelectList(vehicleModelsList, "VehicleModelID", "Name"));
         }
+
+
+
+
+        //public JsonResult GetModelByID(int id)
+        //{
+        //    List<VehicleModel> VehicleModelsList = new List<VehicleModel>();
+        //    VehicleModelsList  = _context.VehicleModels.Where(x => x.BrandID == id).ToList();
+        //    VehicleModelsList.Insert(0, new VehicleModel { VehicleModelID = 0, Name = "Wybierz model Auta" });
+        //    return Json(new SelectList(VehicleModelsList, "VehicleModelID", "Name"));
+        //}
 
 
 
