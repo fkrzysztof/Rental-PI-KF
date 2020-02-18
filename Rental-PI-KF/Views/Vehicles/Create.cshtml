@@ -63,8 +63,8 @@
 
             </script>
 
-            ************************* usunac JQuery 1.10.2
-            krok 15 nie skonczone
+            @************************** usunac JQuery 1.10.2*@
+            @*krok 15 nie skonczone*@
 
 
 
@@ -116,7 +116,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="EngineCapacity" class="control-label"></label>
-                <input asp-for="EngineCapacity" class="form-control" />
+                @*<input asp-for="EngineCapacity" class="form-control" />*@
+            <select name="EngineCapacity">
+                @for (int i = 0; i < 6000; i += 100)
+                {
+                    <option value="@i">@i</option>
+                }
+
+            </select>
                 <span asp-validation-for="EngineCapacity" class="text-danger"></span>
             </div>
             <div class="form-group">

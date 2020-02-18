@@ -15,7 +15,8 @@ namespace Rental_Data.Data.Rental
 
         public int VehicleModelID { get; set; }
             public VehicleModel VehicleModel { get; set; }
-        
+
+        [Column(TypeName = "Date")]
         public DateTime? YearOfProduction { get; set; }
 
         public RentalAgency RentalAgency { get; set; }    

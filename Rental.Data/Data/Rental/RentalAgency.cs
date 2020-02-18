@@ -17,6 +17,7 @@ namespace Rental_Data.Data.Rental
         public string Phone2 { get; set; }
         public string Email1 { get; set; }
         public string Email2 { get; set; }
+        [Column(TypeName = "Date")]
         public DateTime? DateAdded { get; set; }
         public string Annotation { get; set; }
         public bool IsActive { get; set; }

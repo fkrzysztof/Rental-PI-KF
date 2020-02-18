@@ -23,6 +23,8 @@
     <Compile Remove="Data\Migrations\20200101170809_Add-Brand-in-VehicleModel.Designer.cs" />
     <Compile Remove="Data\Migrations\20200101204644_Database-basic-1.0.cs" />
     <Compile Remove="Data\Migrations\20200101204644_Database-basic-1.0.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200218191955_relation-exact-general-type.cs" />
+    <Compile Remove="Data\Migrations\20200218191955_relation-exact-general-type.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

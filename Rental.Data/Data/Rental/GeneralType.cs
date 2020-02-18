@@ -15,6 +15,7 @@ namespace Rental_Data.Data.Rental
         public bool IsActive { get; set; }
 
         public ICollection<Vehicle> Vehicles { get; set; }
-        //public ICollection<ExactType> ExactTypes { get; set; }
+
+        public ICollection<ExactType> ExactTypes { get; set; }
     }
 }
