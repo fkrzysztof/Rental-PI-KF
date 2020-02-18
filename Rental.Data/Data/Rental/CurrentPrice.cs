@@ -11,8 +11,8 @@ namespace Rental_Data.Data.Rental
         [Key]
         public int CurrentPriceID { get; set; }
 
-
-        public int VehicleID { get; set; }
+        public int? VehicleID { get; set; }
+            [ForeignKey("VehicleID")]
             public Vehicle Vehicle { get; set;}
         
         public decimal? Price { get; set; }

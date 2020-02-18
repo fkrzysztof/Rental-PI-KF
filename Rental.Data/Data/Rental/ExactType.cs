@@ -11,10 +11,9 @@ namespace Rental_Data.Data.Rental
         [Key]
         public int ExactTypeID { get; set; }
 
-
-        public int GeneralTypeID { get; set; }
-        [ForeignKey("GeneralTypeID")]
-        public GeneralType GeneralType { get; set; }
+        public int? GeneralTypeID { get; set; }
+            [ForeignKey("GeneralTypeID")]
+            public GeneralType GeneralType { get; set; }
 
         public string Name { get; set; }
         public bool IsActive { get; set; }
