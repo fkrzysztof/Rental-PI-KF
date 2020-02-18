@@ -448,6 +448,9 @@ namespace Rental.Data
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("GeneralTypeID")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
@@ -455,6 +458,8 @@ namespace Rental.Data
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ExactTypeID");
+
+                    b.HasIndex("GeneralTypeID");
 
                     b.ToTable("ExactTypes");
                 });
@@ -806,6 +811,15 @@ namespace Rental.Data
                     b.HasOne("Rental_Data.Data.Rental.Vehicle", "Vehicle")
                         .WithOne("Equipment")
                         .HasForeignKey("Rental_Data.Data.Rental.Equipment", "VehicleID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Rental_Data.Data.Rental.ExactType", b =>
+                {
+                    b.HasOne("Rental_Data.Data.Rental.GeneralType", "GeneralType")
+                        .WithMany("ExactTypes")
+                        .HasForeignKey("GeneralTypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

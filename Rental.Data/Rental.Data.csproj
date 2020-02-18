@@ -25,6 +25,8 @@
     <Compile Remove="Data\Migrations\20200101204644_Database-basic-1.0.Designer.cs" />
     <Compile Remove="Data\Migrations\20200218191955_relation-exact-general-type.cs" />
     <Compile Remove="Data\Migrations\20200218191955_relation-exact-general-type.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200218192614_relation-exact-general.cs" />
+    <Compile Remove="Data\Migrations\20200218192614_relation-exact-general.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

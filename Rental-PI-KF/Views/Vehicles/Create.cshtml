@@ -19,10 +19,7 @@
                 @*<select id="BrandID" name="BrandID" asp-for="BrandID" asp-items='@(new SelectList(ViewBag.Brands,"BrandID","Name"))'>
                 <option>Wybierz Markę</option>
             </select>*@
-                <select asp-for="BrandID"
-                        class="form-control"
-                        asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))"></select>
-
+                <select asp-for="BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))"></select>
             </div>
             <div class="form-group">
                 @*<label asp-for="VehicleModelID" class="control-label"></label>
@@ -131,10 +128,11 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*generalny typ wybieramy w czasie wyboru co dodajemy nowego.. samochod rower itd..*@
+            @*<div class="form-group">
                 <label asp-for="GeneralTypeID" class="control-label"></label>
                 <select asp-for="GeneralTypeID" class="form-control" asp-items="ViewBag.GeneralTypeID"></select>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="ExactTypeID" class="control-label"></label>
                 <select asp-for="ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
@@ -157,7 +155,10 @@
                 <input asp-for="VIN" class="form-control" />
                 <span asp-validation-for="VIN" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*
+                //Pozycje dodane zostana automatycznie przy dodaniu lub pozbyciu sie pozycji
+
+                <div class="form-group">
                 <label asp-for="DateIn" class="control-label"></label>
                 <input asp-for="DateIn" class="form-control" />
                 <span asp-validation-for="DateIn" class="text-danger"></span>
@@ -166,7 +167,7 @@
                 <label asp-for="DateOut" class="control-label"></label>
                 <input asp-for="DateOut" class="form-control" />
                 <span asp-validation-for="DateOut" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="NumberPlate" class="control-label"></label>
                 <input asp-for="NumberPlate" class="form-control" />
