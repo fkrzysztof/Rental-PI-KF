@@ -1,11 +1,12 @@
 ﻿@model Rental_Data.Data.Rental.Vehicle
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
 
-<h1>Details</h1>
+<h1>Delete</h1>
 
+<h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Vehicle</h4>
     <hr />
@@ -15,13 +16,13 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Brand.BrandID)
-        </dd>
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.VehicleModel)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.VehicleModel.VehicleModelID)
-        </dd>
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.YearOfProduction)
         </dt>
@@ -29,11 +30,23 @@
             @Html.DisplayFor(model => model.YearOfProduction)
         </dd>
         <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RentalAgency)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RentalAgency.RentalAgencyID)
+        </dd class>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.EngineCapacity)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.EngineCapacity)
         </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Equipment)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Equipment.EquipmentID)
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
@@ -45,19 +58,19 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.GeneralType.GeneralTypeID)
-        </dd>
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ExactType)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.ExactType.ExactTypeID)
-        </dd>
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.EngineType)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.EngineType.EngineTypeID)
-        </dd>
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Mileage)
         </dt>
@@ -69,7 +82,7 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Colour.ColourID)
-        </dd>
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.VIN)
         </dt>
@@ -105,13 +118,13 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.GearBox.GearBoxID)
-        </dd>
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.WheelDrive)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.WheelDrive.WheelDriveID)
-        </dd>
+        </dd class>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NumberOfSeats)
         </dt>
@@ -131,8 +144,10 @@
             @Html.DisplayFor(model => model.IsActive)
         </dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.VehicleID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="VehicleID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>

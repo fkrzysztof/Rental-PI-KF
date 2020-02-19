@@ -1,0 +1,84 @@
+﻿@model Rental_Data.Data.Rental.Equipment
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Equipment</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ABS" /> @Html.DisplayNameFor(model => model.ABS)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="AUX" /> @Html.DisplayNameFor(model => model.AUX)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="ISOFIX" /> @Html.DisplayNameFor(model => model.ISOFIX)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CD" /> @Html.DisplayNameFor(model => model.CD)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="SD" /> @Html.DisplayNameFor(model => model.SD)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="USB" /> @Html.DisplayNameFor(model => model.USB)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CruiseControl" /> @Html.DisplayNameFor(model => model.CruiseControl)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Navigation" /> @Html.DisplayNameFor(model => model.Navigation)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Airbag" /> @Html.DisplayNameFor(model => model.Airbag)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PowerSteering" /> @Html.DisplayNameFor(model => model.PowerSteering)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="AirConditioningID" class="control-label"></label>
+                <select asp-for="AirConditioningID" class ="form-control" asp-items="ViewBag.AirConditioningID"></select>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

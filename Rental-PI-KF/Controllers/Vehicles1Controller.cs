@@ -10,23 +10,23 @@ using Rental_Data.Data.Rental;
 
 namespace Rental_PI_KF.Controllers
 {
-    public class VehiclesTestController : Controller
+    public class Vehicles1Controller : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public VehiclesTestController(ApplicationDbContext context)
+        public Vehicles1Controller(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: VehiclesTest
+        // GET: Vehicles1
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Vehicles.Include(v => v.Brand).Include(v => v.Colour).Include(v => v.EngineType).Include(v => v.ExactType).Include(v => v.GearBox).Include(v => v.GeneralType).Include(v => v.VehicleModel).Include(v => v.WheelDrive);
+            var applicationDbContext = _context.Vehicles.Include(v => v.Brand).Include(v => v.Colour).Include(v => v.EngineType).Include(v => v.Equipment).Include(v => v.ExactType).Include(v => v.GearBox).Include(v => v.GeneralType).Include(v => v.RentalAgency).Include(v => v.VehicleModel).Include(v => v.WheelDrive);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: VehiclesTest/Details/5
+        // GET: Vehicles1/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -38,9 +38,11 @@ namespace Rental_PI_KF.Controllers
                 .Include(v => v.Brand)
                 .Include(v => v.Colour)
                 .Include(v => v.EngineType)
+                .Include(v => v.Equipment)
                 .Include(v => v.ExactType)
                 .Include(v => v.GearBox)
                 .Include(v => v.GeneralType)
+                .Include(v => v.RentalAgency)
                 .Include(v => v.VehicleModel)
                 .Include(v => v.WheelDrive)
                 .FirstOrDefaultAsync(m => m.VehicleID == id);
@@ -52,26 +54,28 @@ namespace Rental_PI_KF.Controllers
             return View(vehicle);
         }
 
-        // GET: VehiclesTest/Create
+        // GET: Vehicles1/Create
         public IActionResult Create()
         {
             ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID");
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID");
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID");
+            ViewData["EquipmentID"] = new SelectList(_context.Equipment, "EquipmentID", "EquipmentID");
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID");
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID");
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID");
+            ViewData["RentalAgencyID"] = new SelectList(_context.RentalAgencies, "RentalAgencyID", "RentalAgencyID");
             ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID");
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID");
             return View();
         }
 
-        // POST: VehiclesTest/Create
+        // POST: Vehicles1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
+        public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,RentalAgencyID,EngineCapacity,EquipmentID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
         {
             if (ModelState.IsValid)
             {
@@ -82,15 +86,17 @@ namespace Rental_PI_KF.Controllers
             ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicle.BrandID);
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", vehicle.ColourID);
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", vehicle.EngineTypeID);
+            ViewData["EquipmentID"] = new SelectList(_context.Equipment, "EquipmentID", "EquipmentID", vehicle.EquipmentID);
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", vehicle.ExactTypeID);
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", vehicle.GearBoxID);
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", vehicle.GeneralTypeID);
+            ViewData["RentalAgencyID"] = new SelectList(_context.RentalAgencies, "RentalAgencyID", "RentalAgencyID", vehicle.RentalAgencyID);
             ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", vehicle.VehicleModelID);
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", vehicle.WheelDriveID);
             return View(vehicle);
         }
 
-        // GET: VehiclesTest/Edit/5
+        // GET: Vehicles1/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -106,20 +112,22 @@ namespace Rental_PI_KF.Controllers
             ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicle.BrandID);
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", vehicle.ColourID);
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", vehicle.EngineTypeID);
+            ViewData["EquipmentID"] = new SelectList(_context.Equipment, "EquipmentID", "EquipmentID", vehicle.EquipmentID);
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", vehicle.ExactTypeID);
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", vehicle.GearBoxID);
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", vehicle.GeneralTypeID);
+            ViewData["RentalAgencyID"] = new SelectList(_context.RentalAgencies, "RentalAgencyID", "RentalAgencyID", vehicle.RentalAgencyID);
             ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", vehicle.VehicleModelID);
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", vehicle.WheelDriveID);
             return View(vehicle);
         }
 
-        // POST: VehiclesTest/Edit/5
+        // POST: Vehicles1/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,RentalAgencyID,EngineCapacity,EquipmentID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
         {
             if (id != vehicle.VehicleID)
             {
@@ -149,15 +157,17 @@ namespace Rental_PI_KF.Controllers
             ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicle.BrandID);
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", vehicle.ColourID);
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", vehicle.EngineTypeID);
+            ViewData["EquipmentID"] = new SelectList(_context.Equipment, "EquipmentID", "EquipmentID", vehicle.EquipmentID);
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", vehicle.ExactTypeID);
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", vehicle.GearBoxID);
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", vehicle.GeneralTypeID);
+            ViewData["RentalAgencyID"] = new SelectList(_context.RentalAgencies, "RentalAgencyID", "RentalAgencyID", vehicle.RentalAgencyID);
             ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", vehicle.VehicleModelID);
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", vehicle.WheelDriveID);
             return View(vehicle);
         }
 
-        // GET: VehiclesTest/Delete/5
+        // GET: Vehicles1/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -169,9 +179,11 @@ namespace Rental_PI_KF.Controllers
                 .Include(v => v.Brand)
                 .Include(v => v.Colour)
                 .Include(v => v.EngineType)
+                .Include(v => v.Equipment)
                 .Include(v => v.ExactType)
                 .Include(v => v.GearBox)
                 .Include(v => v.GeneralType)
+                .Include(v => v.RentalAgency)
                 .Include(v => v.VehicleModel)
                 .Include(v => v.WheelDrive)
                 .FirstOrDefaultAsync(m => m.VehicleID == id);
@@ -183,7 +195,7 @@ namespace Rental_PI_KF.Controllers
             return View(vehicle);
         }
 
-        // POST: VehiclesTest/Delete/5
+        // POST: Vehicles1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

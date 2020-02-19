@@ -22,7 +22,13 @@
                 @Html.DisplayNameFor(model => model.YearOfProduction)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.RentalAgency)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.EngineCapacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Equipment)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
@@ -88,7 +94,13 @@
                 @Html.DisplayFor(modelItem => item.YearOfProduction)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.RentalAgency.RentalAgencyID)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.EngineCapacity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Equipment.EquipmentID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)

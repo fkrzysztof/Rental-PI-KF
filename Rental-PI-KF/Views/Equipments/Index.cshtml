@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Rental_Data.Data.Rental.Equipment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ABS)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AUX)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ISOFIX)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CD)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SD)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.USB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CruiseControl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Navigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Airbag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PowerSteering)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AirConditioning)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ABS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AUX)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ISOFIX)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SD)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.USB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CruiseControl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Navigation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Airbag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PowerSteering)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AirConditioning.AirConditioningID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EquipmentID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EquipmentID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EquipmentID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
