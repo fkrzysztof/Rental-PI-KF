@@ -22,10 +22,8 @@ namespace Rental_Data.Data.Rental
         public string Annotation { get; set; }
         public bool IsActive { get; set; }
 
-        public int VehicleID { get; set; }
-            public Vehicle Vehicle { get; set; }
-
-        public RentalAgencyAddress RentalAgencyAddress { get; set; }
+        public ICollection<Vehicle> Vehicles { get; set; }
+        public ICollection<RentalAgencyAddress> RentalAgencyAddress { get; set; }
 
         //mozna dodac regony itd.
 

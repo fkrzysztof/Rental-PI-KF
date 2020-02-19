@@ -15,7 +15,7 @@ namespace Rental_Data.Data.Rental
         
         public int? BrandID { get; set; }
         [ForeignKey("BrandID")]
-        public Brand GetBrand { get; set; }
+        public Brand Brand { get; set; }
         
         public ICollection<Vehicle> Vehicles { get; set; }
 

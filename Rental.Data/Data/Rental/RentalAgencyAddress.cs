@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Rental_Data.Data.Rental
@@ -16,7 +17,8 @@ namespace Rental_Data.Data.Rental
         public string ZIPCode { get; set; }
         public bool IsActive { get; set; }
 
-        public int RentalAgencyID { get; set; }
-            public RentalAgency RentalAgency { get; set; }
+        public int? RentalAgencyID { get; set; }
+        [ForeignKey("RentalAgencyID")]
+        public RentalAgency RentalAgency { get; set; }
     }
 }

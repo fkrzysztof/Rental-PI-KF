@@ -21,11 +21,10 @@ namespace Rental_Data.Data.Rental
         public bool? Airbag { get; set; }
         public bool? PowerSteering { get; set; }
 
-        public int AirConditioningID { get; set; }
+        public int? AirConditioningID { get; set; }
             public AirConditioning AirConditioning { get; set; }
         
-        public int VehicleID { get; set; }
-            public Vehicle Vehicle { get; set; }
+        public Vehicle Vehicle { get; set; }
 
         public bool IsActive { get; set; }
     }
