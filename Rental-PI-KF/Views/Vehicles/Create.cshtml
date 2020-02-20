@@ -1,5 +1,5 @@
-﻿@model Rental.Data.Data.HelpersClass.Car
-@{
+﻿@*@model Rental.Data.Data.HelpersClass.Car*@
+@model Rental_Data.Data.Rental.Vehicle
     ViewData["Title"] = "Create";
 }
 
@@ -17,34 +17,19 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.ExactTypeID" class="control-label"></label>
-                    <select asp-for="@Model.GetVehicle.ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
+                    <label asp-for="@Model.EquipmentID" class="control-label"></label>
+                    <select asp-for="@Model.ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
                 </div>
                 <div class="form-group">
 
-
-                    @*
-                <label asp-for="BrandID" class="control-label"></label>
-                <select asp-for="BrandID" class ="form-control" asp-items="ViewBag.BrandID"></select>
-
-                <select id="BrandID" name="BrandID" asp-for="BrandID" asp-items='@(new SelectList(ViewBag.Brands,"BrandID","Name"))'>
-                <option>Wybierz Markę</option>
-                </select>
-                    *@
-                    <label asp-for="@Model.GetVehicle.BrandID" class="control-label"></label>
-                    <select asp-for="@Model.GetVehicle.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))"></select>
+                    <label asp-for="@Model.BrandID" class="control-label"></label>
+                    <select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))"></select>
                 </div>
                 <div class="form-group">
-                    @*
-                <label asp-for="VehicleModelID" class="control-label"></label>
-                 <select asp-for="VehicleModelID" class ="form-control" asp-items="ViewBag.VehicleModelID"></select>
-                @Html.DropDownListFor(model => model.VehicleModelID, new SelectList(" "), "--wybierz model--", new { @class = "form-control" })
 
-                <select id="ModelID" name="ModelID" asp-for="VehicleModelID" asp-items='@(new SelectList(string.Empty,"VehicleModelID","Name"))'>
-                </select>
-                    *@
-                    <label asp-for="@Model.GetVehicle.VehicleModelID" class="control-label"></label>
-                    <select class="form-control" id="VehicleModelID" name="VehicleModelID" asp-for="@Model.GetVehicle.VehicleModelID" asp-items="@(new SelectList(string.Empty, "VehicleModelID", "Name"))"></select>
+                    <label asp-for="@Model.VehicleModelID" class="control-label"></label>
+                    @*<select class="form-control" id="VehicleModelID" name="VehicleModelID" asp-for="@Model.GetVehicle.VehicleModelID" asp-items="@(new SelectList(string.Empty, "VehicleModelID", "Name"))"></select>*@
+                    <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList"></select>
                 </div>
 
                 <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -76,9 +61,9 @@
 
 
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.YearOfProduction" class="control-label"></label>
-                    <input asp-for="@Model.GetVehicle.YearOfProduction" class="form-control" />
-                    <span asp-validation-for="@Model.GetVehicle.YearOfProduction" class="text-danger"></span>
+                    <label asp-for="@Model.YearOfProduction" class="control-label"></label>
+                    <input asp-for="@Model.YearOfProduction" class="form-control" />
+                    <span asp-validation-for="@Model.YearOfProduction" class="text-danger"></span>
                 </div>
             </div>
 
@@ -92,9 +77,9 @@
 
             <div class="col-sm-12">
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.Description" class="control-label"></label>
-                    <textarea asp-for="@Model.GetVehicle.Description" class="form-control" rows="8"></textarea>
-                    <span asp-validation-for="@Model.GetVehicle.Description" class="text-danger"></span>
+                    <label asp-for="@Model.Description" class="control-label"></label>
+                    <textarea asp-for="@Model.Description" class="form-control" rows="8"></textarea>
+                    <span asp-validation-for="@Model.Description" class="text-danger"></span>
                 </div>
             </div>
 
@@ -102,12 +87,12 @@
 
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.VIN" class="control-label"></label>
-                    <input asp-for="@Model.GetVehicle.VIN" class="form-control" />
-                    <span asp-validation-for="@Model.GetVehicle.VIN" class="text-danger"></span>
+                    <label asp-for="@Model.VIN" class="control-label"></label>
+                    <input asp-for="@Model.VIN" class="form-control" />
+                    <span asp-validation-for="@Model.VIN" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.EngineCapacity" class="control-label"></label>
+                    <label asp-for="@Model.EngineCapacity" class="control-label"></label>
                     @*<input asp-for="EngineCapacity" class="form-control" />*@
                     <select name="EngineCapacity" class="form-control">
                         @for (int i = 0; i < 6000; i += 100)
@@ -115,24 +100,24 @@
                             <option value="@i">@i</option>
                         }
                     </select>
-                    <span asp-validation-for="@Model.GetVehicle.EngineCapacity" class="text-danger"></span>
+                    <span asp-validation-for="@Model.EngineCapacity" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.EngineTypeID" class="control-label"></label>
-                    <select asp-for="@Model.GetVehicle.EngineTypeID" class="form-control" asp-items="ViewBag.EngineTypeID"></select>
+                    <label asp-for="@Model.EngineTypeID" class="control-label"></label>
+                    <select asp-for="@Model.EngineTypeID" class="form-control" asp-items="ViewBag.EngineTypeID"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.Mileage" class="control-label"></label>
-                    <input asp-for="@Model.GetVehicle.Mileage" class="form-control" />
-                    <span asp-validation-for="@Model.GetVehicle.Mileage" class="text-danger"></span>
+                    <label asp-for="@Model.Mileage" class="control-label"></label>
+                    <input asp-for="@Model.Mileage" class="form-control" />
+                    <span asp-validation-for="@Model.Mileage" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.GearBoxID" class="control-label"></label>
-                    <select asp-for="@Model.GetVehicle.GearBoxID" class="form-control" asp-items="ViewBag.GearBoxID"></select>
+                    <label asp-for="@Model.GearBoxID" class="control-label"></label>
+                    <select asp-for="@Model.GearBoxID" class="form-control" asp-items="ViewBag.GearBoxID"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.WheelDriveID" class="control-label"></label>
-                    <select asp-for="@Model.GetVehicle.WheelDriveID" class="form-control" asp-items="ViewBag.WheelDriveID"></select>
+                    <label asp-for="@Model.WheelDriveID" class="control-label"></label>
+                    <select asp-for="@Model.WheelDriveID" class="form-control" asp-items="ViewBag.WheelDriveID"></select>
                 </div>
 
             </div>
@@ -141,33 +126,34 @@
 
             <div class="col-sm-6">
                 <div class="form-group">
-                    <label asp-for="@Model.GetEquipment.AirConditioningID" class="control-label"></label>
-                    <select asp-for="@Model.GetEquipment.AirConditioningID" class="form-control" asp-items="ViewBag.AirConditioningID"></select>
+                    <label asp-for="@Model.Equipment.AirConditioningID" class="control-label"></label>
+                    @*<select asp-for="AirConditioningID" class="form-control" asp-items="ViewBag.AirConditioningID"></select>*@
+                    <select asp-for="@Model.Equipment.AirConditioningID" class="form-control" asp-items="@ViewBag.AirConditioningID"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.ColourID" class="control-label"></label>
-                    <select asp-for="@Model.GetVehicle.ColourID" class="form-control" asp-items="ViewBag.ColourID"></select>
+                    <label asp-for="@Model.ColourID" class="control-label"></label>
+                    <select asp-for="@Model.ColourID" class="form-control" asp-items="ViewBag.ColourID"></select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.NumberPlate" class="control-label"></label>
-                    <input asp-for="@Model.GetVehicle.NumberPlate" class="form-control" />
-                    <span asp-validation-for="@Model.GetVehicle.NumberPlate" class="text-danger"></span>
+                    <label asp-for="@Model.NumberPlate" class="control-label"></label>
+                    <input asp-for="@Model.NumberPlate" class="form-control" />
+                    <span asp-validation-for="@Model.NumberPlate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.EnginePower" class="control-label"></label>
-                    <input asp-for="@Model.GetVehicle.EnginePower" class="form-control" />
-                    <span asp-validation-for="@Model.GetVehicle.EnginePower" class="text-danger"></span>
+                    <label asp-for="@Model.EnginePower" class="control-label"></label>
+                    <input asp-for="@Model.EnginePower" class="form-control" />
+                    <span asp-validation-for="@Model.EnginePower" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.NumberOfSeats" class="control-label"></label>
-                    <input asp-for="@Model.GetVehicle.NumberOfSeats" class="form-control" />
-                    <span asp-validation-for="@Model.GetVehicle.NumberOfSeats" class="text-danger"></span>
+                    <label asp-for="@Model.NumberOfSeats" class="control-label"></label>
+                    <input asp-for="@Model.NumberOfSeats" class="form-control" />
+                    <span asp-validation-for="@Model.NumberOfSeats" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="@Model.GetVehicle.NumberOfDoors" class="control-label"></label>
-                    <input asp-for="@Model.GetVehicle.NumberOfDoors" class="form-control" />
-                    <span asp-validation-for="@Model.GetVehicle.NumberOfDoors" class="text-danger"></span>
+                    <label asp-for="@Model.NumberOfDoors" class="control-label"></label>
+                    <input asp-for="@Model.NumberOfDoors" class="form-control" />
+                    <span asp-validation-for="@Model.NumberOfDoors" class="text-danger"></span>
                 </div>
             </div>
 
@@ -184,61 +170,61 @@
 
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.ABS" /> @Html.DisplayNameFor(model => model.GetEquipment.ABS)
+                        <input class="form-check-input" asp-for="@Model.Equipment.ABS" /> @Html.DisplayNameFor(model => model.Equipment.ABS)
                     </label>
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.AUX" /> @Html.DisplayNameFor(model => model.GetEquipment.AUX)
+                        <input class="form-check-input" asp-for="@Model.Equipment.AUX" /> @Html.DisplayNameFor(model => model.Equipment.AUX)
                     </label>
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.ISOFIX" /> @Html.DisplayNameFor(model => model.GetEquipment.ISOFIX)
-                    </label>
-                </div>
-
-            </div>
-            <div class="col-sm-4">
-
-
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.CD" /> @Html.DisplayNameFor(model => model.GetEquipment.CD)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.SD" /> @Html.DisplayNameFor(model => model.GetEquipment.SD)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.USB" /> @Html.DisplayNameFor(model => model.GetEquipment.USB)
+                        <input class="form-check-input" asp-for="@Model.Equipment.ISOFIX" /> @Html.DisplayNameFor(model => model.Equipment.ISOFIX)
                     </label>
                 </div>
 
             </div>
             <div class="col-sm-4">
 
+
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.CruiseControl" /> @Html.DisplayNameFor(model => model.GetEquipment.CruiseControl)
+                        <input class="form-check-input" asp-for="@Model.Equipment.CD" /> @Html.DisplayNameFor(model => model.Equipment.CD)
                     </label>
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.Navigation" /> @Html.DisplayNameFor(model => model.GetEquipment.Navigation)
+                        <input class="form-check-input" asp-for="@Model.Equipment.SD" /> @Html.DisplayNameFor(model => model.Equipment.SD)
                     </label>
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.Airbag" /> @Html.DisplayNameFor(model => model.GetEquipment.Airbag)
+                        <input class="form-check-input" asp-for="@Model.Equipment.USB" /> @Html.DisplayNameFor(model => model.Equipment.USB)
+                    </label>
+                </div>
+
+            </div>
+            <div class="col-sm-4">
+
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="@Model.Equipment.CruiseControl" /> @Html.DisplayNameFor(model => model.Equipment.CruiseControl)
                     </label>
                 </div>
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.GetEquipment.PowerSteering" /> @Html.DisplayNameFor(model => model.GetEquipment.PowerSteering)
+                        <input class="form-check-input" asp-for="@Model.Equipment.Navigation" /> @Html.DisplayNameFor(model => model.Equipment.Navigation)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="@Model.Equipment.Airbag" /> @Html.DisplayNameFor(model => model.Equipment.Airbag)
+                    </label>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="@Model.Equipment.PowerSteering" /> @Html.DisplayNameFor(model => model.Equipment.PowerSteering)
                     </label>
                 </div>
 

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
-using Rental.Data.Data.HelpersClass;
+//using Rental.Data.Data.HelpersClass;
 using Rental_Data.Data.Rental;
 
 namespace Rental_PI_KF.Controllers
@@ -72,11 +72,11 @@ namespace Rental_PI_KF.Controllers
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name");
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "Name");
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
-            //ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID");
+            ViewBag.ModelList = new SelectList(_context.VehicleModels, "VehicleModelID", "Name"); //na chwile
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "Name");
 
             //dodane
-            ViewData["AirConditioningID"] = new SelectList(_context.AirConditionings, "AirConditioningID", "Name");
+            ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
             
 
             return View();
@@ -111,27 +111,27 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
         //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
-        public async Task<IActionResult> Create(Car car)
+        public async Task<IActionResult> Create(Vehicle v)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(car.GetEquipment);
-                car.GetVehicle.EquipmentID = car.GetEquipment.EquipmentID;
-                _context.Add(car.GetVehicle);
+                _context.Add(v);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", car.GetVehicle.BrandID);
-            ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", car.GetVehicle.ColourID);
-            ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", car.GetVehicle.EngineTypeID);
-            ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", car.GetVehicle.ExactTypeID);
-            ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", car.GetVehicle.GearBoxID);
-            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", car.GetVehicle.GeneralTypeID);
-            ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", car.GetVehicle.VehicleModelID);
-            ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", car.GetVehicle.WheelDriveID);
-            
+
+            // to jest do sprawdzenia !!!
+            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", v.BrandID);
+            ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", v.ColourID);
+            ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", v.EngineTypeID);
+            ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", v.ExactTypeID);
+            ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", v.GearBoxID);
+            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", v.GeneralTypeID);
+            ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", v.VehicleModelID);
+            ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", v.WheelDriveID);
+
             ViewData["AirConditioningID"] = new SelectList(_context.AirConditionings, "AirConditioningID", "Name");
-            return View(car);
+            return View(v);
         }
 
         // GET: Vehicles/Edit/5
