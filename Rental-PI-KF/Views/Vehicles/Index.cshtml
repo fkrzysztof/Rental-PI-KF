@@ -13,8 +13,13 @@
     <thead>
         <tr>
             <th>
+               Zdjecie
+            </th>
+            
+            <th>
                 @Html.DisplayNameFor(model => model.Brand)
             </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.VehicleModel)
             </th>
@@ -78,6 +83,13 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @if (@item.Pictures.First().URL != null)
+                {
+                    <img src="@item.Pictures.First().URL" />
+                }
+            </td>
+            
             <td>
                 @Html.DisplayFor(modelItem => item.Brand.BrandID)
             </td>

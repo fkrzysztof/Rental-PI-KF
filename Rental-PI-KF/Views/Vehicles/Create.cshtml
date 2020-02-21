@@ -9,13 +9,12 @@
 <hr />
 
 <div class="container">
-    <form asp-action="Create" enctype="multipart/form-data" method="post">
+    <form asp-action="Create" enctype="multipart/form-data">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             @* ************************************* Dodawanie zdjecia ********************************************************** *@
             <script src="~/js/jquery-1.10.2.js"></script>
-            @*<form method="post" asp-action="ImageUpload" enctype="multipart/form-data">*@
             <div class="col-sm-6">
-                @*<img src="@ViewData["FileLocation"]" />*@
                 <div id="showimage"></div>
 
                 <div class="custom-file">
@@ -25,7 +24,6 @@
                 <button type="submit">Upload</button>
 
             </div>
-            @*</form>*@
 
             <script type="text/javascript">
 
@@ -57,48 +55,49 @@
             @* ************************************* Dodawanie zdjecia Koniec*************************************************** *@
 
 
-            <div class="col-sm-6">
+        <div class="col-sm-6">
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <div class="form-group">
-                    <label asp-for="@Model.EquipmentID" class="control-label"></label>
-                    <select asp-for="@Model.ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
-                </div>
-                <div class="form-group">
-
-                    <label asp-for="@Model.BrandID" class="control-label"></label>
-                    @*<select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))"></select>*@
-                    <select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))">
-                        <option value="" selected disabled>Wybierz Marke</option>
-                    </select>
-                
-                </div>
-                <div class="form-group">
-
-                    <label asp-for="@Model.VehicleModelID" class="control-label"></label>
-                    @*<select class="form-control" id="VehicleModelID" name="VehicleModelID" asp-for="@Model.GetVehicle.VehicleModelID" asp-items="@(new SelectList(string.Empty, "VehicleModelID", "Name"))"></select>*@
-                    @*<select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList"></select>*@
-                <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList">
-                    <option value="" selected disabled>Wybierz Model</option>
+            <div class="form-group">
+                <label asp-for="@Model.EquipmentID" class="control-label"></label>
+                <select asp-for="@Model.ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
+            </div>
+            <div class="form-group">
+                @*zmieniam nie daje modelu*@
+                <label asp-for="@Model.BrandID" class="control-label"></label>
+                <select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))">
+                    @*<option value="">Wybierz Marke</option>*@
+                    <option id="BrandOptions"></option>
                 </select>
-                </div>
+                <span asp-validation-for="@Model.BrandID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
 
-                <script src="~/lib/jquery/dist/jquery.js"></script>
-                <script type="text/javascript">
+                <label asp-for="@Model.VehicleModelID" class="control-label"></label>
+                <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList">
+                    @*<option value="" selected>Wybierz Modelxxxx</option>*@
+                </select>
+                <span asp-validation-for="@Model.VehicleModelID" class="text-danger"></span>
+            </div>
+
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script type="text/javascript">
 
                     $(document).ready(function () {
-                        var items = "<option value='0' selected disabled >Wybierz Marke</option>";
+                        var items = "<option value=''>Wybierz Model</option>";
                         $('#VehicleModelID').html(items);
+
+                        //dodane
+                        var itemsBrand = "<option selected value=''>Wybierz Marke script</option>";
+                        $('#BrandOptions').html(itemsBrand);
                     });
 
                     $(document).ready(function () {
                         $('#BrandID').change(function () {
                             var url = '@Url.Content("~/")' + "Vehicles/GetModel";
-                            //var url =  = "Vehicles/GetModel";
                             var ddlsource = "#BrandID";
                             $.getJSON(url, { BrandID: $(ddlsource).val() }, function (data) {
-                                var items = '';
+                                //var items = '';
+                                var items = "<option value=''>Wybierz Model</option>";
                                 $("#VehicleModelID").empty();
                                 $.each(data, function (i, modele) {
                                     items += "<option value='" + modele.value + "'>" + modele.text + "</option>";
@@ -108,21 +107,18 @@
                         });
                     });
 
-                </script>
+            </script>
 
 
 
 
 
-
-
-
-                <div class="form-group">
-                    <label asp-for="@Model.YearOfProduction" class="control-label"></label>
-                    <input asp-for="@Model.YearOfProduction" class="form-control" />
-                    <span asp-validation-for="@Model.YearOfProduction" class="text-danger"></span>
-                </div>
+            <div class="form-group">
+                <label asp-for="@Model.YearOfProduction" class="control-label"></label>
+                <input asp-for="@Model.YearOfProduction" class="form-control" />
+                <span asp-validation-for="@Model.YearOfProduction" class="text-danger"></span>
             </div>
+        </div>
 
 
 

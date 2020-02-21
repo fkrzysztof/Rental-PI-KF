@@ -83,7 +83,6 @@ namespace Rental_PI_KF.Controllers
 
             //dodane
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
-            
 
             return View();
         }
@@ -98,21 +97,6 @@ namespace Rental_PI_KF.Controllers
         }
 
 
-
-
-        //public JsonResult GetModelByID(int id)
-        //{
-        //    List<VehicleModel> VehicleModelsList = new List<VehicleModel>();
-        //    VehicleModelsList  = _context.VehicleModels.Where(x => x.BrandID == id).ToList();
-        //    VehicleModelsList.Insert(0, new VehicleModel { VehicleModelID = 0, Name = "Wybierz model Auta" });
-        //    return Json(new SelectList(VehicleModelsList, "VehicleModelID", "Name"));
-        //}
-
-
-
-        // POST: Vehicles/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
@@ -133,11 +117,11 @@ namespace Rental_PI_KF.Controllers
                 _context.Pictures.Add(p);
                 await _context.SaveChangesAsync();
             
-            return RedirectToAction(nameof(Index));
-        }
+                return RedirectToAction(nameof(Index));
+            }
 
-            // to jest do sprawdzenia !!!
-            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", v.BrandID);
+            //// to jest do sprawdzenia !!!
+            //ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", v.BrandID);
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", v.ColourID);
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", v.EngineTypeID);
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", v.ExactTypeID);
@@ -146,9 +130,16 @@ namespace Rental_PI_KF.Controllers
             ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", v.VehicleModelID);
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", v.WheelDriveID);
 
-            ViewData["AirConditioningID"] = new SelectList(_context.AirConditionings, "AirConditioningID", "Name");
-            return View(v);
-        }
+            ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
+
+
+            //dopisane
+            List<Brand> brandList = new List<Brand>();
+            brandList = _context.Brands.ToList();
+            ViewBag.ListOfBrads = brandList;
+
+            return View();
+        }  
 
         // GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
