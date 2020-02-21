@@ -79,34 +79,41 @@
                     <label asp-for="@Model.VehicleModelID" class="control-label"></label>
                     @*<select class="form-control" id="VehicleModelID" name="VehicleModelID" asp-for="@Model.GetVehicle.VehicleModelID" asp-items="@(new SelectList(string.Empty, "VehicleModelID", "Name"))"></select>*@
                     @*<select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList"></select>*@
-                <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList"></select>
+                <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList">
+                    <option value="" selected disabled>Wybierz Model</option>
+                </select>
                 </div>
 
                 <script src="~/lib/jquery/dist/jquery.js"></script>
                 <script type="text/javascript">
 
-                $(document).ready(function () {
-                    var items = "<option value='0'>SELECT</option>";
-                    $('#VehicleModelID').html(items);
-                });
+                    $(document).ready(function () {
+                        var items = "<option value='0' selected disabled >Wybierz Marke</option>";
+                        $('#VehicleModelID').html(items);
+                    });
 
-                $(document).ready(function () {
-                    $('#BrandID').change(function () {
-                        var url = '@Url.Content("~/")' + "Vehicles/GetModel";
-                        //var url =  = "Vehicles/GetModel";
-                        var ddlsource = "#BrandID";
-                        $.getJSON(url, { BrandID: $(ddlsource).val() }, function (data) {
-                            var items = '';
-                            $("#VehicleModelID").empty();
-                            $.each(data, function (i, modele) {
-                                items += "<option value='" + modele.value + "'>" + modele.text + "</option>";
+                    $(document).ready(function () {
+                        $('#BrandID').change(function () {
+                            var url = '@Url.Content("~/")' + "Vehicles/GetModel";
+                            //var url =  = "Vehicles/GetModel";
+                            var ddlsource = "#BrandID";
+                            $.getJSON(url, { BrandID: $(ddlsource).val() }, function (data) {
+                                var items = '';
+                                $("#VehicleModelID").empty();
+                                $.each(data, function (i, modele) {
+                                    items += "<option value='" + modele.value + "'>" + modele.text + "</option>";
+                                });
+                                $('#VehicleModelID').html(items);
                             });
-                            $('#VehicleModelID').html(items);
                         });
                     });
-                });
 
                 </script>
+
+
+
+
+
 
 
 

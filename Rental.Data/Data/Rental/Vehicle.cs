@@ -9,26 +9,26 @@ namespace Rental_Data.Data.Rental
     {
         [Key]
         public int VehicleID { get; set; }
-     
+        
         public int? BrandID { get; set; }
             [ForeignKey("BrandID")]
             public Brand Brand { get; set; }
-
+        
         public int? VehicleModelID { get; set; }
             [ForeignKey("VehicleModelID")]
             public VehicleModel VehicleModel { get; set; }
-   
+        
         [Column(TypeName = "Date")]
         public DateTime? YearOfProduction { get; set; }
-
+        
         public int? RentalAgencyID { get; set; }
             [ForeignKey("RentalAgencyID")]
-            public RentalAgency RentalAgency { get; set; }    
+            public RentalAgency RentalAgency { get; set; }
         
         //pojemnosc silnika
         public int? EngineCapacity { get; set; }
-        
         //relacja jeden do jeden!!
+        
         public int? EquipmentID { get; set; }
             [ForeignKey("EquipmentID")]
             public Equipment Equipment { get; set; }
@@ -47,13 +47,12 @@ namespace Rental_Data.Data.Rental
             [ForeignKey("EngineTypeID")]
             public EngineType EngineType { get; set; }
 
-
         public string Mileage { get; set; }
 
         public int? ColourID { get; set; }
             [ForeignKey("ColourID")]
             public Colour Colour { get; set; }
-        
+
         public string VIN { get; set; }
         public DateTime? DateIn { get; set; }
         public DateTime? DateOut { get; set; }
