@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +17,12 @@ namespace Rental_PI_KF.Controllers
     public class VehiclesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        IHostingEnvironment _env;
 
-        public VehiclesController(ApplicationDbContext context)
+        public VehiclesController(ApplicationDbContext context, IHostingEnvironment environment)
         {
             _context = context;
+            _env = environment;
         }
 
         // GET: Vehicles
@@ -59,7 +65,7 @@ namespace Rental_PI_KF.Controllers
             //podejscie 3
             List<Brand> brandList = new List<Brand>();
             brandList = _context.Brands.ToList();
-            brandList.Insert(0, new Brand { BrandID = 0, Name = "Select" });
+            //brandList.Insert(0, new Brand { BrandID = 0, Name = "Select first" });
             ViewBag.ListOfBrads = brandList;
 
 
@@ -87,7 +93,7 @@ namespace Rental_PI_KF.Controllers
         {
             List<VehicleModel> vehicleModelsList = new List<VehicleModel>();
             vehicleModelsList = _context.VehicleModels.Where(x => x.BrandID == BrandID).ToList();
-            vehicleModelsList.Insert(0, new VehicleModel { VehicleModelID = 0, Name = "select" });
+            //vehicleModelsList.Insert(0, new VehicleModel { VehicleModelID = 0, Name = "select" });
             return Json(new SelectList(vehicleModelsList, "VehicleModelID", "Name"));
         }
 
@@ -111,14 +117,24 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
         //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
-        public async Task<IActionResult> Create(Vehicle v)
+        public async Task<IActionResult> Create(Vehicle v, IFormFile file)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(v);
+
+                Picture p = new Picture()
+                {
+                    URL = await ImageUpload(file),
+                    IsActive = true,
+                };
+
+                p.Vehicle = v;
+                _context.Pictures.Add(p);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            
+            return RedirectToAction(nameof(Index));
+        }
 
             // to jest do sprawdzenia !!!
             ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", v.BrandID);
@@ -241,6 +257,43 @@ namespace Rental_PI_KF.Controllers
         private bool VehicleExists(int id)
         {
             return _context.Vehicles.Any(e => e.VehicleID == id);
+        }
+
+        //Funkcja uzywana przez Create
+        private async Task<string> ImageUpload(IFormFile file)
+        {
+            if(file != null && file.Length > 0)
+            {
+                var imagePath = @"\Upload\Images\";
+                var uploadPath = _env.WebRootPath + imagePath;
+
+                //Sprawdzam katalog
+                if(!Directory.Exists(uploadPath))
+                {
+                    Directory.CreateDirectory(uploadPath);
+                }
+
+                //Tworze unikalną nazwe pliku
+                var uniqFileName = Guid.NewGuid().ToString();
+                var filename = Path.GetFileName(uniqFileName + "." + file.FileName.Split(".")[1].ToLower());
+                string fullPath = uploadPath + filename;
+
+                imagePath = imagePath + @"\";
+                var filePath = @".." + Path.Combine(imagePath, filename);
+
+                using (var fileStream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+
+                //ViewData["FileLocation"] = filePath;
+                return filePath;
+            }
+            //return RedirectToAction(nameof(Create));
+            //return View("Create");
+
+            //*********************************************  tu powninno zwracac domysle ustwione zdjecie albo pusty string..
+            return "";
         }
     }
 }

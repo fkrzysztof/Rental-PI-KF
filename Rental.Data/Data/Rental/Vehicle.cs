@@ -9,7 +9,7 @@ namespace Rental_Data.Data.Rental
     {
         [Key]
         public int VehicleID { get; set; }
-
+     
         public int? BrandID { get; set; }
             [ForeignKey("BrandID")]
             public Brand Brand { get; set; }
@@ -17,7 +17,7 @@ namespace Rental_Data.Data.Rental
         public int? VehicleModelID { get; set; }
             [ForeignKey("VehicleModelID")]
             public VehicleModel VehicleModel { get; set; }
-
+   
         [Column(TypeName = "Date")]
         public DateTime? YearOfProduction { get; set; }
 

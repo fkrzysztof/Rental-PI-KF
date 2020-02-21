@@ -9,8 +9,53 @@
 <hr />
 
 <div class="container">
-    <form asp-action="Create">
+    <form asp-action="Create" enctype="multipart/form-data" method="post">
         <div class="row">
+            @* ************************************* Dodawanie zdjecia ********************************************************** *@
+            <script src="~/js/jquery-1.10.2.js"></script>
+            @*<form method="post" asp-action="ImageUpload" enctype="multipart/form-data">*@
+            <div class="col-sm-6">
+                @*<img src="@ViewData["FileLocation"]" />*@
+                <div id="showimage"></div>
+
+                <div class="custom-file">
+                    <input class="form-control custom-file-input" type="file" name="file" />
+                    <label class="custom-file-label">Wybierz..</label>
+                </div>
+                <button type="submit">Upload</button>
+
+            </div>
+            @*</form>*@
+
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+                    @*Java script dodaje siezke do pliku labeka *@
+                    $(".custom-file-input").on("change", function () {
+
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).next(".custom-file-label").html(fileName);
+
+                        @*Pokazuje zdjecie *@
+                        var previewimages = $("#showimage");
+                        previewimages.html("");
+                        $($(this)[0].files).each(function () {
+                            var file = $(this);
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = $("<img />");
+                                img.attr("style", "height:150px;width: 150px;");
+                                img.attr("src", e.target.result);
+                                previewimages.append(img);
+                            }
+                            reader.readAsDataURL(file[0]);
+                        });
+
+                    }); //dodalem ;
+                });
+            </script>
+            @* ************************************* Dodawanie zdjecia Koniec*************************************************** *@
+
 
             <div class="col-sm-6">
 
@@ -23,13 +68,18 @@
                 <div class="form-group">
 
                     <label asp-for="@Model.BrandID" class="control-label"></label>
-                    <select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))"></select>
+                    @*<select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))"></select>*@
+                    <select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))">
+                        <option value="" selected disabled>Wybierz Marke</option>
+                    </select>
+                
                 </div>
                 <div class="form-group">
 
                     <label asp-for="@Model.VehicleModelID" class="control-label"></label>
                     @*<select class="form-control" id="VehicleModelID" name="VehicleModelID" asp-for="@Model.GetVehicle.VehicleModelID" asp-items="@(new SelectList(string.Empty, "VehicleModelID", "Name"))"></select>*@
-                    <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList"></select>
+                    @*<select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList"></select>*@
+                <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList"></select>
                 </div>
 
                 <script src="~/lib/jquery/dist/jquery.js"></script>
@@ -65,12 +115,6 @@
                     <input asp-for="@Model.YearOfProduction" class="form-control" />
                     <span asp-validation-for="@Model.YearOfProduction" class="text-danger"></span>
                 </div>
-            </div>
-
-
-
-            <div class="col-sm-6">
-                <img src="~/img/noimg.png" />
             </div>
 
 
@@ -161,10 +205,10 @@
 
             @************************************ Wyposazenie ***************************************@
 
-        <div class="col-sm-12">
-            <h4>Wyposażenie</h4>
-            <hr />
-        </div>
+            <div class="col-sm-12">
+                <h4>Wyposażenie</h4>
+                <hr />
+            </div>
 
             <div class="col-sm-4">
 
@@ -238,7 +282,6 @@
 
 
             </div>
-
         </div>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />
