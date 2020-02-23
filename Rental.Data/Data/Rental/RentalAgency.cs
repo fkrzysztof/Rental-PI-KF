@@ -9,17 +9,38 @@ namespace Rental_Data.Data.Rental
     public class RentalAgency
     {
         [Key]
-        public int RentalAgencyID { get; set; }       
+        public int RentalAgencyID { get; set; }
+
+        [Display(Name = "Kontakt")]
         public string ContactPerson { get; set; }
+
+        [Display(Name = "Numer")]
         public string Number { get; set; }
+
+        [Display(Name = "Nazwa")]
         public string Name { get; set; }
+
+        [Display(Name = "Telefon 1")]
         public string Phone1 { get; set; }
+
+        [Display(Name = "Telefon 2")]
         public string Phone2 { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "Email 1")]
         public string Email1 { get; set; }
+
+        [EmailAddress]
+        [Display(Name = "Email 2")]
         public string Email2 { get; set; }
+
+        [Display(Name = "Data dodania")]
         [Column(TypeName = "Date")]
         public DateTime? DateAdded { get; set; }
+
+        [Display(Name = "Opis")]
         public string Annotation { get; set; }
+
         public bool IsActive { get; set; }
 
         public ICollection<Vehicle> Vehicles { get; set; }

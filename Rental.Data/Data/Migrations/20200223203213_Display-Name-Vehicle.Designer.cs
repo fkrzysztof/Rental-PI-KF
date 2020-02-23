@@ -10,8 +10,8 @@ using Rental.Data;
 namespace Rental.Data
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200223174844_yearOfCar_int")]
-    partial class yearOfCar_int
+    [Migration("20200223203213_Display-Name-Vehicle")]
+    partial class DisplayNameVehicle
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -669,8 +669,11 @@ namespace Rental.Data
                     b.Property<int?>("WheelDriveID")
                         .HasColumnType("int");
 
-                    b.Property<int>("YearOfProduction")
+                    b.Property<int>("YearOfCarProduction")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("YearOfProduction")
+                        .HasColumnType("Date");
 
                     b.HasKey("VehicleID");
 

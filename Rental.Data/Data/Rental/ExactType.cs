@@ -15,7 +15,9 @@ namespace Rental_Data.Data.Rental
             [ForeignKey("GeneralTypeID")]
             public GeneralType GeneralType { get; set; }
 
+        [Display(Name = "Rodzaj")]
         public string Name { get; set; }
+        
         public bool IsActive { get; set; }
 
         public ICollection<Vehicle> Vehicles { get; set; }

@@ -9,7 +9,10 @@ namespace Rental_Data.Data.Rental
     {
         [Key]
         public int EngineTypeID { get; set; }
+        
+        [Display(Name = "Typ silnika")]
         public string Name { get; set; }
+        
         public bool IsActive { get; set; }
     }
 }

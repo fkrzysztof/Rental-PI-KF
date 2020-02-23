@@ -31,6 +31,16 @@
     <Compile Remove="Data\Migrations\20200221130058_Add-Required-Vehicle-Table.Designer.cs" />
     <Compile Remove="Data\Migrations\20200221180847_not-null-model-brand.cs" />
     <Compile Remove="Data\Migrations\20200221180847_not-null-model-brand.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200223114714_YerOfCar-data-format.cs" />
+    <Compile Remove="Data\Migrations\20200223114714_YerOfCar-data-format.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200223174844_yearOfCar_int.cs" />
+    <Compile Remove="Data\Migrations\20200223174844_yearOfCar_int.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200223192447_add-YearOfCarProduction-int.cs" />
+    <Compile Remove="Data\Migrations\20200223192447_add-YearOfCarProduction-int.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200223193412_CarYear-int.cs" />
+    <Compile Remove="Data\Migrations\20200223193412_CarYear-int.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200223193718_YearOfCarProduction-int-add.cs" />
+    <Compile Remove="Data\Migrations\20200223193718_YearOfCarProduction-int-add.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

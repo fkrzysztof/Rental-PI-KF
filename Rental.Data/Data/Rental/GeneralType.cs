@@ -11,6 +11,7 @@ namespace Rental_Data.Data.Rental
         [Key]
         public int GeneralTypeID { get; set; }
 
+        [Display(Name = "Typ")]
         public string Name { get; set; }
         public bool IsActive { get; set; }
 

@@ -10,6 +10,8 @@ namespace Rental_Data.Data.Rental
     {
         [Key]
         public int VehicleModelID { get; set; }
+
+        [Display(Name = "Model")]
         public string Name { get; set; }
         public bool IsActive { get; set; }
         

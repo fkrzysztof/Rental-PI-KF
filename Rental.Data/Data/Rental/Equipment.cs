@@ -16,11 +16,19 @@ namespace Rental_Data.Data.Rental
         public bool CD { get; set; }
         public bool SD { get; set; }
         public bool USB { get; set; }
+        
+        [Display(Name = "Tempomat")]
         public bool CruiseControl { get; set; }
+
+        [Display(Name = "Nawigacja")]
         public bool Navigation { get; set; }
+
         public bool Airbag { get; set; }
+
+        [Display(Name = "Wspomaganie kierownicy")]
         public bool PowerSteering { get; set; }
 
+        [Display(Name = "Klimatyzacja")]
         public int? AirConditioningID { get; set; }
             public AirConditioning AirConditioning { get; set; }
         

@@ -114,13 +114,13 @@
 
 
                 <div class="form-group">
-                    <label asp-for="@Model.YearOfProduction" class="control-label"></label>
+                    <label asp-for="@Model.YearOfCarProduction" class="control-label"></label>
                     @*datapicker z pelna data i godzina nie jest potrzebny*@
                     @*<input asp-for="@Model.YearOfProduction" class="form-control" />*@
-                    <select asp-for="@Model.YearOfProduction" class="form-control" asp-items="ViewBag.YearOfProduction">
+                    <select asp-for="@Model.YearOfCarProduction" class="form-control" asp-items="ViewBag.YearOfProduction">
                         <option selected>Wybierz Rok</option>
                     </select>
-                    <span asp-validation-for="@Model.YearOfProduction" class="text-danger"></span>
+                    <span asp-validation-for="@Model.YearOfCarProduction" class="text-danger"></span>
                 </div>
             </div>
 

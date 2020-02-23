@@ -10,8 +10,8 @@ using Rental.Data;
 namespace Rental.Data
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200223114714_YerOfCar-data-format")]
-    partial class YerOfCardataformat
+    [Migration("20200223194136_YearOfCarProduction-int-add")]
+    partial class YearOfCarProductionintadd
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -667,6 +667,9 @@ namespace Rental.Data
                         .HasColumnType("int");
 
                     b.Property<int?>("WheelDriveID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("YearOfCarProduction")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("YearOfProduction")

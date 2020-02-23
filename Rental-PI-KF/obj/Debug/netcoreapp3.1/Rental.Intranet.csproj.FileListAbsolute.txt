@@ -385,3 +385,8 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netco
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Details.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Edit.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Index.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Create.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Delete.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Details.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Edit.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\VehicleModels\Index.cshtml.g.cs

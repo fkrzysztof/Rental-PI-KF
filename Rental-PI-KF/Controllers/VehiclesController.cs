@@ -84,6 +84,7 @@ namespace Rental_PI_KF.Controllers
             //dodane
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
             //ViewBag.YearOfProduction = new SelectList(listYear);
+            sendYear();
             return View();
         }
 
@@ -135,6 +136,7 @@ namespace Rental_PI_KF.Controllers
             List<Brand> brandList = new List<Brand>();
             brandList = _context.Brands.ToList();
             ViewBag.ListOfBrads = brandList;
+            sendYear();
 
             return View();
         }  
@@ -287,13 +289,13 @@ namespace Rental_PI_KF.Controllers
 
         private void sendYear()
         {
-            //List<DateTime> listYear = new List<DateTime>();
-            //int yearNow = DateTime.Now.Year;
-            //for (int i = 0; i < 30; i++)
-            //{
-            //    listYear.Add(new DateTime(yearNow--, 1, 1));
-            //}
-            //ViewBag.YearOfProduction = new SelectList(listYear, "Value");
+            List<int> listYear = new List<int>();
+            int yearNow = DateTime.Now.Year;
+            for (int i = 0; i < 30; i++)
+            {
+                listYear.Add(yearNow--);
+            }
+            ViewBag.YearOfProduction = new SelectList(listYear);
 
         }
     }

@@ -667,8 +667,11 @@ namespace Rental.Data
                     b.Property<int?>("WheelDriveID")
                         .HasColumnType("int");
 
-                    b.Property<int>("YearOfProduction")
+                    b.Property<int>("YearOfCarProduction")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("YearOfProduction")
+                        .HasColumnType("Date");
 
                     b.HasKey("VehicleID");
 

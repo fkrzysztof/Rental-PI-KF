@@ -2,7 +2,7 @@
 
 namespace Rental.Data
 {
-    public partial class YerOfCardataformat : Migration
+    public partial class DisplayNameVehicle : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

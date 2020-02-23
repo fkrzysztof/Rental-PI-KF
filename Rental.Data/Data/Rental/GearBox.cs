@@ -9,8 +9,13 @@ namespace Rental_Data.Data.Rental
     {
         [Key]
         public int GearBoxID { get; set; }
+
+        [Display(Name = "Skrzynia biegów")]
         public string Name { get; set; }
+
+        [Display(Name = "Opis")]
         public string Description { get; set; }
+        
         public bool IsActive { get; set; }
 
         public ICollection<Vehicle> Vehicles {get; set;}
