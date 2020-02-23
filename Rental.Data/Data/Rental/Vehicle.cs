@@ -18,9 +18,11 @@ namespace Rental_Data.Data.Rental
         public int VehicleModelID { get; set; }
             [ForeignKey("VehicleModelID")]
             public VehicleModel VehicleModel { get; set; }
-        
-        [Column(TypeName = "Date")]
-        public DateTime? YearOfProduction { get; set; }
+
+        //[Column(TypeName = "Date")]
+        //[DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = true)]
+
+        public int YearOfProduction { get; set; }
         
         public int? RentalAgencyID { get; set; }
             [ForeignKey("RentalAgencyID")]

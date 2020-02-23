@@ -84,9 +84,12 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @if (@item.Pictures.First().URL != null)
+                @{ 
+                    string cos = @item.Pictures.FirstOrDefault().URL;
+                }
+                @if (cos != null)
                 {
-                    <img src="@item.Pictures.First().URL" />
+                    <img src="@item.Pictures.First().URL" class="rounded  img-fluid" />
                 }
             </td>
             

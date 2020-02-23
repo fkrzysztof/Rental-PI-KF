@@ -10,22 +10,23 @@ using Rental_Data.Data.Rental;
 
 namespace Rental_PI_KF.Controllers
 {
-    public class VehicleModelsController : Controller
+    public class ModelsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public VehicleModelsController(ApplicationDbContext context)
+        public ModelsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: VehicleModels
+        // GET: Models
         public async Task<IActionResult> Index()
         {
-            return View(await _context.VehicleModels.ToListAsync());
+            var applicationDbContext = _context.VehicleModels.Include(v => v.Brand);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: VehicleModels/Details/5
+        // GET: Models/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,6 +35,7 @@ namespace Rental_PI_KF.Controllers
             }
 
             var vehicleModel = await _context.VehicleModels
+                .Include(v => v.Brand)
                 .FirstOrDefaultAsync(m => m.VehicleModelID == id);
             if (vehicleModel == null)
             {
@@ -43,18 +45,19 @@ namespace Rental_PI_KF.Controllers
             return View(vehicleModel);
         }
 
-        // GET: VehicleModels/Create
+        // GET: Models/Create
         public IActionResult Create()
         {
+            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "Name");
             return View();
         }
 
-        // POST: VehicleModels/Create
+        // POST: Models/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VehicleModelID,Name,IsActive")] VehicleModel vehicleModel)
+        public async Task<IActionResult> Create([Bind("VehicleModelID,Name,IsActive,BrandID")] VehicleModel vehicleModel)
         {
             if (ModelState.IsValid)
             {
@@ -62,10 +65,11 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "Name", vehicleModel.BrandID);
             return View(vehicleModel);
         }
 
-        // GET: VehicleModels/Edit/5
+        // GET: Models/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -78,15 +82,16 @@ namespace Rental_PI_KF.Controllers
             {
                 return NotFound();
             }
+            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicleModel.BrandID);
             return View(vehicleModel);
         }
 
-        // POST: VehicleModels/Edit/5
+        // POST: Models/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleModelID,Name,IsActive")] VehicleModel vehicleModel)
+        public async Task<IActionResult> Edit(int id, [Bind("VehicleModelID,Name,IsActive,BrandID")] VehicleModel vehicleModel)
         {
             if (id != vehicleModel.VehicleModelID)
             {
@@ -113,10 +118,11 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicleModel.BrandID);
             return View(vehicleModel);
         }
 
-        // GET: VehicleModels/Delete/5
+        // GET: Models/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,6 +131,7 @@ namespace Rental_PI_KF.Controllers
             }
 
             var vehicleModel = await _context.VehicleModels
+                .Include(v => v.Brand)
                 .FirstOrDefaultAsync(m => m.VehicleModelID == id);
             if (vehicleModel == null)
             {
@@ -134,7 +141,7 @@ namespace Rental_PI_KF.Controllers
             return View(vehicleModel);
         }
 
-        // POST: VehicleModels/Delete/5
+        // POST: Models/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

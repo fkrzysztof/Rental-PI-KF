@@ -41,8 +41,8 @@
                             var file = $(this);
                             var reader = new FileReader();
                             reader.onload = function (e) {
-                                var img = $("<img />");
-                                img.attr("style", "height:150px;width: 150px;");
+                                var img = $("<img class=\"rounded  img-fluid\" />");
+                                //img.attr("style", "height:150px;width: 150px;");
                                 img.attr("src", e.target.result);
                                 previewimages.append(img);
                             }
@@ -55,32 +55,32 @@
             @* ************************************* Dodawanie zdjecia Koniec*************************************************** *@
 
 
-        <div class="col-sm-6">
+            <div class="col-sm-6">
 
-            <div class="form-group">
-                <label asp-for="@Model.EquipmentID" class="control-label"></label>
-                <select asp-for="@Model.ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
-            </div>
-            <div class="form-group">
-                @*zmieniam nie daje modelu*@
-                <label asp-for="@Model.BrandID" class="control-label"></label>
-                <select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))">
-                    @*<option value="">Wybierz Marke</option>*@
-                    <option id="BrandOptions"></option>
-                </select>
-                <span asp-validation-for="@Model.BrandID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="@Model.EquipmentID" class="control-label"></label>
+                    <select asp-for="@Model.ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
+                </div>
+                <div class="form-group">
+                    @*zmieniam nie daje modelu*@
+                    <label asp-for="@Model.BrandID" class="control-label"></label>
+                    <select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))">
+                        @*<option value="">Wybierz Marke</option>*@
+                        <option id="BrandOptions"></option>
+                    </select>
+                    <span asp-validation-for="@Model.BrandID" class="text-danger"></span>
+                </div>
+                <div class="form-group">
 
-                <label asp-for="@Model.VehicleModelID" class="control-label"></label>
-                <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList">
-                    @*<option value="" selected>Wybierz Modelxxxx</option>*@
-                </select>
-                <span asp-validation-for="@Model.VehicleModelID" class="text-danger"></span>
-            </div>
+                    <label asp-for="@Model.VehicleModelID" class="control-label"></label>
+                    <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList">
+                        @*<option value="" selected>Wybierz Modelxxxx</option>*@
+                    </select>
+                    <span asp-validation-for="@Model.VehicleModelID" class="text-danger"></span>
+                </div>
 
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script type="text/javascript">
+                <script src="~/lib/jquery/dist/jquery.js"></script>
+                <script type="text/javascript">
 
                     $(document).ready(function () {
                         var items = "<option value=''>Wybierz Model</option>";
@@ -107,20 +107,22 @@
                         });
                     });
 
-            </script>
+                </script>
 
 
 
 
 
-            <div class="form-group">
-                <label asp-for="@Model.YearOfProduction" class="control-label"></label>
-                <input asp-for="@Model.YearOfProduction" class="form-control" />
-                <span asp-validation-for="@Model.YearOfProduction" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="@Model.YearOfProduction" class="control-label"></label>
+                    @*datapicker z pelna data i godzina nie jest potrzebny*@
+                    @*<input asp-for="@Model.YearOfProduction" class="form-control" />*@
+                    <select asp-for="@Model.YearOfProduction" class="form-control" asp-items="ViewBag.YearOfProduction">
+                        <option selected>Wybierz Rok</option>
+                    </select>
+                    <span asp-validation-for="@Model.YearOfProduction" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-
-
 
             <div class="col-sm-12">
                 <div class="form-group">

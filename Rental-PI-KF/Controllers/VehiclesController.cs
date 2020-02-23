@@ -28,7 +28,7 @@ namespace Rental_PI_KF.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Vehicles.Include(v => v.Brand).Include(v => v.Colour).Include(v => v.EngineType).Include(v => v.ExactType).Include(v => v.GearBox).Include(v => v.GeneralType).Include(v => v.VehicleModel).Include(v => v.WheelDrive);
+            var applicationDbContext = _context.Vehicles.Include(v => v.Brand).Include(v => v.Colour).Include(v => v.EngineType).Include(v => v.ExactType).Include(v => v.GearBox).Include(v => v.GeneralType).Include(v => v.VehicleModel).Include(v => v.WheelDrive).Include( v => v.Pictures);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -83,7 +83,7 @@ namespace Rental_PI_KF.Controllers
 
             //dodane
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
-
+            //ViewBag.YearOfProduction = new SelectList(listYear);
             return View();
         }
 
@@ -120,8 +120,6 @@ namespace Rental_PI_KF.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            //// to jest do sprawdzenia !!!
-            //ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", v.BrandID);
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", v.ColourID);
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", v.EngineTypeID);
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", v.ExactTypeID);
@@ -130,7 +128,7 @@ namespace Rental_PI_KF.Controllers
             ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", v.VehicleModelID);
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", v.WheelDriveID);
 
-            ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
+            ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type"/*, v.Equipment.AirConditioning.AirConditioningID*/);
 
 
             //dopisane
@@ -285,6 +283,18 @@ namespace Rental_PI_KF.Controllers
 
             //*********************************************  tu powninno zwracac domysle ustwione zdjecie albo pusty string..
             return "";
+        }
+
+        private void sendYear()
+        {
+            //List<DateTime> listYear = new List<DateTime>();
+            //int yearNow = DateTime.Now.Year;
+            //for (int i = 0; i < 30; i++)
+            //{
+            //    listYear.Add(new DateTime(yearNow--, 1, 1));
+            //}
+            //ViewBag.YearOfProduction = new SelectList(listYear, "Value");
+
         }
     }
 }
