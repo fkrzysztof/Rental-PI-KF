@@ -42,9 +42,16 @@ namespace Rental_Data.Data.Rental
         //relacja jeden do jeden!!
 
         [Display(Name = "Wyposażenie")]
-        public int? EquipmentID { get; set; }
-            [ForeignKey("EquipmentID")]
-            public Equipment Equipment { get; set; }
+        //public int? EquipmentID { get; set; }
+        //    [ForeignKey("EquipmentID")]
+        //    public Equipment Equipment { get; set; }
+        public ICollection<Equipment> Equipment { get; set; }
+
+        [Display(Name = "Klimatyzacja")]
+        public int? AirConditioningID { get; set; }
+            [ForeignKey("AirConditioningID")]
+            public AirConditioning AirConditioning { get; set; }
+
 
         [Display(Name = "Opis")]
         public string Description { get; set; }

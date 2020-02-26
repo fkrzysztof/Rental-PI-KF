@@ -28,7 +28,18 @@ namespace Rental_PI_KF.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Vehicles.Include(v => v.Brand).Include(v => v.Colour).Include(v => v.EngineType).Include(v => v.ExactType).Include(v => v.GearBox).Include(v => v.GeneralType).Include(v => v.VehicleModel).Include(v => v.WheelDrive).Include( v => v.Pictures).Include( v => v.Equipment).Include( v => v.Equipment.AirConditioning);
+            var applicationDbContext = _context.Vehicles
+                .Include(v => v.Brand)
+                .Include(v => v.Colour)
+                .Include(v => v.EngineType)
+                .Include(v => v.ExactType)
+                .Include(v => v.GearBox)
+                .Include(v => v.GeneralType)
+                .Include(v => v.VehicleModel)
+                .Include(v => v.WheelDrive)
+                .Include( v => v.Pictures)
+                .Include( v => v.Equipment)
+                /*.Include( v => v.Equipment.AirConditioning)*/;
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -85,6 +96,11 @@ namespace Rental_PI_KF.Controllers
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
             //ViewBag.YearOfProduction = new SelectList(listYear);
             sendYear();
+
+            //dodawanie wyposaznia wersja 2
+            ViewBag.EquipmentsNameList = _context.EquipmentNames;
+
+
             return View();
         }
 
@@ -102,7 +118,7 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
         //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
-        public async Task<IActionResult> Create(Vehicle v, IFormFile file)
+        public async Task<IActionResult> Create(Vehicle v, IFormFile file, List<int> Equipments)
         {
             if (ModelState.IsValid)
             {

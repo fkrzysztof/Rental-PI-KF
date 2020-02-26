@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Rental.Data
 {
-    public partial class Databasebasic10 : Migration
+    public partial class TableAndRelation1a : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,17 +65,17 @@ namespace Rental.Data
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExactTypes",
+                name: "EquipmentNames",
                 columns: table => new
                 {
-                    ExactTypeID = table.Column<int>(nullable: false)
+                    EquipmentNameID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExactTypes", x => x.ExactTypeID);
+                    table.PrimaryKey("PK_EquipmentNames", x => x.EquipmentNameID);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,18 +142,25 @@ namespace Rental.Data
                 });
 
             migrationBuilder.CreateTable(
-                name: "VehicleModels",
+                name: "RentalAgencies",
                 columns: table => new
                 {
-                    VehicleModelID = table.Column<int>(nullable: false)
+                    RentalAgencyID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ContactPerson = table.Column<string>(nullable: true),
+                    Number = table.Column<string>(nullable: true),
                     Name = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    BrandID = table.Column<int>(nullable: false)
+                    Phone1 = table.Column<string>(nullable: true),
+                    Phone2 = table.Column<string>(nullable: true),
+                    Email1 = table.Column<string>(nullable: true),
+                    Email2 = table.Column<string>(nullable: true),
+                    DateAdded = table.Column<DateTime>(type: "Date", nullable: true),
+                    Annotation = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_VehicleModels", x => x.VehicleModelID);
+                    table.PrimaryKey("PK_RentalAgencies", x => x.RentalAgencyID);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,193 +179,45 @@ namespace Rental.Data
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vehicles",
+                name: "VehicleModels",
                 columns: table => new
                 {
-                    VehicleID = table.Column<int>(nullable: false)
+                    VehicleModelID = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BrandID = table.Column<int>(nullable: false),
-                    VehicleModelID = table.Column<int>(nullable: false),
-                    YearOfProduction = table.Column<DateTime>(nullable: true),
-                    EngineCapacity = table.Column<int>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    GeneralTypeID = table.Column<int>(nullable: false),
-                    ExactTypeID = table.Column<int>(nullable: false),
-                    EngineTypeID = table.Column<int>(nullable: false),
-                    Mileage = table.Column<string>(nullable: true),
-                    ColourID = table.Column<int>(nullable: false),
-                    VIN = table.Column<string>(nullable: true),
-                    DateIn = table.Column<DateTime>(nullable: true),
-                    DateOut = table.Column<DateTime>(nullable: true),
-                    NumberPlate = table.Column<string>(nullable: true),
-                    EnginePower = table.Column<int>(nullable: true),
-                    GearBoxID = table.Column<int>(nullable: false),
-                    WheelDriveID = table.Column<int>(nullable: false),
-                    NumberOfSeats = table.Column<byte>(nullable: true),
-                    NumberOfDoors = table.Column<byte>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
+                    Name = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    BrandID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vehicles", x => x.VehicleID);
+                    table.PrimaryKey("PK_VehicleModels", x => x.VehicleModelID);
                     table.ForeignKey(
-                        name: "FK_Vehicles_Brands_BrandID",
+                        name: "FK_VehicleModels_Brands_BrandID",
                         column: x => x.BrandID,
                         principalTable: "Brands",
                         principalColumn: "BrandID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExactTypes",
+                columns: table => new
+                {
+                    ExactTypeID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GeneralTypeID = table.Column<int>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExactTypes", x => x.ExactTypeID);
                     table.ForeignKey(
-                        name: "FK_Vehicles_Colours_ColourID",
-                        column: x => x.ColourID,
-                        principalTable: "Colours",
-                        principalColumn: "ColourID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_EngineTypes_EngineTypeID",
-                        column: x => x.EngineTypeID,
-                        principalTable: "EngineTypes",
-                        principalColumn: "EngineTypeID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_ExactTypes_ExactTypeID",
-                        column: x => x.ExactTypeID,
-                        principalTable: "ExactTypes",
-                        principalColumn: "ExactTypeID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_GearBoxes_GearBoxID",
-                        column: x => x.GearBoxID,
-                        principalTable: "GearBoxes",
-                        principalColumn: "GearBoxID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_GeneralTypes_GeneralTypeID",
+                        name: "FK_ExactTypes_GeneralTypes_GeneralTypeID",
                         column: x => x.GeneralTypeID,
                         principalTable: "GeneralTypes",
                         principalColumn: "GeneralTypeID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_VehicleModels_VehicleModelID",
-                        column: x => x.VehicleModelID,
-                        principalTable: "VehicleModels",
-                        principalColumn: "VehicleModelID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_WheelDrives_WheelDriveID",
-                        column: x => x.WheelDriveID,
-                        principalTable: "WheelDrives",
-                        principalColumn: "WheelDriveID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CurrentPrices",
-                columns: table => new
-                {
-                    CurrentPriceID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    VehicleID = table.Column<int>(nullable: false),
-                    Price = table.Column<decimal>(nullable: true),
-                    DateTimeFrom = table.Column<DateTime>(nullable: true),
-                    DateTimeTo = table.Column<DateTime>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CurrentPrices", x => x.CurrentPriceID);
-                    table.ForeignKey(
-                        name: "FK_CurrentPrices_Vehicles_VehicleID",
-                        column: x => x.VehicleID,
-                        principalTable: "Vehicles",
-                        principalColumn: "VehicleID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Equipment",
-                columns: table => new
-                {
-                    EquipmentID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ABS = table.Column<bool>(nullable: true),
-                    AUX = table.Column<bool>(nullable: true),
-                    ISOFIX = table.Column<bool>(nullable: true),
-                    CD = table.Column<bool>(nullable: true),
-                    SD = table.Column<bool>(nullable: true),
-                    USB = table.Column<bool>(nullable: true),
-                    CruiseControl = table.Column<bool>(nullable: true),
-                    Navigation = table.Column<bool>(nullable: true),
-                    Airbag = table.Column<bool>(nullable: true),
-                    PowerSteering = table.Column<bool>(nullable: true),
-                    AirConditioningID = table.Column<int>(nullable: false),
-                    VehicleID = table.Column<int>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Equipment", x => x.EquipmentID);
-                    table.ForeignKey(
-                        name: "FK_Equipment_AirConditionings_AirConditioningID",
-                        column: x => x.AirConditioningID,
-                        principalTable: "AirConditionings",
-                        principalColumn: "AirConditioningID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Equipment_Vehicles_VehicleID",
-                        column: x => x.VehicleID,
-                        principalTable: "Vehicles",
-                        principalColumn: "VehicleID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pictures",
-                columns: table => new
-                {
-                    PictureID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    VehicleID = table.Column<int>(nullable: false),
-                    URL = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pictures", x => x.PictureID);
-                    table.ForeignKey(
-                        name: "FK_Pictures_Vehicles_VehicleID",
-                        column: x => x.VehicleID,
-                        principalTable: "Vehicles",
-                        principalColumn: "VehicleID",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RentalAgencies",
-                columns: table => new
-                {
-                    RentalAgencyID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ContactPerson = table.Column<string>(nullable: true),
-                    Number = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: true),
-                    Phone1 = table.Column<string>(nullable: true),
-                    Phone2 = table.Column<string>(nullable: true),
-                    Email1 = table.Column<string>(nullable: true),
-                    Email2 = table.Column<string>(nullable: true),
-                    DateAdded = table.Column<DateTime>(nullable: true),
-                    Annotation = table.Column<string>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false),
-                    VehicleID = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RentalAgencies", x => x.RentalAgencyID);
-                    table.ForeignKey(
-                        name: "FK_RentalAgencies_Vehicles_VehicleID",
-                        column: x => x.VehicleID,
-                        principalTable: "Vehicles",
-                        principalColumn: "VehicleID",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -373,7 +232,7 @@ namespace Rental.Data
                     Number = table.Column<string>(nullable: true),
                     ZIPCode = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
-                    RentalAgencyID = table.Column<int>(nullable: false)
+                    RentalAgencyID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -383,7 +242,174 @@ namespace Rental.Data
                         column: x => x.RentalAgencyID,
                         principalTable: "RentalAgencies",
                         principalColumn: "RentalAgencyID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Vehicles",
+                columns: table => new
+                {
+                    VehicleID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BrandID = table.Column<int>(nullable: false),
+                    VehicleModelID = table.Column<int>(nullable: false),
+                    YearOfProduction = table.Column<DateTime>(type: "Date", nullable: true),
+                    YearOfCarProduction = table.Column<int>(nullable: false),
+                    RentalAgencyID = table.Column<int>(nullable: true),
+                    EngineCapacity = table.Column<int>(nullable: true),
+                    AirConditioningID = table.Column<int>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    GeneralTypeID = table.Column<int>(nullable: true),
+                    ExactTypeID = table.Column<int>(nullable: true),
+                    EngineTypeID = table.Column<int>(nullable: true),
+                    Mileage = table.Column<string>(nullable: true),
+                    ColourID = table.Column<int>(nullable: true),
+                    VIN = table.Column<string>(nullable: true),
+                    DateIn = table.Column<DateTime>(nullable: true),
+                    DateOut = table.Column<DateTime>(nullable: true),
+                    NumberPlate = table.Column<string>(nullable: true),
+                    EnginePower = table.Column<int>(nullable: true),
+                    GearBoxID = table.Column<int>(nullable: true),
+                    WheelDriveID = table.Column<int>(nullable: true),
+                    NumberOfSeats = table.Column<byte>(nullable: true),
+                    NumberOfDoors = table.Column<byte>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vehicles", x => x.VehicleID);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_AirConditionings_AirConditioningID",
+                        column: x => x.AirConditioningID,
+                        principalTable: "AirConditionings",
+                        principalColumn: "AirConditioningID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Brands_BrandID",
+                        column: x => x.BrandID,
+                        principalTable: "Brands",
+                        principalColumn: "BrandID",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Colours_ColourID",
+                        column: x => x.ColourID,
+                        principalTable: "Colours",
+                        principalColumn: "ColourID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_EngineTypes_EngineTypeID",
+                        column: x => x.EngineTypeID,
+                        principalTable: "EngineTypes",
+                        principalColumn: "EngineTypeID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_ExactTypes_ExactTypeID",
+                        column: x => x.ExactTypeID,
+                        principalTable: "ExactTypes",
+                        principalColumn: "ExactTypeID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_GearBoxes_GearBoxID",
+                        column: x => x.GearBoxID,
+                        principalTable: "GearBoxes",
+                        principalColumn: "GearBoxID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_GeneralTypes_GeneralTypeID",
+                        column: x => x.GeneralTypeID,
+                        principalTable: "GeneralTypes",
+                        principalColumn: "GeneralTypeID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_RentalAgencies_RentalAgencyID",
+                        column: x => x.RentalAgencyID,
+                        principalTable: "RentalAgencies",
+                        principalColumn: "RentalAgencyID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_VehicleModels_VehicleModelID",
+                        column: x => x.VehicleModelID,
+                        principalTable: "VehicleModels",
+                        principalColumn: "VehicleModelID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_WheelDrives_WheelDriveID",
+                        column: x => x.WheelDriveID,
+                        principalTable: "WheelDrives",
+                        principalColumn: "WheelDriveID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CurrentPrices",
+                columns: table => new
+                {
+                    CurrentPriceID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VehicleID = table.Column<int>(nullable: true),
+                    Price = table.Column<decimal>(nullable: true),
+                    DateTimeFrom = table.Column<DateTime>(nullable: true),
+                    DateTimeTo = table.Column<DateTime>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CurrentPrices", x => x.CurrentPriceID);
+                    table.ForeignKey(
+                        name: "FK_CurrentPrices_Vehicles_VehicleID",
+                        column: x => x.VehicleID,
+                        principalTable: "Vehicles",
+                        principalColumn: "VehicleID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Equipment",
+                columns: table => new
+                {
+                    EquipmentID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VehicleID = table.Column<int>(nullable: true),
+                    EquipmentNameID = table.Column<int>(nullable: true),
+                    Check = table.Column<bool>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipment", x => x.EquipmentID);
+                    table.ForeignKey(
+                        name: "FK_Equipment_EquipmentNames_EquipmentNameID",
+                        column: x => x.EquipmentNameID,
+                        principalTable: "EquipmentNames",
+                        principalColumn: "EquipmentNameID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Equipment_Vehicles_VehicleID",
+                        column: x => x.VehicleID,
+                        principalTable: "Vehicles",
+                        principalColumn: "VehicleID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pictures",
+                columns: table => new
+                {
+                    PictureID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    VehicleID = table.Column<int>(nullable: true),
+                    URL = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pictures", x => x.PictureID);
+                    table.ForeignKey(
+                        name: "FK_Pictures_Vehicles_VehicleID",
+                        column: x => x.VehicleID,
+                        principalTable: "Vehicles",
+                        principalColumn: "VehicleID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -392,15 +418,19 @@ namespace Rental.Data
                 column: "VehicleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Equipment_AirConditioningID",
+                name: "IX_Equipment_EquipmentNameID",
                 table: "Equipment",
-                column: "AirConditioningID");
+                column: "EquipmentNameID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Equipment_VehicleID",
                 table: "Equipment",
-                column: "VehicleID",
-                unique: true);
+                column: "VehicleID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExactTypes_GeneralTypeID",
+                table: "ExactTypes",
+                column: "GeneralTypeID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pictures_VehicleID",
@@ -408,16 +438,19 @@ namespace Rental.Data
                 column: "VehicleID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentalAgencies_VehicleID",
-                table: "RentalAgencies",
-                column: "VehicleID",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_RentalAgencyAddresses_RentalAgencyID",
                 table: "RentalAgencyAddresses",
-                column: "RentalAgencyID",
-                unique: true);
+                column: "RentalAgencyID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_VehicleModels_BrandID",
+                table: "VehicleModels",
+                column: "BrandID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_AirConditioningID",
+                table: "Vehicles",
+                column: "AirConditioningID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_BrandID",
@@ -448,6 +481,11 @@ namespace Rental.Data
                 name: "IX_Vehicles_GeneralTypeID",
                 table: "Vehicles",
                 column: "GeneralTypeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Vehicles_RentalAgencyID",
+                table: "Vehicles",
+                column: "RentalAgencyID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Vehicles_VehicleModelID",
@@ -481,16 +519,13 @@ namespace Rental.Data
                 name: "RentalAgencyAddresses");
 
             migrationBuilder.DropTable(
-                name: "AirConditionings");
-
-            migrationBuilder.DropTable(
-                name: "RentalAgencies");
+                name: "EquipmentNames");
 
             migrationBuilder.DropTable(
                 name: "Vehicles");
 
             migrationBuilder.DropTable(
-                name: "Brands");
+                name: "AirConditionings");
 
             migrationBuilder.DropTable(
                 name: "Colours");
@@ -505,13 +540,19 @@ namespace Rental.Data
                 name: "GearBoxes");
 
             migrationBuilder.DropTable(
-                name: "GeneralTypes");
+                name: "RentalAgencies");
 
             migrationBuilder.DropTable(
                 name: "VehicleModels");
 
             migrationBuilder.DropTable(
                 name: "WheelDrives");
+
+            migrationBuilder.DropTable(
+                name: "GeneralTypes");
+
+            migrationBuilder.DropTable(
+                name: "Brands");
         }
     }
 }

@@ -58,7 +58,7 @@
             <div class="col-sm-6">
 
                 <div class="form-group">
-                    <label asp-for="@Model.EquipmentID" class="control-label"></label>
+                    @*<label asp-for="@Model.EquipmentID" class="control-label"></label>*@
                     <select asp-for="@Model.ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
                 </div>
                 <div class="form-group">
@@ -174,11 +174,10 @@
 
 
             <div class="col-sm-6">
-                <div class="form-group">
-                    <label asp-for="@Model.Equipment.AirConditioningID" class="control-label"></label>
-                    @*<select asp-for="AirConditioningID" class="form-control" asp-items="ViewBag.AirConditioningID"></select>*@
-                    <select asp-for="@Model.Equipment.AirConditioningID" class="form-control" asp-items="@ViewBag.AirConditioningID"></select>
-                </div>
+                @*<div class="form-group">
+                <label asp-for="@Model.Equipment.AirConditioningID" class="control-label"></label>
+                <select asp-for="@Model.Equipment.AirConditioningID" class="form-control" asp-items="@ViewBag.AirConditioningID"></select>
+            </div>*@
                 <div class="form-group">
                     <label asp-for="@Model.ColourID" class="control-label"></label>
                     <select asp-for="@Model.ColourID" class="form-control" asp-items="ViewBag.ColourID"></select>
@@ -210,83 +209,111 @@
 
             @************************************ Wyposazenie ***************************************@
 
-            <div class="col-sm-12">
-                <h4>Wyposażenie</h4>
-                <hr />
+            @*<div class="col-sm-12">
+            <h4>Wyposażenie</h4>
+            <hr />
+        </div>*@
+
+            @*<div class="col-sm-4">
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.ABS" /> @Html.DisplayNameFor(model => model.Equipment.ABS)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.AUX" /> @Html.DisplayNameFor(model => model.Equipment.AUX)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.ISOFIX" /> @Html.DisplayNameFor(model => model.Equipment.ISOFIX)
+                </label>
             </div>
 
-            <div class="col-sm-4">
+        </div>
+        <div class="col-sm-4">
 
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.ABS" /> @Html.DisplayNameFor(model => model.Equipment.ABS)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.AUX" /> @Html.DisplayNameFor(model => model.Equipment.AUX)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.ISOFIX" /> @Html.DisplayNameFor(model => model.Equipment.ISOFIX)
-                    </label>
-                </div>
 
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.CD" /> @Html.DisplayNameFor(model => model.Equipment.CD)
+                </label>
             </div>
-            <div class="col-sm-4">
-
-
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.CD" /> @Html.DisplayNameFor(model => model.Equipment.CD)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.SD" /> @Html.DisplayNameFor(model => model.Equipment.SD)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.USB" /> @Html.DisplayNameFor(model => model.Equipment.USB)
-                    </label>
-                </div>
-
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.SD" /> @Html.DisplayNameFor(model => model.Equipment.SD)
+                </label>
             </div>
-            <div class="col-sm-4">
-
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.CruiseControl" /> @Html.DisplayNameFor(model => model.Equipment.CruiseControl)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.Navigation" /> @Html.DisplayNameFor(model => model.Equipment.Navigation)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.Airbag" /> @Html.DisplayNameFor(model => model.Equipment.Airbag)
-                    </label>
-                </div>
-                <div class="form-group form-check">
-                    <label class="form-check-label">
-                        <input class="form-check-input" asp-for="@Model.Equipment.PowerSteering" /> @Html.DisplayNameFor(model => model.Equipment.PowerSteering)
-                    </label>
-                </div>
-
-
-
-
-
-
-
-
-
-
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.USB" /> @Html.DisplayNameFor(model => model.Equipment.USB)
+                </label>
             </div>
+
+        </div>
+        <div class="col-sm-4">
+
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.CruiseControl" /> @Html.DisplayNameFor(model => model.Equipment.CruiseControl)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.Navigation" /> @Html.DisplayNameFor(model => model.Equipment.Navigation)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.Airbag" /> @Html.DisplayNameFor(model => model.Equipment.Airbag)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="@Model.Equipment.PowerSteering" /> @Html.DisplayNameFor(model => model.Equipment.PowerSteering)
+                </label>
+            </div>
+
+
+
+
+
+
+
+
+
+
+        </div>*@
+
+            @*Wyposazenie nowe !!!*@
+
+                <div class="col-sm-12">
+                    <h4>Wyposażenie Nowe</h4>
+                    <hr />
+                    <dl class="row">
+                        @foreach (var item in ViewBag.EquipmentsNameList)
+                        {
+
+
+                            <dt class="col-sm-5">
+                                <small>@item.Name</small>
+
+                            </dt>
+                            <dd class="col-sm-1">
+                                <input type="checkbox" value="@item.EquipmentNameID" name="Equipments" />
+                            </dd>
+                        }
+                    </dl>
+                </div>
+
+            @*Wyposazenie nowe Koniec !!!*@
+
+
+
+
+
         </div>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />

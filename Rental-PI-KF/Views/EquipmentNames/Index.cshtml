@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Rental_Data.Data.Rental.AirConditioning>
+﻿@model IEnumerable<Rental.Data.Data.Rental.EquipmentName>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Type)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.IsActive)
@@ -25,15 +25,15 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Type)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsActive)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.AirConditioningID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.AirConditioningID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.AirConditioningID">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.EquipmentNameID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EquipmentNameID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EquipmentNameID">Delete</a>
             </td>
         </tr>
 }

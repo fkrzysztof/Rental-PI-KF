@@ -23,14 +23,28 @@
     <Compile Remove="Data\Migrations\20200101170809_Add-Brand-in-VehicleModel.Designer.cs" />
     <Compile Remove="Data\Migrations\20200101204644_Database-basic-1.0.cs" />
     <Compile Remove="Data\Migrations\20200101204644_Database-basic-1.0.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200101204857_Database-basic-1.0.cs" />
+    <Compile Remove="Data\Migrations\20200101204857_Database-basic-1.0.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200218185025_TypeName=date-Vehicle_RentalAgency.cs" />
+    <Compile Remove="Data\Migrations\20200218185025_TypeName=date-Vehicle_RentalAgency.Designer.cs" />
     <Compile Remove="Data\Migrations\20200218191955_relation-exact-general-type.cs" />
     <Compile Remove="Data\Migrations\20200218191955_relation-exact-general-type.Designer.cs" />
     <Compile Remove="Data\Migrations\20200218192614_relation-exact-general.cs" />
     <Compile Remove="Data\Migrations\20200218192614_relation-exact-general.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200218195407_relation-exact-general-o-m.cs" />
+    <Compile Remove="Data\Migrations\20200218195407_relation-exact-general-o-m.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200218205114_relation-exact-general-o-m-null-exTy.cs" />
+    <Compile Remove="Data\Migrations\20200218205114_relation-exact-general-o-m-null-exTy.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200219181208_Relation-Full.cs" />
+    <Compile Remove="Data\Migrations\20200219181208_Relation-Full.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200219183413_Equipments-only-bool.cs" />
+    <Compile Remove="Data\Migrations\20200219183413_Equipments-only-bool.Designer.cs" />
     <Compile Remove="Data\Migrations\20200221130058_Add-Required-Vehicle-Table.cs" />
     <Compile Remove="Data\Migrations\20200221130058_Add-Required-Vehicle-Table.Designer.cs" />
     <Compile Remove="Data\Migrations\20200221180847_not-null-model-brand.cs" />
     <Compile Remove="Data\Migrations\20200221180847_not-null-model-brand.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200221181106_not-null-int-model-brand.cs" />
+    <Compile Remove="Data\Migrations\20200221181106_not-null-int-model-brand.Designer.cs" />
     <Compile Remove="Data\Migrations\20200223114714_YerOfCar-data-format.cs" />
     <Compile Remove="Data\Migrations\20200223114714_YerOfCar-data-format.Designer.cs" />
     <Compile Remove="Data\Migrations\20200223174844_yearOfCar_int.cs" />
@@ -41,6 +55,14 @@
     <Compile Remove="Data\Migrations\20200223193412_CarYear-int.Designer.cs" />
     <Compile Remove="Data\Migrations\20200223193718_YearOfCarProduction-int-add.cs" />
     <Compile Remove="Data\Migrations\20200223193718_YearOfCarProduction-int-add.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200223194136_YearOfCarProduction-int-add.cs" />
+    <Compile Remove="Data\Migrations\20200223194136_YearOfCarProduction-int-add.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200223203213_Display-Name-Vehicle.cs" />
+    <Compile Remove="Data\Migrations\20200223203213_Display-Name-Vehicle.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226214726_TableAndRealation1.cs" />
+    <Compile Remove="Data\Migrations\20200226214726_TableAndRealation1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226221114_TableAndRelation-1.cs" />
+    <Compile Remove="Data\Migrations\20200226221114_TableAndRelation-1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
+using Rental.Data.Data.Rental;
 using Rental_Data.Data.Rental;
 
 namespace Rental_PI_KF.Controllers
@@ -22,7 +23,7 @@ namespace Rental_PI_KF.Controllers
         // GET: Equipments
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Equipment.Include(e => e.AirConditioning);
+            var applicationDbContext = _context.Equipment.Include(e => e.EquipmentName).Include(e => e.Vehicle);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,7 +36,8 @@ namespace Rental_PI_KF.Controllers
             }
 
             var equipment = await _context.Equipment
-                .Include(e => e.AirConditioning)
+                .Include(e => e.EquipmentName)
+                .Include(e => e.Vehicle)
                 .FirstOrDefaultAsync(m => m.EquipmentID == id);
             if (equipment == null)
             {
@@ -48,7 +50,8 @@ namespace Rental_PI_KF.Controllers
         // GET: Equipments/Create
         public IActionResult Create()
         {
-            ViewData["AirConditioningID"] = new SelectList(_context.AirConditionings, "AirConditioningID", "AirConditioningID");
+            ViewData["EquipmentNameID"] = new SelectList(_context.Set<EquipmentName>(), "EquipmentNameID", "EquipmentNameID");
+            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID");
             return View();
         }
 
@@ -57,7 +60,7 @@ namespace Rental_PI_KF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EquipmentID,ABS,AUX,ISOFIX,CD,SD,USB,CruiseControl,Navigation,Airbag,PowerSteering,AirConditioningID,IsActive")] Equipment equipment)
+        public async Task<IActionResult> Create([Bind("EquipmentID,VehicleID,EquipmentNameID,Check,IsActive")] Equipment equipment)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +68,8 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AirConditioningID"] = new SelectList(_context.AirConditionings, "AirConditioningID", "AirConditioningID", equipment.AirConditioningID);
+            ViewData["EquipmentNameID"] = new SelectList(_context.Set<EquipmentName>(), "EquipmentNameID", "EquipmentNameID", equipment.EquipmentNameID);
+            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", equipment.VehicleID);
             return View(equipment);
         }
 
@@ -82,7 +86,8 @@ namespace Rental_PI_KF.Controllers
             {
                 return NotFound();
             }
-            ViewData["AirConditioningID"] = new SelectList(_context.AirConditionings, "AirConditioningID", "AirConditioningID", equipment.AirConditioningID);
+            ViewData["EquipmentNameID"] = new SelectList(_context.Set<EquipmentName>(), "EquipmentNameID", "EquipmentNameID", equipment.EquipmentNameID);
+            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", equipment.VehicleID);
             return View(equipment);
         }
 
@@ -91,7 +96,7 @@ namespace Rental_PI_KF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EquipmentID,ABS,AUX,ISOFIX,CD,SD,USB,CruiseControl,Navigation,Airbag,PowerSteering,AirConditioningID,IsActive")] Equipment equipment)
+        public async Task<IActionResult> Edit(int id, [Bind("EquipmentID,VehicleID,EquipmentNameID,Check,IsActive")] Equipment equipment)
         {
             if (id != equipment.EquipmentID)
             {
@@ -118,7 +123,8 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["AirConditioningID"] = new SelectList(_context.AirConditionings, "AirConditioningID", "AirConditioningID", equipment.AirConditioningID);
+ // tu           ViewData["EquipmentNameID"] = new SelectList(_context.Set<EquipmentName>(), "EquipmentNameID", "EquipmentNameID", equipment.EquipmentNameID);
+            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", equipment.VehicleID);
             return View(equipment);
         }
 
@@ -131,7 +137,8 @@ namespace Rental_PI_KF.Controllers
             }
 
             var equipment = await _context.Equipment
-                .Include(e => e.AirConditioning)
+                .Include(e => e.EquipmentName)
+                .Include(e => e.Vehicle)
                 .FirstOrDefaultAsync(m => m.EquipmentID == id);
             if (equipment == null)
             {

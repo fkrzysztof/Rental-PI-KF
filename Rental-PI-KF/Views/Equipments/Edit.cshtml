@@ -13,60 +13,20 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="EquipmentID" />
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ABS" /> @Html.DisplayNameFor(model => model.ABS)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="AUX" /> @Html.DisplayNameFor(model => model.AUX)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ISOFIX" /> @Html.DisplayNameFor(model => model.ISOFIX)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="CD" /> @Html.DisplayNameFor(model => model.CD)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="SD" /> @Html.DisplayNameFor(model => model.SD)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="USB" /> @Html.DisplayNameFor(model => model.USB)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="CruiseControl" /> @Html.DisplayNameFor(model => model.CruiseControl)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Navigation" /> @Html.DisplayNameFor(model => model.Navigation)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Airbag" /> @Html.DisplayNameFor(model => model.Airbag)
-                </label>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="PowerSteering" /> @Html.DisplayNameFor(model => model.PowerSteering)
-                </label>
+            <div class="form-group">
+                <label asp-for="VehicleID" class="control-label"></label>
+                <select asp-for="VehicleID" class="form-control" asp-items="ViewBag.VehicleID"></select>
+                <span asp-validation-for="VehicleID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AirConditioningID" class="control-label"></label>
-                <select asp-for="AirConditioningID" class="form-control" asp-items="ViewBag.AirConditioningID"></select>
-                <span asp-validation-for="AirConditioningID" class="text-danger"></span>
+                <label asp-for="EquipmentNameID" class="control-label"></label>
+                <select asp-for="EquipmentNameID" class="form-control" asp-items="ViewBag.EquipmentNameID"></select>
+                <span asp-validation-for="EquipmentNameID" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Check" /> @Html.DisplayNameFor(model => model.Check)
+                </label>
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">

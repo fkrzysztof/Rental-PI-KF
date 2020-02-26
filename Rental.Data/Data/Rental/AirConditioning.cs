@@ -14,6 +14,6 @@ namespace Rental_Data.Data.Rental
         public string Type { get; set; }
         public bool IsActive { get; set; }
 
-        public ICollection<Equipment> Equipment { get; set; }
+        public ICollection<Vehicle> Vehicle { get; set; }
     }
 }

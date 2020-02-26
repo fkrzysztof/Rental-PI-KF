@@ -6,26 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
-using Rental_Data.Data.Rental;
+using Rental.Data.Data.Rental;
 
 namespace Rental_PI_KF.Controllers
 {
-    public class AirConditioningsController : Controller
+    public class EquipmentNamesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AirConditioningsController(ApplicationDbContext context)
+        public EquipmentNamesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: AirConditionings
+        // GET: EquipmentNames
         public async Task<IActionResult> Index()
         {
-            return View(await _context.AirConditionings.ToListAsync());
+            return View(await _context.EquipmentNames.ToListAsync());
         }
 
-        // GET: AirConditionings/Details/5
+        // GET: EquipmentNames/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace Rental_PI_KF.Controllers
                 return NotFound();
             }
 
-            var airConditioning = await _context.AirConditionings
-                .FirstOrDefaultAsync(m => m.AirConditioningID == id);
-            if (airConditioning == null)
+            var equipmentName = await _context.EquipmentNames
+                .FirstOrDefaultAsync(m => m.EquipmentNameID == id);
+            if (equipmentName == null)
             {
                 return NotFound();
             }
 
-            return View(airConditioning);
+            return View(equipmentName);
         }
 
-        // GET: AirConditionings/Create
+        // GET: EquipmentNames/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: AirConditionings/Create
+        // POST: EquipmentNames/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AirConditioningID,Type,IsActive")] AirConditioning airConditioning)
+        public async Task<IActionResult> Create([Bind("EquipmentNameID,Name,IsActive")] EquipmentName equipmentName)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(airConditioning);
+                _context.Add(equipmentName);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(airConditioning);
+            return View(equipmentName);
         }
 
-        // GET: AirConditionings/Edit/5
+        // GET: EquipmentNames/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace Rental_PI_KF.Controllers
                 return NotFound();
             }
 
-            var airConditioning = await _context.AirConditionings.FindAsync(id);
-            if (airConditioning == null)
+            var equipmentName = await _context.EquipmentNames.FindAsync(id);
+            if (equipmentName == null)
             {
                 return NotFound();
             }
-            return View(airConditioning);
+            return View(equipmentName);
         }
 
-        // POST: AirConditionings/Edit/5
+        // POST: EquipmentNames/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AirConditioningID,Type,IsActive")] AirConditioning airConditioning)
+        public async Task<IActionResult> Edit(int id, [Bind("EquipmentNameID,Name,IsActive")] EquipmentName equipmentName)
         {
-            if (id != airConditioning.AirConditioningID)
+            if (id != equipmentName.EquipmentNameID)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Rental_PI_KF.Controllers
             {
                 try
                 {
-                    _context.Update(airConditioning);
+                    _context.Update(equipmentName);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AirConditioningExists(airConditioning.AirConditioningID))
+                    if (!EquipmentNameExists(equipmentName.EquipmentNameID))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(airConditioning);
+            return View(equipmentName);
         }
 
-        // GET: AirConditionings/Delete/5
+        // GET: EquipmentNames/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace Rental_PI_KF.Controllers
                 return NotFound();
             }
 
-            var airConditioning = await _context.AirConditionings
-                .FirstOrDefaultAsync(m => m.AirConditioningID == id);
-            if (airConditioning == null)
+            var equipmentName = await _context.EquipmentNames
+                .FirstOrDefaultAsync(m => m.EquipmentNameID == id);
+            if (equipmentName == null)
             {
                 return NotFound();
             }
 
-            return View(airConditioning);
+            return View(equipmentName);
         }
 
-        // POST: AirConditionings/Delete/5
+        // POST: EquipmentNames/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var airConditioning = await _context.AirConditionings.FindAsync(id);
-            _context.AirConditionings.Remove(airConditioning);
+            var equipmentName = await _context.EquipmentNames.FindAsync(id);
+            _context.EquipmentNames.Remove(equipmentName);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AirConditioningExists(int id)
+        private bool EquipmentNameExists(int id)
         {
-            return _context.AirConditionings.Any(e => e.AirConditioningID == id);
+            return _context.EquipmentNames.Any(e => e.EquipmentNameID == id);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Rental.Data.Data.Rental;
 using Rental_Data.Data.CMS;
 using Rental_Data.Data.Rental;
 
@@ -32,5 +33,6 @@ namespace Rental.Data
         public DbSet<CurrentPrice> CurrentPrices { get; set; }
         public DbSet<WheelDrive> WheelDrives { get; set; }
         public DbSet<GearBox> GearBoxes { get; set; }
+        public DbSet<EquipmentName> EquipmentNames { get; set; }
     }
 }

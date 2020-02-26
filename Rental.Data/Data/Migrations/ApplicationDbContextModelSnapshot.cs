@@ -219,6 +219,24 @@ namespace Rental.Data
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Rental.Data.Data.Rental.EquipmentName", b =>
+                {
+                    b.Property<int>("EquipmentNameID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("EquipmentNameID");
+
+                    b.ToTable("EquipmentNames");
+                });
+
             modelBuilder.Entity("Rental_Data.Data.CMS.News", b =>
                 {
                     b.Property<int>("NewsID")
@@ -392,45 +410,23 @@ namespace Rental.Data
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("ABS")
+                    b.Property<bool>("Check")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("AUX")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("AirConditioningID")
+                    b.Property<int?>("EquipmentNameID")
                         .HasColumnType("int");
-
-                    b.Property<bool>("Airbag")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CD")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("CruiseControl")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("ISOFIX")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Navigation")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("PowerSteering")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("SD")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("USB")
-                        .HasColumnType("bit");
+                    b.Property<int?>("VehicleID")
+                        .HasColumnType("int");
 
                     b.HasKey("EquipmentID");
 
-                    b.HasIndex("AirConditioningID");
+                    b.HasIndex("EquipmentNameID");
+
+                    b.HasIndex("VehicleID");
 
                     b.ToTable("Equipment");
                 });
@@ -604,6 +600,9 @@ namespace Rental.Data
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int?>("AirConditioningID")
+                        .HasColumnType("int");
+
                     b.Property<int>("BrandID")
                         .HasColumnType("int");
 
@@ -626,9 +625,6 @@ namespace Rental.Data
                         .HasColumnType("int");
 
                     b.Property<int?>("EngineTypeID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("EquipmentID")
                         .HasColumnType("int");
 
                     b.Property<int?>("ExactTypeID")
@@ -675,15 +671,13 @@ namespace Rental.Data
 
                     b.HasKey("VehicleID");
 
+                    b.HasIndex("AirConditioningID");
+
                     b.HasIndex("BrandID");
 
                     b.HasIndex("ColourID");
 
                     b.HasIndex("EngineTypeID");
-
-                    b.HasIndex("EquipmentID")
-                        .IsUnique()
-                        .HasFilter("[EquipmentID] IS NOT NULL");
 
                     b.HasIndex("ExactTypeID");
 
@@ -804,9 +798,13 @@ namespace Rental.Data
 
             modelBuilder.Entity("Rental_Data.Data.Rental.Equipment", b =>
                 {
-                    b.HasOne("Rental_Data.Data.Rental.AirConditioning", "AirConditioning")
+                    b.HasOne("Rental.Data.Data.Rental.EquipmentName", "EquipmentName")
                         .WithMany("Equipment")
-                        .HasForeignKey("AirConditioningID");
+                        .HasForeignKey("EquipmentNameID");
+
+                    b.HasOne("Rental_Data.Data.Rental.Vehicle", "Vehicle")
+                        .WithMany("Equipment")
+                        .HasForeignKey("VehicleID");
                 });
 
             modelBuilder.Entity("Rental_Data.Data.Rental.ExactType", b =>
@@ -832,6 +830,10 @@ namespace Rental.Data
 
             modelBuilder.Entity("Rental_Data.Data.Rental.Vehicle", b =>
                 {
+                    b.HasOne("Rental_Data.Data.Rental.AirConditioning", "AirConditioning")
+                        .WithMany("Vehicle")
+                        .HasForeignKey("AirConditioningID");
+
                     b.HasOne("Rental_Data.Data.Rental.Brand", "Brand")
                         .WithMany("Vehicles")
                         .HasForeignKey("BrandID")
@@ -845,10 +847,6 @@ namespace Rental.Data
                     b.HasOne("Rental_Data.Data.Rental.EngineType", "EngineType")
                         .WithMany()
                         .HasForeignKey("EngineTypeID");
-
-                    b.HasOne("Rental_Data.Data.Rental.Equipment", "Equipment")
-                        .WithOne("Vehicle")
-                        .HasForeignKey("Rental_Data.Data.Rental.Vehicle", "EquipmentID");
 
                     b.HasOne("Rental_Data.Data.Rental.ExactType", "ExactType")
                         .WithMany("Vehicles")

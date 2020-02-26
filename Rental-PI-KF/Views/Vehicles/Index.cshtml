@@ -43,7 +43,7 @@
                                 Przebieg: @Html.DisplayFor(modelItem => item.Mileage) km<br />
                                 Moc (KM): @Html.DisplayFor(modelItem => item.EnginePower) KM<br />
                                 Skrzynia: @Html.DisplayFor(modelItem => item.GearBox.Name)<br />
-                                Klimatyzacja: @Html.DisplayFor(modelItem => item.Equipment.AirConditioning.Type)<br />
+                                @*Klimatyzacja: @Html.DisplayFor(modelItem => item.Equipment.AirConditioning.Type)<br />*@
                             </small>
                         </div>
                         <div class="col-md-11 m-2">
@@ -58,7 +58,7 @@
                                 Wyposażenie
                             </button>
                             <hr />
-                            <div class="collapse" id="collapseExample">
+                            @*<div class="collapse" id="collapseExample">
                                 <dl class="row">
 
                                     <dt class="col-sm-5">
@@ -117,9 +117,10 @@
                                         @Html.DisplayFor(modelItem => item.Equipment.PowerSteering)
                                     </dd>
                                 </dl>
-                            </div>
+                            </div>*@
                         </div>
-                        </div>
+                       
+                    </div>
                 </div>
             </div>
          }
