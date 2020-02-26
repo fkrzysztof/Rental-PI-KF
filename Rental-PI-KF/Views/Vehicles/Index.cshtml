@@ -4,295 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>SAmochody osobowe</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Zdjecie
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.Brand)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.VehicleModel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.YearOfCarProduction)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EngineCapacity)
-            </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>*@
-            @*<th>
-                    @Html.DisplayNameFor(model => model.GeneralType)
-                </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.ExactType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EngineType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mileage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Colour)
-            </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.VIN)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateIn)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateOut)
-                </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.NumberPlate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EnginePower)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GearBox)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.WheelDrive)
-            </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.NumberOfSeats)
-                </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.NumberOfDoors)
-            </th>
-            @*<th>
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </th>*@
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @*****************************************Tabela wlasciwa*********************************@
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @{
-                        string cos = @item.Pictures.FirstOrDefault().URL;
-                    }
-                    @if (cos != null)
-                    {
-                        <img src="@item.Pictures.First().URL" class="rounded  img-fluid" />
-                    }
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Brand.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VehicleModel.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.YearOfCarProduction)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EngineCapacity)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>*@
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.GeneralType.GeneralTypeID)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.ExactType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EngineType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Mileage)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Colour.Name)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.VIN)
-                    </td>*@
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.DateIn)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateOut)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberPlate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EnginePower)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.GearBox.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.WheelDrive.Name)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.NumberOfSeats)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfDoors)
-                </td>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.IsActive)
-                    </td>*@
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.VehicleID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.VehicleID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.VehicleID">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-
-
-
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-
-
-
-@*<div class="container">
-    <div class="row">*@
-@foreach (var item in Model)
-{
-    <div class="container">
-        <div class="row no-gutters">
-            <div class="mb-6">
-                @*<div class="card mb-3" style="max-width: 540px;">*@
-
-
-                <div class="col-md-4">
-                    @{
-                        string cos = @item.Pictures.FirstOrDefault().URL;
-                    }
-                    @if (cos != "")
-                    {
-                        <img src="@item.Pictures.First().URL" class="rounded  img-fluid" />
-                    }
-                    else
-                    {
-                        <img src="~/Upload/Images/imgull.jpg" class="rounded  img-fluid" />
-                    }
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            @Html.DisplayFor(modelItem => item.Brand.Name) @Html.DisplayFor(modelItem => item.VehicleModel.Name)
-                        </h5>
-                        <div class="card-text">
-                            <small class="text-muted">
-                                @Html.DisplayFor(modelItem => item.YearOfCarProduction) /
-                                @Html.DisplayFor(modelItem => item.EngineCapacity) cm3 /
-                                @Html.DisplayFor(modelItem => item.EngineType.Name)
-                            </small>
-                        </div>
-                        <div class="card-text">
-                            <small class="text-muted">
-                                @Html.DisplayFor(modelItem => item.Mileage) km /
-                                @Html.DisplayFor(modelItem => item.EnginePower) KM /
-                                @Html.DisplayFor(modelItem => item.GearBox.Name) /
-                            </small>
-                        </div>
-                    </div>
-                </div>
-                @*<p class="card-text">
-            <small class="text-muted">
-                    @Html.DisplayFor(modelItem => item.Mileage) km /
-                    @Html.DisplayFor(modelItem => item.EnginePower) KM /
-                    @Html.DisplayFor(modelItem => item.GearBox.Name) /
-             </small>
-            </p>*@
-
-
-
-            </div>
-        </div>
-    </div>
-}
-
-@*</div>
-    </div>*@
-
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-
-
-@*<div class="card-columns">
-    @for (int i = 0; i < 20; i++)
-        @foreach (var item in Model)
-        {
-
-            <div class="card m-4">
-                @{
-                    string cos = @item.Pictures.FirstOrDefault().URL;
-                }
-                @if (cos != "")
-                {
-                    <img src="@item.Pictures.First().URL" class="img-fluid" style="max-height: 161px;" />
-                }
-                else
-                {
-                    <img src="~/Upload/Images/imgull.jpg" class="img-fluid" style="max-height: 161px;" />
-                }
-                <div class="card-body">
-                    <h5 class="card-title"> @Html.DisplayFor(modelItem => item.Brand.Name) @Html.DisplayFor(modelItem => item.VehicleModel.Name)</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-
-
-        }
-</div>*@
-
-
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
-<br />
 
 <div class="row">
     @for (int i = 0; i < 20; i++)
         @foreach (var item in Model)
         {
             <div class="col-md-5 m-4">
-                <div class="card">
+                <div class="card shadow-sm">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-7">
 
 
                             @{
@@ -307,116 +32,95 @@
                                 <img src="~/Upload/Images/imgull.jpg" class="img-fluid rounded" />
                             }
                         </div>
-                        <div class="col-md-5 m-2">
+                        <div class="col-md-4 m-2">
                             <h5 class="card-title">
                                 @Html.DisplayFor(modelItem => item.Brand.Name) @Html.DisplayFor(modelItem => item.VehicleModel.Name)
                             </h5>
                             <small>
-
                                 Rocznik: @Html.DisplayFor(modelItem => item.YearOfCarProduction)<br />
                                 Pojemność: @Html.DisplayFor(modelItem => item.EngineCapacity) cm3<br />
                                 Silnik: @Html.DisplayFor(modelItem => item.EngineType.Name)<br />
                                 Przebieg: @Html.DisplayFor(modelItem => item.Mileage) km<br />
                                 Moc (KM): @Html.DisplayFor(modelItem => item.EnginePower) KM<br />
                                 Skrzynia: @Html.DisplayFor(modelItem => item.GearBox.Name)<br />
-                                
-                                
-                                Skrzynia: @Html.DisplayFor(modelItem => item.Equipment.AUX)<br />
-
+                                Klimatyzacja: @Html.DisplayFor(modelItem => item.Equipment.AirConditioning.Type)<br />
                             </small>
-
                         </div>
-                        <div class="col-md-12 m-2">
+                        <div class="col-md-11 m-2">
                             <h5 class="card-title">Special title treatment</h5>
-                            @*<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-
-                            <div>
-                                <h4>Equipment</h4>
-                                <hr />
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                        
+                        <div class="col-md-11 m-2">
+                            @*<h5>Wyposażenie</h5>*@
+                            <button class="btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                Wyposażenie
+                            </button>
+                            <hr />
+                            <div class="collapse" id="collapseExample">
                                 <dl class="row">
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.ABS)
+
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.ABS)</small>
 
                                     </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.ABS)
+                                    <dd class="col-sm-1">
+                                        @Html.DisplayFor(modelItem => item.Equipment.ABS)
                                     </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.AUX)
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.AUX)</small>
                                     </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.AUX)
+                                    <dd class="col-sm-1">
+                                        @Html.DisplayFor(modelItem => item.Equipment.AUX)
                                     </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.ISOFIX)
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.ISOFIX)</small>
                                     </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.ISOFIX)
+                                    <dd class="col-sm-1">
+                                        @Html.DisplayFor(modelItem => item.Equipment.ISOFIX)
                                     </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.CD)
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.CD)</small>
                                     </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.CD)
+                                    <dd class="col-sm-1">
+                                        @Html.DisplayFor(modelItem => item.Equipment.CD)
                                     </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.SD)
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.SD)</small>
                                     </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.SD)
+                                    <dd class="col-sm-1">
+                                        @Html.DisplayFor(modelItem => item.Equipment.SD)
                                     </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.USB)
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.USB)</small>
                                     </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.USB)
+                                    <dd class="col-sm-1">
+                                        @Html.DisplayFor(modelItem => item.Equipment.USB)
                                     </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.CruiseControl)
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.CruiseControl)</small>
                                     </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.CruiseControl)
+                                    <dd class="col-sm-1">
+                                        @Html.DisplayFor(modelItem => item.Equipment.CruiseControl)
                                     </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.Navigation)
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.Navigation)</small>
                                     </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.Navigation)
+                                    <dd class="col-sm-1">
+                                        @Html.DisplayFor(modelItem => item.Equipment.Navigation)
                                     </dd>
-                                    <dt class="col-sm-2">
-                    @Html.DisplayNameFor(model => model.Airbag)
-                </dt>
-                <dd class="col-sm-10">
-                    @Html.DisplayFor(model => model.Airbag)
-                </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.PowerSteering)
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.PowerSteering)</small>
                                     </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.PowerSteering)
-                                    </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.AirConditioning)
-                                    </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.AirConditioning.AirConditioningID)
-                                    </dd>
-                                    <dt class="col-sm-2">
-                                        @Html.DisplayNameFor(model => model.FirstOrDefault().Equipment.IsActive)
-                                    </dt>
-                                    <dd class="col-sm-10">
-                                        @Html.DisplayFor(model => model.FirstOrDefault().Equipment.IsActive)
+                                    <dd class="col-sm-1">
+                                        @Html.DisplayFor(modelItem => item.Equipment.PowerSteering)
                                     </dd>
                                 </dl>
                             </div>
-                            *@
-
                         </div>
-                    </div>
+                        </div>
                 </div>
-
-
             </div>
          }
 </div>
