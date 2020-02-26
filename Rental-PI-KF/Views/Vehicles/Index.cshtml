@@ -58,66 +58,23 @@
                                 Wyposażenie
                             </button>
                             <hr />
-                            @*<div class="collapse" id="collapseExample">
+                            <div class="collapse" id="collapseExample">
                                 <dl class="row">
+                                    @foreach (var equipmentItem in item.Equipment)
+                                    {
+                                        //mozna zrobic inaczej petla po wszystkich i jak jest to wyswitlic 
+                                        //ze jest jak nie tp wyswietlic pusty checbox
+                                        // kazy pojazd wygladac bedzie tak samo!
+                                        <dt class="col-sm-5">
+                                            <small>@Html.DisplayFor(modelItem => equipmentItem.EquipmentName.Name)</small>
+                                        </dt>
+                                        <dd class="col-sm-1">
+                                            @Html.DisplayFor(modelItem => equipmentItem.Check)
+                                        </dd>
+                                    }
 
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.ABS)</small>
-
-                                    </dt>
-                                    <dd class="col-sm-1">
-                                        @Html.DisplayFor(modelItem => item.Equipment.ABS)
-                                    </dd>
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.AUX)</small>
-                                    </dt>
-                                    <dd class="col-sm-1">
-                                        @Html.DisplayFor(modelItem => item.Equipment.AUX)
-                                    </dd>
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.ISOFIX)</small>
-                                    </dt>
-                                    <dd class="col-sm-1">
-                                        @Html.DisplayFor(modelItem => item.Equipment.ISOFIX)
-                                    </dd>
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.CD)</small>
-                                    </dt>
-                                    <dd class="col-sm-1">
-                                        @Html.DisplayFor(modelItem => item.Equipment.CD)
-                                    </dd>
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.SD)</small>
-                                    </dt>
-                                    <dd class="col-sm-1">
-                                        @Html.DisplayFor(modelItem => item.Equipment.SD)
-                                    </dd>
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.USB)</small>
-                                    </dt>
-                                    <dd class="col-sm-1">
-                                        @Html.DisplayFor(modelItem => item.Equipment.USB)
-                                    </dd>
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.CruiseControl)</small>
-                                    </dt>
-                                    <dd class="col-sm-1">
-                                        @Html.DisplayFor(modelItem => item.Equipment.CruiseControl)
-                                    </dd>
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.Navigation)</small>
-                                    </dt>
-                                    <dd class="col-sm-1">
-                                        @Html.DisplayFor(modelItem => item.Equipment.Navigation)
-                                    </dd>
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayNameFor(modelItem => item.Equipment.PowerSteering)</small>
-                                    </dt>
-                                    <dd class="col-sm-1">
-                                        @Html.DisplayFor(modelItem => item.Equipment.PowerSteering)
-                                    </dd>
                                 </dl>
-                            </div>*@
+                            </div>
                         </div>
                        
                     </div>

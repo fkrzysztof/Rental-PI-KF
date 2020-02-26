@@ -39,6 +39,7 @@ namespace Rental_PI_KF.Controllers
                 .Include(v => v.WheelDrive)
                 .Include( v => v.Pictures)
                 .Include( v => v.Equipment)
+                .Include( v => v.Equipme nt // tu jest problem nie widzi equipemntName!!!!!!!!!!!!!!!!!!!!!!!!!!)
                 /*.Include( v => v.Equipment.AirConditioning)*/;
             return View(await applicationDbContext.ToListAsync());
         }
@@ -122,16 +123,36 @@ namespace Rental_PI_KF.Controllers
         {
             if (ModelState.IsValid)
             {
+                //dodawanie pojazu
                 _context.Add(v);
 
+                //ladowanie zdjecia
                 Picture p = new Picture()
                 {
                     URL = await ImageUpload(file),
                     IsActive = true,
                 };
 
+                //dodanie pojazdu do zdjecia 
                 p.Vehicle = v;
+                //dodanie zdjecia
                 _context.Pictures.Add(p);
+
+                //dodanie wyposazenia i przypisanie pojazdy do elementu wyposazenia
+                //wyposazenie nowa wersja
+                if (Equipments.Count > 0)
+                {
+                    foreach (var item in Equipments)
+                    {
+                        _context.Equipment.Add(new Equipment
+                        {
+                            Vehicle = v,
+                            EquipmentNameID = item,
+                            Check = true
+                        });
+                    }
+                }
+                
                 await _context.SaveChangesAsync();
             
                 return RedirectToAction(nameof(Index));
