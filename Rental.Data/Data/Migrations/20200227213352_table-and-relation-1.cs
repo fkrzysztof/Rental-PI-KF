@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Rental.Data
 {
-    public partial class TableAndRelation1a : Migration
+    public partial class tableandrelation1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -371,6 +371,7 @@ namespace Rental.Data
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VehicleID = table.Column<int>(nullable: true),
                     EquipmentNameID = table.Column<int>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
                     Check = table.Column<bool>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false)
                 },

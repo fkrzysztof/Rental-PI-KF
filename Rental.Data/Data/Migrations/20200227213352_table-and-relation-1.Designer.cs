@@ -10,8 +10,8 @@ using Rental.Data;
 namespace Rental.Data
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200226221630_TableAndRelation-1a")]
-    partial class TableAndRelation1a
+    [Migration("20200227213352_table-and-relation-1")]
+    partial class tableandrelation1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -420,6 +420,9 @@ namespace Rental.Data
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("VehicleID")
                         .HasColumnType("int");

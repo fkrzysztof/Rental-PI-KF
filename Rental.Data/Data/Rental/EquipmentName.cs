@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Rental.Data.Data.Rental
@@ -14,6 +15,7 @@ namespace Rental.Data.Data.Rental
         public string Name { get; set; }
 
         public ICollection<Equipment> Equipment { get; set; }
+        
         public bool IsActive { get; set; }
     }
 }

@@ -60,19 +60,15 @@
                             <hr />
                             <div class="collapse" id="collapseExample">
                                 <dl class="row">
-                                    @foreach (var equipmentItem in item.Equipment)
+                                    @foreach (var eq in item.Equipment)
                                     {
-                                        //mozna zrobic inaczej petla po wszystkich i jak jest to wyswitlic 
-                                        //ze jest jak nie tp wyswietlic pusty checbox
-                                        // kazy pojazd wygladac bedzie tak samo!
-                                        <dt class="col-sm-5">
-                                            <small>@Html.DisplayFor(modelItem => equipmentItem.EquipmentName.Name)</small>
-                                        </dt>
+                                    <dt class="col-sm-5">
+                                        <small>@Html.DisplayFor(eqModel => eq.Name)</small>
+                                    </dt>
                                         <dd class="col-sm-1">
-                                            @Html.DisplayFor(modelItem => equipmentItem.Check)
+                                            @Html.DisplayFor(eqModel => eq.Check)
                                         </dd>
                                     }
-
                                 </dl>
                             </div>
                         </div>

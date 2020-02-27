@@ -17,8 +17,11 @@ namespace Rental_Data.Data.Rental
             public Vehicle Vehicle { get; set; }
 
         public int? EquipmentNameID { get; set; }
-            [ForeignKey("EquipmentNameID")]
-            public EquipmentName EquipmentName { get; set; }
+        [ForeignKey("EquipmentNameID")]
+        public EquipmentName EquipmentName { get; set; }
+
+        public string Name { get; set; }
+
 
         public bool Check { get; set; }
 

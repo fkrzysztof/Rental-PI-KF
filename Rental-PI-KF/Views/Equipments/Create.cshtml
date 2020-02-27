@@ -20,6 +20,11 @@
                 <label asp-for="EquipmentNameID" class="control-label"></label>
                 <select asp-for="EquipmentNameID" class ="form-control" asp-items="ViewBag.EquipmentNameID"></select>
             </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="Check" /> @Html.DisplayNameFor(model => model.Check)

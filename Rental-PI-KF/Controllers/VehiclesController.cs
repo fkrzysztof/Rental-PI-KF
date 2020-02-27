@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
-//using Rental.Data.Data.HelpersClass;
+using Rental.Data.Data.Rental;
 using Rental_Data.Data.Rental;
 
 namespace Rental_PI_KF.Controllers
@@ -37,10 +37,12 @@ namespace Rental_PI_KF.Controllers
                 .Include(v => v.GeneralType)
                 .Include(v => v.VehicleModel)
                 .Include(v => v.WheelDrive)
-                .Include( v => v.Pictures)
-                .Include( v => v.Equipment)
-                .Include( v => v.Equipme nt // tu jest problem nie widzi equipemntName!!!!!!!!!!!!!!!!!!!!!!!!!!)
-                /*.Include( v => v.Equipment.AirConditioning)*/;
+                .Include(v => v.Pictures)
+                .Include(v => v.Equipment)
+                /*.Include( v => v.Equipment.AirConditioning)*/
+                ;
+            // ViewBag.EquipmentName = _context.EquipmentNames;
+            ViewBag.EquipmentName = _context.EquipmentNames;            
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -148,6 +150,7 @@ namespace Rental_PI_KF.Controllers
                         {
                             Vehicle = v,
                             EquipmentNameID = item,
+                            Name = _context.EquipmentNames.FirstOrDefault(f => f.EquipmentNameID == item).Name,
                             Check = true
                         });
                     }

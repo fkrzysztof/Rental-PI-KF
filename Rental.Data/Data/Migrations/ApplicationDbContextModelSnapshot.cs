@@ -419,6 +419,9 @@ namespace Rental.Data
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("VehicleID")
                         .HasColumnType("int");
 

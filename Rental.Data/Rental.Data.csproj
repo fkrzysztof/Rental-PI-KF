@@ -63,6 +63,18 @@
     <Compile Remove="Data\Migrations\20200226214726_TableAndRealation1.Designer.cs" />
     <Compile Remove="Data\Migrations\20200226221114_TableAndRelation-1.cs" />
     <Compile Remove="Data\Migrations\20200226221114_TableAndRelation-1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200226221630_TableAndRelation-1a.cs" />
+    <Compile Remove="Data\Migrations\20200226221630_TableAndRelation-1a.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200227191439_add-ICollection-Vehicle-inEquipmentName.cs" />
+    <Compile Remove="Data\Migrations\20200227191439_add-ICollection-Vehicle-inEquipmentName.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200227192519_add-Vehicle-EquipmentName-relation.cs" />
+    <Compile Remove="Data\Migrations\20200227192519_add-Vehicle-EquipmentName-relation.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200227193105_add-Vehicle-EquipmentName-relation-one-many.cs" />
+    <Compile Remove="Data\Migrations\20200227193105_add-Vehicle-EquipmentName-relation-one-many.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200227200222_powrot do 1 migracji.cs" />
+    <Compile Remove="Data\Migrations\20200227200222_powrot do 1 migracji.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200227211144_add-name-to-equipment.cs" />
+    <Compile Remove="Data\Migrations\20200227211144_add-name-to-equipment.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
