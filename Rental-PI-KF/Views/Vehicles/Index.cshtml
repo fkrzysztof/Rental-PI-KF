@@ -59,7 +59,8 @@
                                 Wyposażenie
                             </button>
                             <hr />
-                            @{
+
+                            @*@{
                                 Equipment toAdd;
                                 foreach (var name in @ViewBag.EQNameList as List<string>)
                                 {
@@ -74,6 +75,28 @@
                                     }
                                     else
                                     {
+                                        TempList.Add(toAdd);
+                                    }
+                                }
+                            }*@
+                            
+                            @{
+                                Equipment toAdd;
+                                foreach (var name in @ViewBag.EQNameList)
+                                {
+                                    if ((toAdd = item.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID)) == null)
+                                    {
+                                        TempList.Add(new Equipment()
+                                        {
+                                            Name = name.Name,
+                                            Check = false
+                                        }
+                                        );
+                                    }
+                                    else
+                                    {
+                                        //zmienic na noMaped ten paraemtr !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                        toAdd.Name = name.Name;
                                         TempList.Add(toAdd);
                                     }
                                 }

@@ -44,7 +44,16 @@ namespace Rental_PI_KF.Controllers
             // ViewBag.EquipmentName = _context.EquipmentNames;
             ViewBag.EquipmentName = _context.EquipmentNames;
 
-            List<string> eqNameList = _context.EquipmentNames.Select(s => s.Name).ToList();
+            //List<string> eqNameList = _context.EquipmentNames.Select(s => s.Name).ToList();
+            //ViewBag.EQNameList = eqNameList;
+
+            List<EquipmentName> eqNameList = new List<EquipmentName>();
+            foreach (var item in _context.EquipmentNames.ToList())
+            {
+                eqNameList.Add(item);
+            }
+            
+            
             ViewBag.EQNameList = eqNameList;
 
 
@@ -157,7 +166,7 @@ namespace Rental_PI_KF.Controllers
                         {
                             Vehicle = v,
                             EquipmentNameID = item,
-                            Name = _context.EquipmentNames.FirstOrDefault(f => f.EquipmentNameID == item).Name,
+                            //Name = _context.EquipmentNames.FirstOrDefault(f => f.EquipmentNameID == item).Name,
                             Check = true
                         });
                     }
