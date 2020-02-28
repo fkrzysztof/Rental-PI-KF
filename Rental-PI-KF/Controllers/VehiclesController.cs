@@ -42,7 +42,14 @@ namespace Rental_PI_KF.Controllers
                 /*.Include( v => v.Equipment.AirConditioning)*/
                 ;
             // ViewBag.EquipmentName = _context.EquipmentNames;
-            ViewBag.EquipmentName = _context.EquipmentNames;            
+            ViewBag.EquipmentName = _context.EquipmentNames;
+
+            List<string> eqNameList = _context.EquipmentNames.Select(s => s.Name).ToList();
+            ViewBag.EQNameList = eqNameList;
+
+
+
+
             return View(await applicationDbContext.ToListAsync());
         }
 

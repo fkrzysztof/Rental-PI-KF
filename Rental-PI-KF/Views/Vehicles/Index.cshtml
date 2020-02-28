@@ -3,13 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@using Rental_Data.Data.Rental
 <h1>SAmochody osobowe</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-
+@{ 
+    List<Equipment> TempList = new List<Equipment>();
+}
 <div class="row">
     @for (int i = 0; i < 20; i++)
         @foreach (var item in Model)
@@ -18,7 +20,6 @@
                 <div class="card shadow-sm">
                     <div class="row">
                         <div class="col-md-7">
-
 
                             @{
                                 string cos = @item.Pictures.FirstOrDefault().URL;
@@ -58,21 +59,43 @@
                                 Wyposażenie
                             </button>
                             <hr />
+                            @{
+                                Equipment toAdd;
+                                foreach (var name in @ViewBag.EQNameList as List<string>)
+                                {
+                                    if ((toAdd = item.Equipment.FirstOrDefault(f => f.Name == name)) == null)
+                                    {
+                                        TempList.Add(new Equipment()
+                                        {
+                                            Name = name,
+                                            Check = false
+                                        }
+                                        );
+                                    }
+                                    else
+                                    {
+                                        TempList.Add(toAdd);
+                                    }
+                                }
+                            }
+                            
                             <div class="collapse" id="collapseExample">
                                 <dl class="row">
-                                    @foreach (var eq in item.Equipment)
+                                    @foreach (var eqtemp in TempList)
                                     {
-                                    <dt class="col-sm-5">
-                                        <small>@Html.DisplayFor(eqModel => eq.Name)</small>
-                                    </dt>
+                                        <dt class="col-sm-5">
+                                            <small>@Html.DisplayFor(eqtempModel => eqtemp.Name)</small>
+                                        </dt>
                                         <dd class="col-sm-1">
-                                            @Html.DisplayFor(eqModel => eq.Check)
+                                            @Html.DisplayFor(eqtempModel => eqtemp.Check)
                                         </dd>
                                     }
                                 </dl>
                             </div>
+                            @{ 
+                                TempList.Clear();
+                            }
                         </div>
-                       
                     </div>
                 </div>
             </div>
