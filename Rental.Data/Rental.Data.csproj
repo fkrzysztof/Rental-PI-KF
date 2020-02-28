@@ -75,6 +75,8 @@
     <Compile Remove="Data\Migrations\20200227200222_powrot do 1 migracji.Designer.cs" />
     <Compile Remove="Data\Migrations\20200227211144_add-name-to-equipment.cs" />
     <Compile Remove="Data\Migrations\20200227211144_add-name-to-equipment.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200228164703_add-RentalVehicle-RentalStatus.cs" />
+    <Compile Remove="Data\Migrations\20200228164703_add-RentalVehicle-RentalStatus.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

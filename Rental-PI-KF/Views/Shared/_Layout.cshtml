@@ -22,7 +22,7 @@
 
         <!-- Sidebar -->
         <ul class="navbar-nav sidebar sidebar-light accordion" style="background-color: #000000;" id="accordionSidebar">
-        @*<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">*@
+            @*<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">*@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -67,6 +67,48 @@
                 </div>
             </li>
 
+
+
+
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Zarządzanie Wypożyczeniami?
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRent" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Wypożyczenia</span>
+                </a>
+                <div id="collapseRent" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Custom Components:</h6>
+                        <a class="collapse-item" asp-action="Index" asp-controller="RentalVehicles">Wszystkie</a>
+                        <a class="collapse-item" asp-action="Create" asp-controller="RentalVehicles">Dodaj</a>
+                    </div>
+                </div>
+            </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="fas fa-fw fa-chart-area"></i>
@@ -83,14 +125,14 @@
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" asp-controller="Vehicles">Typ</a>
+                        <a class="collapse-item" asp-controller="ExactTypes" asp-action="Index">Typ</a>
                         <a class="collapse-item" asp-controller="Brands" asp-action="Index">Marka</a>
                         <a class="collapse-item" asp-controller="VehicleModel" asp-action="Index">Model</a>
-                        <a class="collapse-item" asp-controller="Vehicles">Klimatyzacja</a>
+                        <a class="collapse-item" asp-controller="AirConditionings" asp-action="Index">Klimatyzacja</a>
                         <a class="collapse-item" asp-controller="Colours" asp-action="Index">Kolor</a>
-                        <a class="collapse-item" asp-controller="EngineTypes" asp-action="Index" >Silnik</a>
-                        <a class="collapse-item" asp-controller="Vehicles">Skrzynia</a>
-                        <a class="collapse-item" asp-controller="Vehicles">Napęd</a>
+                        <a class="collapse-item" asp-controller="EngineTypes" asp-action="Index">Silnik</a>
+                        <a class="collapse-item" asp-controller="GearBoxes" asp-action="Index">Skrzynia</a>
+                        <a class="collapse-item" asp-controller="wheelDrives" asp-action="Index">Napęd</a>
                         <a class="collapse-item" asp-controller="EquipmentNames" asp-action="Index">Wyposażenie</a>
                     </div>
                 </div>

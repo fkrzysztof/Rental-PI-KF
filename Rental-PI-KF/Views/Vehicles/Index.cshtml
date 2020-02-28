@@ -4,12 +4,13 @@
     ViewData["Title"] = "Index";
 }
 @using Rental_Data.Data.Rental
+@using Rental.Data.Data.Rental
 <h1>SAmochody osobowe</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-@{ 
+@{
     List<Equipment> TempList = new List<Equipment>();
 }
 <div class="row">
@@ -48,17 +49,69 @@
                             </small>
                         </div>
                         <div class="col-md-11 m-2">
+                            @*Wypożyenie TAK NIE*@
+                            @{
+                                DateTime.Now.Date.ToString();
+
+                                if (item.RentalVehicles.FirstOrDefault(f => f.From.CompareTo(DateTime.Now.Date) > 0) != null)
+                                {
+                                    <p>start jest pozniej</p>
+                                }
+                                else
+                                {
+                                    <p>start jest wczesniej</p>
+                                }
+                                if (item.RentalVehicles.FirstOrDefault(f => f.To.CompareTo(DateTime.Now.Date) < 0) != null)
+                                {
+                                    <p>koniec jest wczersniej</p>
+                                }
+                                else
+                                {
+                                    <p>koniec jest pozniej</p>
+                                }
+
+
+                                RentalVehicle rentalVehicleItem;
+                                TimeSpan rezult;
+                                DateTime nextRentalDate;
+
+
+
+                                //szukam zajetego
+                                if ((rentalVehicleItem = item.RentalVehicles.FirstOrDefault(f =>
+                               f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
+                                )) != null)
+                                {
+                                    <h6>Aktualnie Wypożyczony</h6>
+                                    <p>Koniec wypożyczenia za @((rentalVehicleItem.To.Date - DateTime.Now.Date).Days)dni / @rentalVehicleItem.To.Date.ToShortDateString()</p>
+                                }
+                                else
+                                {
+                                    <h6>Aktualnie Dostepny</h6>
+                                    if ((nextRentalDate = item.RentalVehicles.OrderBy(o => o.From).Select(s => s.From).FirstOrDefault(f => f.CompareTo(DateTime.Now.Date) > 0)).CompareTo(DateTime.Now.Date) > 0)
+                                    {
+                                        <p>Następna rezerwacja za: @((nextRentalDate.Date - DateTime.Now.Date).Days)dni  / @nextRentalDate.Date.ToShortDateString()</p>
+                                        @*<p>Następna rezerwacja za: @nextRentalDate.Date</p>*@
+                                    }
+                                    else
+                                    {
+                                        <p>Brak rezerwacji</p>
+                                    }
+
+                                }
+                            }
                             <h6 class="card-title">Opis</h6>
                             <p><small>@item.Description</small><p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
                         </div>
-                        
+
                         <div class="col-md-11 m-2">
                             @*<h5>Wyposażenie</h5>*@
                             <button class="btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                 Wyposażenie
                             </button>
-                            <hr />                          
+
+                            <hr />
                             @{
                                 Equipment toAdd;
                                 foreach (var name in @ViewBag.EQNameList)
@@ -74,13 +127,12 @@
                                     }
                                     else
                                     {
-                                        //zmienic na noMaped ten paraemtr !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                                         toAdd.Name = name.Name;
                                         TempList.Add(toAdd);
                                     }
                                 }
                             }
-                            
+
                             <div class="collapse" id="collapseExample">
                                 <dl class="row">
                                     @foreach (var eqtemp in TempList)
@@ -94,12 +146,12 @@
                                     }
                                 </dl>
                             </div>
-                            @{ 
+                            @{
                                 TempList.Clear();
                             }
                         </div>
                     </div>
                 </div>
             </div>
-         }
+        }
 </div>

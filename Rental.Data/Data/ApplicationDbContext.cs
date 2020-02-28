@@ -34,5 +34,7 @@ namespace Rental.Data
         public DbSet<WheelDrive> WheelDrives { get; set; }
         public DbSet<GearBox> GearBoxes { get; set; }
         public DbSet<EquipmentName> EquipmentNames { get; set; }
+        public DbSet<RentalVehicle> RentalVehicles { get; set; }
+        public DbSet<RentalStatus> RentalStatuses { get; set; }
     }
 }

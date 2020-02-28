@@ -118,6 +118,9 @@ namespace Rental_Data.Data.Rental
         public byte? NumberOfDoors { get; set; }
         //cena (zmiany ceny)
         public ICollection<CurrentPrice> CurrentPrices { get; set; }
+
+        
+        public ICollection<RentalVehicle> RentalVehicles { get; set; }
       
         public bool IsActive { get; set; }
     }

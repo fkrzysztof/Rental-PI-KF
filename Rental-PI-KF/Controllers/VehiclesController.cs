@@ -39,6 +39,7 @@ namespace Rental_PI_KF.Controllers
                 .Include(v => v.WheelDrive)
                 .Include(v => v.Pictures)
                 .Include(v => v.Equipment)
+                .Include(v => v.RentalVehicles)
                 .Include(v => v.AirConditioning);
             ViewBag.EquipmentName = _context.EquipmentNames;
 
