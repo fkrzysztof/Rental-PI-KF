@@ -20,6 +20,7 @@ namespace Rental_Data.Data.Rental
         [ForeignKey("EquipmentNameID")]
         public EquipmentName EquipmentName { get; set; }
 
+        [NotMapped]
         public string Name { get; set; }
 
 

@@ -44,12 +44,12 @@
                                 Przebieg: @Html.DisplayFor(modelItem => item.Mileage) km<br />
                                 Moc (KM): @Html.DisplayFor(modelItem => item.EnginePower) KM<br />
                                 Skrzynia: @Html.DisplayFor(modelItem => item.GearBox.Name)<br />
-                                @*Klimatyzacja: @Html.DisplayFor(modelItem => item.Equipment.AirConditioning.Type)<br />*@
+                                Klimatyzacja: @Html.DisplayFor(modelItem => item.AirConditioning.Type)<br />
                             </small>
                         </div>
                         <div class="col-md-11 m-2">
-                            <h5 class="card-title">Special title treatment</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <h6 class="card-title">Opis</h6>
+                            <p><small>@item.Description</small><p>
                             <a href="#" class="btn btn-primary">Go somewhere</a>
                         </div>
                         
@@ -58,28 +58,7 @@
                             <button class="btn-sm btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                                 Wyposażenie
                             </button>
-                            <hr />
-
-                            @*@{
-                                Equipment toAdd;
-                                foreach (var name in @ViewBag.EQNameList as List<string>)
-                                {
-                                    if ((toAdd = item.Equipment.FirstOrDefault(f => f.Name == name)) == null)
-                                    {
-                                        TempList.Add(new Equipment()
-                                        {
-                                            Name = name,
-                                            Check = false
-                                        }
-                                        );
-                                    }
-                                    else
-                                    {
-                                        TempList.Add(toAdd);
-                                    }
-                                }
-                            }*@
-                            
+                            <hr />                          
                             @{
                                 Equipment toAdd;
                                 foreach (var name in @ViewBag.EQNameList)

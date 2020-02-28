@@ -39,13 +39,8 @@ namespace Rental_PI_KF.Controllers
                 .Include(v => v.WheelDrive)
                 .Include(v => v.Pictures)
                 .Include(v => v.Equipment)
-                /*.Include( v => v.Equipment.AirConditioning)*/
-                ;
-            // ViewBag.EquipmentName = _context.EquipmentNames;
+                .Include(v => v.AirConditioning);
             ViewBag.EquipmentName = _context.EquipmentNames;
-
-            //List<string> eqNameList = _context.EquipmentNames.Select(s => s.Name).ToList();
-            //ViewBag.EQNameList = eqNameList;
 
             List<EquipmentName> eqNameList = new List<EquipmentName>();
             foreach (var item in _context.EquipmentNames.ToList())
@@ -53,11 +48,7 @@ namespace Rental_PI_KF.Controllers
                 eqNameList.Add(item);
             }
             
-            
             ViewBag.EQNameList = eqNameList;
-
-
-
 
             return View(await applicationDbContext.ToListAsync());
         }
