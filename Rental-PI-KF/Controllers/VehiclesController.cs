@@ -25,6 +25,7 @@ namespace Rental_PI_KF.Controllers
             _env = environment;
         }
 
+
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
@@ -41,6 +42,8 @@ namespace Rental_PI_KF.Controllers
                 .Include(v => v.Equipment)
                 .Include(v => v.RentalVehicles)
                 .Include(v => v.AirConditioning);
+                //.Where(w => w.VehicleID > 1);
+           
             ViewBag.EquipmentName = _context.EquipmentNames;
 
             List<EquipmentName> eqNameList = new List<EquipmentName>();
@@ -48,7 +51,7 @@ namespace Rental_PI_KF.Controllers
             {
                 eqNameList.Add(item);
             }
-            
+
             ViewBag.EQNameList = eqNameList;
 
             return View(await applicationDbContext.ToListAsync());
@@ -84,32 +87,24 @@ namespace Rental_PI_KF.Controllers
         public IActionResult Create()
         {
 
-            //podejscie 3
-            List<Brand> brandList = new List<Brand>();
-            brandList = _context.Brands.ToList();
-            //brandList.Insert(0, new Brand { BrandID = 0, Name = "Select first" });
-            ViewBag.ListOfBrads = brandList;
-
-
-
-            //ViewBag.Brands = _context.Brands.ToList();
-            //ViewBag.BrandID = new SelectList(_context.Brands, "BrandID", "Name"); //zmiana
-            //ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "Name"); //zmiana
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name");
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "Name");
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name");
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "Name");
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
-            ViewBag.ModelList = new SelectList(_context.VehicleModels, "VehicleModelID", "Name"); //na chwile
+            //ViewBag.ModelList = new SelectList(_context.VehicleModels, "VehicleModelID", "Name"); //na chwile
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "Name");
 
             //dodane
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
-            //ViewBag.YearOfProduction = new SelectList(listYear);
             sendYear();
-
             //dodawanie wyposaznia wersja 2
             ViewBag.EquipmentsNameList = _context.EquipmentNames;
+            //Model JS
+            List<Brand> brandList = new List<Brand>();
+            brandList = _context.Brands.ToList();
+            //brandList.Insert(0, new Brand { BrandID = 0, Name = "Select first" });
+            ViewBag.ListOfBrads = brandList;
 
 
             return View();
@@ -187,9 +182,9 @@ namespace Rental_PI_KF.Controllers
             sendYear();
 
             return View();
-        }  
+        }
 
-        // GET: Vehicles/Edit/5
+        //GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -197,39 +192,96 @@ namespace Rental_PI_KF.Controllers
                 return NotFound();
             }
 
-            var vehicle = await _context.Vehicles.FindAsync(id);
+            //var vehicle = await _context.Vehicles.FindAsync(id);
+            var vehicle = await _context.Vehicles.Include(i => i.Equipment).FirstOrDefaultAsync(m => m.VehicleID == id); ;
             if (vehicle == null)
             {
                 return NotFound();
             }
-            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicle.BrandID);
-            ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", vehicle.ColourID);
-            ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", vehicle.EngineTypeID);
-            ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", vehicle.ExactTypeID);
-            ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", vehicle.GearBoxID);
-            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", vehicle.GeneralTypeID);
-            ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", vehicle.VehicleModelID);
-            ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", vehicle.WheelDriveID);
+            ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name", vehicle.ColourID);
+            ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "Name", vehicle.EngineTypeID);
+            ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name", vehicle.ExactTypeID);
+            ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "Name", vehicle.GearBoxID);
+            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name", vehicle.GeneralTypeID);
+            ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "Name", vehicle.WheelDriveID);
+
+            //dodane
+
+            //Lista Marek
+            List<Brand> brandList = new List<Brand>();
+            brandList = _context.Brands.ToList();
+            ViewBag.ListOfBrads = brandList;
+            //30 lat do wyboru
+            sendYear();
+            ViewBag.EquipmentsNameList = _context.EquipmentNames;
+            ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
+            ViewBag.Equipments = _context.Equipment.Include(i => i.EquipmentName).Where(w => w.VehicleID == id);
+
+            //List<EquipmentName> eqNameList = new List<EquipmentName>();
+            //foreach (var item in _context.EquipmentNames.ToList())
+            //{
+            //    eqNameList.Add(item);
+            //}
+
+            ViewBag.EQNameList = _context.EquipmentNames;
+
+
             return View(vehicle);
         }
 
-        // POST: Vehicles/Edit/5
+        //POST: Vehicles/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+ 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
+        //public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
+
+
+        public async Task<IActionResult> Edit(int id, Vehicle vehicle, /*IFormFile file,*/ List<int> Equipments)
         {
-            if (id != vehicle.VehicleID)
-            {
-                return NotFound();
-            }
+            //if (id != vehicle.VehicleID)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
                 try
                 {
                     _context.Update(vehicle);
+
+
+                    //tu jest blad !!!! --> musi byc podane co zmieniamy bo inaczej zmiania calosc na obiekt //
+                    bez referencji do tego co nie zmieniamy ( albo dodac to wszystko przez <hidden>
+
+                    ////Wyposazenie
+
+                    //odejmuje 
+                    //nowa kolekcja nie zawiera elementu starej
+                    foreach (var oldCollectionItem in _context.Equipment.Where(w => w.VehicleID == vehicle.VehicleID))
+                    {
+                        if (!Equipments.Contains((int)oldCollectionItem.EquipmentNameID))
+                        {
+                            oldCollectionItem.Check = false;
+                        }
+                    }
+                    _context.SaveChanges();
+                    //dodaje
+                    //stara kolekcja nie posiada elementu nowej 
+                    foreach (var newCollectionItem in Equipments)
+                    {
+                        if (vehicle.Equipment.FirstOrDefault(f => f.EquipmentNameID == newCollectionItem) == null)
+                        {
+                            _context.Equipment.Add(new Equipment
+                            {
+                                Vehicle = vehicle,
+                                EquipmentNameID = newCollectionItem,
+                                Check = true
+                            });
+                        }
+                    }
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -245,14 +297,47 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicle.BrandID);
-            ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", vehicle.ColourID);
-            ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", vehicle.EngineTypeID);
-            ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", vehicle.ExactTypeID);
-            ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", vehicle.GearBoxID);
-            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", vehicle.GeneralTypeID);
-            ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", vehicle.VehicleModelID);
-            ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", vehicle.WheelDriveID);
+
+            //      tu powinno byc to co w creative 1!! 
+
+
+            //ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicle.BrandID);
+            //ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", vehicle.ColourID);
+            //ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", vehicle.EngineTypeID);
+            //ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", vehicle.ExactTypeID);
+            //ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", vehicle.GearBoxID);
+            //ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", vehicle.GeneralTypeID);
+            //ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", vehicle.VehicleModelID);
+            //ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", vehicle.WheelDriveID);
+
+
+
+            //*************************************************************************************************************************************88
+
+            ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name", vehicle.ColourID);
+            ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "Name", vehicle.EngineTypeID);
+            ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name", vehicle.ExactTypeID);
+            ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "Name", vehicle.GearBoxID);
+            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name", vehicle.GeneralTypeID);
+            ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "Name", vehicle.WheelDriveID);
+
+
+            //dodane
+
+            //Lista Marek
+            List<Brand> brandList = new List<Brand>();
+            brandList = _context.Brands.ToList();
+            ViewBag.ListOfBrads = brandList;
+            //30 lat do wyboru
+            sendYear();
+            ViewBag.EquipmentsNameList = _context.EquipmentNames;
+            ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
+            // ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type", vehicle.AirConditioning.AirConditioningID) ;
+
+
+            //*************************************************************************************************************************************88
+
+
             return View(vehicle);
         }
 
@@ -337,6 +422,7 @@ namespace Rental_PI_KF.Controllers
 
         private void sendYear()
         {
+            //Funkcja generuje 30 ostatnich lat do wyboru rocznika pojazdu
             List<int> listYear = new List<int>();
             int yearNow = DateTime.Now.Year;
             for (int i = 0; i < 30; i++)

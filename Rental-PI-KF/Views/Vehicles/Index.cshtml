@@ -23,7 +23,9 @@
                         <div class="col-md-7">
 
                             @{
-                                string cos = @item.Pictures.FirstOrDefault().URL;
+                                var x = @item.Pictures.FirstOrDefault();
+                                //string cos = @item.Pictures.FirstOrDefault().URL;
+                                string cos = "zxc";
                             }
                             @if (cos != "")
                             {
