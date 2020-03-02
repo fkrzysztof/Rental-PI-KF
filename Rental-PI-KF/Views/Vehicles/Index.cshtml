@@ -104,8 +104,16 @@
                             }
                             <h6 class="card-title">Opis</h6>
                             <p><small>@item.Description</small><p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
+
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a type="button" asp-action="Edit" asp-route-id="@item.VehicleID" class="btn btn-secondary">Edytuj</a>
+                                <button type="button" class="btn btn-secondary">Middle</button>
+                                <button type="button" class="btn btn-secondary">Right</button>
+                            </div>
+
+
+
+</div>
 
                         <div class="col-md-11 m-2">
                             @*<h5>Wyposażenie</h5>*@

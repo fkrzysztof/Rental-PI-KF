@@ -42,7 +42,7 @@ namespace Rental_PI_KF.Controllers
                 .Include(v => v.Equipment)
                 .Include(v => v.RentalVehicles)
                 .Include(v => v.AirConditioning);
-                //.Where(w => w.VehicleID > 1);
+
            
             ViewBag.EquipmentName = _context.EquipmentNames;
 
@@ -193,7 +193,7 @@ namespace Rental_PI_KF.Controllers
             }
 
             //var vehicle = await _context.Vehicles.FindAsync(id);
-            var vehicle = await _context.Vehicles.Include(i => i.Equipment).FirstOrDefaultAsync(m => m.VehicleID == id); ;
+            var vehicle = await _context.Vehicles.Include(i => i.Equipment).Include(i => i.Pictures).FirstOrDefaultAsync(m => m.VehicleID == id); ;
             if (vehicle == null)
             {
                 return NotFound();
@@ -217,15 +217,46 @@ namespace Rental_PI_KF.Controllers
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
             ViewBag.Equipments = _context.Equipment.Include(i => i.EquipmentName).Where(w => w.VehicleID == id);
 
-            //List<EquipmentName> eqNameList = new List<EquipmentName>();
-            //foreach (var item in _context.EquipmentNames.ToList())
-            //{
-            //    eqNameList.Add(item);
-            //}
 
-            ViewBag.EQNameList = _context.EquipmentNames;
+            //**************************************************** Equioment
 
+            List<EquipmentName> eqNameList = new List<EquipmentName>();
+            foreach (var item in _context.EquipmentNames.ToList())
+            {
+                eqNameList.Add(item);
+            }
+            ViewBag.EQNameList = eqNameList;
 
+            List<EquipmentName> equipmentNameList = new List<EquipmentName>();
+            eqNameList = await _context.EquipmentNames.ToListAsync();
+
+            //Iteracja po nazwach wyposazenia
+            //List Wyposazenia do wyswietlanie TEMP
+            List<Equipment> TempList = new List<Equipment>();
+            bool trueOrfalse;
+            foreach (var name in eqNameList)
+            {
+                    //tu jest problem - is activ mozna wywalic !! nie jest tu potrzebne
+                    if (_context.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID && f.Check == true) == null)
+                        trueOrfalse = false;
+                    else
+                        trueOrfalse = true;
+
+                    TempList.Add(new Equipment()
+                    {
+                        EquipmentNameID = name.EquipmentNameID,
+                        Name = name.Name,
+                        Check = trueOrfalse
+                    }
+                    );
+            }
+
+            ViewBag.TempList = TempList;
+
+            //**************************************************** Equioment Koniec
+           
+            
+            
             return View(vehicle);
         }
 
@@ -238,22 +269,24 @@ namespace Rental_PI_KF.Controllers
         //public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
 
 
-        public async Task<IActionResult> Edit(int id, Vehicle vehicle, /*IFormFile file,*/ List<int> Equipments)
-        {
-            //if (id != vehicle.VehicleID)
-            //{
-            //    return NotFound();
-            //}
+        //public async Task<IActionResult> Edit(int id, Vehicle vehicle, /*IFormFile file,*/ List<int> Equipments)
+        //{
 
-            if (ModelState.IsValid)
+
+
+            public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle, List<int> Equipments)
             {
-                try
+                if (id != vehicle.VehicleID)
                 {
-                    _context.Update(vehicle);
+                    return NotFound();
+                }
 
-
-                    //tu jest blad !!!! --> musi byc podane co zmieniamy bo inaczej zmiania calosc na obiekt //
-                    bez referencji do tego co nie zmieniamy ( albo dodac to wszystko przez <hidden>
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        _context.Update(vehicle);
+                        await _context.SaveChangesAsync();
 
                     ////Wyposazenie
 
@@ -263,15 +296,17 @@ namespace Rental_PI_KF.Controllers
                     {
                         if (!Equipments.Contains((int)oldCollectionItem.EquipmentNameID))
                         {
-                            oldCollectionItem.Check = false;
+                            _context.Remove(oldCollectionItem);
                         }
                     }
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
+
                     //dodaje
                     //stara kolekcja nie posiada elementu nowej 
                     foreach (var newCollectionItem in Equipments)
                     {
-                        if (vehicle.Equipment.FirstOrDefault(f => f.EquipmentNameID == newCollectionItem) == null)
+                        var rezult = _context.Equipment.FirstOrDefault(f => f.EquipmentNameID == newCollectionItem && f.VehicleID == vehicle.VehicleID);
+                        if ( rezult == null)
                         {
                             _context.Equipment.Add(new Equipment
                             {
@@ -279,42 +314,142 @@ namespace Rental_PI_KF.Controllers
                                 EquipmentNameID = newCollectionItem,
                                 Check = true
                             });
-                        }
+
+                        }                        
                     }
 
                     await _context.SaveChangesAsync();
+
                 }
                 catch (DbUpdateConcurrencyException)
-                {
-                    if (!VehicleExists(vehicle.VehicleID))
                     {
-                        return NotFound();
+                        if (!VehicleExists(vehicle.VehicleID))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    return RedirectToAction(nameof(Index));
                 }
-                return RedirectToAction(nameof(Index));
-            }
 
-            //      tu powinno byc to co w creative 1!! 
+                //if (id != vehicle.VehicleID)
+                //{
+                //    return NotFound();
+                //}
+
+                //var dbVehicle = _context.Vehicles
+                //    .Include(v => v.Brand)
+                //    .Include(v => v.Colour)
+                //    .Include(v => v.EngineType)
+                //    .Include(v => v.ExactType)
+                //    .Include(v => v.GearBox)
+                //    .Include(v => v.GeneralType)
+                //    .Include(v => v.VehicleModel)
+                //    .Include(v => v.WheelDrive)
+                //    .Include(v => v.Pictures)
+                //    .Include(v => v.Equipment)
+                //    .Include(v => v.RentalVehicles)
+                //    .Include(v => v.AirConditioning)
+                //    .FirstOrDefault(f => f.VehicleID == id);
+
+                //if (ModelState.IsValid)
+                //{
+                //    try
+                //    {
+                //        //tu jest blad nie mozna tak zmienicac bo tracimy reszte infformacji -chyba ze wyslemy <input hide
+                //        //_context.Update(vehicle);
+
+                //        dbVehicle.GeneralType = vehicle.GeneralType;
+                //        dbVehicle.ExactType = vehicle.ExactType;
+                //        dbVehicle.Brand = vehicle.Brand;
+                //        dbVehicle.VehicleModel = vehicle.VehicleModel;
+                //        dbVehicle.YearOfCarProduction = vehicle.YearOfCarProduction;
+                //        dbVehicle.Description = vehicle.Description;
+                //        dbVehicle.VIN = vehicle.VIN;
+                //        dbVehicle.EngineCapacity = vehicle.EngineCapacity;
+                //        dbVehicle.EngineType = vehicle.EngineType;
+                //        dbVehicle.Mileage = vehicle.Mileage;
+                //        dbVehicle.GearBox = vehicle.GearBox;
+                //        dbVehicle.WheelDrive = vehicle.WheelDrive;
+                //        dbVehicle.AirConditioning = vehicle.AirConditioning;
+                //        dbVehicle.Colour = vehicle.Colour;
+                //        dbVehicle.NumberPlate = vehicle.NumberPlate;
+                //        dbVehicle.EnginePower = vehicle.EnginePower;
+                //        dbVehicle.NumberOfSeats = vehicle.NumberOfSeats;
+                //        dbVehicle.NumberOfDoors = vehicle.NumberOfDoors;
+
+                //        _context.Update(dbVehicle);
+                //        await _context.SaveChangesAsync();
 
 
-            //ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicle.BrandID);
-            //ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", vehicle.ColourID);
-            //ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", vehicle.EngineTypeID);
-            //ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", vehicle.ExactTypeID);
-            //ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", vehicle.GearBoxID);
-            //ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", vehicle.GeneralTypeID);
-            //ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", vehicle.VehicleModelID);
-            //ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", vehicle.WheelDriveID);
+                //        //////Wyposazenie
+
+                //        ////odejmuje 
+                //        ////nowa kolekcja nie zawiera elementu starej
+                //        //foreach (var oldCollectionItem in _context.Equipment.Where(w => w.VehicleID == vehicle.VehicleID))
+                //        //{
+                //        //    if (!Equipments.Contains((int)oldCollectionItem.EquipmentNameID))
+                //        //    {
+                //        //        oldCollectionItem.Check = false;
+                //        //    }
+                //        //}
+                //        //await _context.SaveChangesAsync();
+
+                //        ////dodaje
+                //        ////stara kolekcja nie posiada elementu nowej 
+                //        //foreach (var newCollectionItem in Equipments)
+                //        //{
+                //        //    if (vehicle.Equipment.FirstOrDefault(f => f.EquipmentNameID == newCollectionItem) == null)
+                //        //    {
+                //        //        _context.Equipment.Add(new Equipment
+                //        //        {
+                //        //            Vehicle = dbVehicle,
+                //        //            EquipmentNameID = newCollectionItem,
+                //        //            Check = true
+                //        //        });
+                //        //    }
+                //        //}
+
+                //        //await _context.SaveChangesAsync();
+                //    }
+                //    catch (DbUpdateConcurrencyException)
+                //    {
+                //        if (!VehicleExists(vehicle.VehicleID))
+                //        {
+                //            return NotFound();
+                //        }
+                //        else
+                //        {
+                //            throw;
+                //        }
+                //    }
+                //    return RedirectToAction(nameof(Index));
+                //}
 
 
 
-            //*************************************************************************************************************************************88
 
-            ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name", vehicle.ColourID);
+
+                //      tu powinno byc to co w creative 1!! 
+
+
+                //ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicle.BrandID);
+                //ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", vehicle.ColourID);
+                //ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", vehicle.EngineTypeID);
+                //ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", vehicle.ExactTypeID);
+                //ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", vehicle.GearBoxID);
+                //ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", vehicle.GeneralTypeID);
+                //ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", vehicle.VehicleModelID);
+                //ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", vehicle.WheelDriveID);
+
+
+
+                //*************************************************************************************************************************************88
+
+                ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name", vehicle.ColourID);
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "Name", vehicle.EngineTypeID);
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name", vehicle.ExactTypeID);
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "Name", vehicle.GearBoxID);
@@ -333,6 +468,45 @@ namespace Rental_PI_KF.Controllers
             ViewBag.EquipmentsNameList = _context.EquipmentNames;
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
             // ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type", vehicle.AirConditioning.AirConditioningID) ;
+
+
+            //**************************************************** Equioment
+
+            List<EquipmentName> eqNameList = new List<EquipmentName>();
+            foreach (var item in _context.EquipmentNames.ToList())
+            {
+                eqNameList.Add(item);
+            }
+            ViewBag.EQNameList = eqNameList;
+
+            List<EquipmentName> equipmentNameList = new List<EquipmentName>();
+            eqNameList = await _context.EquipmentNames.ToListAsync();
+
+            //Iteracja po nazwach wyposazenia
+            //List Wyposazenia do wyswietlanie TEMP
+            List<Equipment> TempList = new List<Equipment>();
+            bool trueOrfalse;
+            foreach (var name in eqNameList)
+            {
+                //tu jest problem - is activ mozna wywalic !! nie jest tu potrzebne
+                if (_context.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID && f.Check == true) == null)
+                    trueOrfalse = false;
+                else
+                    trueOrfalse = true;
+
+                TempList.Add(new Equipment()
+                {
+                    EquipmentNameID = name.EquipmentNameID,
+                    Name = name.Name,
+                    Check = trueOrfalse
+                }
+                );
+            }
+
+            ViewBag.TempList = TempList;
+
+            //**************************************************** Equioment Koniec
+
 
 
             //*************************************************************************************************************************************88

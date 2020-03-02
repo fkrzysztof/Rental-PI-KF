@@ -13,10 +13,12 @@
 <div class="container">
     <form asp-action="Edit" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="VehicleID" />
         <div class="row">
             @* ************************************* Zmiana zdjecia ********************************************************** *@
             <script src="~/js/jquery-1.10.2.js"></script>
             <div class="col-sm-6">
+                <img src="@Model.Pictures.First().URL" id="dbimage" class="rounded  img-fluid" />
                 <div id="showimage"></div>
 
                 <div class="custom-file">
@@ -32,7 +34,6 @@
                 $(document).ready(function () {
                     @*Java script dodaje siezke do pliku labeka *@
                     $(".custom-file-input").on("change", function () {
-
                         var fileName = $(this).val().split("\\").pop();
                         $(this).next(".custom-file-label").html(fileName);
 
@@ -49,6 +50,8 @@
                                 previewimages.append(img);
                             }
                             reader.readAsDataURL(file[0]);
+                            //dopisane
+                            document.getElementById("dbimage").style.visibility = "hidden";
                         });
 
                     }); //dodalem ;
@@ -202,47 +205,30 @@
             @*Wyposazenie nowe !!!*@
 
             <div class="col-sm-12">
-            
+
                 @*TUTAJ KOD Z INDEXU !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*@
 
                 <hr />
-                @{
-                    List<Equipment> TempList = new List<Equipment>();
-
-                    Equipment toAdd;
-                    foreach (var name in @ViewBag.EQNameList)
-                    {
-                        if ((toAdd = Model.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID)) == null)
-                        {
-                            TempList.Add(new Equipment()
-                            {
-                                Name = name.Name,
-                                Check = false
-                            }
-                            );
-                        }
-                        else
-                        {
-                            toAdd.Name = name.Name;
-                            TempList.Add(toAdd);
-                        }
-                    }
-                }
+             //tu tem plist !!!
 
                 <dl class="row">
-                    @foreach (var eqtemp in TempList)
+                    @foreach (var eqtemp in @ViewBag.TempList as ICollection<Equipment>)
                     {
                         <dt class="col-sm-5">
                             <small>@Html.DisplayFor(eqtempModel => eqtemp.Name)</small>
                         </dt>
                         <dd class="col-sm-1">
-                            @Html.DisplayFor(eqtempModel => eqtemp.Check)
+                            <input class="form-check-input" type="checkbox" value="@eqtemp.EquipmentNameID" name="Equipments"  
+                                   @{ 
+                                       if (eqtemp.Check)
+                                       {
+                                           @:checked
+                                       }
+                                     } 
+                            />
                         </dd>
                     }
                 </dl>
-
-
-
             </div>
 
             @*Wyposazenie nowe Koniec !!!*@
