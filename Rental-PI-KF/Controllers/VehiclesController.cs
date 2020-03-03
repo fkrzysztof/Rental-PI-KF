@@ -92,7 +92,7 @@ namespace Rental_PI_KF.Controllers
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name");
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "Name");
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
-            //ViewBag.ModelList = new SelectList(_context.VehicleModels, "VehicleModelID", "Name"); //na chwile
+            
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "Name");
 
             //dodane
@@ -105,7 +105,8 @@ namespace Rental_PI_KF.Controllers
             brandList = _context.Brands.ToList();
             //brandList.Insert(0, new Brand { BrandID = 0, Name = "Select first" });
             ViewBag.ListOfBrads = brandList;
-
+            
+            //ViewBag.ModelList = new SelectList(_context.VehicleModels, "VehicleModelID", "Name"); //na chwile
 
             return View();
         }
@@ -132,9 +133,21 @@ namespace Rental_PI_KF.Controllers
                 _context.Add(v);
 
                 //ladowanie zdjecia
+                //sprawdzam czy zdjecie jest dodane, jesli nie ustawiam na noimg.jpg
+                string tempURL;
+                if (file == null)
+                {
+                    tempURL = "..\\Upload\\Images\\noimg.png";
+                }
+                else
+                {
+                    tempURL = await ImageUpload(file);
+                }
+
+
                 Picture p = new Picture()
                 {
-                    URL = await ImageUpload(file),
+                    URL = tempURL,
                     IsActive = true,
                 };
 
@@ -180,7 +193,8 @@ namespace Rental_PI_KF.Controllers
             brandList = _context.Brands.ToList();
             ViewBag.ListOfBrads = brandList;
             sendYear();
-
+            ViewBag.EquipmentsNameList = _context.EquipmentNames;
+            
             return View();
         }
 
@@ -216,6 +230,8 @@ namespace Rental_PI_KF.Controllers
             ViewBag.EquipmentsNameList = _context.EquipmentNames;
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
             ViewBag.Equipments = _context.Equipment.Include(i => i.EquipmentName).Where(w => w.VehicleID == id);
+            ViewBag.ModelList = new SelectList(_context.VehicleModels.Where(w=>w.BrandID == vehicle.BrandID), "VehicleModelID", "Name", vehicle.VehicleModelID); //lista Modeli do danego auta
+            // wywalic modele z include !!
 
 
             //**************************************************** Equioment
@@ -274,7 +290,7 @@ namespace Rental_PI_KF.Controllers
 
 
 
-            public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle, List<int> Equipments)
+            public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle, List<int> Equipments, IFormFile file)
             {
                 if (id != vehicle.VehicleID)
                 {
@@ -288,6 +304,41 @@ namespace Rental_PI_KF.Controllers
                         _context.Update(vehicle);
                         await _context.SaveChangesAsync();
 
+                    //usuwanie starego zdjecia z dysku
+                    //dziala ale wymaga podania dokladnego adresu katalogu..
+                    //System.IO.File.Delete("..\\..\\..\\..\\"+_context.Pictures.First(f => f.VehicleID == vehicle.VehicleID).URL);
+
+
+                    //Ustawianie flagi na False
+                    _context.Pictures.First(f => f.VehicleID == vehicle.VehicleID).IsActive = false;
+
+                    //var oldImg = _context.Pictures.First(f => f.VehicleID == vehicle.VehicleID);
+                    //oldImg.IsActive = false;
+
+                    //ladowanie zdjecia
+                    //sprawdzam czy zdjecie jest dodane, jesli nie ustawiam na noimg.jpg
+                    string tempURL;
+                    if (file == null)
+                    {
+                        tempURL = "..\\Upload\\Images\\noimg.png";
+                    }
+                    else
+                    {
+                        tempURL = await ImageUpload(file);
+                    }
+                    Picture p = new Picture()
+                    {
+                        URL = await ImageUpload(file),
+                        IsActive = true,
+                    };
+
+                    //dodanie pojazdu do zdjecia 
+                    
+                    p.Vehicle = _context.Vehicles.First(f => f.VehicleID == vehicle.VehicleID);
+                    //dodanie zdjecia
+                    _context.Pictures.Add(p);
+
+
                     ////Wyposazenie
 
                     //odejmuje 
@@ -300,6 +351,7 @@ namespace Rental_PI_KF.Controllers
                         }
                     }
                     await _context.SaveChangesAsync();
+                    
 
                     //dodaje
                     //stara kolekcja nie posiada elementu nowej 
@@ -449,7 +501,7 @@ namespace Rental_PI_KF.Controllers
 
                 //*************************************************************************************************************************************88
 
-                ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name", vehicle.ColourID);
+            ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name", vehicle.ColourID);
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "Name", vehicle.EngineTypeID);
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name", vehicle.ExactTypeID);
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "Name", vehicle.GearBoxID);

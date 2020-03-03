@@ -13,28 +13,15 @@
 @{
     List<Equipment> TempList = new List<Equipment>();
 }
-<div class="row">
+<div class="row justify-content-center">
     @for (int i = 0; i < 20; i++)
         @foreach (var item in Model)
         {
-            <div class="col-md-5 m-4">
+            <div class="col-xl-5 m-4">
                 <div class="card shadow-sm">
                     <div class="row">
                         <div class="col-md-7">
-
-                            @{
-                                var x = @item.Pictures.FirstOrDefault();
-                                //string cos = @item.Pictures.FirstOrDefault().URL;
-                                string cos = "zxc";
-                            }
-                            @if (cos != "")
-                            {
-                                <img src="@item.Pictures.First().URL" class="img-fluid rounded" />
-                            }
-                            else
-                            {
-                                <img src="~/Upload/Images/imgull.jpg" class="img-fluid rounded" />
-                            }
+                             <img src="@item.Pictures.First(f => f.IsActive == true).URL" class="img-fluid rounded" />
                         </div>
                         <div class="col-md-4 m-2">
                             <h5 class="card-title">
