@@ -282,8 +282,7 @@ namespace Rental.Data
 
                     b.HasKey("RentalVehicleID");
 
-                    b.HasIndex("RentalStatusID")
-                        .IsUnique();
+                    b.HasIndex("RentalStatusID");
 
                     b.HasIndex("VehicleID");
 
@@ -656,6 +655,9 @@ namespace Rental.Data
                     b.Property<int?>("AirConditioningID")
                         .HasColumnType("int");
 
+                    b.Property<bool?>("Blockade")
+                        .HasColumnType("bit");
+
                     b.Property<int>("BrandID")
                         .HasColumnType("int");
 
@@ -845,8 +847,8 @@ namespace Rental.Data
             modelBuilder.Entity("Rental.Data.Data.Rental.RentalVehicle", b =>
                 {
                     b.HasOne("Rental.Data.Data.Rental.RentalStatus", "RentalStatus")
-                        .WithOne("RentalVehicle")
-                        .HasForeignKey("Rental.Data.Data.Rental.RentalVehicle", "RentalStatusID")
+                        .WithMany("RentalVehicle")
+                        .HasForeignKey("RentalStatusID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

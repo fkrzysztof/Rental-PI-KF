@@ -129,7 +129,9 @@ namespace Rental_PI_KF.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 //dodawanie pojazu
+                v.Blockade = false;
                 _context.Add(v);
 
                 //ladowanie zdjecia
@@ -310,7 +312,13 @@ namespace Rental_PI_KF.Controllers
 
 
                     //Ustawianie flagi na False
-                    _context.Pictures.First(f => f.VehicleID == vehicle.VehicleID).IsActive = false;
+                    foreach( var itemImg in _context.Pictures.Where(f => f.VehicleID == vehicle.VehicleID && f.IsActive == true))
+                        {
+                            itemImg.IsActive = false;
+                        }
+                    await _context.SaveChangesAsync();
+
+
 
                     //var oldImg = _context.Pictures.First(f => f.VehicleID == vehicle.VehicleID);
                     //oldImg.IsActive = false;
@@ -387,118 +395,6 @@ namespace Rental_PI_KF.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                //if (id != vehicle.VehicleID)
-                //{
-                //    return NotFound();
-                //}
-
-                //var dbVehicle = _context.Vehicles
-                //    .Include(v => v.Brand)
-                //    .Include(v => v.Colour)
-                //    .Include(v => v.EngineType)
-                //    .Include(v => v.ExactType)
-                //    .Include(v => v.GearBox)
-                //    .Include(v => v.GeneralType)
-                //    .Include(v => v.VehicleModel)
-                //    .Include(v => v.WheelDrive)
-                //    .Include(v => v.Pictures)
-                //    .Include(v => v.Equipment)
-                //    .Include(v => v.RentalVehicles)
-                //    .Include(v => v.AirConditioning)
-                //    .FirstOrDefault(f => f.VehicleID == id);
-
-                //if (ModelState.IsValid)
-                //{
-                //    try
-                //    {
-                //        //tu jest blad nie mozna tak zmienicac bo tracimy reszte infformacji -chyba ze wyslemy <input hide
-                //        //_context.Update(vehicle);
-
-                //        dbVehicle.GeneralType = vehicle.GeneralType;
-                //        dbVehicle.ExactType = vehicle.ExactType;
-                //        dbVehicle.Brand = vehicle.Brand;
-                //        dbVehicle.VehicleModel = vehicle.VehicleModel;
-                //        dbVehicle.YearOfCarProduction = vehicle.YearOfCarProduction;
-                //        dbVehicle.Description = vehicle.Description;
-                //        dbVehicle.VIN = vehicle.VIN;
-                //        dbVehicle.EngineCapacity = vehicle.EngineCapacity;
-                //        dbVehicle.EngineType = vehicle.EngineType;
-                //        dbVehicle.Mileage = vehicle.Mileage;
-                //        dbVehicle.GearBox = vehicle.GearBox;
-                //        dbVehicle.WheelDrive = vehicle.WheelDrive;
-                //        dbVehicle.AirConditioning = vehicle.AirConditioning;
-                //        dbVehicle.Colour = vehicle.Colour;
-                //        dbVehicle.NumberPlate = vehicle.NumberPlate;
-                //        dbVehicle.EnginePower = vehicle.EnginePower;
-                //        dbVehicle.NumberOfSeats = vehicle.NumberOfSeats;
-                //        dbVehicle.NumberOfDoors = vehicle.NumberOfDoors;
-
-                //        _context.Update(dbVehicle);
-                //        await _context.SaveChangesAsync();
-
-
-                //        //////Wyposazenie
-
-                //        ////odejmuje 
-                //        ////nowa kolekcja nie zawiera elementu starej
-                //        //foreach (var oldCollectionItem in _context.Equipment.Where(w => w.VehicleID == vehicle.VehicleID))
-                //        //{
-                //        //    if (!Equipments.Contains((int)oldCollectionItem.EquipmentNameID))
-                //        //    {
-                //        //        oldCollectionItem.Check = false;
-                //        //    }
-                //        //}
-                //        //await _context.SaveChangesAsync();
-
-                //        ////dodaje
-                //        ////stara kolekcja nie posiada elementu nowej 
-                //        //foreach (var newCollectionItem in Equipments)
-                //        //{
-                //        //    if (vehicle.Equipment.FirstOrDefault(f => f.EquipmentNameID == newCollectionItem) == null)
-                //        //    {
-                //        //        _context.Equipment.Add(new Equipment
-                //        //        {
-                //        //            Vehicle = dbVehicle,
-                //        //            EquipmentNameID = newCollectionItem,
-                //        //            Check = true
-                //        //        });
-                //        //    }
-                //        //}
-
-                //        //await _context.SaveChangesAsync();
-                //    }
-                //    catch (DbUpdateConcurrencyException)
-                //    {
-                //        if (!VehicleExists(vehicle.VehicleID))
-                //        {
-                //            return NotFound();
-                //        }
-                //        else
-                //        {
-                //            throw;
-                //        }
-                //    }
-                //    return RedirectToAction(nameof(Index));
-                //}
-
-
-
-
-
-                //      tu powinno byc to co w creative 1!! 
-
-
-                //ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicle.BrandID);
-                //ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "ColourID", vehicle.ColourID);
-                //ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "EngineTypeID", vehicle.EngineTypeID);
-                //ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "ExactTypeID", vehicle.ExactTypeID);
-                //ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "GearBoxID", vehicle.GearBoxID);
-                //ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", vehicle.GeneralTypeID);
-                //ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", vehicle.VehicleModelID);
-                //ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", vehicle.WheelDriveID);
-
-
-
                 //*************************************************************************************************************************************88
 
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name", vehicle.ColourID);
@@ -567,7 +463,7 @@ namespace Rental_PI_KF.Controllers
             return View(vehicle);
         }
 
-        // GET: Vehicles/Delete/5
+        // GET: Vehicles/Delete/
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -658,5 +554,14 @@ namespace Rental_PI_KF.Controllers
             ViewBag.YearOfProduction = new SelectList(listYear);
 
         }
+
+        public async Task<IActionResult> Activation(int? id)
+        {
+            var v = _context.Vehicles.FirstOrDefault(f => f.VehicleID == id);
+            v.Blockade = !v.Blockade;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

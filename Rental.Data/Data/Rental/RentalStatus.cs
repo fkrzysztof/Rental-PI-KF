@@ -13,7 +13,7 @@ namespace Rental.Data.Data.Rental
         [Display(Name = "Status")]
         public String Name { get; set; }
         
-        public RentalVehicle RentalVehicle { get; set; }
+        public ICollection<RentalVehicle> RentalVehicle { get; set; }
         
         public bool IsActive { get; set; }
     }

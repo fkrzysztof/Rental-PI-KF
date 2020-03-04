@@ -14,9 +14,21 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="VehicleID" />
         <div class="row">
-
             @* ************************************* Zmiana zdjecia ********************************************************** *@
             <script src="~/js/jquery-1.10.2.js"></script>
+            <div col-sm-12>
+                <span class="text-danger">
+                    @{
+                        string blockade = "Zablokuj";
+                        if (Model.Blockade == true)
+                        {
+                            blockade = "Odblokuj";
+                        }
+                        <a type="button" asp-action="Activation" asp-route-id="@Model.VehicleID" asp-controller="Vehicles" class="btn-sm btn-danger">
+                            @blockade
+                        </a> }
+                </span>
+            </div>
             <div class="col-sm-6">
                 <div id="dbimage"><img src="..\@Model.Pictures.First(f => f.IsActive == true).URL"  class="rounded  img-fluid" /></div>
                 <div id="showimage"></div>
@@ -244,6 +256,37 @@
         </div>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />
+           
+            
+    <!-- Button trigger modal -->
+            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#staticBackdrop">
+                Launch static backdrop modal
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <small>to jest do auta @Model.VehicleID</small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Understood</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        
+        
+        
         </div>
     </form>
 </div>

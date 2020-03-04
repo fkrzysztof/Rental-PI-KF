@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
 using Rental.Data.Data.Rental;
+using Rental_Data.Data.Rental;
 
 namespace Rental_PI_KF.Controllers
 {
@@ -50,7 +51,14 @@ namespace Rental_PI_KF.Controllers
         public IActionResult Create()
         {
             ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "RentalStatusID");
-            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID");
+            List<Vehicle> vehicleList = _context.Vehicles.Include(i => i.VehicleModel).Include(i => i.Brand).Where(w => w.Blockade == false).ToList();
+            //doac isActive
+            foreach (var itemVehicle in vehicleList)
+            {
+                itemVehicle.Name = itemVehicle.Brand.Name + " " + itemVehicle.VehicleModel.Name + " /NR.R. " + itemVehicle.NumberPlate;
+            }
+            ViewData["VehicleID"] = new SelectList(vehicleList, "VehicleID", "Name");
+            //ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "Name");
             return View();
         }
 
