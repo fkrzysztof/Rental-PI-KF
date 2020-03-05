@@ -28,8 +28,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                             <div class="dropdown-header">Dostępne opcje:</div>
-                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.VehicleID">Edytuj</a>
-                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.VehicleID" asp-controller="RentalVehicles">Wypożycz</a>
+                            <a class="dropdown-item" asp-action="CreateThis" asp-route-id="@item.VehicleID" asp-controller="RentalVehicles">Wypożycz</a>
                             <div class="dropdown-divider"></div>
                             @{
                                 string blockade = "Zablokuj";
@@ -39,6 +38,7 @@
                                 }
                             }
                             <a class="dropdown-item" asp-action="Activation" asp-route-id="@item.VehicleID" asp-controller="Vehicles">@blockade</a>
+                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.VehicleID">Edytuj</a>
                         </div>
                         @{
                             if (item.Blockade == true)
@@ -61,7 +61,7 @@
                                 f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
                                 )) != null)
                                 {
-                                                        <div class="position-absolute bg-info text-white p-3 rotate-n-15 d-inline-block my-1 rounded">Wypożyczony</div>
+                                                        <div class="position-absolute bg-gradient-info text-white p-3 rotate-n-15 d-inline-block my-1 rounded shadow-sm">Wypożyczony</div>
                                 }
                              }
 

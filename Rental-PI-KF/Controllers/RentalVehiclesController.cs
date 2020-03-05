@@ -47,6 +47,32 @@ namespace Rental_PI_KF.Controllers
             return View(rentalVehicle);
         }
 
+        // GET: RentalVehicles/CreateThis
+        public async Task<IActionResult> CreateThis(int? id)
+        {
+            //lepiej zabezpieczyc ?
+            if (id == null)
+            {
+                return NotFound();
+            }
+            Vehicle vehicle = await _context.Vehicles
+                .Include(i => i.Brand)
+                .Include(i => i.VehicleModel)
+                .Include(i => i.Pictures)
+                .Include(i => i.AirConditioning)
+                .Include(i => i.GearBox)
+                .Include(i => i.ExactType)
+                .Include(i => i.Colour)
+                .Include(i => i.CurrentPrices)
+                .Include(i => i.EngineType)
+                .FirstOrDefaultAsync(f => f.VehicleID == id);
+            
+            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name");
+            
+
+            return View("CreateThisTest",vehicle);
+        }
+        
         // GET: RentalVehicles/Create
         public IActionResult Create()
         {

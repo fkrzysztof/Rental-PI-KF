@@ -1,0 +1,200 @@
+﻿@model Rental_Data.Data.Rental.Vehicle
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">Formularz wypożyczenia pojazdy @Html.DisplayFor(model => model.Brand.Name)  @Html.DisplayFor(model => model.VehicleModel.Name) </div>
+                <div class="row">
+                    @*Kalendarz rezerwacji START *******************************************************************************@
+                  
+
+                    <div class="col-sm-6">
+                        <div class="row">
+
+
+
+
+                            <div class=" col-12">
+                                @{
+                                    DateTime toDay = DateTime.Now.Date;
+                                    //int first = 1;
+                                    DateTime firstDay = new DateTime(toDay.Year,toDay.Month,1);
+                                    int startDay = (int)firstDay.DayOfWeek;
+                                    
+                                    <h5>@toDay.Date.ToShortDateString()</h5>
+                                    
+                                    string[] daysOfWeek = { "Pn", "Wt", "Śr", "Czw", "Pt", "Sb", "Nd" };
+                                    foreach (string day in daysOfWeek)
+                                    {
+                                        <div class="p-4 d-inline-block rounded border-bottom-danger">@day</div>
+                                    }
+                                }
+                            </div>
+                            @*<div class=" col-12">
+                                @{
+                                            int daysOfWeekAll = DateTime.DaysInMonth(toDay.Year, toDay.Month);
+                                            //ile dni w miesiacu zaczynamy od 1
+                                            //for (int i = 1; i <= DateTime.DaysInMonth(toDay.Year, toDay.Month); i++)
+                                            while (daysOfWeekAll > firstDay.Day) //moze true z brakem
+                                            {
+                                                if (startDay > 0)
+                                                {
+                                                    startDay--;
+                                                    <div class="p-4 d-inline-block rounded border-bottom-danger">
+                                                nic
+                                                    </div>
+                                        }
+                                        else
+                                        {
+                                            //tutaj zmienic first n date time i sprawdzic czy nie jest to niedziela !
+                                            if (firstDay.DayOfWeek == 0)
+                                            {
+                                                    <div class="p-4  d-block rounded border-bottom-danger">
+                                                        @firstDay.Day x
+                                                    </div>                                                    
+                                            }
+                                            else
+                                            { 
+                                                    <div class="p-4 d-inline-block rounded border-bottom-danger">
+                                                        @firstDay.Day
+                                                    </div>                                                    
+                                            }
+                                            firstDay = firstDay.AddDays(1);
+                                        }
+
+                                    }
+                                }
+                            </div>*@
+                        </div>
+                    </div>
+
+
+                    @*Kalendarz rezerwacji KONEC *******************************************************************************@
+
+
+
+
+                    <div class="col-sm-6">
+                        <div class="card m-4 p-4 shadow-sm">
+                            <img src="..\@Model.Pictures.First(f => f.IsActive == true).URL" class="img-fluid rounded" />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.YearOfCarProduction)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.YearOfCarProduction)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.ExactType)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.ExactType.Name)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.Mileage)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.Mileage)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.EngineCapacity)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.EngineCapacity)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.AirConditioning)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.AirConditioning.Type)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.EngineType)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.EngineType.Name)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.EnginePower)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.EnginePower)
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class="col-sm-6">
+                                    <dl class="row">
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.Colour)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.Colour.Name)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.VIN)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.VIN)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.NumberPlate)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.NumberPlate)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.GearBox)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.GearBox.Name)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.WheelDrive)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.WheelDrive.Name)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.NumberOfSeats)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.NumberOfSeats)
+                                        </dd>
+
+                                        <dt class="col-sm-6">
+                                            @Html.DisplayNameFor(model => model.NumberOfDoors)
+                                        </dt>
+                                        <dd class="col-sm-6">
+                                            @Html.DisplayFor(model => model.NumberOfDoors)
+                                        </dd>
+
+                                    </dl>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.VehicleID">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

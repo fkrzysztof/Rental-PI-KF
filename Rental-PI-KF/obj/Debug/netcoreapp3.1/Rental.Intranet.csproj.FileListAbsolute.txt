@@ -406,3 +406,4 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netco
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vtest\Edit.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vtest\Index.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\RentalVehicles\CreateThis.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\RentalVehicles\CreateThisTest.cshtml.g.cs

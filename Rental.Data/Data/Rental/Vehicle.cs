@@ -50,6 +50,7 @@ namespace Rental_Data.Data.Rental
 
         [Display(Name = "Klimatyzacja")]
         public int? AirConditioningID { get; set; }
+        [Display(Name = "Klimatyzacja")]
         [ForeignKey("AirConditioningID")]
         public AirConditioning AirConditioning { get; set; }
 
@@ -92,16 +93,16 @@ namespace Rental_Data.Data.Rental
         [Display(Name = "W ofercie do")]
         public DateTime? DateOut { get; set; }
 
-        [Display(Name = "Nr. rejestracyjny")]
+        [Display(Name = "Nr Rej.")]
         public string NumberPlate { get; set; }
         public virtual ICollection<Picture> Pictures { get; set; }
 
         [Display(Name = "Moc (KM)")]
         public int? EnginePower { get; set; }
 
-        [Display(Name = "Skrzynia biegów")]
+        [Display(Name = "Skrzynia")]
         public int? GearBoxID { get; set; }
-        [Display(Name = "Skrzynia biegów")]
+        [Display(Name = "Skrzynia")]
         [ForeignKey("GearBoxID")]
         public GearBox GearBox { get; set; }
 
