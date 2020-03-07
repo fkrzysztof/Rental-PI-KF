@@ -68,7 +68,37 @@ namespace Rental_PI_KF.Controllers
                 .FirstOrDefaultAsync(f => f.VehicleID == id);
             
             ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name");
-            
+
+
+            //Kalendarz 
+            //dzisiejszy dzien
+            DateTime today = DateTime.Now.Date;
+            //Jeden dzien do odejmowania
+            TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
+            //pierwszy dzien biezacego miesiaca
+            DateTime firstDay = new DateTime(today.Year, today.Month, 1);
+            //cofamy do poniedzialku
+            while (firstDay.DayOfWeek != DayOfWeek.Monday)
+            {
+                firstDay = firstDay - oneDay;
+            }
+            List<DateTime> calendarPage = new List<DateTime>();
+            for (int i = 0; i < 42; i++)
+            {
+                calendarPage.Add(new DateTime(firstDay.Year, firstDay.Month, firstDay.Day));
+                firstDay = firstDay.AddDays(1);
+            }
+            //nazwy dni tygodnia
+            string[] dayscOfWeek = { "Pn", "Wt", "Śr", "Czw", "Pt", "Sb", "Nd" };
+
+            ViewBag.CalendarPage = calendarPage;
+            ViewBag.DaysOfWeek = dayscOfWeek;
+
+            //DateTime firstDay = new DateTime(toDay.Year, toDay.Month, 1);
+            //byte startDay = (byte)firstDay.DayOfWeek;
+
+            //int daysOfWeekAll = DateTime.DaysInMonth(toDay.Year, toDay.Month);
+            //int x;
 
             return View("CreateThisTest",vehicle);
         }
