@@ -55,22 +55,9 @@ namespace Rental_PI_KF.Controllers
             {
                 return NotFound();
             }
-            Vehicle vehicle = await _context.Vehicles
-                .Include(i => i.Brand)
-                .Include(i => i.VehicleModel)
-                .Include(i => i.Pictures)
-                .Include(i => i.AirConditioning)
-                .Include(i => i.GearBox)
-                .Include(i => i.ExactType)
-                .Include(i => i.Colour)
-                .Include(i => i.CurrentPrices)
-                .Include(i => i.EngineType)
-                .FirstOrDefaultAsync(f => f.VehicleID == id);
-            
-            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name");
-
 
             //Kalendarz 
+
             //dzisiejszy dzien
             DateTime today = DateTime.Now.Date;
             //Jeden dzien do odejmowania
@@ -90,15 +77,33 @@ namespace Rental_PI_KF.Controllers
             }
             //nazwy dni tygodnia
             string[] dayscOfWeek = { "Pn", "Wt", "Śr", "Czw", "Pt", "Sb", "Nd" };
+      
+
+
+            Vehicle vehicle = await _context.Vehicles
+                .Include(i => i.Brand)
+                .Include(i => i.VehicleModel)
+                .Include(i => i.Pictures)
+                .Include(i => i.AirConditioning)
+                .Include(i => i.GearBox)
+                .Include(i => i.ExactType)
+                .Include(i => i.Colour)
+                .Include(i => i.CurrentPrices)
+                .Include(i => i.EngineType)
+                .Include(i => i.RentalVehicles)
+                .FirstOrDefaultAsync(f => f.VehicleID == id);
+            
+            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name");
+
+            //Where(w => w.From.CompareTo(calendarPage.First()) > -1 &&
+            //                w.To.CompareTo(calendarPage.Last()) > 0))
+
 
             ViewBag.CalendarPage = calendarPage;
             ViewBag.DaysOfWeek = dayscOfWeek;
 
-            //DateTime firstDay = new DateTime(toDay.Year, toDay.Month, 1);
-            //byte startDay = (byte)firstDay.DayOfWeek;
 
-            //int daysOfWeekAll = DateTime.DaysInMonth(toDay.Year, toDay.Month);
-            //int x;
+
 
             return View("CreateThisTest",vehicle);
         }

@@ -1,5 +1,4 @@
 ﻿@model Rental_Data.Data.Rental.Vehicle
-
     <div class="row">
         <div class="col-sm-12">
             <div class="card">
@@ -18,151 +17,169 @@
 
 
                                 @{
-
                                     <div class="bg-dark">
-                                    @foreach (string day in @ViewBag.DaysOfWeek)
-                                    {
-                                      <div class="d-inline-block rounded bg-dark align-middle" style="min-width: 40px; min-height: 40px"><small>@day</small> </div>
-                                    }
+                                        @foreach (string day in @ViewBag.DaysOfWeek)
+                                        {
+                                            <div class="d-inline-block rounded bg-dark align-middle" style="min-width: 40px; min-height: 40px"><small>@day</small> </div>
+                                        }
                                     </div>
 
                                     foreach (var item in @ViewBag.CalendarPage as List<DateTime>)
                                     {
+                                        //sprawdzam czy to poniedzialek
                                         if (@item.DayOfWeek == DayOfWeek.Monday)
                                         {
                                             <div class="bg-dark m-0 p-0"></div>
                                         }
-                                        <div class="@(@item.Month == DateTime.Today.Month? "bg-gray-200" : "")  d-inline-block rounded border-bottom-danger" style="min-width: 40px; min-height: 40px"><small>@item.Day</small></div>
+                                        //sprawdzam czy dzien jest zajety
+                                        if (Model.RentalVehicles.FirstOrDefault(f => f.From.CompareTo(item) <= 0 && f.To.CompareTo(item) >= 0) != null)
+                                        {
+                                            <div class="@(@item.Month == DateTime.Today.Month? "bg-gray-200" : "")  d-inline-block rounded border-bottom-danger" style="min-width: 40px; min-height: 40px">
+                                                <small>
+                                                  z @item.Day
+                                                </small>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="@(@item.Month == DateTime.Today.Month? "bg-gray-200" : "")  d-inline-block rounded border-bottom-success" style="min-width: 40px; min-height: 40px">
+                                                <small>
+                                                    @item.Day
+                                                </small>
+                                            </div>
+                                        }
+
+
                                     }
                                 }
                             </div>
-                            <div class="col-sm-1">
-                                <i class="fas fa-chevron-right float-left mt-4 mb-4"></i>
-                            </div>
+                                                    <div class="col-sm-1">
+                                                        <i class="fas fa-chevron-right float-left mt-4 mb-4"></i>
+                                                    </div>
 
-                        </div>
+                         </div>
                     </div>
-                    @*Kalendarz rezerwacji KONEC *******************************************************************************@
+                            @*Kalendarz rezerwacji KONEC *******************************************************************************@
 
 
 
 
-                    <div class="col-lg-6">
-                        <div class="card m-4 p-4 shadow-sm">
-                            <img src="..\@Model.Pictures.First(f => f.IsActive == true).URL" class="img-fluid rounded" />
-                            <div class="row">
-                                <div class="col-sm-6 m-2">
-                                    <dl class="row">
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.YearOfCarProduction)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.YearOfCarProduction)
-                                        </dd>
+                            <div class="col-lg-6">
+                                <div class="card m-4 p-4 shadow-sm">
+                                    <img src="..\@Model.Pictures.First(f => f.IsActive == true).URL" class="img-fluid rounded" />
+                                    <div class="row">
+                                        <div class="col-sm-6 m-2">
+                                            <dl class="row">
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.YearOfCarProduction)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.YearOfCarProduction)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.ExactType)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.ExactType.Name)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.ExactType)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.ExactType.Name)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Mileage)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Mileage)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.Mileage)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.Mileage)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.EngineCapacity)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.EngineCapacity)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.EngineCapacity)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.EngineCapacity)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.AirConditioning)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.AirConditioning.Type)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.AirConditioning)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.AirConditioning.Type)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.EngineType)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.EngineType.Name)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.EngineType)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.EngineType.Name)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.EnginePower)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.EnginePower)
-                                        </dd>
-                                    </dl>
-                                </div>
-                                <div class="col-sm-6 border-left">
-                                    <dl class="row">
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Colour)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Colour.Name)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.EnginePower)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.EnginePower)
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <div class="col-sm-6 border-left">
+                                            <dl class="row">
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.Colour)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.Colour.Name)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.VIN)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.VIN)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.VIN)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.VIN)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.NumberPlate)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.NumberPlate)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.NumberPlate)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.NumberPlate)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.GearBox)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.GearBox.Name)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.GearBox)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.GearBox.Name)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.WheelDrive)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.WheelDrive.Name)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.WheelDrive)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.WheelDrive.Name)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.NumberOfSeats)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.NumberOfSeats)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.NumberOfSeats)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.NumberOfSeats)
+                                                </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.NumberOfDoors)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.NumberOfDoors)
-                                        </dd>
+                                                <dt class="col-sm-6">
+                                                    @Html.DisplayNameFor(model => model.NumberOfDoors)
+                                                </dt>
+                                                <dd class="col-sm-6">
+                                                    @Html.DisplayFor(model => model.NumberOfDoors)
+                                                </dd>
 
-                                    </dl>
+                                            </dl>
+
+                                        </div>
+                                    </div>
+
 
                                 </div>
                             </div>
-
-
-                        </div>
-                    </div>
-                </div>
+                            </div>
             </div>
         </div>
     </div>
