@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Rental.Data;
 using Rental.Data.Data.Rental;
 using Rental_Data.Data.Rental;
@@ -48,26 +50,54 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: RentalVehicles/CreateThis
-        public async Task<IActionResult> CreateThis(int? id)
+        public async Task<IActionResult> CreateThis(int? id, string navigation)
         {
             //lepiej zabezpieczyc ?
             if (id == null)
             {
                 return NotFound();
             }
-
             //Kalendarz 
-
-            //dzisiejszy dzien
             DateTime today = DateTime.Now.Date;
-            //Jeden dzien do odejmowania
-            TimeSpan oneDay = new TimeSpan(1, 0, 0, 0);
             //pierwszy dzien biezacego miesiaca
-            DateTime firstDay = new DateTime(today.Year, today.Month, 1);
+            DateTime firstDay;
+
+            //ustawiam session na aktualnie wybrany miesiac lub dzisiejsza date
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("FirstDayofMonth")))
+            {
+                //jesli nie mamy zmiennej w sesji ustawiamy dzisiejszy dzien
+                firstDay = new DateTime(today.Year, today.Month, 1);
+                HttpContext.Session.SetString("FirstDayofMonth", JsonConvert.SerializeObject(firstDay));
+            }
+            else
+            {
+                firstDay = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("FirstDayofMonth"));
+            }
+           
+
+
+
+            //Dodaje lub odejmuje miesiac NEXT - PREVIOUS oraz aktualizuje zmienna w sesji
+            if(navigation != null)
+            { 
+                if(navigation == "next")
+                {
+                    firstDay = firstDay.AddMonths(1);
+                }
+                else if(navigation == "previous")
+                {
+                    firstDay = firstDay.AddMonths(-1);
+                }
+
+                HttpContext.Session.SetString("FirstDayofMonth", JsonConvert.SerializeObject(firstDay));
+            }
+
+            //co kiedy dzisiaj jest pierwszy ???
+
             //cofamy do poniedzialku
             while (firstDay.DayOfWeek != DayOfWeek.Monday)
             {
-                firstDay = firstDay - oneDay;
+                firstDay = firstDay.AddDays(-1);
             }
             List<DateTime> calendarPage = new List<DateTime>();
             for (int i = 0; i < 42; i++)
@@ -77,8 +107,6 @@ namespace Rental_PI_KF.Controllers
             }
             //nazwy dni tygodnia
             string[] dayscOfWeek = { "Pn", "Wt", "Śr", "Czw", "Pt", "Sb", "Nd" };
-      
-
 
             Vehicle vehicle = await _context.Vehicles
                 .Include(i => i.Brand)
@@ -101,7 +129,7 @@ namespace Rental_PI_KF.Controllers
 
             ViewBag.CalendarPage = calendarPage;
             ViewBag.DaysOfWeek = dayscOfWeek;
-
+            ViewBag.Month = calendarPage.ElementAt(15); // do podswietlania wlasciwego miesiaca
 
 
 
