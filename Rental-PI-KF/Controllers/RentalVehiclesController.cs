@@ -130,12 +130,33 @@ namespace Rental_PI_KF.Controllers
             ViewBag.CalendarPage = calendarPage;
             ViewBag.DaysOfWeek = dayscOfWeek;
             ViewBag.Month = calendarPage.ElementAt(15); // do podswietlania wlasciwego miesiaca
-
+            ViewBag.RentalStatus = new SelectList(_context.RentalStatuses, "VehicleID", "Name");
 
 
             return View("CreateThisTest",vehicle);
         }
-        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive")] RentalVehicle rentalVehicle, List<DateTime> RentalDate, int? RentalStatus)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(rentalVehicle);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "RentalStatusID", rentalVehicle.RentalStatusID);
+            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", rentalVehicle.VehicleID);
+            return View(rentalVehicle);
+        }
+
+
+
+
+
+
+
         // GET: RentalVehicles/Create
         public IActionResult Create()
         {
