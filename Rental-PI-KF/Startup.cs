@@ -35,8 +35,9 @@ namespace Rental_PI_KF
                     Configuration.GetConnectionString("DefaultConnection")));
             //dodane
             services.AddDefaultIdentity<ApplicationUser>()
+                            //dodane
+            .AddRoles<IdentityRole>()
            .AddEntityFrameworkStores<ApplicationDbContext>()
-            //dodane
 
            .AddDefaultUI();
 
