@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Rental.Data;
 using System;
+using Rental.Data.Data.Areas.Identity.Data;
 
 namespace Rental_PI_KF
 {
@@ -26,21 +27,23 @@ namespace Rental_PI_KF
             services.AddDistributedMemoryCache();
             services.AddSession();
 
-            //services.AddSession(options =>
-            //{
-            //    // Set a short timeout for easy testing.
-            //    options.IdleTimeout = TimeSpan.FromSeconds(10);
-            //    options.Cookie.HttpOnly = true;
-            //    // Make the session cookie essential
-            //    options.Cookie.IsEssential = true;
-            //});
+
 
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //dodane
+            services.AddDefaultIdentity<ApplicationUser>()
+           .AddEntityFrameworkStores<ApplicationDbContext>()
+            //dodane
+
+           .AddDefaultUI();
+
+
+
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

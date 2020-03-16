@@ -1,16 +1,25 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Rental.Data.Data.Areas.Identity.Data;
 using Rental.Data.Data.Rental;
 using Rental_Data.Data.CMS;
 using Rental_Data.Data.Rental;
 
 namespace Rental.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>//dopisane
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+        }
+
+        //dopisane
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
         }
 
 
