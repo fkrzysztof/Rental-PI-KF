@@ -73,7 +73,6 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
 
         public void OnGet(string returnUrl = null)
         {
-            //ViewData["roles"] = _roleMenager.Roles.ToList();
             ViewData["roles"] = _roleManager.Roles.ToList();
             ReturnUrl = returnUrl;
         }
@@ -90,6 +89,13 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             var role = _roleManager.FindByIdAsync(Input.Name).Result;
             if (ModelState.IsValid)
             {
+
+
+                //tutaj dopisac akcje dodawania adresu i 
+                //tutaj dodac jeszcze jedna pozycje czyli adres 
+                //w przypadku Admin adres komisu + regony itd, klient bedzie miec adres plus jakis pesel 
+                //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CustomTag = Input.CustomTag };
+
                 var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CustomTag = Input.CustomTag };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -132,5 +138,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+    
+    
     }
 }

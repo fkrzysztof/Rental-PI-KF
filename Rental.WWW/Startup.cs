@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Rental.Data;
+using Rental.Data.Data.Areas.Identity.Data;
 
 namespace Rental.WWW
 {
@@ -28,11 +29,28 @@ namespace Rental.WWW
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //sesja
+            services.AddDistributedMemoryCache();
+            services.AddSession();
+
+
+
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //dodane
+            services.AddDefaultIdentity<ApplicationUser>()
+            //dodane
+            .AddRoles<IdentityRole>()
+           .AddEntityFrameworkStores<ApplicationDbContext>()
+
+           .AddDefaultUI();
+
+
+
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
