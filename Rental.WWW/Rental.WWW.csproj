@@ -20,4 +20,9 @@
     <ProjectReference Include="..\Rental.Data\Rental.Data.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\LinkImg\" />
+  </ItemGroup>
+
 </Project>
