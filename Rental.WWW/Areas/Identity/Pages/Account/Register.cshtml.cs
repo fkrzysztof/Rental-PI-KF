@@ -60,10 +60,11 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
             [Display(Name = "Password")]
             public string Password { get; set; }
 
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
+            [Display(Name = "Imię")]
+            public string FistNane { get; set; }
+
+            [Display(Name = "Nazwisko")]
+            public string LastName { get; set; }
 
             public string Name { get; set; }
         }
@@ -94,7 +95,14 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
                 //w przypadku Admin adres komisu + regony itd, klient bedzie miec adres plus jakis pesel 
                 //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CustomTag = Input.CustomTag };
 
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CustomTag = "test" };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    FirstName = Input.FistNane,
+                    LastName = Input.LastName
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

@@ -1,11 +1,18 @@
-﻿<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container">
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Rental_PI_KF</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+﻿@using Microsoft.AspNetCore.Identity
+@using Rental.Data.Data.Areas.Identity.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="w-100 d-flex-sm">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="/Upload/Images/rentit_logo.jpg" style="height:40px" /></a>
+        <button class="navbar-toggler float-right" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                 aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse mr-2">
             <partial name="_LoginPartial" />
             <ul class="navbar-nav flex-grow-1">
                 <li class="nav-item">
@@ -13,15 +20,22 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </li>                
+                </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Admin" asp-action="Index">Admin</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Manager" asp-action="Index">Manager</a>
-                </li>                
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="" asp-controller="Role" asp-action="Index">Manager</a>
+                </li>
+                <li class="nav-item">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-dark my-2 my-sm-0 btn-sm" type="submit">Search</button>
+                    </form>
                 </li>
             </ul>
         </div>

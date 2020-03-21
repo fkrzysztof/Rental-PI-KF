@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
             <h4>Create a new account. nowe</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -21,10 +21,16 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Input.CustomTag"></label>
-                <input asp-for="Input.CustomTag" class="form-control" />
-                <span asp-validation-for="Input.CustomTag" class="text-danger"></span>
+                <label asp-for="Input.FistNane"></label>
+                <input asp-for="Input.FistNane" class="form-control" />
+                <span asp-validation-for="Input.FistNane" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Input.LastName"></label>
+                <input asp-for="Input.LastName" class="form-control" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+
 
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
@@ -36,6 +42,44 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Country"></label>
+                <input asp-for="Input.Country" class="form-control" />
+                <span asp-validation-for="Input.Country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.City"></label>
+                <input asp-for="Input.City" class="form-control" />
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Street"></label>
+                <input asp-for="Input.Street" class="form-control" />
+                <span asp-validation-for="Input.Street" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Number"></label>
+                <input asp-for="Input.Number" class="form-control" />
+                <span asp-validation-for="Input.Number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.ZIPCode"></label>
+                <input asp-for="Input.ZIPCode" class="form-control" />
+                <span asp-validation-for="Input.ZIPCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Phone"></label>
+                <input asp-for="Input.Phone" class="form-control" />
+                <span asp-validation-for="Input.Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>zdjecie</label>
+                <input type="file" class="form-control-file" id="file" name="file" />
+                @*<span asp-validation-for="Input.Image" class="text-danger"></span>*@
+            </div>
+
+            @*cos nie ddziala*@
             <div class="form-group">
                 <label asp-for="Input.Name"></label>
                 <select asp-for="Input.Name" class="form-control" asp-items='new SelectList(roles,"Id","Name")'></select>

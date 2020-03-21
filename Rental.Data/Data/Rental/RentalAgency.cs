@@ -46,7 +46,10 @@ namespace Rental_Data.Data.Rental
         public ICollection<Vehicle> Vehicles { get; set; }
         public ICollection<RentalAgencyAddress> RentalAgencyAddress { get; set; }
 
-        //mozna dodac regony itd.
+        [Required]
+        public string REGON { get; set; }
+        [Required]
+        public string NIP { get; set; }
 
     }
 }

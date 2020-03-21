@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Rental.Data.Data.Areas.Identity.Data;
 
@@ -67,8 +65,35 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
 
             public string Name { get; set; }
 
-            [Display(Name ="Custom jakis tag")]
-            public string CustomTag { get; set; }
+            [Display(Name ="Imię")]
+            public string FistNane { get; set; }
+            
+            [Display(Name ="Nazwisko")]
+            public string LastName { get; set; }
+
+            //dodane
+
+
+            [Display(Name = "Zdjęcie")]
+            public byte[]? Image { get; set; }
+
+            [Display(Name = "Kraj")]
+            public string Country { get; set; }
+
+            [Display(Name = "Miasto")]
+            public string City { get; set; }
+
+            [Display(Name = "Ulica")]
+            public string Street { get; set; }
+
+            [Display(Name = "Numer")]
+            public string Number { get; set; }
+
+            [Display(Name = "Kod")]
+            public string ZIPCode { get; set; }
+            
+            [Display(Name = "Telefon")]
+            public string Phone { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
@@ -76,13 +101,8 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             ViewData["roles"] = _roleManager.Roles.ToList();
             ReturnUrl = returnUrl;
         }
-        //public async Task OnGetAsync(string returnUrl = null)
-        //{
-        //    ReturnUrl = returnUrl;
-        //    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        //}
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(IFormFile file, string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -96,34 +116,38 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                 //w przypadku Admin adres komisu + regony itd, klient bedzie miec adres plus jakis pesel 
                 //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CustomTag = Input.CustomTag };
 
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CustomTag = Input.CustomTag };
+                var stream = new MemoryStream();
+                if (file != null)
+                {
+                        await file.CopyToAsync(stream);
+                }
+
+
+
+                var user = new ApplicationUser 
+                { 
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    FirstName = Input.FistNane,
+                    LastName = Input.LastName,
+                    Country = Input.Country,
+                    City = Input.City,
+                    Street = Input.Street,
+                    Number = Input.Number,
+                    ZIPCode = Input.ZIPCode,
+                    Image = stream.ToArray(),
+                    Phone = Input.Phone
+                };
+
+
+
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
                     await _userManager.AddToRoleAsync(user, role.Name);
-
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    //var callbackUrl = Url.Page(
-                    //    "/Account/ConfirmEmail",
-                    //    pageHandler: null,
-                    //    values: new { area = "Identity", userId = user.Id, code = code },
-                    //    protocol: Request.Scheme);
-
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    //if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    //{
-                    //    return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-                    //}
-                    //else
-                    //{
-                    //    await _signInManager.SignInAsync(user, isPersistent: false);
-                    //    return LocalRedirect(returnUrl);
-                    //}
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
@@ -138,7 +162,5 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
-    
-    
     }
 }

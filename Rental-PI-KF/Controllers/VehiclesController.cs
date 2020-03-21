@@ -5,30 +5,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
+using Rental.Data.Data.Areas.Identity.Data;
 using Rental.Data.Data.Rental;
 using Rental_Data.Data.Rental;
+using Rental_PI_KF.Controllers.Abstract;
 
 namespace Rental_PI_KF.Controllers
 {
-    public class VehiclesController : Controller
+    public class VehiclesController : BasicControllerAbstract
     {
-        private readonly ApplicationDbContext _context;
+
         IHostingEnvironment _env;
 
-        public VehiclesController(ApplicationDbContext context, IHostingEnvironment environment)
+        public VehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHostingEnvironment environment)
+        :base(context,userManager)
         {
-            _context = context;
             _env = environment;
         }
-
 
         // GET: Vehicles
         public async Task<IActionResult> Index()
         {
+
+            ImgProfile();
+
             var applicationDbContext = _context.Vehicles
                 .Include(v => v.Brand)
                 .Include(v => v.Colour)

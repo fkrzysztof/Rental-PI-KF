@@ -1,12 +1,36 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace Rental.Data.Data.Areas.Identity.Data
 {
     public class ApplicationUser : IdentityUser
     {
-        public string CustomTag { get; set; }
+        [Display(Name = "Imię")]
+        public string FirstName { get; set; }
+        
+        [Display(Name = "Nazwisko")]
+        public string LastName { get; set; }
+        
+        [Display(Name = "Zdjęcie")]
+        public byte[]? Image { get; set; }
+
+        [Display(Name = "Telefon")]
+        public string Phone { get; set; }
+
+        [Display(Name = "Kraj")]
+        public string Country { get; set; }
+
+        [Display(Name = "Miasto")]
+        public string City { get; set; }
+
+        [Display(Name = "Ulica")]
+        public string Street { get; set; }
+
+        [Display(Name = "Numer")]
+        public string Number { get; set; }
+
+        [Display(Name = "Kod")]
+        public string ZIPCode { get; set; }
+
     }
 }
