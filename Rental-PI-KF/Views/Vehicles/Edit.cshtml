@@ -30,7 +30,19 @@
                 </span>
             </div>
             <div class="col-sm-6">
-                <div id="dbimage"><img src="..\@Model.Pictures.First(f => f.IsActive == true).URL"  class="rounded  img-fluid" /></div>
+                <div id="dbimage">
+
+                    @if (Model.Image != null)
+                    {
+                        var img = Model.Image;
+
+                        var base64 = Convert.ToBase64String(img);
+                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                        <img class="img-fluid rounded" id="#dbimage" src="@imgSrc" />
+
+                    }
+
+                </div>
                 <div id="showimage"></div>
 
                 <div class="custom-file">
@@ -48,7 +60,7 @@
                     $(".custom-file-input").on("change", function () {
 
                         //dopisane
-                        //document.getElementById("dbimage").style.display = "none";
+                        document.getElementById("dbimage").style.display = "none";
 
                         var fileName = $(this).val().split("\\").pop();
                         $(this).next(".custom-file-label").html(fileName);

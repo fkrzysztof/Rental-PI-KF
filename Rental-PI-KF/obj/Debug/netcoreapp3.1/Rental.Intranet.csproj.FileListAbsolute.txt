@@ -333,8 +333,6 @@ C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcorea
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Details.cshtml.g.cs
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Edit.cshtml.g.cs
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Brands\Index.cshtml.g.cs
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\EngineTypes\Create.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\EngineTypes\Delete.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\EngineTypes\Details.cshtml.g.cs
@@ -435,3 +433,11 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netco
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\RentalAgencyAddresses\Details.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\RentalAgencyAddresses\Edit.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\RentalAgencyAddresses\Index.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\LazZiya.ImageResize.dll
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Drawing.Common.dll
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Drawing.Common.dll

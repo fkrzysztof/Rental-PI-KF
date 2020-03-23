@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using LazZiya.ImageResize;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -91,7 +93,7 @@ namespace Rental_PI_KF.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-
+            ImgProfile();
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name");
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "Name");
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name");
@@ -139,29 +141,39 @@ namespace Rental_PI_KF.Controllers
                 v.Blockade = false;
                 _context.Add(v);
 
+                #region stara wersja zjecia w folderze
+                //stara wersja z img w folderze
+
                 //ladowanie zdjecia
                 //sprawdzam czy zdjecie jest dodane, jesli nie ustawiam na noimg.jpg
-                string tempURL;
-                if (file == null)
-                {
-                    tempURL = "..\\Upload\\Images\\noimg.png";
-                }
-                else
-                {
-                    tempURL = await ImageUpload(file);
-                }
+                //string tempURL;
+                //if (file == null)
+                //{
+                //    tempURL = "..\\Upload\\Images\\noimg.png";
+                //}
+                //else
+                //{
+                //    tempURL = await ImageUpload(file);
+                //}
 
 
-                Picture p = new Picture()
-                {
-                    URL = tempURL,
-                    IsActive = true,
-                };
+                //Picture p = new Picture()
+                //{
+                //    URL = tempURL,
+                //    IsActive = true,
+                //};
 
                 //dodanie pojazdu do zdjecia 
-                p.Vehicle = v;
+                //p.Vehicle = v;
                 //dodanie zdjecia
-                _context.Pictures.Add(p);
+                //_context.Pictures.Add(p);
+
+                #endregion
+
+                //dodanie zdjecia do sql
+                v.Image = ImgToSQLAsync(file).ToArray();
+
+
 
                 //dodanie wyposazenia i przypisanie pojazdy do elementu wyposazenia
                 //wyposazenie nowa wersja
@@ -201,13 +213,15 @@ namespace Rental_PI_KF.Controllers
             ViewBag.ListOfBrads = brandList;
             sendYear();
             ViewBag.EquipmentsNameList = _context.EquipmentNames;
-            
+            ImgProfile();
+
             return View();
         }
 
         //GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ImgProfile();
             if (id == null)
             {
                 return NotFound();
@@ -289,14 +303,6 @@ namespace Rental_PI_KF.Controllers
  
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
-
-
-        //public async Task<IActionResult> Edit(int id, Vehicle vehicle, /*IFormFile file,*/ List<int> Equipments)
-        //{
-
-
-
             public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle, List<int> Equipments, IFormFile file)
             {
                 if (id != vehicle.VehicleID)
@@ -308,48 +314,37 @@ namespace Rental_PI_KF.Controllers
                 {
                     try
                     {
-                        _context.Update(vehicle);
-                        await _context.SaveChangesAsync();
+                    
+                    //dodanie zdjecia do sql
+                    if(file != null)
+                    vehicle.Image = ImgToSQLAsync(file).ToArray();
 
-                    //usuwanie starego zdjecia z dysku
-                    //dziala ale wymaga podania dokladnego adresu katalogu..
-                    //System.IO.File.Delete("..\\..\\..\\..\\"+_context.Pictures.First(f => f.VehicleID == vehicle.VehicleID).URL);
+                    //update vehicle
+                    _context.Update(vehicle);
 
-
-                    //Ustawianie flagi na False
-                    foreach( var itemImg in _context.Pictures.Where(f => f.VehicleID == vehicle.VehicleID && f.IsActive == true))
-                        {
-                            itemImg.IsActive = false;
-                        }
                     await _context.SaveChangesAsync();
 
 
 
-                    //var oldImg = _context.Pictures.First(f => f.VehicleID == vehicle.VehicleID);
-                    //oldImg.IsActive = false;
+                    //await _context.SaveChangesAsync();
 
-                    //ladowanie zdjecia
-                    //sprawdzam czy zdjecie jest dodane, jesli nie ustawiam na noimg.jpg
-                    string tempURL;
-                    if (file == null)
-                    {
-                        tempURL = "..\\Upload\\Images\\noimg.png";
-                    }
-                    else
-                    {
-                        tempURL = await ImageUpload(file);
-                    }
-                    Picture p = new Picture()
-                    {
-                        URL = await ImageUpload(file),
-                        IsActive = true,
-                    };
+                    //string tempURL;
+                    //if (file == null)
+                    //{
+                    //    tempURL = "..\\Upload\\Images\\noimg.png";
+                    //}
+                    //else
+                    //{
+                    //    tempURL = await ImageUpload(file);
+                    //}
+                    //Picture p = new Picture()
+                    //{
+                    //    URL = await ImageUpload(file),
+                    //    IsActive = true,
+                    //};
 
                     //dodanie pojazdu do zdjecia 
-                    
-                    p.Vehicle = _context.Vehicles.First(f => f.VehicleID == vehicle.VehicleID);
-                    //dodanie zdjecia
-                    _context.Pictures.Add(p);
+
 
 
                     ////Wyposazenie
@@ -464,7 +459,7 @@ namespace Rental_PI_KF.Controllers
 
             //*************************************************************************************************************************************88
 
-
+            ImgProfile();
             return View(vehicle);
         }
 
@@ -508,6 +503,33 @@ namespace Rental_PI_KF.Controllers
         private bool VehicleExists(int id)
         {
             return _context.Vehicles.Any(e => e.VehicleID == id);
+        }
+
+        //private async Task<MemoryStream> ImgToSQLAsync(IFormFile file)
+        private MemoryStream ImgToSQLAsync(IFormFile file)
+        {
+            //var image = ImageResize.ScaleByWidth(Image.FromStream(file.OpenReadStream()), 100);
+
+             
+            
+
+            var stream = new MemoryStream();
+            //await file.CopyToAsync(stream);
+            file.CopyTo(stream);
+            var image = Image.FromStream(stream);
+           //var format = image.RawFormat;
+            //var imageR = ImageResize.ScaleByWidth(image,600);
+            var imageR = ImageResize.ScaleAndCrop(image,650,399);
+            var streamToReturn = new MemoryStream();
+            imageR.Save(streamToReturn, image.RawFormat);
+            
+            //if (file != null)
+            //{
+            //   string xxx =  i.GetType().Name;
+            //    //await file.CopyToAsync(stream);
+            //}
+            
+            return streamToReturn;
         }
 
         //Funkcja uzywana przez Create
