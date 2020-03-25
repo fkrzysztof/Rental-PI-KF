@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
@@ -20,6 +21,9 @@ namespace Rental_PI_KF.Controllers
     {
         //private readonly ApplicationDbContext _context;
 
+        //public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        //: base(context, userManager)        
+        
         public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         : base(context, userManager)
         {
@@ -28,7 +32,7 @@ namespace Rental_PI_KF.Controllers
         // GET: RentalVehicles
         public async Task<IActionResult> Index()
         {
-            ImgProfile();
+            UserProfile();
             var applicationDbContext = _context.RentalVehicles.Include(r => r.RentalStatus).Include(r => r.Vehicle);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -56,7 +60,7 @@ namespace Rental_PI_KF.Controllers
         // GET: RentalVehicles/CreateThis
         public async Task<IActionResult> CreateThis(int? id, string navigation)
         {
-            ImgProfile();
+            UserProfile();
 
             //lepiej zabezpieczyc ?
             if (id == null)
@@ -201,7 +205,7 @@ namespace Rental_PI_KF.Controllers
             
             }
 
-            ImgProfile();
+            UserProfile();
             ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
             ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", rentalVehicle.VehicleID);
             return View(rentalVehicle);

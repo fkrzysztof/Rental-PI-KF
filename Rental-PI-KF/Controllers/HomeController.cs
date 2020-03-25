@@ -7,34 +7,38 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
+using Rental_PI_KF.Controllers.Abstract;
 using Rental_PI_KF.Models;
 
 namespace Rental_PI_KF.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : BasicControllerAbstract
     {
-        protected readonly UserManager<ApplicationUser> _userManager;
+        //protected readonly UserManager<ApplicationUser> _userManager;
         protected readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        : base(context, userManager)
         {
-            _userManager = userManager;
+            //_userManager = userManager;
             _logger = logger;
+
         }
 
-        private void ImgProfile()
-        {
-            var id = _userManager.GetUserId(HttpContext.User);
-            var us = _userManager.Users;
-            var u = us.FirstOrDefault(f => f.Id == id);
-            ViewBag.Img = u.Image;
-        }
+        //private void ImgProfile()
+        //{
+        //    var id = _userManager.GetUserId(HttpContext.User);
+        //    var us = _userManager.Users;
+        //    var u = us.FirstOrDefault(f => f.Id == id);
+        //    ViewBag.Img = u.Image;
+        //}
 
         public IActionResult Index()
         {
-            ImgProfile();
+            UserProfile();
             
             //var u = _userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User));
             
