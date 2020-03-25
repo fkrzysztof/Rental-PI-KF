@@ -171,7 +171,7 @@ namespace Rental_PI_KF.Controllers
                 #endregion
 
                 //dodanie zdjecia do sql
-                v.Image = ImgToSQLAsync(file).ToArray();
+                v.Image = ImgToSQLAsync(file).Result.ToArray();
 
 
 
@@ -317,7 +317,7 @@ namespace Rental_PI_KF.Controllers
                     
                     //dodanie zdjecia do sql
                     if(file != null)
-                    vehicle.Image = ImgToSQLAsync(file).ToArray();
+                    vehicle.Image = ImgToSQLAsync(file).Result.ToArray();
 
                     //update vehicle
                     _context.Update(vehicle);
@@ -505,32 +505,21 @@ namespace Rental_PI_KF.Controllers
             return _context.Vehicles.Any(e => e.VehicleID == id);
         }
 
-        //private async Task<MemoryStream> ImgToSQLAsync(IFormFile file)
-        private MemoryStream ImgToSQLAsync(IFormFile file)
+        private async Task<MemoryStream> ImgToSQLAsync(IFormFile file)
         {
-            //var image = ImageResize.ScaleByWidth(Image.FromStream(file.OpenReadStream()), 100);
-
-             
-            
+            int w = 650;
+            int h = 399;
 
             var stream = new MemoryStream();
-            //await file.CopyToAsync(stream);
-            file.CopyTo(stream);
+            await file.CopyToAsync(stream);
             var image = Image.FromStream(stream);
-           //var format = image.RawFormat;
-            //var imageR = ImageResize.ScaleByWidth(image,600);
-            var imageR = ImageResize.ScaleAndCrop(image,650,399);
+            Image imageR = ImageResize.ScaleAndCrop(image,w,h);
             var streamToReturn = new MemoryStream();
             imageR.Save(streamToReturn, image.RawFormat);
-            
-            //if (file != null)
-            //{
-            //   string xxx =  i.GetType().Name;
-            //    //await file.CopyToAsync(stream);
-            //}
-            
             return streamToReturn;
         }
+        
+
 
         //Funkcja uzywana przez Create
         private async Task<string> ImageUpload(IFormFile file)

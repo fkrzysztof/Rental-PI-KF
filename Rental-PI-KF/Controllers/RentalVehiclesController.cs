@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Rental.Data;
+using Rental.Data.Data.Areas.Identity.Data;
 using Rental.Data.Data.Rental;
 using Rental_Data.Data.Rental;
+using Rental_PI_KF.Controllers.Abstract;
 
 namespace Rental_PI_KF.Controllers
 {
-    public class RentalVehiclesController : Controller
+    public class RentalVehiclesController : BasicControllerAbstract
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
 
-        public RentalVehiclesController(ApplicationDbContext context)
+        public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        : base(context, userManager)
         {
-            _context = context;
         }
 
         // GET: RentalVehicles
         public async Task<IActionResult> Index()
         {
+            ImgProfile();
             var applicationDbContext = _context.RentalVehicles.Include(r => r.RentalStatus).Include(r => r.Vehicle);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -52,6 +56,8 @@ namespace Rental_PI_KF.Controllers
         // GET: RentalVehicles/CreateThis
         public async Task<IActionResult> CreateThis(int? id, string navigation)
         {
+            ImgProfile();
+
             //lepiej zabezpieczyc ?
             if (id == null)
             {
@@ -92,7 +98,7 @@ namespace Rental_PI_KF.Controllers
                 HttpContext.Session.SetString("FirstDayofMonth", JsonConvert.SerializeObject(firstDay));
             }
 
-            //co kiedy dzisiaj jest pierwszy ???
+                                                                //co kiedy dzisiaj jest pierwszy ???
 
             //cofamy do poniedzialku
             while (firstDay.DayOfWeek != DayOfWeek.Monday)
@@ -130,23 +136,73 @@ namespace Rental_PI_KF.Controllers
             ViewBag.CalendarPage = calendarPage;
             ViewBag.DaysOfWeek = dayscOfWeek;
             ViewBag.Month = calendarPage.ElementAt(15); // do podswietlania wlasciwego miesiaca
-            ViewBag.RentalStatus = new SelectList(_context.RentalStatuses, "VehicleID", "Name");
+            //ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalVehicleID", "Name");
+            //dopisane
+            //ViewBag.Vehicle = vehicle;
 
+            RentalVehicle rv = new RentalVehicle();
+            rv.Vehicle = vehicle;
 
-            return View("CreateThisTest",vehicle);
+            return View("CreateThisTest",rv);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive")] RentalVehicle rentalVehicle, List<DateTime> RentalDate, int? RentalStatus)
+        public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive")] RentalVehicle rentalVehicle, List<DateTime> RentalDate)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(rentalVehicle);
+                //sprawdzanie zaznaczonych pozycji w kalendarzu
+                RentalDate.Sort();
+                rentalVehicle.From = RentalDate.ElementAt(0);
+                for (int i = 0; i < RentalDate.Count(); i++)
+                {
+                    //ostatni lub jedyny 
+                    if ((i + 1) == RentalDate.Count)
+                    {
+                        rentalVehicle.To = RentalDate.ElementAt(i).Date;
+                        _context.Add(new RentalVehicle { 
+                        
+                            VehicleID = rentalVehicle.VehicleID,
+                            From = rentalVehicle.From,
+                            To = rentalVehicle.To,
+                            RentalStatusID = rentalVehicle.RentalStatusID,
+                            CreationDate = DateTime.Now,
+                            IsActive = true
+                        
+                        });
+                        break;
+                    }
+                    //nastepny dzien rezerwacji to nie kolejny dzien!
+                    //konczymy ta rezerwacje zaczynamy nawa
+                    if (RentalDate.ElementAt(i).AddDays(1).Date != RentalDate.ElementAt(i + 1).Date)
+                    {
+                        rentalVehicle.To = RentalDate.ElementAt(i).Date;
+                        _context.Add(new RentalVehicle
+                        {
+
+                            VehicleID = rentalVehicle.VehicleID,
+                            From = rentalVehicle.From,
+                            To = rentalVehicle.To,
+                            RentalStatusID = rentalVehicle.RentalStatusID,
+                            CreationDate = DateTime.Now,
+                            IsActive = true
+
+                        });
+
+                        //podanie nowej zawartosci for
+                        rentalVehicle.From = RentalDate.ElementAt(i + 1).Date;
+
+                    }
+                }
                 await _context.SaveChangesAsync();
+            
                 return RedirectToAction(nameof(Index));
+            
             }
-            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "RentalStatusID", rentalVehicle.RentalStatusID);
+
+            ImgProfile();
+            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
             ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", rentalVehicle.VehicleID);
             return View(rentalVehicle);
         }

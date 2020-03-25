@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using LazZiya.ImageResize;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -116,11 +118,24 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                 //w przypadku Admin adres komisu + regony itd, klient bedzie miec adres plus jakis pesel 
                 //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CustomTag = Input.CustomTag };
 
+
+                int w = 100;
+                int h = 100;
+
                 var stream = new MemoryStream();
-                if (file != null)
-                {
-                        await file.CopyToAsync(stream);
-                }
+                await file.CopyToAsync(stream);
+                var image = Image.FromStream(stream);
+                Image imageR = ImageResize.ScaleAndCrop(image, w, h);
+                var streamToReturn = new MemoryStream();
+                imageR.Save(streamToReturn, image.RawFormat);
+
+
+
+                //var stream = new MemoryStream();
+                //if (file != null)
+                //{
+                //        await file.CopyToAsync(stream);
+                //}
 
 
 
@@ -135,7 +150,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     Street = Input.Street,
                     Number = Input.Number,
                     ZIPCode = Input.ZIPCode,
-                    Image = stream.ToArray(),
+                    Image = streamToReturn.ToArray(),
                     Phone = Input.Phone
                 };
 
