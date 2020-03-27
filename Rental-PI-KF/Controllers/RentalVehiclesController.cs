@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
@@ -19,19 +18,24 @@ namespace Rental_PI_KF.Controllers
 {
     public class RentalVehiclesController : BasicControllerAbstract
     {
+        //private readonly RoleManager<IdentityRole> _roleManager;
+
         //private readonly ApplicationDbContext _context;
 
         //public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         //: base(context, userManager)        
-        
+
         public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         : base(context, userManager)
-        {
+        {        
         }
 
         // GET: RentalVehicles
         public async Task<IActionResult> Index()
         {
+            //dopisane
+            //var usersKlient = _roleManager.FindByIdAsync("166f01f3-6dd8-4399-954a-300597d617d8");
+            //string oo = usersKlient.Result.Name;
             UserProfile();
             var applicationDbContext = _context.RentalVehicles.Include(r => r.RentalStatus).Include(r => r.Vehicle);
             return View(await applicationDbContext.ToListAsync());
