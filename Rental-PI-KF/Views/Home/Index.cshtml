@@ -5,19 +5,4 @@
     <div class="text-center">
         <h1 class="display-4">Welcome</h1>
         <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
-        <p> to jest ID usera @ViewBag.Imie </p>
-        @{
-            var img = @ViewBag.Img;
-
-            var base64 = Convert.ToBase64String(img);
-            var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-            <img style="width: 80px; height:80px" class="card-img  mr-2" src="@imgSrc" />
-
-        }
-
-
-
-
-
     </div>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Rental_Data.Data.Rental.ExactType>
+﻿@model Rental_Data.Data.Rental.ExactType
 
 @{
     ViewData["Title"] = "Index";
@@ -6,42 +6,95 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.GeneralType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.GeneralType.GeneralTypeID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ExactTypeID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ExactTypeID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ExactTypeID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                    
+                    <span class="float-left"><i class="fas fa-folder-open mr-2"></i>Lista aktualnych pozycji</span>
+                        <button class="btn text-primary float-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"><i class="fas fa-sliders-h"></i></button>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <div class="text-center collapse show" id="collapseExample" style="">
+                            <div class="card card-body">
+                                <form action="/ExactTypes" method="post">
+                                    <div class="row">
+                                        <div class="col-sm-10">
+                                            <select class="form-control" id="GeneralTypeID" name="GeneralTypeID">
+                                                <option value="1">1</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                            <div class="col-12">
+                                <table class="table table-borderless table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-left">
+                                                @Html.DisplayNameFor(model => model.GeneralType)
+                                            </th>
+                                            <th class="text-center">
+                                                @Html.DisplayNameFor(model => model.Name)
+                                            </th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in ViewBag.GeneralTypeCollection)
+                                        {
+                                            <tr>
+                                                <td class="text-left">
+                                                    @item.GeneralType.Name
+                                                </td>
+                                                <td class="text-center">
+                                                    @item.Name
+                                                </td>
+                                                <td class="text-right">
+                                                    <a asp-action="Edit" asp-route-id="@item.ExactTypeID"><i class="fas fa-wrench"></i></a>
+                                                    <a asp-action="Delete" class="ml-2" asp-route-id="@item.ExactTypeID"><i class="fas fa-trash"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                 </div>
+             </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <label class="control-label mb-3"><i class="fas fa-folder-plus mr-2"></i>Dodaj</label>
+                            <div class="form-group">
+                                <label asp-for="GeneralTypeID" class="control-label small"></label>
+                                <select asp-for="GeneralTypeID" class="form-control" asp-items="ViewBag.GeneralTypeID"></select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Utwórz" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -77,6 +77,10 @@
     <Compile Remove="Data\Migrations\20200227211144_add-name-to-equipment.Designer.cs" />
     <Compile Remove="Data\Migrations\20200228164703_add-RentalVehicle-RentalStatus.cs" />
     <Compile Remove="Data\Migrations\20200228164703_add-RentalVehicle-RentalStatus.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200328093626_add required AppUser.cs" />
+    <Compile Remove="Data\Migrations\20200328093626_add required AppUser.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200328094327_add required AppUser1.cs" />
+    <Compile Remove="Data\Migrations\20200328094327_add required AppUser1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

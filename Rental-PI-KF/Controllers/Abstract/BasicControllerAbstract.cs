@@ -2,13 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Rental_PI_KF.Controllers.Abstract
 {
     public class BasicControllerAbstract : Controller
     {
-
+        
         protected readonly UserManager<ApplicationUser> _userManager;
         protected readonly ApplicationDbContext _context;
         public ApplicationUser user;
@@ -21,14 +22,20 @@ namespace Rental_PI_KF.Controllers.Abstract
 
         public void UserProfile()
         {
-            var id = _userManager.GetUserId(HttpContext.User);
-            var us = _userManager.Users;
-            user = us.FirstOrDefault(f => f.Id == id);
-            user.PasswordHash = null;
             
+            var id = _userManager.GetUserId(HttpContext.User);
+            //List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
+            var user = _userManager.Users.FirstOrDefault(f => f.Id == id);
+            //user = users.FirstOrDefault(f => f.Id == id);
+
+            //var us = _userManager.Users;
+            //us = user.FirstOrDefault(f => f.Id == id);
+            //user.PasswordHash = null;
+
             //nie moze byc viewbagow - tylko do testow
+            //ViewBag.Users = users;
             ViewBag.User = user;
-            ViewBag.Img = user.Image;
+            //ViewBag.Img = user.Image;
         }
     }
 }

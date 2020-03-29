@@ -1,10 +1,12 @@
 ﻿@model Rental.Data.Data.Rental.RentalVehicle
 
+@using Microsoft.AspNetCore.Identity;
+@*@using Rental.Data.Data.Areas.Identity.Data
+@using Rental_PI_KF.Areas.Identity.Pages.Account*@
 @{
     ViewData["Title"] = "RentalThis";
+    var roles = (List<IdentityRole>)ViewData["roles"];
 }
-
-@using Rental.Data.Data.Areas.Identity.Data
 
 <div class="row">
     <div class="col-sm-12">
@@ -121,33 +123,46 @@
 
 
 
-                        @{
-                            ApplicationUser user = ViewBag.User as ApplicationUser;
-
-                        }
-
                         <div class="form-group">
-                            <label for="exampleFormControlSelect2">Example multiple select</label>
-                            <select multiple class="form-control" id="exampleFormControlSelect2">
-                                <option>1</option>
-                                <option>1</option>
-                                <option>2</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>4</option>
-                                <option>5</option>                                
-                                <option>5</option>                                
-                                <option>1</option>
-                                <option>2</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
-                                <option>5</option>
+                            <label for="exampleFormControlSelect2">Wybierz Użytkownika</label>
+                            <input class="form-control" type="text" autocomplete="off" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+                            <select multiple class="form-control" id="mySE" asp-items="@ViewBag.Customers">
                             </select>
                         </div>
+
+
+                        <script>
+                            function myFunction() {
+                                var input, filter, di, se , op, a, i, txtValue;
+                                input = document.getElementById("myInput");
+                                filter = input.value.toUpperCase();
+                                se = document.getElementById("mySE");
+
+                                op = se.getElementsByTagName("option");
+                                for (i = 0; i < op.length; i++) {
+                                    a = op[i];
+                                    txtValue = a.textContent || a.innerText;
+                                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                        se[i].style.display = "";
+                                    } else {
+                                        se[i].style.display = "none";
+                                    }
+                                }
+                            }
+                        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -357,12 +372,10 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.VehicleID">Edit</a> |
     <a asp-action="Index">Back to List</a>
-</div>
-
-
+</div>                        
 
 @*<script type="text/javascript">
-    function Checken(element) {
-        element.checken = true;
-    }
-</script*@>
+        function Checken(element) {
+            element.checken = true;
+        }
+    </script*@>

@@ -12,32 +12,32 @@ using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
 using Rental.Data.Data.Rental;
 using Rental_Data.Data.Rental;
+using Rental_PI_KF.Areas.Identity.Pages.Account;
 using Rental_PI_KF.Controllers.Abstract;
 
 namespace Rental_PI_KF.Controllers
 {
     public class RentalVehiclesController : BasicControllerAbstract
     {
-        //private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         //private readonly ApplicationDbContext _context;
 
         //public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         //: base(context, userManager)        
 
-        public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         : base(context, userManager)
-        {        
+        {
+            _roleManager = roleManager;
         }
 
         // GET: RentalVehicles
         public async Task<IActionResult> Index()
         {
-            //dopisane
-            //var usersKlient = _roleManager.FindByIdAsync("166f01f3-6dd8-4399-954a-300597d617d8");
-            //string oo = usersKlient.Result.Name;
             UserProfile();
             var applicationDbContext = _context.RentalVehicles.Include(r => r.RentalStatus).Include(r => r.Vehicle);
+           
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -64,6 +64,8 @@ namespace Rental_PI_KF.Controllers
         // GET: RentalVehicles/CreateThis
         public async Task<IActionResult> CreateThis(int? id, string navigation)
         {
+            List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
+            ViewBag.Customers = new SelectList(users, "Id", "Fullname");
             UserProfile();
 
             //lepiej zabezpieczyc ?

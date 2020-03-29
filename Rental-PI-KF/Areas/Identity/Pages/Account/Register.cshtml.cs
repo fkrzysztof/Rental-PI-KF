@@ -111,14 +111,6 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             var role = _roleManager.FindByIdAsync(Input.Name).Result;
             if (ModelState.IsValid)
             {
-
-
-                //tutaj dopisac akcje dodawania adresu i 
-                //tutaj dodac jeszcze jedna pozycje czyli adres 
-                //w przypadku Admin adres komisu + regony itd, klient bedzie miec adres plus jakis pesel 
-                //var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CustomTag = Input.CustomTag };
-
-
                 int w = 100;
                 int h = 100;
 
@@ -129,15 +121,11 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                 var streamToReturn = new MemoryStream();
                 imageR.Save(streamToReturn, image.RawFormat);
 
-
-
                 //var stream = new MemoryStream();
                 //if (file != null)
                 //{
                 //        await file.CopyToAsync(stream);
                 //}
-
-
 
                 var user = new ApplicationUser 
                 { 
@@ -153,8 +141,6 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     Image = streamToReturn.ToArray(),
                     Phone = Input.Phone
                 };
-
-
 
 
                 var result = await _userManager.CreateAsync(user, Input.Password);

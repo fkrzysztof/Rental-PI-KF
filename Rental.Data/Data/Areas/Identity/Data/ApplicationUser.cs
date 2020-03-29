@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Rental.Data.Data.Areas.Identity.Data
 {
@@ -10,16 +11,20 @@ namespace Rental.Data.Data.Areas.Identity.Data
         
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
-        
+
+        [NotMapped]
+        [Display(Name = "Imie i Nazwisko")]
+        public string? Fullname { get { return this.FirstName + " " + this.LastName + "  / " + this.Email; } }
+
         [Display(Name = "Zdjęcie")]
-        public byte[]? Image { get; set; }
+        public byte[] Image { get; set; }
 
         [Display(Name = "Telefon")]
         public string Phone { get; set; }
 
         [Display(Name = "Kraj")]
         public string Country { get; set; }
-
+        
         [Display(Name = "Miasto")]
         public string City { get; set; }
 
@@ -27,10 +32,10 @@ namespace Rental.Data.Data.Areas.Identity.Data
         public string Street { get; set; }
 
         [Display(Name = "Numer")]
-        public string Number { get; set; }
+        public string? Number { get; set; }
 
         [Display(Name = "Kod")]
-        public string ZIPCode { get; set; }
+        public string? ZIPCode { get; set; }
 
     }
 }

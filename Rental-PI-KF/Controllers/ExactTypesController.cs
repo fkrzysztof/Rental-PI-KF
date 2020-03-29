@@ -22,8 +22,10 @@ namespace Rental_PI_KF.Controllers
         // GET: ExactTypes
         public async Task<IActionResult> Index()
         {
+            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
             var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType);
-            return View(await applicationDbContext.ToListAsync());
+            ViewBag.GeneralTypeCollection = applicationDbContext;
+            return View();
         }
 
         // GET: ExactTypes/Details/5

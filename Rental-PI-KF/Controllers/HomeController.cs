@@ -17,13 +17,11 @@ namespace Rental_PI_KF.Controllers
     [Authorize]
     public class HomeController : BasicControllerAbstract
     {
-        //protected readonly UserManager<ApplicationUser> _userManager;
         protected readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         : base(context, userManager)
         {
-            //_userManager = userManager;
             _logger = logger;
 
         }
