@@ -20,39 +20,25 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: ExactTypes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? generalType, int? id)
         {
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
-            var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType);
-            ViewBag.GeneralTypeCollection = applicationDbContext;
+            //var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType);
+            if(generalType != null)
+            {
+              var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType).Where(w => w.GeneralTypeID == generalType);
+              ViewBag.GeneralTypeCollection = applicationDbContext;
+            }
+            else
+            {
+               var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType);
+               ViewBag.GeneralTypeCollection = applicationDbContext;
+            }
+            ViewBag.Modal = id;
+            //ViewBag.GeneralTypeCollection = applicationDbContext;
             return View();
         }
 
-        // GET: ExactTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var exactType = await _context.ExactTypes
-                .Include(e => e.GeneralType)
-                .FirstOrDefaultAsync(m => m.ExactTypeID == id);
-            if (exactType == null)
-            {
-                return NotFound();
-            }
-
-            return View(exactType);
-        }
-
-        // GET: ExactTypes/Create
-        public IActionResult Create()
-        {
-            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID");
-            return View();
-        }
 
         // POST: ExactTypes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -68,7 +54,7 @@ namespace Rental_PI_KF.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", exactType.GeneralTypeID);
-            return View(exactType);
+            return View("Index");
         }
 
         // GET: ExactTypes/Edit/5
