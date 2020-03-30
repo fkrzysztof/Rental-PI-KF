@@ -23,7 +23,6 @@ namespace Rental_PI_KF.Controllers
         public async Task<IActionResult> Index(int? generalType, int? id)
         {
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
-            //var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType);
             if(generalType != null)
             {
               var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType).Where(w => w.GeneralTypeID == generalType);
@@ -35,7 +34,6 @@ namespace Rental_PI_KF.Controllers
                ViewBag.GeneralTypeCollection = applicationDbContext;
             }
             ViewBag.Modal = id;
-            //ViewBag.GeneralTypeCollection = applicationDbContext;
             return View();
         }
 
@@ -79,12 +77,13 @@ namespace Rental_PI_KF.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ExactTypeID,GeneralTypeID,Name,IsActive")] ExactType exactType)
+        //public async Task<IActionResult> Edit(int id, [Bind("ExactTypeID,GeneralTypeID,Name")] ExactType exactType)
+        public async Task<IActionResult> Edit([Bind("ExactTypeID,GeneralTypeID,Name")] ExactType exactType)
         {
-            if (id != exactType.ExactTypeID)
-            {
-                return NotFound();
-            }
+            //if (id != exactType.ExactTypeID)
+            //{
+            //    return NotFound();
+            //}
 
             if (ModelState.IsValid)
             {
@@ -106,8 +105,7 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", exactType.GeneralTypeID);
-            return View(exactType);
+            return View("Index");
         }
 
         // GET: ExactTypes/Delete/5

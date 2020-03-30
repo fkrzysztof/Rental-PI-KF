@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h2>Edycja typu pojazdu</h2>
 
 <div class="row mb-4">
     <div class="col-md-8">
@@ -59,10 +59,13 @@
                                             @item.Name
                                         </td>
                                         <td class="text-right">
-                                            <script src="~/js/jquery-1.10.2.js"></script>
-                                            <a asp-action="Index" asp-route-id="@item.ExactTypeID"><i class="fas fa-wrench"></i></a>
+                                            @* wywylywanie okna modalnego oraz przekazywanie do niego danych przez JQ *@
+
+                                            @*<a asp-action="Index" asp-route-id="@item.ExactTypeID"><i class="fas fa-wrench"></i></a>*@
                                             @*<a asp-action="Delete" class="ml-2" asp-route-id="@item.ExactTypeID"><i class="fas fa-trash"></i></a>*@
-                                            <a data-id="@item.ExactTypeID" data-name="@item.Name" class="ml-2 open-AddBookDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
+                                            <a data-id="@item.ExactTypeID" data-name="@item.Name" data-general="@item.GeneralType.GeneralTypeID" class="ml-2 j-s-EditDialog" data-toggle="modal" data-target="#editModal" href="#editModal"><i class="fas fa-wrench"></i></a>
+                                            <a data-id="@item.ExactTypeID" data-name="@item.Name" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
+
                                         </td>
                                     </tr>
                                 }
@@ -101,51 +104,91 @@
     </div>
 </div>
 
-
-
-<!-- Button trigger modal -->
-@*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalEdit">
-        Launch demo modal
-    </button>*@
-
 <!-- Modal -->
-@if (ViewBag.Modal != null)
-{
-    <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form asp-action="Delete" method="post">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            Czy na pewno chcesz usunąć:
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="hidden" name="VehicleID" id="bookId" value="" />
-                        <input type="text" name="name" id="name" value="" disabled class="form-control" />
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Zamknij</button>
-                        <button type="submit" class="btn btn-sm btn-primary">Usuń</button>
-                    </div>
-                </form>
-            </div>
+<!-- Modal Delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="Delete" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Czy na pewno chcesz usunąć:
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="itemId" value="" />
+                    <input type="text" name="name" id="itemName" value="" disabled class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                </div>
+            </form>
         </div>
     </div>
-}
+</div>
+
+
+<script src="~/js/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", ".j-s-DeleteDialog", function () {
+            var itemId = $(this).data('id');
+            var itemName = $(this).data('name');
+            $(".modal-body #itemId").val(itemId);
+            $(".modal-body #itemName").val(itemName);
+        });
+    });
+</script>
+
+
+<!-- Modal Edit -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="Edit">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Edytuj wybraną pozycję
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="ExactTypeID" id="itemId" value="" />
+
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label small"></label>
+                        <input type="text" name="Name" id="itemName" value="" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="GeneralTypeID" class="control-label small"></label>
+                        <select name="GeneralTypeID" id="itemGeneral" class="form-control aaa" asp-items="@ViewBag.GeneralTypeID">
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Zmień</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
-        $(document).on("click", ".open-AddBookDialog", function () {
-             var myBookId = $(this).data('id');
-             var myName = $(this).data('name');
-             $(".modal-body #bookId").val( myBookId );
-            $(".modal-body #name").val(myName);
-             // As pointed out in comments,
-             // it is unnecessary to have to manually call the modal.
-             // $('#addBookDialog').modal('show');
+    $(document).ready(function () {
+        $(document).on("click", ".j-s-EditDialog", function () {
+            var itemId = $(this).data('id');
+            var itemName = $(this).data('name');
+            var itemGeneral = $(this).data('general');
+            $(".modal-body #itemId").val(itemId);
+            $(".modal-body #itemName").val(itemName);
+            $(".modal-body #itemGeneral").val(itemGeneral);
         });
-</script>
+    });
+</script> 
