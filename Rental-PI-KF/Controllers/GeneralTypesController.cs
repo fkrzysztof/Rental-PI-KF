@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
 using Rental_Data.Data.Rental;
@@ -20,38 +17,16 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: GeneralTypes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.GeneralTypes.ToListAsync());
-        }
-
-        // GET: GeneralTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var generalType = await _context.GeneralTypes
-                .FirstOrDefaultAsync(m => m.GeneralTypeID == id);
-            if (generalType == null)
-            {
-                return NotFound();
-            }
-
-            return View(generalType);
-        }
-
-        // GET: GeneralTypes/Create
-        public IActionResult Create()
-        {
+            if(search == null)
+                ViewBag.ItemCollection = _context.GeneralTypes;
+            else
+                ViewBag.ItemCollection = _context.GeneralTypes.Where(w => w.Name.Contains(search));
             return View();
         }
 
         // POST: GeneralTypes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("GeneralTypeID,Name,IsActive")] GeneralType generalType)
@@ -65,34 +40,12 @@ namespace Rental_PI_KF.Controllers
             return View(generalType);
         }
 
-        // GET: GeneralTypes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var generalType = await _context.GeneralTypes.FindAsync(id);
-            if (generalType == null)
-            {
-                return NotFound();
-            }
-            return View(generalType);
-        }
 
         // POST: GeneralTypes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GeneralTypeID,Name,IsActive")] GeneralType generalType)
+        public async Task<IActionResult> Edit([Bind("GeneralTypeID,Name")] GeneralType generalType)
         {
-            if (id != generalType.GeneralTypeID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -113,26 +66,10 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(generalType);
+            ViewBag.GeneralTypeCollection = _context.GeneralTypes;
+            return View("Index");
         }
 
-        // GET: GeneralTypes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var generalType = await _context.GeneralTypes
-                .FirstOrDefaultAsync(m => m.GeneralTypeID == id);
-            if (generalType == null)
-            {
-                return NotFound();
-            }
-
-            return View(generalType);
-        }
 
         // POST: GeneralTypes/Delete/5
         [HttpPost, ActionName("Delete")]

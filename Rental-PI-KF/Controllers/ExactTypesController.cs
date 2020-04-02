@@ -20,27 +20,21 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: ExactTypes
-        public async Task<IActionResult> Index(int? generalType, int? id)
+        public async Task<IActionResult> Index(int? generalType)
         {
+            var applicationDbContext = await _context.ExactTypes.Include(e => e.GeneralType).ToListAsync();
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
             if(generalType != null)
             {
-              var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType).Where(w => w.GeneralTypeID == generalType);
-              ViewBag.GeneralTypeCollection = applicationDbContext;
+              applicationDbContext = applicationDbContext.Where(w => w.GeneralTypeID == generalType).ToList();
             }
-            else
-            {
-               var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType);
-               ViewBag.GeneralTypeCollection = applicationDbContext;
-            }
-            ViewBag.Modal = id;
+            ViewBag.GeneralTypeCollection = applicationDbContext;
+
             return View();
         }
 
 
         // POST: ExactTypes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ExactTypeID,GeneralTypeID,Name,IsActive")] ExactType exactType)
@@ -51,40 +45,34 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", exactType.GeneralTypeID);
+            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
+            var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType);
+            ViewBag.GeneralTypeCollection = applicationDbContext;
             return View("Index");
         }
 
         // GET: ExactTypes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var exactType = await _context.ExactTypes.FindAsync(id);
-            if (exactType == null)
-            {
-                return NotFound();
-            }
-            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", exactType.GeneralTypeID);
-            return View(exactType);
-        }
+        //    var exactType = await _context.ExactTypes.FindAsync(id);
+        //    if (exactType == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", exactType.GeneralTypeID);
+        //    return View(exactType);
+        //}
 
         // POST: ExactTypes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("ExactTypeID,GeneralTypeID,Name")] ExactType exactType)
         public async Task<IActionResult> Edit([Bind("ExactTypeID,GeneralTypeID,Name")] ExactType exactType)
         {
-            //if (id != exactType.ExactTypeID)
-            //{
-            //    return NotFound();
-            //}
-
             if (ModelState.IsValid)
             {
                 try
@@ -105,26 +93,10 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
+            var applicationDbContext = _context.ExactTypes.Include(e => e.GeneralType);
+            ViewBag.GeneralTypeCollection = applicationDbContext;
             return View("Index");
-        }
-
-        // GET: ExactTypes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var exactType = await _context.ExactTypes
-                .Include(e => e.GeneralType)
-                .FirstOrDefaultAsync(m => m.ExactTypeID == id);
-            if (exactType == null)
-            {
-                return NotFound();
-            }
-
-            return View(exactType);
         }
 
         // POST: ExactTypes/Delete/5

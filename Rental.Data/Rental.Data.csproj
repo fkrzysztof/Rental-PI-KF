@@ -81,6 +81,8 @@
     <Compile Remove="Data\Migrations\20200328093626_add required AppUser.Designer.cs" />
     <Compile Remove="Data\Migrations\20200328094327_add required AppUser1.cs" />
     <Compile Remove="Data\Migrations\20200328094327_add required AppUser1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200402152421_add required to ExectyTypes.cs" />
+    <Compile Remove="Data\Migrations\20200402152421_add required to ExectyTypes.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

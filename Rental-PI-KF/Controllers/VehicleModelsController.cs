@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -20,41 +18,20 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: VehicleModels
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? search)
         {
-            var applicationDbContext = _context.VehicleModels.Include(v => v.Brand);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: VehicleModels/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            ViewData["SelectItems"] = new SelectList(_context.Brands, "BrandID", "Name");
+            var applicationDbContext = await _context.VehicleModels.Include(i => i.Brand).ToListAsync();
+            if (search != null)
             {
-                return NotFound();
+                applicationDbContext = applicationDbContext.Where(w => w.BrandID == search).ToList();
             }
-
-            var vehicleModel = await _context.VehicleModels
-                .Include(v => v.Brand)
-                .FirstOrDefaultAsync(m => m.VehicleModelID == id);
-            if (vehicleModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(vehicleModel);
-        }
-
-        // GET: VehicleModels/Create
-        public IActionResult Create()
-        {
-            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "Name");
+            ViewBag.Items = applicationDbContext.OrderBy(o => o.Name);
+         
             return View();
         }
 
         // POST: VehicleModels/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("VehicleModelID,Name,IsActive,BrandID")] VehicleModel vehicleModel)
@@ -69,35 +46,11 @@ namespace Rental_PI_KF.Controllers
             return View(vehicleModel);
         }
 
-        // GET: VehicleModels/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vehicleModel = await _context.VehicleModels.FindAsync(id);
-            if (vehicleModel == null)
-            {
-                return NotFound();
-            }
-            ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicleModel.BrandID);
-            return View(vehicleModel);
-        }
-
         // POST: VehicleModels/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleModelID,Name,IsActive,BrandID")] VehicleModel vehicleModel)
+        public async Task<IActionResult> Edit([Bind("VehicleModelID,Name,BrandID")] VehicleModel vehicleModel)
         {
-            if (id != vehicleModel.VehicleModelID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -119,25 +72,6 @@ namespace Rental_PI_KF.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["BrandID"] = new SelectList(_context.Brands, "BrandID", "BrandID", vehicleModel.BrandID);
-            return View(vehicleModel);
-        }
-
-        // GET: VehicleModels/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vehicleModel = await _context.VehicleModels
-                .Include(v => v.Brand)
-                .FirstOrDefaultAsync(m => m.VehicleModelID == id);
-            if (vehicleModel == null)
-            {
-                return NotFound();
-            }
-
             return View(vehicleModel);
         }
 

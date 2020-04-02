@@ -11,8 +11,9 @@ namespace Rental_Data.Data.Rental
         [Key]
         public int VehicleModelID { get; set; }
 
+        [Required(ErrorMessage = "Pole jest wymagane")]
         [Display(Name = "Model")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public bool IsActive { get; set; }
         
         public int? BrandID { get; set; }

@@ -20,38 +20,17 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: Brands
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.Brands.ToListAsync());
-        }
-
-        // GET: Brands/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var brand = await _context.Brands
-                .FirstOrDefaultAsync(m => m.BrandID == id);
-            if (brand == null)
-            {
-                return NotFound();
-            }
-
-            return View(brand);
-        }
-
-        // GET: Brands/Create
-        public IActionResult Create()
-        {
+            if (search == null)
+                ViewBag.ItemCollection = _context.Brands;
+            else
+                ViewBag.ItemCollection = _context.Brands.Where(w => w.Name.Contains(search));
             return View();
         }
 
+
         // POST: Brands/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("BrandID,Name,IsActive")] Brand brand)
@@ -65,34 +44,12 @@ namespace Rental_PI_KF.Controllers
             return View(brand);
         }
 
-        // GET: Brands/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var brand = await _context.Brands.FindAsync(id);
-            if (brand == null)
-            {
-                return NotFound();
-            }
-            return View(brand);
-        }
 
         // POST: Brands/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("BrandID,Name,IsActive")] Brand brand)
+        public async Task<IActionResult> Edit([Bind("BrandID,Name")] Brand brand)
         {
-            if (id != brand.BrandID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -113,24 +70,6 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(brand);
-        }
-
-        // GET: Brands/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var brand = await _context.Brands
-                .FirstOrDefaultAsync(m => m.BrandID == id);
-            if (brand == null)
-            {
-                return NotFound();
-            }
-
             return View(brand);
         }
 

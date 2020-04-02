@@ -14,9 +14,10 @@ namespace Rental_Data.Data.Rental
         public ICollection<VehicleModel> VehicleModel { get; set; }
         
         public ICollection<Vehicle> Vehicles { get; set; }
-        
+
+        [Required(ErrorMessage = "Pole jest wymagane")]
         [Display(Name = "Marka")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         public bool IsActive { get; set; }
 
