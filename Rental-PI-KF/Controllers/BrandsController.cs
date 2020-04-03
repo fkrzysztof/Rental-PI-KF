@@ -22,10 +22,10 @@ namespace Rental_PI_KF.Controllers
         // GET: Brands
         public async Task<IActionResult> Index(string search)
         {
-            if (search == null)
-                ViewBag.ItemCollection = _context.Brands;
-            else
-                ViewBag.ItemCollection = _context.Brands.Where(w => w.Name.Contains(search));
+            var itemCollection = await _context.Brands.ToListAsync();
+            if (search != null)
+                itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
             return View();
         }
 

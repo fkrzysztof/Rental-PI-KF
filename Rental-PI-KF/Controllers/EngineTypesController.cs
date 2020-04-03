@@ -20,41 +20,20 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: EngineTypes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.EngineTypes.ToListAsync());
-        }
-
-        // GET: EngineTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var engineType = await _context.EngineTypes
-                .FirstOrDefaultAsync(m => m.EngineTypeID == id);
-            if (engineType == null)
-            {
-                return NotFound();
-            }
-
-            return View(engineType);
-        }
-
-        // GET: EngineTypes/Create
-        public IActionResult Create()
-        {
+            var itemCollection = await _context.EngineTypes.ToListAsync();
+            if (search != null)
+                itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
             return View();
         }
 
+
         // POST: EngineTypes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EngineTypeID,Name,IsActive")] EngineType engineType)
+        public async Task<IActionResult> Create([Bind("EngineTypeID,Name")] EngineType engineType)
         {
             if (ModelState.IsValid)
             {
@@ -62,37 +41,14 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(engineType);
-        }
-
-        // GET: EngineTypes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var engineType = await _context.EngineTypes.FindAsync(id);
-            if (engineType == null)
-            {
-                return NotFound();
-            }
-            return View(engineType);
+            return View("Index");
         }
 
         // POST: EngineTypes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EngineTypeID,Name,IsActive")] EngineType engineType)
+        public async Task<IActionResult> Edit(int id, [Bind("EngineTypeID,Name")] EngineType engineType)
         {
-            if (id != engineType.EngineTypeID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -113,25 +69,7 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(engineType);
-        }
-
-        // GET: EngineTypes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var engineType = await _context.EngineTypes
-                .FirstOrDefaultAsync(m => m.EngineTypeID == id);
-            if (engineType == null)
-            {
-                return NotFound();
-            }
-
-            return View(engineType);
+            return View("Index");
         }
 
         // POST: EngineTypes/Delete/5

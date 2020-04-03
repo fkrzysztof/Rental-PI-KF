@@ -19,47 +19,19 @@ namespace Rental_PI_KF.Controllers
             _context = context;
         }
 
-        // GET: Equipments
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            var applicationDbContext = _context.Equipment.Include(e => e.EquipmentName).Include(e => e.Vehicle);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Equipments/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var equipment = await _context.Equipment
-                .Include(e => e.EquipmentName)
-                .Include(e => e.Vehicle)
-                .FirstOrDefaultAsync(m => m.EquipmentID == id);
-            if (equipment == null)
-            {
-                return NotFound();
-            }
-
-            return View(equipment);
-        }
-
-        // GET: Equipments/Create
-        public IActionResult Create()
-        {
-            ViewData["EquipmentNameID"] = new SelectList(_context.EquipmentNames, "EquipmentNameID", "EquipmentNameID");
-            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID");
+            var itemCollection = await _context.Equipment.ToListAsync();
+            if (search != null)
+                itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
             return View();
         }
 
         // POST: Equipments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EquipmentID,VehicleID,EquipmentNameID,Name,Check,IsActive")] Equipment equipment)
+        public async Task<IActionResult> Create([Bind("EquipmentID,Name")] Equipment equipment)
         {
             if (ModelState.IsValid)
             {
@@ -67,41 +39,16 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EquipmentNameID"] = new SelectList(_context.EquipmentNames, "EquipmentNameID", "EquipmentNameID", equipment.EquipmentNameID);
-            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", equipment.VehicleID);
-            return View(equipment);
-        }
-
-        // GET: Equipments/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var equipment = await _context.Equipment.FindAsync(id);
-            if (equipment == null)
-            {
-                return NotFound();
-            }
-            ViewData["EquipmentNameID"] = new SelectList(_context.EquipmentNames, "EquipmentNameID", "EquipmentNameID", equipment.EquipmentNameID);
-            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", equipment.VehicleID);
-            return View(equipment);
+            //ViewData["EquipmentNameID"] = new SelectList(_context.EquipmentNames, "EquipmentNameID", "EquipmentNameID", equipment.EquipmentNameID);
+            //ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", equipment.VehicleID);
+            return View("Index");
         }
 
         // POST: Equipments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EquipmentID,VehicleID,EquipmentNameID,Name,Check,IsActive")] Equipment equipment)
+        public async Task<IActionResult> Edit(int id, [Bind("EquipmentID,Name")] Equipment equipment)
         {
-            if (id != equipment.EquipmentID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -122,29 +69,9 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EquipmentNameID"] = new SelectList(_context.EquipmentNames, "EquipmentNameID", "EquipmentNameID", equipment.EquipmentNameID);
-            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", equipment.VehicleID);
-            return View(equipment);
-        }
-
-        // GET: Equipments/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var equipment = await _context.Equipment
-                .Include(e => e.EquipmentName)
-                .Include(e => e.Vehicle)
-                .FirstOrDefaultAsync(m => m.EquipmentID == id);
-            if (equipment == null)
-            {
-                return NotFound();
-            }
-
-            return View(equipment);
+            //ViewData["EquipmentNameID"] = new SelectList(_context.EquipmentNames, "EquipmentNameID", "EquipmentNameID", equipment.EquipmentNameID);
+            //ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", equipment.VehicleID);
+            return View("Index");
         }
 
         // POST: Equipments/Delete/5

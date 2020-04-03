@@ -28,7 +28,7 @@ namespace Rental_PI_KF.Controllers
             {
               applicationDbContext = applicationDbContext.Where(w => w.GeneralTypeID == generalType).ToList();
             }
-            ViewBag.GeneralTypeCollection = applicationDbContext;
+            ViewBag.GeneralTypeCollection = applicationDbContext.OrderBy(o => o.GeneralType.Name).ThenBy(t => t.Name); ;
 
             return View();
         }

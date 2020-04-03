@@ -19,42 +19,19 @@ namespace Rental_PI_KF.Controllers
             _context = context;
         }
 
-        // GET: Colours
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.Colours.ToListAsync());
-        }
-
-        // GET: Colours/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var colour = await _context.Colours
-                .FirstOrDefaultAsync(m => m.ColourID == id);
-            if (colour == null)
-            {
-                return NotFound();
-            }
-
-            return View(colour);
-        }
-
-        // GET: Colours/Create
-        public IActionResult Create()
-        {
+            var itemCollection = await _context.Colours.ToListAsync();
+            if (search != null)
+                itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
             return View();
         }
 
         // POST: Colours/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ColourID,Name,Description,IsActive")] Colour colour)
+        public async Task<IActionResult> Create([Bind("ColourID,Name,Description")] Colour colour)
         {
             if (ModelState.IsValid)
             {
@@ -62,37 +39,14 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(colour);
-        }
-
-        // GET: Colours/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var colour = await _context.Colours.FindAsync(id);
-            if (colour == null)
-            {
-                return NotFound();
-            }
-            return View(colour);
+            return View("Index");
         }
 
         // POST: Colours/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ColourID,Name,Description,IsActive")] Colour colour)
+        public async Task<IActionResult> Edit(int id, [Bind("ColourID,Name,Description")] Colour colour)
         {
-            if (id != colour.ColourID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -113,26 +67,9 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(colour);
+            return View("Index");
         }
 
-        // GET: Colours/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var colour = await _context.Colours
-                .FirstOrDefaultAsync(m => m.ColourID == id);
-            if (colour == null)
-            {
-                return NotFound();
-            }
-
-            return View(colour);
-        }
 
         // POST: Colours/Delete/5
         [HttpPost, ActionName("Delete")]

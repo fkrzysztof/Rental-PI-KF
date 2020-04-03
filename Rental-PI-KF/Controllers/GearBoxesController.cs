@@ -20,41 +20,20 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: GearBoxes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.GearBoxes.ToListAsync());
-        }
-
-        // GET: GearBoxes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var gearBox = await _context.GearBoxes
-                .FirstOrDefaultAsync(m => m.GearBoxID == id);
-            if (gearBox == null)
-            {
-                return NotFound();
-            }
-
-            return View(gearBox);
-        }
-
-        // GET: GearBoxes/Create
-        public IActionResult Create()
-        {
+            var itemCollection = await _context.GearBoxes.ToListAsync();
+            if (search != null)
+                itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
             return View();
         }
 
+
         // POST: GearBoxes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("GearBoxID,Name,Description,IsActive")] GearBox gearBox)
+        public async Task<IActionResult> Create([Bind("GearBoxID,Name,Description")] GearBox gearBox)
         {
             if (ModelState.IsValid)
             {
@@ -62,37 +41,14 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(gearBox);
-        }
-
-        // GET: GearBoxes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var gearBox = await _context.GearBoxes.FindAsync(id);
-            if (gearBox == null)
-            {
-                return NotFound();
-            }
-            return View(gearBox);
+            return View("Index");
         }
 
         // POST: GearBoxes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("GearBoxID,Name,Description,IsActive")] GearBox gearBox)
+        public async Task<IActionResult> Edit(int id, [Bind("GearBoxID,Name,Description")] GearBox gearBox)
         {
-            if (id != gearBox.GearBoxID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -113,25 +69,7 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(gearBox);
-        }
-
-        // GET: GearBoxes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var gearBox = await _context.GearBoxes
-                .FirstOrDefaultAsync(m => m.GearBoxID == id);
-            if (gearBox == null)
-            {
-                return NotFound();
-            }
-
-            return View(gearBox);
+            return View("Index");
         }
 
         // POST: GearBoxes/Delete/5

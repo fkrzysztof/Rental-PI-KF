@@ -20,41 +20,20 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: AirConditionings
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.AirConditionings.ToListAsync());
-        }
-
-        // GET: AirConditionings/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var airConditioning = await _context.AirConditionings
-                .FirstOrDefaultAsync(m => m.AirConditioningID == id);
-            if (airConditioning == null)
-            {
-                return NotFound();
-            }
-
-            return View(airConditioning);
-        }
-
-        // GET: AirConditionings/Create
-        public IActionResult Create()
-        {
+            var itemCollection = await _context.AirConditionings.ToListAsync();
+            if (search != null)
+                itemCollection = itemCollection.Where(w => w.Type.Contains(search)).ToList();
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Type);
             return View();
         }
 
+
         // POST: AirConditionings/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("AirConditioningID,Type,IsActive")] AirConditioning airConditioning)
+        public async Task<IActionResult> Create([Bind("AirConditioningID,Type")] AirConditioning airConditioning)
         {
             if (ModelState.IsValid)
             {
@@ -62,36 +41,15 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(airConditioning);
+            return View("Index");
         }
 
-        // GET: AirConditionings/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var airConditioning = await _context.AirConditionings.FindAsync(id);
-            if (airConditioning == null)
-            {
-                return NotFound();
-            }
-            return View(airConditioning);
-        }
 
         // POST: AirConditionings/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("AirConditioningID,Type,IsActive")] AirConditioning airConditioning)
+        public async Task<IActionResult> Edit(int id, [Bind("AirConditioningID,Type")] AirConditioning airConditioning)
         {
-            if (id != airConditioning.AirConditioningID)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -113,26 +71,9 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(airConditioning);
+            return View("Index");
         }
 
-        // GET: AirConditionings/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var airConditioning = await _context.AirConditionings
-                .FirstOrDefaultAsync(m => m.AirConditioningID == id);
-            if (airConditioning == null)
-            {
-                return NotFound();
-            }
-
-            return View(airConditioning);
-        }
 
         // POST: AirConditionings/Delete/5
         [HttpPost, ActionName("Delete")]

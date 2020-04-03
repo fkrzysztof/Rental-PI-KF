@@ -1,47 +1,193 @@
-﻿@model IEnumerable<Rental_Data.Data.Rental.Colour>
+﻿@model Rental_Data.Data.Rental.Colour
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h4 class="pt-4 pb-2">Kolory pojazdów</h4>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ColourID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ColourID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ColourID">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <span class="float-left"><i class="fas fa-folder-open mr-2"></i>Lista aktualnych pozycji</span>
+                        <button class="btn text-primary float-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"><i class="fas fa-sliders-h"></i></button>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <div class="text-center collapse show" id="collapseExample" style="">
+                            <div class="card card-body">
+                                <form asp-action="Index" method="get">
+                                    <div class="row">
+                                        <div class="col-sm-10 align-self-center">
+                                            @*Wyszukiwarka*@
+                                            <input type="text" name="search" class="form-control" placeholder="Wpisz szukaną frazę.." />
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
+                                            <button asp-action="Index" class="btn text-primary"><i class="fas fa-ban"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-borderless table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="text-left">
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </th>                                    
+                                    <th class="text-left">
+                                        @Html.DisplayNameFor(model => model.Description)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.ItemCollection)
+                                {
+                                    <tr>
+                                        <td class="text-left">
+                                            @item.Name
+                                        </td>                                        
+                                        <td class="text-left">
+                                            @item.Description
+                                        </td>
+                                        <td class="text-right">
+                                            @* wywolywanie okna modalnego oraz przekazywanie do niego danych przez JQ *@
+                                            <a data-name="@item.Name" data-id="@item.ColourID" data-description="@item.Description" class="ml-2 j-s-EditDialog" data-toggle="modal" data-target="#editModal" href="#editModal"><i class="fas fa-wrench"></i></a>
+                                            <a data-id="@item.ColourID" data-name="@item.Name" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @************************************************************************************ CREATE **********@
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <label class="control-label mb-3"><i class="fas fa-folder-plus mr-2"></i>Dodaj</label>
+                            <div class="form-group">
+                                <label asp-for="Name" class="control-label"></label>
+                                <input asp-for="Name" class="form-control" />
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Description" class="control-label"></label>
+                                <input asp-for="Description" class="form-control" />
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Utwórz" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<!-- Modal Delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="Delete" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Czy na pewno chcesz usunąć:
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @*Wysylanie ID*@
+                    <input type="hidden" name="id" id="itemId" value="" />
+                    <input type="text" name="name" id="itemName" value="" disabled class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", ".j-s-DeleteDialog", function () {
+            var itemId = $(this).data('id');
+            var itemName = $(this).data('name');
+            $(".modal-body #itemId").val(itemId);
+            $(".modal-body #itemName").val(itemName);
+        });
+    });
+</script>
+
+
+<!-- Modal Edit -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Edytuj wybraną pozycję
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @*Wysylanie ID*@
+                    <input type="hidden" name="ColourID" id="itemId" value="" />
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label small"></label>
+                        <input type="text" asp-for="Name" value="" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <input asp-for="Description" class="form-control" />
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Zmień</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", ".j-s-EditDialog", function () {
+            var itemId = $(this).data('id');
+            var itemName = $(this).data('name');
+            var itemDescription = $(this).data('description');
+            $(".modal-body #itemId").val(itemId);
+            $(".modal-body #Name").val(itemName);
+            $(".modal-body #Description").val(itemDescription);
+        });
+    });
+</script>

@@ -10,8 +10,11 @@ namespace Rental_Data.Data.Rental
     {
         [Key]
         public int AirConditioningID { get; set; }
+        
+        [Required]
         [Display(Name = "Typ")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
+        
         public bool IsActive { get; set; }
 
         public ICollection<Vehicle> Vehicle { get; set; }

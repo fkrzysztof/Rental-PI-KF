@@ -19,10 +19,10 @@ namespace Rental_PI_KF.Controllers
         // GET: GeneralTypes
         public async Task<IActionResult> Index(string search)
         {
-            if(search == null)
-                ViewBag.ItemCollection = _context.GeneralTypes;
-            else
-                ViewBag.ItemCollection = _context.GeneralTypes.Where(w => w.Name.Contains(search));
+            var itemCollection = await _context.GeneralTypes.ToListAsync();
+            if (search != null)
+                 itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name); ;
             return View();
         }
 

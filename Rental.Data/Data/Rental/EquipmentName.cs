@@ -12,6 +12,8 @@ namespace Rental.Data.Data.Rental
         [Key]
         public int EquipmentNameID { get; set; }
 
+        [Display(Name = "Nazwa")]
+        [Required(ErrorMessage = "Pole jest wymagane")]
         public string Name { get; set; }
 
         public ICollection<Equipment> Equipment { get; set; }

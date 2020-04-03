@@ -20,41 +20,20 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: EquipmentNames
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.EquipmentNames.ToListAsync());
-        }
-
-        // GET: EquipmentNames/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var equipmentName = await _context.EquipmentNames
-                .FirstOrDefaultAsync(m => m.EquipmentNameID == id);
-            if (equipmentName == null)
-            {
-                return NotFound();
-            }
-
-            return View(equipmentName);
-        }
-
-        // GET: EquipmentNames/Create
-        public IActionResult Create()
-        {
+            var itemCollection = await _context.EquipmentNames.ToListAsync();
+            if (search != null)
+                itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
             return View();
         }
 
+
         // POST: EquipmentNames/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EquipmentNameID,Name,IsActive")] EquipmentName equipmentName)
+        public async Task<IActionResult> Create([Bind("EquipmentNameID,Name")] EquipmentName equipmentName)
         {
             if (ModelState.IsValid)
             {
@@ -62,37 +41,15 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(equipmentName);
+            return View("Index");
         }
 
-        // GET: EquipmentNames/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var equipmentName = await _context.EquipmentNames.FindAsync(id);
-            if (equipmentName == null)
-            {
-                return NotFound();
-            }
-            return View(equipmentName);
-        }
 
         // POST: EquipmentNames/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EquipmentNameID,Name,IsActive")] EquipmentName equipmentName)
+        public async Task<IActionResult> Edit(int id, [Bind("EquipmentNameID,Name")] EquipmentName equipmentName)
         {
-            if (id != equipmentName.EquipmentNameID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
@@ -113,25 +70,7 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(equipmentName);
-        }
-
-        // GET: EquipmentNames/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var equipmentName = await _context.EquipmentNames
-                .FirstOrDefaultAsync(m => m.EquipmentNameID == id);
-            if (equipmentName == null)
-            {
-                return NotFound();
-            }
-
-            return View(equipmentName);
+            return View("Index");
         }
 
         // POST: EquipmentNames/Delete/5

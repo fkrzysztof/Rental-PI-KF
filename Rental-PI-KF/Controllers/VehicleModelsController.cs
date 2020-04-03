@@ -26,7 +26,7 @@ namespace Rental_PI_KF.Controllers
             {
                 applicationDbContext = applicationDbContext.Where(w => w.BrandID == search).ToList();
             }
-            ViewBag.Items = applicationDbContext.OrderBy(o => o.Name);
+            ViewBag.Items = applicationDbContext.OrderBy(o => o.Brand.Name).ThenBy(t => t.Name);
          
             return View();
         }

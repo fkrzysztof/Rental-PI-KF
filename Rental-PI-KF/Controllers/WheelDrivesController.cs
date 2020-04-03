@@ -20,41 +20,20 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: WheelDrives
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.WheelDrives.ToListAsync());
-        }
-
-        // GET: WheelDrives/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var wheelDrive = await _context.WheelDrives
-                .FirstOrDefaultAsync(m => m.WheelDriveID == id);
-            if (wheelDrive == null)
-            {
-                return NotFound();
-            }
-
-            return View(wheelDrive);
-        }
-
-        // GET: WheelDrives/Create
-        public IActionResult Create()
-        {
+            var itemCollection = await _context.WheelDrives.ToListAsync();
+            if (search != null)
+                itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
             return View();
         }
 
+
         // POST: WheelDrives/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("WheelDriveID,Name,Description,IsActive")] WheelDrive wheelDrive)
+        public async Task<IActionResult> Create([Bind("WheelDriveID,Name,Description")] WheelDrive wheelDrive)
         {
             if (ModelState.IsValid)
             {
@@ -62,36 +41,15 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(wheelDrive);
+            return View("Index");
         }
 
-        // GET: WheelDrives/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var wheelDrive = await _context.WheelDrives.FindAsync(id);
-            if (wheelDrive == null)
-            {
-                return NotFound();
-            }
-            return View(wheelDrive);
-        }
 
         // POST: WheelDrives/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("WheelDriveID,Name,Description,IsActive")] WheelDrive wheelDrive)
+        public async Task<IActionResult> Edit(int id, [Bind("WheelDriveID,Name,Description")] WheelDrive wheelDrive)
         {
-            if (id != wheelDrive.WheelDriveID)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -113,26 +71,9 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(wheelDrive);
+            return View("Index");
         }
 
-        // GET: WheelDrives/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var wheelDrive = await _context.WheelDrives
-                .FirstOrDefaultAsync(m => m.WheelDriveID == id);
-            if (wheelDrive == null)
-            {
-                return NotFound();
-            }
-
-            return View(wheelDrive);
-        }
 
         // POST: WheelDrives/Delete/5
         [HttpPost, ActionName("Delete")]
