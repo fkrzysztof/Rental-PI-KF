@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,7 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: Vtest
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Vehicles.Include(v => v.AirConditioning).Include(v => v.Brand).Include(v => v.Colour).Include(v => v.EngineType).Include(v => v.ExactType).Include(v => v.GearBox).Include(v => v.GeneralType).Include(v => v.RentalAgency).Include(v => v.VehicleModel).Include(v => v.WheelDrive);

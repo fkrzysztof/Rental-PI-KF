@@ -1,0 +1,69 @@
+﻿@model Rental.Data.Data.Areas.Identity.Data.ApplicationUser
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+<table>
+<tbody>
+
+
+        <tr>
+            <td class="text-left">
+                @{
+                    if (Model.Image != null)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Image);
+                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                        <img style="width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />
+                    }
+                }
+            </td>
+            <td class="text-left">
+                @Model.FirstName
+            </td>
+            <td class="text-left">
+                @Model.LastName
+            </td>
+            <td class="text-left">
+                @Model.Email
+            </td>
+            <td class="text-left">
+                @Model.Phone
+            </td>
+            <td class="text-left">
+                @Model.Country
+            </td>
+            <td class="text-left">
+                @Model.City
+            </td>
+            <td class="text-left">
+                @Model.Street
+            </td>
+            <td class="text-left">
+                @Model.Number
+            </td>
+            <td class="text-right">
+                @* wywolywanie okna modalnego oraz przekazywanie do niego danych przez JQ *@
+                <a @*data-name="@item.Name" data-id="@item.BrandID"*@ class="ml-2" @*data-toggle="modal" data-target="#editModal"*@ asp-route-id="@Model.Id" asp-action="Edit"><i class="fas fa-wrench"></i></a>
+                <a @*data-id="@item.BrandID" data-name="@item.Name"*@ class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
+            </td>
+        </tr>
+    
+</tbody>
+                        </table>
+
+
+
+<form>
+    <div class="form-row">
+
+        <div class="col-md-6">
+            <input type="text" value="@Model.FirstName" class="form-control">
+        </div>
+
+
+
+    </div>
+</form>

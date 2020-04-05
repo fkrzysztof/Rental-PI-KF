@@ -40,5 +40,29 @@ namespace Rental_PI_KF.Controllers
 
             return Json(query);
         }
+
+        public ActionResult GetDataCarAll()
+        {
+            int a = _context.Vehicles.Count();
+
+            var query = _context.Vehicles
+                .Include(r => r.Brand).Include(r => r.VehicleModel)
+                .GroupBy(g => g.VehicleModel.Name)
+                .OrderBy(g => g.Count())
+                .Select(s => new { name = s.Key, nameCount = s.Count(), all = a }).ToList();
+
+            return Json(query);
+        }
+        public ActionResult GetDataRentalAll()
+        {
+            int a = _context.Vehicles.Count();
+
+            var query = _context.RentalVehicles
+                //.Include(r => r.Brand).Include(r => r.VehicleModel)
+                .GroupBy(g => g.From)
+                .Select(s => new { name = s.Key.Date.ToShortDateString(), nameCount = s.Count(), all = a }).ToList();
+
+            return Json(query);
+        }
     }
 }
