@@ -3,67 +3,173 @@
     ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@using Rental.Data.Data.Areas.Identity.Data
 <h1>Edit</h1>
-<table>
-<tbody>
 
 
-        <tr>
-            <td class="text-left">
-                @{
-                    if (Model.Image != null)
-                    {
-                        var base64 = Convert.ToBase64String(Model.Image);
-                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                        <img style="width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />
-                    }
-                }
-            </td>
-            <td class="text-left">
-                @Model.FirstName
-            </td>
-            <td class="text-left">
-                @Model.LastName
-            </td>
-            <td class="text-left">
-                @Model.Email
-            </td>
-            <td class="text-left">
-                @Model.Phone
-            </td>
-            <td class="text-left">
-                @Model.Country
-            </td>
-            <td class="text-left">
-                @Model.City
-            </td>
-            <td class="text-left">
-                @Model.Street
-            </td>
-            <td class="text-left">
-                @Model.Number
-            </td>
-            <td class="text-right">
-                @* wywolywanie okna modalnego oraz przekazywanie do niego danych przez JQ *@
-                <a @*data-name="@item.Name" data-id="@item.BrandID"*@ class="ml-2" @*data-toggle="modal" data-target="#editModal"*@ asp-route-id="@Model.Id" asp-action="Edit"><i class="fas fa-wrench"></i></a>
-                <a @*data-id="@item.BrandID" data-name="@item.Name"*@ class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
-            </td>
-        </tr>
-    
-</tbody>
-                        </table>
+<div class="container">
+    <div class="row">
+        <div col-md-6>
+            <form asp-action="Edit" enctype="multipart/form-data">
+                <div class="card m-2">
+                    <div class="card-header">
+                        <i class="fas fa-user-circle"></i> Zdjęcie
+                    </div>
+                    <div class="card-body">
+                        <div id="dbimage">
 
+                            @if (Model.Image != null)
+                            {
 
+                                var base64 = Convert.ToBase64String(Model.Image);
+                                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                <img style="width: 100px; height:100px" class="img-profile rounded mb-4" id="#dbimage" src="@imgSrc" />
 
-<form>
-    <div class="form-row">
+                            }
 
-        <div class="col-md-6">
-            <input type="text" value="@Model.FirstName" class="form-control">
+                        </div>
+                        <div id="showimage"></div>
+
+                        <div class="custom-file">
+                            <input class="form-control custom-file-input" type="file" name="file" />
+                            <label class="custom-file-label">Wybierz..</label>
+                        </div>
+
+                    </div>
+                </div>
+                <script type="text/javascript">
+
+                $(document).ready(function () {
+                    @*Java script dodaje siezke do pliku labeka *@
+                    $(".custom-file-input").on("change", function () {
+
+                        //dopisane
+                        document.getElementById("dbimage").style.display = "none";
+
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).next(".custom-file-label").html(fileName);
+
+                        @*Pokazuje zdjecie *@
+                        var previewimages = $("#showimage");
+                        previewimages.html("");
+                        $($(this)[0].files).each(function () {
+                            var file = $(this);
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = $("<img class=\"rounded mb-4 \" />");
+                                img.attr("style", "height:100px;width: 100px;");
+                                img.attr("src", e.target.result);
+                                previewimages.append(img);
+                            }
+                            reader.readAsDataURL(file[0]);
+
+                        });
+
+                    }); //dodalem ;
+                });
+                </script>
+                <div class="card m-2">
+                    <div class="card-header">
+                        <i class="fas fa-folder-open"></i> Dane
+                    </div>
+                    <div class="card-body">
+
+                        @*<input type="hidden" value="@Model.Id" />*@
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Imię</label>
+                                <input type="text" asp-for="@Model.FirstName" value="@Model.FirstName" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Nazwisko</label>
+                                <input type="text" asp-for="@Model.LastName" value="@Model.LastName" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Email</label>
+                                <input type="text" asp-for="@Model.Email" value="@Model.Email" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Telefon</label>
+                                <input type="text" asp-for="@Model.Phone" value="@Model.Phone" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>Ulica</label>
+                                <input type="text" asp-for="@Model.Street" value="@Model.Street" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Numer</label>
+                                <input type="text" asp-for="@Model.Number" value="@Model.Number" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputCity">Kraj</label>
+                                <input type="text" asp-for="@Model.Country" value="@Model.Country" class="form-control">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState">Miasto</label>
+                                <input type="text" asp-for="@Model.City" value="@Model.City" class="form-control">
+
+                            </div>
+                            <div class="form-group col-md-2">
+                                <label for="inputZip">Kod</label>
+                                <input type="text" asp-for="@Model.ZIPCode" value="@Model.ZIPCode" class="form-control">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+            
+                </div>
+            </div>
+            </form>
         </div>
+        <div class="col-md-4">
+            <form asp-action="EditRole">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <div class="card m-2">
+                    <div class="card-header">
+                        <i class="fas fa-user-tag"></i> Rola w systemie
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="inputState">State</label>
+                            <select class="form-control" name="roleName" asp-items="@ViewBag.UsersRole">
+                                <option disabled selected>Wybierz...</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Zmień role</button>
+                    </div>
+                </div>
+            </form>
+            @{ 
+                Password pw = ViewBag.Password;
+            }
 
-
-
+            <div class="card m-2">
+                <div class="card-header">
+                    <i class="fas fa-key"></i> Zmiana Hasła
+                </div>
+                <div class="card-body">
+                    <form asp-action="ResetPassword">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <div class="form-group">
+                            <label for="inputPassword">Password</label>
+                            <input class="form-control" asp-for="@pw.PasswordNew"  placeholder="Password">
+                            <span asp-validation-for="@pw.PasswordNew" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword">Password</label>
+                            <input class="form-control" asp-for="@pw.ConfirmPassword" placeholder="Password">
+                            <span asp-validation-for="@pw.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Zmień hasło</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-</form>
+</div>
