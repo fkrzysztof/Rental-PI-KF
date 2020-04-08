@@ -5,6 +5,10 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+
+
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link active" asp-action="Customers" asp-controller="Role">Klienci</a>
@@ -16,6 +20,7 @@
         <a class="nav-link" asp-action="Administrators" asp-controller="Role">Administratorzy</a>
     </li>
 </ul>
+
 
 <div class="row mb-4">
     <div class="col-md-12">
@@ -56,22 +61,22 @@
                                     </th>
                                     <th class="text-left">
                                         @Html.DisplayNameFor(model => model.First().LastName)
-                                    </th>                                    
+                                    </th>
                                     <th class="text-left">
                                         @Html.DisplayNameFor(model => model.First().Email)
-                                    </th>                                    
+                                    </th>
                                     <th class="text-left">
                                         @Html.DisplayNameFor(model => model.First().Phone)
-                                    </th>                                       
+                                    </th>
                                     <th class="text-left">
                                         @Html.DisplayNameFor(model => model.First().Country)
-                                    </th>                                    
+                                    </th>
                                     <th class="text-left">
                                         @Html.DisplayNameFor(model => model.First().City)
-                                    </th>                                    
+                                    </th>
                                     <th class="text-left">
                                         @Html.DisplayNameFor(model => model.First().Street)
-                                    </th>                                    
+                                    </th>
                                     <th class="text-left">
                                         @Html.DisplayNameFor(model => model.First().Number)
                                     </th>
@@ -193,8 +198,8 @@
                     <input type="hidden" name="BrandID" id="itemId" value="" />
                     <div class="form-group">
                         @*<label asp-for="Name" class="control-label small"></label>
-                        <input type="text" asp-for="Name" value="" class="form-control" />
-                        <span asp-validation-for="Name" class="text-danger"></span>*@
+                            <input type="text" asp-for="Name" value="" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>*@
                     </div>
                 </div>
                 <div class="modal-footer">

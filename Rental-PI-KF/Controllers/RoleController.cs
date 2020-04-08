@@ -26,7 +26,7 @@ namespace Rental_PI_KF.Controllers
             _roleManager = roleManager;
         }
         public async Task<IActionResult> Index()
-        {
+        {            
             //   var roles = _roleManager.Roles.ToList();
             //   return View(roles);
             //List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
@@ -43,18 +43,33 @@ namespace Rental_PI_KF.Controllers
         public IActionResult Customers()
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
+            ViewBag.UserRole = "Klient";
+
+
             return View(users);
         }
 
         public IActionResult Administrators()
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Administrator").Result.ToList();
+            var usersRole = _roleManager.Roles.ToList();
+            ViewBag.UserRole = "Administrator";
+            List<ApplicationUser> userAll = _userManager.Users.ToList();
+            ViewBag.UserAll = new SelectList(userAll, "Id", "Fullname");
+
             return View(users);
         }
 
         public IActionResult Employees()
         {
+            //do poprawy ALL user bez tych co sa ju zna liscie !!!!
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Pracownik").Result.ToList();
+            List<ApplicationUser> userAll = _userManager.Users.ToList();
+            ViewBag.UserAll = new SelectList( userAll, "Id", "Fullname");
+            
+
+            ViewBag.UserRole = "Pracownik";
+
             return View(users);
         }
         
@@ -89,9 +104,10 @@ namespace Rental_PI_KF.Controllers
                 return View("NotFound");
             }
             var usersRole = _roleManager.Roles.ToList();
+            ViewBag.UsersRole = new SelectList(usersRole, "Name", "Name");
             Password pw = new Password();
             ViewBag.Password = pw;
-            ViewBag.UsersRole = new SelectList(usersRole, "Name", "Name");
+
 
             return View(user);
         }
@@ -153,14 +169,50 @@ namespace Rental_PI_KF.Controllers
             }
             else
             {
-               var remove = _userManager.RemoveFromRoleAsync(user, _userManager.GetRolesAsync(user).Result.First());
+               var roleToRemove = _userManager.GetRolesAsync(user).Result.First();
+               var remove = _userManager.RemoveFromRoleAsync(user, roleToRemove);
                var add = _userManager.AddToRoleAsync(user, roleName);
-                if (remove.Result.Succeeded && add.Result.Succeeded)
+                //if (remove.Result.Succeeded && add.Result.Succeeded)
+                if (add.Result.Succeeded)
                 {
-                    return View("Index");
+                   return RedirectToAction("Index");
                 }
             }
             return Content("Coś poszło nie tak..");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AddUser(string id, string roleName)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return View("NotFound");
+            }
+            else
+            {
+                var roleOld = _userManager.GetRolesAsync(user).Result.ToList();
+                foreach (var item in roleOld)
+                {
+                   var rezult2 = await _userManager.RemoveFromRoleAsync(user, item);
+                    if (rezult2.Succeeded)
+                        continue;
+                    else
+                        return Content("w petli jest problem");
+                }
+                //var rezult2 = await _userManager.RemoveFromRoleAsync(user, roleName);
+                var rezult1 = await _userManager.AddToRoleAsync(user, roleName);
+              if (rezult1.Succeeded)
+              {
+                    //nie moze wracac do indexu!!!!
+                    return RedirectToAction("Index");
+              }
+              else
+              {
+                    return Content("wystapił błąd podaczas dodawania");
+              }
+            }
         }
 
         public IActionResult Create()

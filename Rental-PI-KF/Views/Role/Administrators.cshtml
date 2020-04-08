@@ -5,6 +5,15 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+    <form asp-action="AddUser">
+        <input type="hidden" name="roleName" value="@ViewBag.UserRole" />
+        <select name="id" asp-items="@ViewBag.UserAll">
+            <option>cos</option>
+        </select>
+        <button type="submit">dodaj</button>
+    </form>
+
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link" asp-action="Customers" asp-controller="Role">Klienci</a>

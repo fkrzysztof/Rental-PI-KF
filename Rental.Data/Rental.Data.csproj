@@ -83,6 +83,12 @@
     <Compile Remove="Data\Migrations\20200328094327_add required AppUser1.Designer.cs" />
     <Compile Remove="Data\Migrations\20200402152421_add required to ExectyTypes.cs" />
     <Compile Remove="Data\Migrations\20200402152421_add required to ExectyTypes.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200407224434_password-role-edit-admin-user.cs" />
+    <Compile Remove="Data\Migrations\20200407224434_password-role-edit-admin-user.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200407224652_password-role-edit-admin-user.cs" />
+    <Compile Remove="Data\Migrations\20200407224652_password-role-edit-admin-user.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200407225049_password-role-edit-admin-user1.cs" />
+    <Compile Remove="Data\Migrations\20200407225049_password-role-edit-admin-user1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
