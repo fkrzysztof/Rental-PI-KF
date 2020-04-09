@@ -1,0 +1,18 @@
+﻿@{ 
+    string action = Html.ViewContext.RouteData.Values["action"].ToString();
+}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link @(action == "Customers" ? "active":"") " asp-action="Customers" asp-controller="Role">Klienci</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(action == "Employees" ? "active":"") " asp-action="Employees" asp-controller="Role">Pracownicy</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(action == "Administrators" ? "active":"") " asp-action="Administrators" asp-controller="Role">Administratorzy</a>
+    </li>
+        <li class="nav-item">
+        <a class="nav-link text-danger @(action == "Zablokowani" ? "active":"") " asp-action="BlockedUsers" asp-controller="Role">Zablokowani</a>
+    </li>
+</ul>

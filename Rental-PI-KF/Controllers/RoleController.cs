@@ -27,48 +27,46 @@ namespace Rental_PI_KF.Controllers
         }
         public async Task<IActionResult> Index()
         {            
-            //   var roles = _roleManager.Roles.ToList();
-            //   return View(roles);
-            //List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
-            //List<ApplicationUser> users =  _userManager.Users.ToList();
-
-            //ViewBag.Users = users;
-
-            //  tu moze bedzie dalsza czas ustawiania role ?
-
             return RedirectToAction("Customers");
-
         }
 
         public IActionResult Customers()
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
             ViewBag.UserRole = "Klient";
-
+            ViewBag.Action = "Customers";
+            allUsers(users);
 
             return View(users);
         }
+        
+        public IActionResult BlockedUsers()
+        {
+            List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Zablokowani").Result.ToList();
+            ViewBag.UserRole = "Zablokowani";
+            ViewBag.Action = "BlockedUsers";
+            allUsers(users);
 
+            //return View(users);
+            return Content("zablokowani");
+        }
+                
         public IActionResult Administrators()
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Administrator").Result.ToList();
-            var usersRole = _roleManager.Roles.ToList();
             ViewBag.UserRole = "Administrator";
-            List<ApplicationUser> userAll = _userManager.Users.ToList();
-            ViewBag.UserAll = new SelectList(userAll, "Id", "Fullname");
+            ViewBag.Action = "Administrators";
+            allUsers(users);
 
             return View(users);
         }
 
         public IActionResult Employees()
         {
-            //do poprawy ALL user bez tych co sa ju zna liscie !!!!
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Pracownik").Result.ToList();
-            List<ApplicationUser> userAll = _userManager.Users.ToList();
-            ViewBag.UserAll = new SelectList( userAll, "Id", "Fullname");
-            
-
             ViewBag.UserRole = "Pracownik";
+            ViewBag.Action = "Employees";
+            allUsers(users);
 
             return View(users);
         }
@@ -92,11 +90,10 @@ namespace Rental_PI_KF.Controllers
             }
 
             return View(user);
-            
         }
 
         
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string id, string actionLink)
         {
             var user = await _userManager.FindByIdAsync(id);
             if( user == null)
@@ -107,13 +104,13 @@ namespace Rental_PI_KF.Controllers
             ViewBag.UsersRole = new SelectList(usersRole, "Name", "Name");
             Password pw = new Password();
             ViewBag.Password = pw;
-
+            ViewBag.Action = actionLink;
 
             return View(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(string id, ApplicationUser au, IFormFile file)
+        public async Task<IActionResult> Edit(string id, ApplicationUser au, IFormFile file, string actionLink)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
@@ -151,11 +148,11 @@ namespace Rental_PI_KF.Controllers
 
                 if(rezult.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction(actionLink);
                 }
             }
 
-            return RedirectToAction("Edit");
+            return Content("Wystąpił błąd z edycją usera");
         }
 
 
@@ -178,12 +175,13 @@ namespace Rental_PI_KF.Controllers
                    return RedirectToAction("Index");
                 }
             }
+
             return Content("Coś poszło nie tak..");
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AddUser(string id, string roleName)
+        public async Task<IActionResult> AddUser(string id, string roleName, string action)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
@@ -201,13 +199,11 @@ namespace Rental_PI_KF.Controllers
                     else
                         return Content("w petli jest problem");
                 }
-                //var rezult2 = await _userManager.RemoveFromRoleAsync(user, roleName);
                 var rezult1 = await _userManager.AddToRoleAsync(user, roleName);
               if (rezult1.Succeeded)
               {
-                    //nie moze wracac do indexu!!!!
-                    return RedirectToAction("Index");
-              }
+                    return RedirectToAction(action);
+                }
               else
               {
                     return Content("wystapił błąd podaczas dodawania");
@@ -215,19 +211,43 @@ namespace Rental_PI_KF.Controllers
             }
         }
 
-        public IActionResult Create()
-        {
-            return View(new IdentityRole());
-        }
         
         [HttpPost]
-        public async Task<IActionResult> Create(IdentityRole role)
+        public async Task<IActionResult> Delete(string id, string action)
         {
-      //      await _roleManager.CreateAsync(role);
-            
-        //    _userManager.
-            
-            return RedirectToAction("Index");
+            //string newRoleName = "Zablokowani";
+            //if ( !(await _roleManager.RoleExistsAsync(newRoleName)))
+            //{
+            //    await _roleManager.CreateAsync(new IdentityRole(newRoleName));
+            //}
+            //await AddUser(id, newRoleName, action);
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var rezultDelete = await _userManager.DeleteAsync(user);
+                if (rezultDelete.Succeeded)
+                    return RedirectToAction(action);
+                else
+                    return Content("Błąd podczas usuwania");
+            }
+
+            return Content("Nie ma takiego użytkownia");
+
         }
+
+        private void allUsers(List<ApplicationUser> users)
+        {
+            //wszyscy
+            List<ApplicationUser> userAll = _userManager.Users.ToList();
+            //sparacja
+            foreach (var itemUser in users)
+            {
+                if (userAll.Contains(itemUser))
+                    userAll.Remove(itemUser);
+            }
+            ViewBag.UserAll = new SelectList(userAll, "Id", "Fullname");
+        }
+
+
     }
 }

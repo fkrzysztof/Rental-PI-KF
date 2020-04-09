@@ -5,141 +5,126 @@
     //Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<form asp-action="AddUser">
-    <input type="hidden" name="roleName" value="@ViewBag.UserRole" />
-    <select name="id" asp-items="@ViewBag.UserAll" >
-        <option>cos</option>
-    </select>
-    <button type="submit" >dodaj</button>
-</form>
+    <div class="row mb-4">
 
+        @await Html.PartialAsync("AddUser");
 
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link" asp-action="Customers" asp-controller="Role">Klienci</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" asp-action="Employees" asp-controller="Role">Pracownicy</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-action="Administrators" asp-controller="Role">Administratorzy</a>
-    </li>
-</ul>
+        <div class="col-md-12">
 
-<div class="row mb-4">
-    <div class="col-md-12">
-        <div class="card border-top-0 rounded-0 rounded-bottom">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12 mb-2">
-                        <span class="float-left"><i class="fas fa-folder-open mr-2"></i>Lista aktualnych pozycji</span>
-                        <button class="btn text-primary float-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"><i class="fas fa-sliders-h"></i></button>
-                    </div>
-                    <div class="col-12 mb-2">
-                        <div class="text-center collapse show" id="collapseExample" style="">
-                            <div class="card card-body">
-                                <form asp-action="Index" method="get">
-                                    <div class="row">
-                                        <div class="col-sm-10 align-self-center">
-                                            @*Wyszukiwarka*@
-                                            <input type="text" name="search" class="form-control" placeholder="Wpisz szukaną frazę.." />
+            @await Html.PartialAsync("Navi")
+
+            <div class="card border-top-0 rounded-0 rounded-bottom">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12 mb-2">
+                            <span class="float-left"><i class="fas fa-folder-open mr-2"></i>Lista aktualnych pozycji</span>
+                            <button class="btn text-primary float-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"><i class="fas fa-sliders-h"></i></button>
+                        </div>
+                        <div class="col-12 mb-2">
+                            <div class="text-center collapse show" id="collapseExample" style="">
+                                <div class="card card-body">
+                                    <form asp-action="Index" method="get">
+                                        <div class="row">
+                                            <div class="col-sm-10 align-self-center">
+                                                @*Wyszukiwarka*@
+                                                <input type="text" name="search" class="form-control" placeholder="Wpisz szukaną frazę.." />
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
+                                                <button asp-action="Index" class="btn text-primary"><i class="fas fa-ban"></i></button>
+                                            </div>
                                         </div>
-                                        <div class="col-sm-2">
-                                            <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
-                                            <button asp-action="Index" class="btn text-primary"><i class="fas fa-ban"></i></button>
-                                        </div>
-                                    </div>
-                                </form>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-12">
-                        <table class="table table-borderless table-hover">
-                            <thead>
-                                <tr>
-                                    <th class="text-left">
-                                        @Html.DisplayNameFor(model => model.First().Image)
-                                    </th>
-                                    <th class="text-left">
-                                        @Html.DisplayNameFor(model => model.First().FirstName)
-                                    </th>
-                                    <th class="text-left">
-                                        @Html.DisplayNameFor(model => model.First().LastName)
-                                    </th>
-                                    <th class="text-left">
-                                        @Html.DisplayNameFor(model => model.First().Email)
-                                    </th>
-                                    <th class="text-left">
-                                        @Html.DisplayNameFor(model => model.First().Phone)
-                                    </th>
-                                    <th class="text-left">
-                                        @Html.DisplayNameFor(model => model.First().Country)
-                                    </th>
-                                    <th class="text-left">
-                                        @Html.DisplayNameFor(model => model.First().City)
-                                    </th>
-                                    <th class="text-left">
-                                        @Html.DisplayNameFor(model => model.First().Street)
-                                    </th>
-                                    <th class="text-left">
-                                        @Html.DisplayNameFor(model => model.First().Number)
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach (var item in Model)
-                                {
+                        <div class="col-12">
+                            <table class="table table-borderless table-hover">
+                                <thead>
                                     <tr>
-                                        <td class="text-left">
-                                            @{
-                                                if (item.Image != null)
-                                                {
-                                                    var base64 = Convert.ToBase64String(item.Image);
-                                                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                                    <img style="width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />
-                                                }
-                                            }
-                                        </td>
-                                        <td class="text-left">
-                                            @item.FirstName
-                                        </td>
-                                        <td class="text-left">
-                                            @item.LastName
-                                        </td>
-                                        <td class="text-left">
-                                            @item.Email
-                                        </td>
-                                        <td class="text-left">
-                                            @item.Phone
-                                        </td>
-                                        <td class="text-left">
-                                            @item.Country
-                                        </td>
-                                        <td class="text-left">
-                                            @item.City
-                                        </td>
-                                        <td class="text-left">
-                                            @item.Street
-                                        </td>
-                                        <td class="text-left">
-                                            @item.Number
-                                        </td>
-                                        <td class="text-right">
-                                            @* wywolywanie okna modalnego oraz przekazywanie do niego danych przez JQ *@
-                                            <a class="ml-2" asp-action="Edit" asp-route-id="@item.Id" asp-controller="Role"><i class="fas fa-wrench"></i></a>
-                                            <a @*data-id="@item.BrandID" data-name="@item.Name"*@ class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
-                                        </td>
+                                        <th class="text-left">
+                                            @Html.DisplayNameFor(model => model.First().Image)
+                                        </th>
+                                        <th class="text-left">
+                                            @Html.DisplayNameFor(model => model.First().FirstName)
+                                        </th>
+                                        <th class="text-left">
+                                            @Html.DisplayNameFor(model => model.First().LastName)
+                                        </th>
+                                        <th class="text-left">
+                                            @Html.DisplayNameFor(model => model.First().Email)
+                                        </th>
+                                        <th class="text-left">
+                                            @Html.DisplayNameFor(model => model.First().Phone)
+                                        </th>
+                                        <th class="text-left">
+                                            @Html.DisplayNameFor(model => model.First().Country)
+                                        </th>
+                                        <th class="text-left">
+                                            @Html.DisplayNameFor(model => model.First().City)
+                                        </th>
+                                        <th class="text-left">
+                                            @Html.DisplayNameFor(model => model.First().Street)
+                                        </th>
+                                        <th class="text-left">
+                                            @Html.DisplayNameFor(model => model.First().Number)
+                                        </th>
                                     </tr>
-                                }
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td class="text-left">
+                                                @{
+                                                    if (item.Image != null)
+                                                    {
+                                                        var base64 = Convert.ToBase64String(item.Image);
+                                                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                                        <img style="width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />
+                                                    }
+                                                }
+                                            </td>
+                                            <td class="text-left">
+                                                @item.FirstName
+                                            </td>
+                                            <td class="text-left">
+                                                @item.LastName
+                                            </td>
+                                            <td class="text-left">
+                                                @item.Email
+                                            </td>
+                                            <td class="text-left">
+                                                @item.Phone
+                                            </td>
+                                            <td class="text-left">
+                                                @item.Country
+                                            </td>
+                                            <td class="text-left">
+                                                @item.City
+                                            </td>
+                                            <td class="text-left">
+                                                @item.Street
+                                            </td>
+                                            <td class="text-left">
+                                                @item.Number
+                                            </td>
+                                            <td class="text-right">
+                                                @* wywolywanie okna modalnego oraz przekazywanie do niego danych przez JQ *@
+                                                <a class="ml-2" asp-action="Edit" asp-route-actionLink="@ViewBag.Action" asp-route-id="@item.Id" asp-controller="Role"><i class="fas fa-wrench"></i></a>
+                                                <a @*data-id="@item.BrandID" data-name="@item.Name"*@ class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 <!-- Modal -->
 <!-- Modal Delete -->
