@@ -30,45 +30,92 @@ namespace Rental_PI_KF.Controllers
             return RedirectToAction("Customers");
         }
 
-        public IActionResult Customers()
+        public IActionResult Customers(string search)
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
             ViewBag.UserRole = "Klient";
             ViewBag.Action = "Customers";
+            if (search != null)
+            {
+              users =  users.Where(w =>
+                    w.Fullname.Contains(search) ||
+                    w.City.Contains(search) ||
+                    w.Country.Contains(search) ||
+                    w.Street.Contains(search) ||
+                    w.Phone.Contains(search) ||
+                    w.ZIPCode.Contains(search) ||
+                    w.UserName.Contains(search)
+                    ).ToList();
+            }
             allUsers(users);
 
-            return View(users);
+            return View("Index", users);
         }
         
-        public IActionResult BlockedUsers()
+        public IActionResult BlockedUsers(string search)
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Zablokowani").Result.ToList();
             ViewBag.UserRole = "Zablokowani";
             ViewBag.Action = "BlockedUsers";
+            if (search != null)
+            {
+                users = users.Where(w =>
+                     w.Fullname.Contains(search) ||
+                     w.City.Contains(search) ||
+                     w.Country.Contains(search) ||
+                     w.Street.Contains(search) ||
+                     w.Phone.Contains(search) ||
+                     w.ZIPCode.Contains(search) ||
+                     w.UserName.Contains(search)
+                      ).ToList();
+            }
             allUsers(users);
 
-            //return View(users);
-            return Content("zablokowani");
+            return View("Index", users);
         }
                 
-        public IActionResult Administrators()
+        public IActionResult Administrators(string search)
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Administrator").Result.ToList();
             ViewBag.UserRole = "Administrator";
             ViewBag.Action = "Administrators";
+            if (search != null)
+            {
+                users = users.Where(w =>
+                     w.Fullname.Contains(search) ||
+                     w.City.Contains(search) ||
+                     w.Country.Contains(search) ||
+                     w.Street.Contains(search) ||
+                     w.Phone.Contains(search) ||
+                     w.ZIPCode.Contains(search) ||
+                     w.UserName.Contains(search)
+                      ).ToList();
+            }
             allUsers(users);
 
-            return View(users);
+            return View("Index", users);
         }
 
-        public IActionResult Employees()
+        public IActionResult Employees(string search)
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Pracownik").Result.ToList();
             ViewBag.UserRole = "Pracownik";
             ViewBag.Action = "Employees";
+            if (search != null)
+            {
+                users = users.Where(w =>
+                     w.Fullname.Contains(search) ||
+                     w.City.Contains(search) ||
+                     w.Country.Contains(search) ||
+                     w.Street.Contains(search) ||
+                     w.Phone.Contains(search) ||
+                     w.ZIPCode.Contains(search) ||
+                     w.UserName.Contains(search)
+                      ).ToList();
+            }
             allUsers(users);
 
-            return View(users);
+            return View("Index", users);
         }
         
         [HttpPost]
@@ -100,7 +147,10 @@ namespace Rental_PI_KF.Controllers
             {
                 return View("NotFound");
             }
-            var usersRole = _roleManager.Roles.ToList();
+            var getUserRole = await _userManager.GetRolesAsync(user);
+            //tutaj powinni byc wszyscy bo b uc moze bedie przypadek ze bedzie 2 role do jednego usera 1!!!!!!!!!!!!!
+            var usersRole = _roleManager.Roles.Where(w => w.Name != "Zablokowani" && w.Name != getUserRole.First());
+            //usuwam z listy aktualna role oraz zablokowanych uzytkownikow
             ViewBag.UsersRole = new SelectList(usersRole, "Name", "Name");
             Password pw = new Password();
             ViewBag.Password = pw;
@@ -155,31 +205,6 @@ namespace Rental_PI_KF.Controllers
             return Content("Wystąpił błąd z edycją usera");
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> EditRole(string id, string roleName)
-        {
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return View("NotFound");
-            }
-            else
-            {
-               var roleToRemove = _userManager.GetRolesAsync(user).Result.First();
-               var remove = _userManager.RemoveFromRoleAsync(user, roleToRemove);
-               var add = _userManager.AddToRoleAsync(user, roleName);
-                //if (remove.Result.Succeeded && add.Result.Succeeded)
-                if (add.Result.Succeeded)
-                {
-                   return RedirectToAction("Index");
-                }
-            }
-
-            return Content("Coś poszło nie tak..");
-        }
-
-
         [HttpPost]
         public async Task<IActionResult> AddUser(string id, string roleName, string action)
         {
@@ -200,14 +225,14 @@ namespace Rental_PI_KF.Controllers
                         return Content("w petli jest problem");
                 }
                 var rezult1 = await _userManager.AddToRoleAsync(user, roleName);
-              if (rezult1.Succeeded)
-              {
+                if (rezult1.Succeeded)
+                {
                     return RedirectToAction(action);
                 }
-              else
-              {
+                else
+                {
                     return Content("wystapił błąd podaczas dodawania");
-              }
+                }
             }
         }
 
@@ -247,7 +272,5 @@ namespace Rental_PI_KF.Controllers
             }
             ViewBag.UserAll = new SelectList(userAll, "Id", "Fullname");
         }
-
-
     }
 }

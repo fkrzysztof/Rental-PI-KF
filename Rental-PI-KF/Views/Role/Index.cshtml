@@ -1,22 +1,17 @@
-﻿@*@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>*@
-@model IEnumerable<Rental.Data.Data.Areas.Identity.Data.ApplicationUser>
+﻿@model IEnumerable<Rental.Data.Data.Areas.Identity.Data.ApplicationUser>
 
-
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" asp-action="Customers" asp-controller="Role">Klienci</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" asp-action="Employees" asp-controller="Role">Pracownicy</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-action="Administrators" asp-controller="Role">Administratorzy</a>
-    </li>
-</ul>
+@{
+    //ViewData["Title"] = "Customers";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
 
 <div class="row mb-4">
-    <div class="col-md-8">
-        <div class="card">
+    @await Html.PartialAsync("AddUser")
+
+    <div class="col-md-12">
+        @await Html.PartialAsync("Navi")
+
+        <div class="card border-top-0 rounded-0 rounded-bottom">
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 mb-2">
@@ -26,16 +21,15 @@
                     <div class="col-12 mb-2">
                         <div class="text-center collapse show" id="collapseExample" style="">
                             <div class="card card-body">
-                                <form asp-action="Index" method="get">
+                                <form asp-action="@ViewBag.Action" method="get">
                                     <div class="row">
                                         <div class="col-sm-10 align-self-center">
-                                            <select name="generalType" class="form-control" asp-items="ViewBag.GeneralTypeID">
-                                                <option disabled selected value="">Wybierz typ..</option>
-                                            </select>
+                                            @*Wyszukiwarka*@
+                                            <input type="text" name="search" class="form-control" placeholder="Wpisz szukaną frazę.." />
                                         </div>
                                         <div class="col-sm-2">
                                             <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
-                                            <button asp-action="Index" class="btn text-primary"><i class="fas fa-ban"></i></button>
+                                            <button asp-action="@ViewBag.Action" class="btn text-primary"><i class="fas fa-ban"></i></button>
                                         </div>
                                     </div>
                                 </form>
@@ -47,59 +41,82 @@
                             <thead>
                                 <tr>
                                     <th class="text-left">
+                                        @Html.DisplayNameFor(model => model.First().Image)
+                                    </th>
+                                    <th class="text-left">
                                         @Html.DisplayNameFor(model => model.First().FirstName)
                                     </th>
-                                    <th class="text-center">
+                                    <th class="text-left">
                                         @Html.DisplayNameFor(model => model.First().LastName)
                                     </th>
-                                    <th></th>
+                                    <th class="text-left">
+                                        @Html.DisplayNameFor(model => model.First().Email)
+                                    </th>
+                                    <th class="text-left">
+                                        @Html.DisplayNameFor(model => model.First().Phone)
+                                    </th>
+                                    <th class="text-left">
+                                        @Html.DisplayNameFor(model => model.First().Country)
+                                    </th>
+                                    <th class="text-left">
+                                        @Html.DisplayNameFor(model => model.First().City)
+                                    </th>
+                                    <th class="text-left">
+                                        @Html.DisplayNameFor(model => model.First().Street)
+                                    </th>
+                                    <th class="text-left">
+                                        @Html.DisplayNameFor(model => model.First().Number)
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
+
                                 @foreach (var item in Model)
                                 {
                                     <tr>
                                         <td class="text-left">
+                                            @{
+                                                if (item.Image != null)
+                                                {
+                                                    var base64 = Convert.ToBase64String(item.Image);
+                                                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                                    <img style="width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />
+                                                }
+                                            }
+                                        </td>
+                                        <td class="text-left">
                                             @item.FirstName
                                         </td>
-                                        <td class="text-center">
+                                        <td class="text-left">
                                             @item.LastName
                                         </td>
+                                        <td class="text-left">
+                                            @item.Email
+                                        </td>
+                                        <td class="text-left">
+                                            @item.Phone
+                                        </td>
+                                        <td class="text-left">
+                                            @item.Country
+                                        </td>
+                                        <td class="text-left">
+                                            @item.City
+                                        </td>
+                                        <td class="text-left">
+                                            @item.Street
+                                        </td>
+                                        <td class="text-left">
+                                            @item.Number
+                                        </td>
                                         <td class="text-right">
-                                            @* wywylywanie okna modalnego oraz przekazywanie do niego danych przez JQ *@
-                                            <a data-id="@item.Id" data-name="@item.Fullname" data-general="@item.City" class="ml-2 j-s-EditDialog" data-toggle="modal" data-target="#editModal" href="#editModal"><i class="fas fa-wrench"></i></a>
+                                            @* wywolywanie okna modalnego oraz przekazywanie do niego danych przez JQ *@
+                                            <a class="ml-2" asp-action="Edit" asp-route-actionLink="@ViewBag.Action" asp-route-id="@item.Id" asp-controller="Role"><i class="fas fa-wrench"></i></a>
                                             <a data-id="@item.Id" data-name="@item.Fullname" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <label class="control-label mb-3"><i class="fas fa-folder-plus mr-2"></i>Dodaj</label>
-                            @*<div class="form-group">
-                                <label asp-for="GeneralTypeID" class="control-label small"></label>
-                                <select asp-for="GeneralTypeID" class="form-control" asp-items="ViewBag.GeneralTypeID"></select>
-                            </div>*@
-                            <div class="form-group">
-                                <label asp-for="First().FirstName" class="control-label"></label>
-                                <input asp-for="First().FirstName" class="form-control" />
-                                <span asp-validation-for="First().FirstName" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Utwórz" class="btn btn-primary" />
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -122,7 +139,9 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    @*Wysylanie ID*@
                     <input type="hidden" name="id" id="itemId" value="" />
+                    <input type="hidden" name="action" value="@Html.ViewContext.RouteData.Values["action"]" />
                     <input type="text" name="name" id="itemName" value="" disabled class="form-control" />
                 </div>
                 <div class="modal-footer">
@@ -147,54 +166,3 @@
     });
 </script>
 
-
-<!-- Modal Edit -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        Edytuj wybraną pozycję
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="ExactTypeID" id="itemId" value="" />
-
-                    <div class="form-group">
-                        <label asp-for="First().FirstName" class="control-label small"></label>
-                        <input type="text" asp-for="First().FirstName" value="" class="form-control" />
-                        @*<input type="text" name="Name" id="itemName" value="" class="form-control" />*@
-                        <span asp-validation-for="First().FirstName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        @*<label asp-for="GeneralTypeID" class="control-label small"></label>
-                        <select name="GeneralTypeID" id="itemGeneral" class="form-control aaa" asp-items="@ViewBag.GeneralTypeID">
-                        </select>*@
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Anuluj</button>
-                    <button type="submit" class="btn btn-sm btn-primary">Zmień</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(document).on("click", ".j-s-EditDialog", function () {
-            var itemId = $(this).data('id');
-            var itemName = $(this).data('name');
-            var itemGeneral = $(this).data('general');
-            $(".modal-body #itemId").val(itemId);
-            $(".modal-body #Name").val(itemName);
-            $(".modal-body #itemGeneral").val(itemGeneral);
-        });
-    });
-</script>

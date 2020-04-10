@@ -4,9 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using Rental.Data.Data.Areas.Identity.Data
-<h1>Edit</h1>
-
-
+    <h3>@Model.Fullname / @ViewBag.UserRole</h3>
 <div class="container">
     <div class="row">
         <div col-md-6>
@@ -18,7 +16,6 @@
                     </div>
                     <div class="card-body">
                         <div id="dbimage">
-
                             @if (Model.Image != null)
                             {
 
@@ -27,7 +24,6 @@
                                 <img style="width: 100px; height:100px" class="img-profile rounded mb-4" id="#dbimage" src="@imgSrc" />
 
                             }
-
                         </div>
                         <div id="showimage"></div>
 
@@ -35,7 +31,6 @@
                             <input class="form-control custom-file-input" type="file" name="file" />
                             <label class="custom-file-label">Wybierz..</label>
                         </div>
-
                     </div>
                 </div>
                 <script type="text/javascript">
@@ -63,9 +58,7 @@
                                 previewimages.append(img);
                             }
                             reader.readAsDataURL(file[0]);
-
                         });
-
                     }); //dodalem ;
                 });
                 </script>
@@ -128,8 +121,9 @@
             </form>
         </div>
         <div class="col-md-4">
-            <form asp-action="EditRole">
+            <form asp-action="AddUser">
                 <input type="hidden" name="id" value="@Model.Id" />
+                <input type="hidden" name="action" value="@ViewBag.Action" />
                 <div class="card m-2">
                     <div class="card-header">
                         <i class="fas fa-user-tag"></i> Rola w systemie
