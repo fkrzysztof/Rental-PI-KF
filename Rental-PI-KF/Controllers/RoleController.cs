@@ -155,6 +155,7 @@ namespace Rental_PI_KF.Controllers
             Password pw = new Password();
             ViewBag.Password = pw;
             ViewBag.Action = actionLink;
+            ViewBag.RoleNow = _userManager.GetRolesAsync(user).Result.First();
 
             return View(user);
         }
@@ -237,15 +238,21 @@ namespace Rental_PI_KF.Controllers
         }
 
         
+        //[HttpPost]
+        //public async Task<IActionResult> BlockingUser(string id, string action)
+        //{
+        //    string newRoleName = "Zablokowani";
+        //    if (!(await _roleManager.RoleExistsAsync(newRoleName)))
+        //    {
+        //        await _roleManager.CreateAsync(new IdentityRole(newRoleName));
+        //    }
+        //    await AddUser(id, newRoleName, action);
+        //}
+
+
         [HttpPost]
         public async Task<IActionResult> Delete(string id, string action)
         {
-            //string newRoleName = "Zablokowani";
-            //if ( !(await _roleManager.RoleExistsAsync(newRoleName)))
-            //{
-            //    await _roleManager.CreateAsync(new IdentityRole(newRoleName));
-            //}
-            //await AddUser(id, newRoleName, action);
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {

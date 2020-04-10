@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using Rental.Data.Data.Areas.Identity.Data
-    <h3>@Model.Fullname / @ViewBag.UserRole</h3>
+   <a asp-action="@ViewBag.Action"><i class="fas fa-chevron-left"></i> Powrót</a>
 <div class="container">
     <div class="row">
         <div col-md-6>
@@ -114,12 +114,13 @@
                                 <input type="text" asp-for="@Model.ZIPCode" value="@Model.ZIPCode" class="form-control">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
-            
+                        <button type="submit" class="btn btn-primary btn-sm">Zapisz zmiany</button>
+
+                    </div>
                 </div>
-            </div>
             </form>
         </div>
+
         <div class="col-md-4">
             <form asp-action="AddUser">
                 <input type="hidden" name="id" value="@Model.Id" />
@@ -130,16 +131,16 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="inputState">State</label>
+                            <label for="inputState">Obecnie:<strong> @ViewBag.RoleNow</strong></label>
                             <select class="form-control" name="roleName" asp-items="@ViewBag.UsersRole">
-                                <option disabled selected>Wybierz...</option>
+                                <option disabled selected>Wybierz aby zmienić...</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-primary">Zmień role</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Zmień role</button>
                     </div>
                 </div>
             </form>
-            @{ 
+            @{
                 Password pw = ViewBag.Password;
             }
 
@@ -153,7 +154,7 @@
                         <input type="hidden" name="id" value="@Model.Id" />
                         <div class="form-group">
                             <label for="inputPassword">Password</label>
-                            <input class="form-control" asp-for="@pw.PasswordNew"  placeholder="Password">
+                            <input class="form-control" asp-for="@pw.PasswordNew" placeholder="Password">
                             <span asp-validation-for="@pw.PasswordNew" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -161,10 +162,28 @@
                             <input class="form-control" asp-for="@pw.ConfirmPassword" placeholder="Password">
                             <span asp-validation-for="@pw.ConfirmPassword" class="text-danger"></span>
                         </div>
-                        <button type="submit" class="btn btn-primary">Zmień hasło</button>
+                        <button type="submit" class="btn btn-primary btn-sm">Zmień hasło</button>
                     </form>
                 </div>
             </div>
+
+            @if(ViewBag.Action != "BlockedUsers")
+            {
+                <div class="card m-2">
+                    <div class="card-header text-danger">
+                        <i class="fas fa-user-slash"></i> Zablokuj Użytkownika
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="AddUser">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <input type="hidden" name="roleName" value="Zablokowani" />
+                            <input type="hidden" name="action" value="@ViewBag.Action" />
+                            <button type="submit" class="btn btn-danger btn-sm" value="Zablokuj">Zablokuj</button>
+                        </form>
+                    </div>
+                </div>
+            }
+
         </div>
     </div>
 </div>
