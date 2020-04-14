@@ -4,7 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @using Rental.Data.Data.Areas.Identity.Data
-   <a asp-action="@ViewBag.Action"><i class="fas fa-chevron-left"></i> Powrót</a>
+@using Rental_Data.Data.Rental
+
+<a asp-action="@ViewBag.Action"><i class="fas fa-chevron-left"></i> Powrót</a>
 <div class="container">
     <div class="row">
         <div col-md-6>
@@ -166,8 +168,28 @@
                     </form>
                 </div>
             </div>
-
-            @if(ViewBag.Action != "BlockedUsers")
+            @if (ViewBag.Action == "Employees")
+            {
+                <div class="card m-2">
+                    <div class="card-header">
+                        <i class="fas fa-map-marker-alt"></i> Oddział
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="RentalAgencyChange">
+                            <input type="hidden" name="id" value="@Model.Id" />
+                            <input type="hidden" name="action" value="@ViewBag.Action" />
+                            <div class="form-group">
+                                <label for="inputState">Obecnie:<strong> @ViewBag.AgencyName</strong></label>
+                                <select class="form-control" name="agencyID" asp-items="@ViewBag.RentalAgencyItems">
+                                    <option disabled selected>Wybierz aby zmienić...</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-sm">Zmień role</button>
+                        </form>
+                    </div>
+                </div>
+            }
+            @if (ViewBag.Action != "BlockedUsers")
             {
                 <div class="card m-2">
                     <div class="card-header text-danger">

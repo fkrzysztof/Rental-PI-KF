@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
 
 namespace Rental_PI_KF.Areas.Identity.Pages.Account
@@ -26,18 +27,22 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        protected readonly ApplicationDbContext _context;
+
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _context = context;
         }
 
         [BindProperty]
@@ -96,11 +101,15 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             
             [Display(Name = "Telefon")]
             public string Phone { get; set; }
+
+            [Display(Name = "Oddział")]
+            public int? RentalAgencyID { get; set; }
         }
 
         public void OnGet(string returnUrl = null)
         {
             ViewData["roles"] = _roleManager.Roles.ToList();
+            ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
             ReturnUrl = returnUrl;
         }
 
@@ -139,7 +148,9 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     Number = Input.Number,
                     ZIPCode = Input.ZIPCode,
                     Image = streamToReturn.ToArray(),
-                    Phone = Input.Phone
+                    Phone = Input.Phone,
+                    RentalAgencyID =Input.RentalAgencyID
+                    
                 };
 
 
@@ -161,6 +172,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             }
 
             // If we got this far, something failed, redisplay form
+            ViewData["roles"] = _roleManager.Roles.ToList(); //dopisane
             return Page();
         }
     }

@@ -13,7 +13,7 @@ namespace Rental_Data.Data.Rental
         [Required(ErrorMessage = "Pole jest wymagane")]
         [StringLength(15, MinimumLength = 3, ErrorMessage = "Nazwa powinna zawierac od 3 do 15 znaków")]
         [Display(Name = "Kolor")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
         
         [Display(Name = "Opis")]
         public string Description { get; set; }

@@ -163,14 +163,18 @@ namespace Rental.Data
                         .HasColumnType("int");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
@@ -180,13 +184,17 @@ namespace Rental.Data
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<byte[]>("Image")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -203,13 +211,16 @@ namespace Rental.Data
                         .HasMaxLength(256);
 
                     b.Property<string>("Number")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -217,10 +228,14 @@ namespace Rental.Data
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("RentalAgencyID")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Street")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
@@ -231,6 +246,7 @@ namespace Rental.Data
                         .HasMaxLength(256);
 
                     b.Property<string>("ZIPCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -242,6 +258,8 @@ namespace Rental.Data
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("RentalAgencyID");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -257,6 +275,7 @@ namespace Rental.Data
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EquipmentNameID");
@@ -389,6 +408,7 @@ namespace Rental.Data
                         .HasColumnType("bit");
 
                     b.Property<string>("Type")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("AirConditioningID");
@@ -429,7 +449,9 @@ namespace Rental.Data
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(15)")
+                        .HasMaxLength(15);
 
                     b.HasKey("ColourID");
 
@@ -476,6 +498,7 @@ namespace Rental.Data
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EngineTypeID");
@@ -550,6 +573,7 @@ namespace Rental.Data
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("GearBoxID");
@@ -609,6 +633,9 @@ namespace Rental.Data
 
                     b.Property<string>("Annotation")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("BranchOfCompany")
+                        .HasColumnType("bit");
 
                     b.Property<string>("ContactPerson")
                         .HasColumnType("nvarchar(max)");
@@ -830,7 +857,9 @@ namespace Rental.Data
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(10)")
+                        .HasMaxLength(10);
 
                     b.HasKey("WheelDriveID");
 
@@ -886,6 +915,13 @@ namespace Rental.Data
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Rental.Data.Data.Areas.Identity.Data.ApplicationUser", b =>
+                {
+                    b.HasOne("Rental_Data.Data.Rental.RentalAgency", null)
+                        .WithMany("ApplicationUsers")
+                        .HasForeignKey("RentalAgencyID");
                 });
 
             modelBuilder.Entity("Rental.Data.Data.Rental.RentalVehicle", b =>

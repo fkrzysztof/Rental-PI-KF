@@ -34,15 +34,15 @@
             <th>
                 @Html.DisplayNameFor(model => model.Email2)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.DateAdded)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.Annotation)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.IsActive)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.REGON)
             </th>
@@ -76,15 +76,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Email2)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.DateAdded)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.Annotation)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.REGON)
             </td>
@@ -92,9 +92,11 @@
                 @Html.DisplayFor(modelItem => item.NIP)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.RentalAgencyID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.RentalAgencyID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.RentalAgencyID">Delete</a>
+                <form asp-action="Delete">
+                    <input type="hidden" name="id"  value="@item.RentalAgencyID" />
+                    <input type="submit" value="Delete" class="btn btn-danger" /> 
+                </form>
+                <a asp-action="Edit" asp-route-id="@item.RentalAgencyID">Edit</a>
             </td>
         </tr>
 }

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
+using Rental_Data.Data.Rental;
 using Rental_PI_KF.Controllers.Abstract;
 
 namespace Rental_PI_KF.Controllers
@@ -30,6 +31,7 @@ namespace Rental_PI_KF.Controllers
             return RedirectToAction("Customers");
         }
 
+        //Klient
         public IActionResult Customers(string search)
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
@@ -51,7 +53,8 @@ namespace Rental_PI_KF.Controllers
 
             return View("Index", users);
         }
-        
+
+        //Zablokowani
         public IActionResult BlockedUsers(string search)
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Zablokowani").Result.ToList();
@@ -73,7 +76,8 @@ namespace Rental_PI_KF.Controllers
 
             return View("Index", users);
         }
-                
+
+        //Administrator
         public IActionResult Administrators(string search)
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Administrator").Result.ToList();
@@ -96,6 +100,7 @@ namespace Rental_PI_KF.Controllers
             return View("Index", users);
         }
 
+        //Pracownik
         public IActionResult Employees(string search)
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Pracownik").Result.ToList();
@@ -157,6 +162,20 @@ namespace Rental_PI_KF.Controllers
             ViewBag.Action = actionLink;
             ViewBag.RoleNow = _userManager.GetRolesAsync(user).Result.First();
 
+            //dodane do edycji RentalAgency
+            if(user.RentalAgencyID != null || _context.RentalAgencies.FirstOrDefault(f => f.RentalAgencyID == user.RentalAgencyID) == null)
+            { 
+                ViewBag.AgencyName = _context.RentalAgencies.FirstOrDefault(f => f.RentalAgencyID == user.RentalAgencyID).Name;
+                var rentalAll = _context.RentalAgencies.Where(w => w.RentalAgencyID != user.RentalAgencyID);
+                ViewBag.RentalAgencyItems = new SelectList( rentalAll, "RentalAgencyID", "Name");
+            }
+            else
+            {
+                ViewBag.AgencyName = "Brak";
+                ViewBag.RentalAgencyItems = new SelectList(_context.RentalAgencies, "RentalAgencyID", "Name");
+            }
+            
+
             return View(user);
         }
 
@@ -207,6 +226,24 @@ namespace Rental_PI_KF.Controllers
         }
 
         [HttpPost]
+        public async Task<IActionResult> RentalAgencyChange(string id, int agencyID, string action)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return View("NotFound");
+            }
+            else
+            {
+                user.RentalAgencyID = agencyID;
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(action);
+            }
+        }
+        
+            
+        [HttpPost]
         public async Task<IActionResult> AddUser(string id, string roleName, string action)
         {
             var user = await _userManager.FindByIdAsync(id);
@@ -238,18 +275,9 @@ namespace Rental_PI_KF.Controllers
         }
 
         
-        //[HttpPost]
-        //public async Task<IActionResult> BlockingUser(string id, string action)
-        //{
-        //    string newRoleName = "Zablokowani";
-        //    if (!(await _roleManager.RoleExistsAsync(newRoleName)))
-        //    {
-        //        await _roleManager.CreateAsync(new IdentityRole(newRoleName));
-        //    }
-        //    await AddUser(id, newRoleName, action);
-        //}
+        
 
-
+        //CREATE *********************************** Tylko do konfiguracji ************************************
         [HttpPost]
         public async Task<IActionResult> Delete(string id, string action)
         {
@@ -266,6 +294,17 @@ namespace Rental_PI_KF.Controllers
             return Content("Nie ma takiego użytkownia");
 
         }
+        public IActionResult Create()
+        {
+            return View(new IdentityRole());
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(IdentityRole role)
+        {
+            await _roleManager.CreateAsync(role);
+            return RedirectToAction("Index");
+        }
+        //END CREATE ******************************************************************************************
 
         private void allUsers(List<ApplicationUser> users)
         {

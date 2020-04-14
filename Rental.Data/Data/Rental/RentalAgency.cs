@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rental.Data.Data.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,6 +17,9 @@ namespace Rental_Data.Data.Rental
 
         [Display(Name = "Numer")]
         public string Number { get; set; }
+
+        [Display(Name = "Oddział firmy")]
+        public bool BranchOfCompany { get; set;}
 
         [Display(Name = "Nazwa")]
         public string Name { get; set; }
@@ -48,8 +52,11 @@ namespace Rental_Data.Data.Rental
 
         [Required]
         public string REGON { get; set; }
+        
         [Required]
         public string NIP { get; set; }
+
+        public ICollection<ApplicationUser> ApplicationUsers { get; set; }
 
     }
 }

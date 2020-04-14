@@ -1,9 +1,11 @@
 ﻿@page
 @model RegisterModel
+@using Rental_Data.Data.Rental
 @{
     ViewData["Title"] = "Register";
 
     var roles = (List<IdentityRole>)ViewData["roles"];
+    var rentalAgency = (List<RentalAgency>)ViewData["rentalAgency"];
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -80,10 +82,17 @@
             </div>
 
             @*cos nie ddziala*@
+
             <div class="form-group">
                 <label asp-for="Input.Name"></label>
                 <select asp-for="Input.Name" class="form-control" asp-items='new SelectList(roles,"Id","Name")'></select>
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.RentalAgencyID"></label>
+                <select asp-for="Input.RentalAgencyID" class="form-control" asp-items='new SelectList(rentalAgency,"RentalAgencyID","Name")'></select>
+                <span asp-validation-for="Input.RentalAgencyID" class="text-danger"></span>
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>

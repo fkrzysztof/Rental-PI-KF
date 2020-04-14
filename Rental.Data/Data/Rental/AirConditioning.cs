@@ -13,7 +13,7 @@ namespace Rental_Data.Data.Rental
         
         [Required]
         [Display(Name = "Typ")]
-        public string? Type { get; set; }
+        public string Type { get; set; }
         
         public bool IsActive { get; set; }
 

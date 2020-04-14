@@ -89,6 +89,24 @@
     <Compile Remove="Data\Migrations\20200407224652_password-role-edit-admin-user.Designer.cs" />
     <Compile Remove="Data\Migrations\20200407225049_password-role-edit-admin-user1.cs" />
     <Compile Remove="Data\Migrations\20200407225049_password-role-edit-admin-user1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200410203018_add BranchOfCompany - RentalAgency.cs" />
+    <Compile Remove="Data\Migrations\20200410203018_add BranchOfCompany - RentalAgency.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200411145207_add-BranchOfCompany.cs" />
+    <Compile Remove="Data\Migrations\20200411145207_add-BranchOfCompany.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200411145619_add-BranchOfCompany.cs" />
+    <Compile Remove="Data\Migrations\20200411145619_add-BranchOfCompany.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200411145903_text.cs" />
+    <Compile Remove="Data\Migrations\20200411145903_text.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200411150051_test-co-zmienic.cs" />
+    <Compile Remove="Data\Migrations\20200411150051_test-co-zmienic.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200411150710_add-BranchOfCompany-RentalAgency.cs" />
+    <Compile Remove="Data\Migrations\20200411150710_add-BranchOfCompany-RentalAgency.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200411151058_add-BranchOfCompany-RentalAgency2.cs" />
+    <Compile Remove="Data\Migrations\20200411151058_add-BranchOfCompany-RentalAgency2.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200411151235_add-BranchOfCompany-RentalAgency3.cs" />
+    <Compile Remove="Data\Migrations\20200411151235_add-BranchOfCompany-RentalAgency3.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200411153227_Table-Relation-1.cs" />
+    <Compile Remove="Data\Migrations\20200411153227_Table-Relation-1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

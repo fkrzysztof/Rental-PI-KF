@@ -17,7 +17,7 @@ namespace Rental_Data.Data.Rental
 
         [Required(ErrorMessage = "Pole jest wymagane")]
         [Display(Name = "Marka")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
         
         public bool IsActive { get; set; }
 

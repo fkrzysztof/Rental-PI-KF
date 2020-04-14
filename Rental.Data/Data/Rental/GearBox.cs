@@ -12,7 +12,7 @@ namespace Rental_Data.Data.Rental
 
         [Required(ErrorMessage = "Pole jest wymagane")]
         [Display(Name = "Skrzynia biegów")]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         [Display(Name = "Opis")]
         public string Description { get; set; }

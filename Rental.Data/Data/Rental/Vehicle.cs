@@ -109,7 +109,7 @@ namespace Rental_Data.Data.Rental
         [ForeignKey("GearBoxID")]
         public GearBox GearBox { get; set; }
 
-        [Display(Name = "Napęd")]
+        [Display(Name = "Napęd")] 
         public int? WheelDriveID { get; set; }
         [Display(Name = "Napęd")]
         [ForeignKey("WheelDriveID")]

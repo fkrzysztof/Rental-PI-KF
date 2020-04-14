@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
 using Rental_Data.Data.Rental;
@@ -22,43 +19,28 @@ namespace Rental_PI_KF.Controllers
         // GET: RentalAgencies
         public async Task<IActionResult> Index()
         {
+            ViewBag.RentalAgencyAddress = new RentalAgencyAddress();
             return View(await _context.RentalAgencies.ToListAsync());
         }
 
-        // GET: RentalAgencies/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        // GET: CREATE
+        public IActionResult Create() => View();
 
-            var rentalAgency = await _context.RentalAgencies
-                .FirstOrDefaultAsync(m => m.RentalAgencyID == id);
-            if (rentalAgency == null)
-            {
-                return NotFound();
-            }
 
-            return View(rentalAgency);
-        }
 
-        // GET: RentalAgencies/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
         // POST: RentalAgencies/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RentalAgencyID,ContactPerson,Number,Name,Phone1,Phone2,Email1,Email2,DateAdded,Annotation,IsActive,REGON,NIP")] RentalAgency rentalAgency)
+        public async Task<IActionResult> Create([Bind("RentalAgencyID,ContactPerson,Number,Name,Phone1,Phone2,Email1,Email2,Annotation,REGON,NIP")] RentalAgency rentalAgency,
+                                                [Bind("RentalAgencyAddressID,Country,City,Street,Number,ZIPCode")] RentalAgencyAddress rentalAgencyAddress)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(rentalAgency);
+                rentalAgency.IsActive = true;
+                rentalAgencyAddress.RentalAgency = rentalAgency;
+                _context.Add(rentalAgencyAddress);
+ 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -72,65 +54,34 @@ namespace Rental_PI_KF.Controllers
             {
                 return NotFound();
             }
-
-            var rentalAgency = await _context.RentalAgencies.FindAsync(id);
+            var rentalAgency = await _context.RentalAgencies.FirstOrDefaultAsync();
             if (rentalAgency == null)
             {
                 return NotFound();
             }
+            ViewBag.RentalAgencyAddress = _context.RentalAgencyAddresses.FirstOrDefault(f => f.RentalAgencyID == id);
+
             return View(rentalAgency);
         }
+
+        // Sprawdzi w get i post czy jest ok w validacji !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // zmienic update! 
+
 
         // POST: RentalAgencies/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RentalAgencyID,ContactPerson,Number,Name,Phone1,Phone2,Email1,Email2,DateAdded,Annotation,IsActive,REGON,NIP")] RentalAgency rentalAgency)
+        public async Task<IActionResult> Edit([Bind("RentalAgencyID,ContactPerson,Number,Name,Phone1,Phone2,Email1,Email2,Annotation,REGON,NIP")] RentalAgency rentalAgency,
+                                                [Bind("RentalAgencyAddressID,Country,City,Street,Number,ZIPCode")] RentalAgencyAddress rentalAgencyAddress)
         {
-            if (id != rentalAgency.RentalAgencyID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(rentalAgency);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RentalAgencyExists(rentalAgency.RentalAgencyID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Update(rentalAgency);
+                _context.Update(rentalAgencyAddress);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(rentalAgency);
-        }
-
-        // GET: RentalAgencies/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rentalAgency = await _context.RentalAgencies
-                .FirstOrDefaultAsync(m => m.RentalAgencyID == id);
-            if (rentalAgency == null)
-            {
-                return NotFound();
-            }
-
+            ViewBag.RentalAgencyAddress = _context.RentalAgencyAddresses.FirstOrDefault(f => f.RentalAgencyID == rentalAgency.RentalAgencyID);
             return View(rentalAgency);
         }
 
@@ -140,7 +91,8 @@ namespace Rental_PI_KF.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var rentalAgency = await _context.RentalAgencies.FindAsync(id);
-            _context.RentalAgencies.Remove(rentalAgency);
+            rentalAgency.IsActive = false;
+            _context.Update(rentalAgency);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
