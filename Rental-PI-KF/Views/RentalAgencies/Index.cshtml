@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<Rental_Data.Data.Rental.RentalAgency>
-
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -10,95 +9,152 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ContactPerson)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Number)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email2)
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.DateAdded)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.Annotation)
-            </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>*@
-            <th>
-                @Html.DisplayNameFor(model => model.REGON)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NIP)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactPerson)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Number)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email2)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.DateAdded)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.Annotation)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>*@
-            <td>
-                @Html.DisplayFor(modelItem => item.REGON)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NIP)
-            </td>
-            <td>
-                <form asp-action="Delete">
-                    <input type="hidden" name="id"  value="@item.RentalAgencyID" />
-                    <input type="submit" value="Delete" class="btn btn-danger" /> 
-                </form>
-                <a asp-action="Edit" asp-route-id="@item.RentalAgencyID">Edit</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" asp-action="Index" asp-controller="Role">Lista</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Create" asp-controller="Role">Dodaj nowy</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-12">
+        <div class="card border-top-0 rounded-0 rounded-bottom">
+            <div class="card-body">
+                <div class="row">
+
+                    <div class="col-12 mb-2">
+                        <span class="float-left"><i class="fas fa-folder-open mr-2"></i>Lista aktualnych pozycji</span>
+                        <button class="btn text-primary float-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"><i class="fas fa-sliders-h"></i></button>
+                    </div>
+                    <div class="col-12 mb-2">
+                        <div class="text-center collapse show" id="collapseExample" style="">
+                            <div class="card card-body">
+                                <form asp-action="@ViewBag.Action" method="get">
+                                    <div class="row">
+                                        <div class="col-sm-10 align-self-center">
+                                            @*Wyszukiwarka*@
+                                            <input type="text" name="search" class="form-control" placeholder="Wpisz szukaną frazę.." />
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
+                                            <button asp-action="@ViewBag.Action" class="btn text-primary"><i class="fas fa-ban"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12">
+                        <table class="table table-borderless table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Name)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Number)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ContactPerson)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Phone1)
+                                    </th>
+                                    @*<th>
+                                       @Html.DisplayNameFor(model => model.Phone2)
+                                    </th>*@
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Email1)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RentalAgencyAddress.City)
+                                    </th>
+                                    @*<th>
+                                            @Html.DisplayNameFor(model => model.Email2)
+                                    </th>*@
+                                    @*<th>
+                                        @Html.DisplayNameFor(model => model.DateAdded)
+                                    </th>*@
+                                    @*<th>
+                                        @Html.DisplayNameFor(model => model.Annotation)
+                                    </th>*@
+                                    @*<th>
+                                        @Html.DisplayNameFor(model => model.IsActive)
+                                    </th>*@
+                                    @*<th>
+                                        @Html.DisplayNameFor(model => model.REGON)
+                                    </th>*@
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NIP)
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Number)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ContactPerson)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Phone1)
+                                        </td>
+                                        @*<td>
+                                                @Html.DisplayFor(modelItem => item.Phone2)
+                                            </td>*@
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Email1)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RentalAgencyAddress.City)
+                                        </td>
+                                        @*<td>
+                                                @Html.DisplayFor(modelItem => item.Email2)
+                                            </td>*@
+                                        @*<td>
+                                                @Html.DisplayFor(modelItem => item.DateAdded)
+                                            </td>*@
+                                        @*<td>
+                                                @Html.DisplayFor(modelItem => item.Annotation)
+                                            </td>*@
+                                        @*<td>
+                                                @Html.DisplayFor(modelItem => item.IsActive)
+                                            </td>*@
+                                        @*<td>
+                                                @Html.DisplayFor(modelItem => item.REGON)
+                                            </td>*@
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NIP)
+                                        </td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <a asp-action="Edit" asp-route-id="@item.RentalAgencyID" class="btn text-primary"><i class="fas fa-wrench"></i></a>
+                                                <form asp-action="Delete">
+                                                    <input type="hidden" name="id" value="@item.RentalAgencyID" />
+                                                    <button type="submit" class="btn border-0 text-danger"><i class="fas fa-trash"></i></button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

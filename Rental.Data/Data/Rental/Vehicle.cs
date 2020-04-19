@@ -43,7 +43,6 @@ namespace Rental_Data.Data.Rental
 
         [Display(Name = "Pojemność")]
         public int? EngineCapacity { get; set; }
-        //relacja jeden do jeden!!
 
         [Display(Name = "Wyposażenie")]
         //public int? EquipmentID { get; set; }

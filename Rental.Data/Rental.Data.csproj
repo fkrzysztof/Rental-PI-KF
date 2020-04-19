@@ -107,6 +107,12 @@
     <Compile Remove="Data\Migrations\20200411151235_add-BranchOfCompany-RentalAgency3.Designer.cs" />
     <Compile Remove="Data\Migrations\20200411153227_Table-Relation-1.cs" />
     <Compile Remove="Data\Migrations\20200411153227_Table-Relation-1.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200416213618_One-to-One relaton RentalAgency-RentalAgencyAdress.cs" />
+    <Compile Remove="Data\Migrations\20200416213618_One-to-One relaton RentalAgency-RentalAgencyAdress.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200416225059_One-to-One relaton RentalAgency-RentalAgencyAdress.cs" />
+    <Compile Remove="Data\Migrations\20200416225059_One-to-One relaton RentalAgency-RentalAgencyAdress.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200418183542_one-one-Relation-RentalAgencyAdress.cs" />
+    <Compile Remove="Data\Migrations\20200418183542_one-one-Relation-RentalAgencyAdress.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

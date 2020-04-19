@@ -4,10 +4,10 @@
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using Rental_Data.Data.Rental
+@*@using Rental_Data.Data.Rental
 @{
     RentalAgencyAddress rentalAgencyAddress = ViewBag.RentalAgencyAddress as RentalAgencyAddress;
-}
+}*@
 <h1>Create</h1>
 
 <h4>RentalAgency</h4>
@@ -17,9 +17,11 @@
         <div class="card-header">Adres</div>
         <div class="card-body">
             <form asp-action="Edit">
+                <input type="hidden" asp-for="RentalAgencyID" />
+                <input type="hidden" asp-for="RentalAgencyAddress.RentalAgencyAddressID" />
                 <div class="row">
                     <div class="col-md-6">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div asp-validation-summary="All" class="text-danger"></div>
                         <div class="form-group">
                             <label asp-for="Name" class="control-label"></label>
                             <input asp-for="Name" class="form-control" />
@@ -76,29 +78,29 @@
                             <div class="card-header">Adres</div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label asp-for="@rentalAgencyAddress.Country" class="control-label"></label>
-                                    <input asp-for="@rentalAgencyAddress.Country" class="form-control" />
-                                    <span asp-validation-for="@rentalAgencyAddress.Country" class="text-danger"></span>
+                                    <label asp-for="RentalAgencyAddress.Country" class="control-label"></label>
+                                    <input asp-for="RentalAgencyAddress.Country" class="form-control" />
+                                    <span asp-validation-for="RentalAgencyAddress.Country" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label asp-for="@rentalAgencyAddress.City" class="control-label"></label>
-                                    <input asp-for="@rentalAgencyAddress.City" class="form-control" />
-                                    <span asp-validation-for="@rentalAgencyAddress.City" class="text-danger"></span>
+                                    <label asp-for="RentalAgencyAddress.City" class="control-label"></label>
+                                    <input asp-for="RentalAgencyAddress.City" class="form-control" />
+                                    <span asp-validation-for="RentalAgencyAddress.City" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label asp-for="@rentalAgencyAddress.Street" class="control-label"></label>
-                                    <input asp-for="@rentalAgencyAddress.Street" class="form-control" />
-                                    <span asp-validation-for="@rentalAgencyAddress.Street" class="text-danger"></span>
+                                    <label asp-for="RentalAgencyAddress.Street" class="control-label"></label>
+                                    <input asp-for="RentalAgencyAddress.Street" class="form-control" />
+                                    <span asp-validation-for="RentalAgencyAddress.Street" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label asp-for="@rentalAgencyAddress.Number" class="control-label"></label>
-                                    <input asp-for="@rentalAgencyAddress.Number" class="form-control" />
-                                    <span asp-validation-for="@rentalAgencyAddress.Number" class="text-danger"></span>
+                                    <label asp-for="RentalAgencyAddress.Number" class="control-label"></label>
+                                    <input asp-for="RentalAgencyAddress.Number" class="form-control" />
+                                    <span asp-validation-for="RentalAgencyAddress.Number" class="text-danger"></span>
                                 </div>
                                 <div class="form-group">
-                                    <label asp-for="@rentalAgencyAddress.ZIPCode" class="control-label"></label>
-                                    <input asp-for="@rentalAgencyAddress.ZIPCode" class="form-control" />
-                                    <span asp-validation-for="@rentalAgencyAddress.ZIPCode" class="text-danger"></span>
+                                    <label asp-for="RentalAgencyAddress.ZIPCode" class="control-label"></label>
+                                    <input asp-for="RentalAgencyAddress.ZIPCode" class="form-control" />
+                                    <span asp-validation-for="RentalAgencyAddress.ZIPCode" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>

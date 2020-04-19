@@ -638,12 +638,15 @@ namespace Rental.Data
                         .HasColumnType("bit");
 
                     b.Property<string>("ContactPerson")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<DateTime?>("DateAdded")
                         .HasColumnType("Date");
 
                     b.Property<string>("Email1")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email2")
@@ -657,12 +660,17 @@ namespace Rental.Data
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Number")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Phone1")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone2")
@@ -685,29 +693,39 @@ namespace Rental.Data
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("Country")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("Number")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("RentalAgencyID")
                         .HasColumnType("int");
 
                     b.Property<string>("Street")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
 
                     b.Property<string>("ZIPCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("RentalAgencyAddressID");
 
-                    b.HasIndex("RentalAgencyID");
+                    b.HasIndex("RentalAgencyID")
+                        .IsUnique()
+                        .HasFilter("[RentalAgencyID] IS NOT NULL");
 
                     b.ToTable("RentalAgencyAddresses");
                 });
@@ -974,8 +992,8 @@ namespace Rental.Data
             modelBuilder.Entity("Rental_Data.Data.Rental.RentalAgencyAddress", b =>
                 {
                     b.HasOne("Rental_Data.Data.Rental.RentalAgency", "RentalAgency")
-                        .WithMany("RentalAgencyAddress")
-                        .HasForeignKey("RentalAgencyID");
+                        .WithOne("RentalAgencyAddress")
+                        .HasForeignKey("Rental_Data.Data.Rental.RentalAgencyAddress", "RentalAgencyID");
                 });
 
             modelBuilder.Entity("Rental_Data.Data.Rental.Vehicle", b =>

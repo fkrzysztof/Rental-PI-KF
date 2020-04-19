@@ -84,11 +84,10 @@ namespace Rental_PI_KF.Controllers
             }
             ViewData["RentalAgencyID"] = new SelectList(_context.RentalAgencies, "RentalAgencyID", "NIP", rentalAgencyAddress.RentalAgencyID);
             return View(rentalAgencyAddress);
+
         }
 
         // POST: RentalAgencyAddresses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("RentalAgencyAddressID,Country,City,Street,Number,ZIPCode,IsActive,RentalAgencyID")] RentalAgencyAddress rentalAgencyAddress)
@@ -120,6 +119,7 @@ namespace Rental_PI_KF.Controllers
             }
             ViewData["RentalAgencyID"] = new SelectList(_context.RentalAgencies, "RentalAgencyID", "NIP", rentalAgencyAddress.RentalAgencyID);
             return View(rentalAgencyAddress);
+
         }
 
         // GET: RentalAgencyAddresses/Delete/5
