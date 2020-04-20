@@ -168,6 +168,7 @@
                     </form>
                 </div>
             </div>
+            @* *****************************************   Tylko dla pracownikow --> oddzial *****************  *@
             @if (ViewBag.Action == "Employees")
             {
                 <div class="card m-2">
@@ -189,6 +190,7 @@
                     </div>
                 </div>
             }
+            @* *****************************************   Nie dla Zablokowanych --> Zabokuj *****************  *@
             @if (ViewBag.Action != "BlockedUsers")
             {
                 <div class="card m-2">

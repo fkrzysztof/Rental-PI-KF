@@ -18,7 +18,25 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: RentalAgencies
-        public async Task<IActionResult> Index() => View(await _context.RentalAgencies.Include(i => i.RentalAgencyAddress).ToListAsync());
+        public async Task<IActionResult> Index(string search)
+        {
+            var rentalAgencies = await _context.RentalAgencies.Include(i => i.RentalAgencyAddress).Where(w => w.IsActive == true).ToListAsync();
+            //var rentalAgencies = await _context.RentalAgencies.Include(i => i.RentalAgencyAddress).ToListAsync();
+            //var rentalAgencies = _context.RentalAgencies.Include(i => i.RentalAgencyAddress).ToList();
+
+            if(search != null)
+            {
+                //rentalAgencies = rentalAgencies.Where(w => w.Name.Contains(search) ||
+                //    w.Number.Contains(search) ||
+                //    w.ContactPerson.Contains(search) ||
+                //    w.NIP.Contains(search) ||
+                //    w.RentalAgencyAddress.City.Contains(search)
+                //   ).ToList();
+                rentalAgencies = rentalAgencies.Where(w => w.Name.Contains(search)).ToList();
+            }
+            return View(rentalAgencies.OrderBy(o => o.Name));
+        
+            }
 
         // GET: CREATE
         public IActionResult Create() => View();
@@ -93,13 +111,6 @@ namespace Rental_PI_KF.Controllers
 
             var ra = await _context.RentalAgencies.FirstOrDefaultAsync(f => f.RentalAgencyID == id);
 
-            //if (ra.RentalAgencyAddress == null)
-            //{
-            //    _context.Add(new RentalAgencyAddress() { RentalAgencyID = id });
-            //    await _context.SaveChangesAsync();
-            //}
-            
-
             var RentalAgencyToUpdate = await _context.RentalAgencies
                 .Include(i => i.RentalAgencyAddress)
                 .FirstOrDefaultAsync(m => m.RentalAgencyID == id);
@@ -107,12 +118,9 @@ namespace Rental_PI_KF.Controllers
             if (await TryUpdateModelAsync<RentalAgency>(
                 RentalAgencyToUpdate,
                 "",
-                i => i.Name, i => i.NIP, i => i.REGON, i => i.RentalAgencyAddress))
+                i => i.Name, i => i.Number, i => i.ContactPerson, i => i.Phone1, i => i.Phone2, i => i.Email1, i => i.Email2, 
+                i => i.REGON, i => i.NIP, i => i.Annotation, i => i.BranchOfCompany, i => i.RentalAgencyAddress))
             {
-                //if (RentalAgencyToUpdate.RentalAgencyAddress.RentalAgencyAddressID == null)
-                //{
-                //    RentalAgencyToUpdate.RentalAgencyAddress = null;
-                //}
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -126,16 +134,9 @@ namespace Rental_PI_KF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //UpdateInstructorCourses(selectedCourses, instructorToUpdate);
-            //PopulateAssignedCourseData(instructorToUpdate);
+
             return View(RentalAgencyToUpdate);
         }
-
-
-
-
-
-
 
 
         // POST: RentalAgencies/Delete/5

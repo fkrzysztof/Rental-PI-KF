@@ -4,21 +4,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h3><i class="fas fa-project-diagram"></i> Oddziały</h3>
 
 <div class="row mb-4">
     <div class="col-md-12">
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link active" asp-action="Index" asp-controller="Role">Lista</a>
+                <a class="nav-link active" asp-action="Index">Lista</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" asp-action="Create" asp-controller="Role">Dodaj nowy</a>
-            </li>
+                <a class="nav-link" asp-action="Create">Dodaj nowy</a>
+            </li>         
+           @* tu bedzie lisa nieaktywnych*@ 
+            @*<li class="nav-item">
+                <a class="nav-link" asp-action="Create">Lisya</a>
+            </li>*@
         </ul>
     </div>
     <div class="col-md-12">
@@ -33,7 +33,7 @@
                     <div class="col-12 mb-2">
                         <div class="text-center collapse show" id="collapseExample" style="">
                             <div class="card card-body">
-                                <form asp-action="@ViewBag.Action" method="get">
+                                <form asp-action="Index" method="get">
                                     <div class="row">
                                         <div class="col-sm-10 align-self-center">
                                             @*Wyszukiwarka*@
@@ -41,7 +41,7 @@
                                         </div>
                                         <div class="col-sm-2">
                                             <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
-                                            <button asp-action="@ViewBag.Action" class="btn text-primary"><i class="fas fa-ban"></i></button>
+                                            <button asp-action="Index" class="btn text-primary"><i class="fas fa-ban"></i></button>
                                         </div>
                                     </div>
                                 </form>
@@ -67,8 +67,8 @@
                                         @Html.DisplayNameFor(model => model.Phone1)
                                     </th>
                                     @*<th>
-                                       @Html.DisplayNameFor(model => model.Phone2)
-                                    </th>*@
+                                           @Html.DisplayNameFor(model => model.Phone2)
+                                        </th>*@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Email1)
                                     </th>
@@ -76,20 +76,20 @@
                                         @Html.DisplayNameFor(model => model.RentalAgencyAddress.City)
                                     </th>
                                     @*<th>
-                                            @Html.DisplayNameFor(model => model.Email2)
-                                    </th>*@
+                                                @Html.DisplayNameFor(model => model.Email2)
+                                        </th>*@
                                     @*<th>
-                                        @Html.DisplayNameFor(model => model.DateAdded)
-                                    </th>*@
+                                            @Html.DisplayNameFor(model => model.DateAdded)
+                                        </th>*@
                                     @*<th>
-                                        @Html.DisplayNameFor(model => model.Annotation)
-                                    </th>*@
+                                            @Html.DisplayNameFor(model => model.Annotation)
+                                        </th>*@
                                     @*<th>
-                                        @Html.DisplayNameFor(model => model.IsActive)
-                                    </th>*@
+                                            @Html.DisplayNameFor(model => model.IsActive)
+                                        </th>*@
                                     @*<th>
-                                        @Html.DisplayNameFor(model => model.REGON)
-                                    </th>*@
+                                            @Html.DisplayNameFor(model => model.REGON)
+                                        </th>*@
                                     <th>
                                         @Html.DisplayNameFor(model => model.NIP)
                                     </th>
@@ -142,10 +142,11 @@
                                         <td>
                                             <div class="d-flex">
                                                 <a asp-action="Edit" asp-route-id="@item.RentalAgencyID" class="btn text-primary"><i class="fas fa-wrench"></i></a>
-                                                <form asp-action="Delete">
+                                                <a data-id="@item.RentalAgencyID" data-name="@item.Name" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>    
+                                            @*<form asp-action="Delete">
                                                     <input type="hidden" name="id" value="@item.RentalAgencyID" />
                                                     <button type="submit" class="btn border-0 text-danger"><i class="fas fa-trash"></i></button>
-                                                </form>
+                                                </form>*@
                                             </div>
                                         </td>
                                     </tr>
@@ -158,3 +159,45 @@
         </div>
     </div>
 </div>
+
+
+<!-- Modal -->
+<!-- Modal Delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="Delete" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Czy na pewno chcesz usunąć:
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @*Wysylanie ID*@
+                    <input type="hidden" name="id" id="itemId" value="" />
+                    <input type="text" name="name" id="itemName" value="" disabled class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", ".j-s-DeleteDialog", function () {
+            var itemId = $(this).data('id');
+            var itemName = $(this).data('name');
+            $(".modal-body #itemId").val(itemId);
+            $(".modal-body #itemName").val(itemName);
+        });
+    });
+</script>

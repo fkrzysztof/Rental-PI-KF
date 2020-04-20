@@ -317,7 +317,13 @@ namespace Rental.Data
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("RentalFromLocationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RentalStatusID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RentalToLocationId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("To")
@@ -328,7 +334,11 @@ namespace Rental.Data
 
                     b.HasKey("RentalVehicleID");
 
+                    b.HasIndex("RentalFromLocationId");
+
                     b.HasIndex("RentalStatusID");
+
+                    b.HasIndex("RentalToLocationId");
 
                     b.HasIndex("VehicleID");
 
@@ -944,11 +954,19 @@ namespace Rental.Data
 
             modelBuilder.Entity("Rental.Data.Data.Rental.RentalVehicle", b =>
                 {
+                    b.HasOne("Rental_Data.Data.Rental.RentalAgencyAddress", "RentalFromLocation")
+                        .WithMany("FromRentalVehicles")
+                        .HasForeignKey("RentalFromLocationId");
+
                     b.HasOne("Rental.Data.Data.Rental.RentalStatus", "RentalStatus")
                         .WithMany("RentalVehicle")
                         .HasForeignKey("RentalStatusID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Rental_Data.Data.Rental.RentalAgencyAddress", "RentalToLocation")
+                        .WithMany("ToRentalVehicles")
+                        .HasForeignKey("RentalToLocationId");
 
                     b.HasOne("Rental_Data.Data.Rental.Vehicle", "Vehicle")
                         .WithMany("RentalVehicles")

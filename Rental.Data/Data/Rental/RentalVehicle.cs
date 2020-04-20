@@ -15,6 +15,18 @@ namespace Rental.Data.Data.Rental
             [ForeignKey("VehicleID")]
             public Vehicle Vehicle { get; set; }
 
+        // ************************************** from location
+        [Display(Name = "Miejsce odbioru")]
+        [ForeignKey("RentalFromLocation")]
+        public int? RentalFromLocationId { get; set; }
+        public RentalAgencyAddress RentalFromLocation { get; set; }
+
+        // ************************************** to location
+        [Display(Name = "Miejsce zwrotu")]
+        [ForeignKey("RentalToLocation")]
+        public int? RentalToLocationId { get; set; }
+        public RentalAgencyAddress RentalToLocation { get; set; }
+
         [DataType(DataType.Date)]
         [Display(Name = "Od")]
         public DateTime From { get; set; }
@@ -28,7 +40,7 @@ namespace Rental.Data.Data.Rental
             public RentalStatus RentalStatus { get; set; }
 
         [Display(Name = "Data utworzenia")]
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; } 
 
         public bool IsActive { get; set; }
 

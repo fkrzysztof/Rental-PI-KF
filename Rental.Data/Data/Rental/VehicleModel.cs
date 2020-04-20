@@ -14,16 +14,13 @@ namespace Rental_Data.Data.Rental
         [Required(ErrorMessage = "Pole jest wymagane")]
         [Display(Name = "Model")]
         public string Name { get; set; }
+        
         public bool IsActive { get; set; }
         
         public int? BrandID { get; set; }
-        [ForeignKey("BrandID")]
-        public Brand Brand { get; set; }
+            [ForeignKey("BrandID")]
+            public Brand Brand { get; set; }
         
         public ICollection<Vehicle> Vehicles { get; set; }
-
-
-
-    
     }
 }

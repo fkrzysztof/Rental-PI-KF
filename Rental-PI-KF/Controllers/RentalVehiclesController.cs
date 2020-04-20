@@ -150,6 +150,10 @@ namespace Rental_PI_KF.Controllers
             //dopisane
             //ViewBag.Vehicle = vehicle;
 
+            //dopisane do dodania form i to lokalizacji
+            var rentalAgencyAddressList = _context.RentalAgencyAddresses.Where(w => w.IsActive == true);
+            ViewBag.RentalAgencyAddress = new SelectList(rentalAgencyAddressList, "RentalAgencyAddressID", "City");
+
             RentalVehicle rv = new RentalVehicle();
             rv.Vehicle = vehicle;
 
@@ -158,7 +162,7 @@ namespace Rental_PI_KF.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive")] RentalVehicle rentalVehicle, List<DateTime> RentalDate)
+        public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive,RentalFromLocationId,RentalToLocationId")] RentalVehicle rentalVehicle, List<DateTime> RentalDate)
         {
             if (ModelState.IsValid)
             {
@@ -178,8 +182,10 @@ namespace Rental_PI_KF.Controllers
                             To = rentalVehicle.To,
                             RentalStatusID = rentalVehicle.RentalStatusID,
                             CreationDate = DateTime.Now,
-                            IsActive = true
-                        
+                            IsActive = true,
+                        //dodane
+                            RentalFromLocationId = rentalVehicle.RentalFromLocationId,
+                            RentalToLocationId = rentalVehicle.RentalToLocationId
                         });
                         break;
                     }
@@ -234,7 +240,7 @@ namespace Rental_PI_KF.Controllers
                 itemVehicle.Name = itemVehicle.Brand.Name + " " + itemVehicle.VehicleModel.Name + " /NR.R. " + itemVehicle.NumberPlate;
             }
             ViewData["VehicleID"] = new SelectList(vehicleList, "VehicleID", "Name");
-            //ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "Name");
+
             return View();
         }
 

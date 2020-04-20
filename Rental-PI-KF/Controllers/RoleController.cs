@@ -162,20 +162,28 @@ namespace Rental_PI_KF.Controllers
             ViewBag.Action = actionLink;
             ViewBag.RoleNow = _userManager.GetRolesAsync(user).Result.First();
 
+            var ra = _context.RentalAgencies.FirstOrDefault(f => f.RentalAgencyID == user.RentalAgencyID);
+            var rentalAll = _context.RentalAgencies.Where(w => w.IsActive == true).ToList();
             //dodane do edycji RentalAgency
-            if(user.RentalAgencyID != null || _context.RentalAgencies.FirstOrDefault(f => f.RentalAgencyID == user.RentalAgencyID) == null)
+            //jesli uzytkownik posiada oddzial i istnieje taka RentalAgency 
+            if (user.RentalAgencyID != null || ra != null)
             { 
-                ViewBag.AgencyName = _context.RentalAgencies.FirstOrDefault(f => f.RentalAgencyID == user.RentalAgencyID).Name;
-                var rentalAll = _context.RentalAgencies.Where(w => w.RentalAgencyID != user.RentalAgencyID);
-                ViewBag.RentalAgencyItems = new SelectList( rentalAll, "RentalAgencyID", "Name");
+                //w przypadku usuniecia odzialu 
+                var name = ra.Name;
+                if (ra.IsActive == false)
+                {
+                    name = name + " " + "usunieta";
+                }
+                ViewBag.AgencyName = name;
+                var allButThis = rentalAll.Where(w => w.RentalAgencyID != user.RentalAgencyID);
+                ViewBag.RentalAgencyItems = new SelectList(allButThis, "RentalAgencyID", "Name");
             }
             else
             {
                 ViewBag.AgencyName = "Brak";
-                ViewBag.RentalAgencyItems = new SelectList(_context.RentalAgencies, "RentalAgencyID", "Name");
+                ViewBag.RentalAgencyItems = new SelectList(rentalAll, "RentalAgencyID", "Name");
             }
             
-
             return View(user);
         }
 

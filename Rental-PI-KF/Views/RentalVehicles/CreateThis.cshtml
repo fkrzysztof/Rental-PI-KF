@@ -26,10 +26,22 @@
                 <input asp-for="To" class="form-control" />
                 <span asp-validation-for="To" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="RentalStatusID" class="control-label"></label>
-                <select asp-for="RentalStatusID" class ="form-control" asp-items="ViewBag.RentalStatusID"></select>
+                <select asp-for="RentalStatusID" class ="form-control" asp-items="@ViewBag.RentalStatusID"></select>
             </div>
+
+            @*<div class="form-group">
+                <label asp-for="RentalFromLocation" class="control-label"></label>
+                <select asp-for="RentalFromLocationId" class ="form-control" asp-items="@ViewBag.RentalAgencyAddress"></select>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="RentalToLocation" class="control-label"></label>
+                <select asp-for="RentalToLocationId" class ="form-control" asp-items="@ViewBag.RentalAgencyAddress"></select>
+            </div>*@
+
             <div class="form-group">
                 <label asp-for="CreationDate" class="control-label"></label>
                 <input asp-for="CreationDate" class="form-control" />

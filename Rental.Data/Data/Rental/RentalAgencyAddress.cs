@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Rental.Data.Data.Rental;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -38,7 +39,17 @@ namespace Rental_Data.Data.Rental
         public bool IsActive { get; set; }
 
         public int? RentalAgencyID { get; set; }
-        [ForeignKey("RentalAgencyID")]
-        public RentalAgency RentalAgency { get; set; }
+            [ForeignKey("RentalAgencyID")]
+            public RentalAgency RentalAgency { get; set; }
+
+
+        //potrzebne do wybierania miejsca wypozyczenia i zdania pojazdu
+
+        [InverseProperty("RentalFromLocation")]
+        public ICollection<RentalVehicle> FromRentalVehicles { get; set; }
+        
+        [InverseProperty("RentalToLocation")]
+        public ICollection<RentalVehicle> ToRentalVehicles { get; set; }
+
     }
 }

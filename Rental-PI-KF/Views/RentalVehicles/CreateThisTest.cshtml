@@ -121,6 +121,16 @@
                             <select asp-for="RentalStatusID" class="form-control" asp-items="ViewBag.RentalStatusID"></select>
                         </div>
 
+                        @* ***************************** Dodawanie From To Location *********************************@
+                        <div class="form-group">
+                            <label asp-for="RentalFromLocation" class="control-label"></label>
+                            <select asp-for="RentalFromLocationId" class="form-control" asp-items="@ViewBag.RentalAgencyAddress"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="RentalToLocation" class="control-label"></label>
+                            <select asp-for="RentalToLocationId" class="form-control" asp-items="@ViewBag.RentalAgencyAddress"></select>
+                        </div>
 
 
                         <div class="form-group">
@@ -133,7 +143,7 @@
 
                         <script>
                             function myFunction() {
-                                var input, filter, di, se , op, a, i, txtValue;
+                                var input, filter, di, se, op, a, i, txtValue;
                                 input = document.getElementById("myInput");
                                 filter = input.value.toUpperCase();
                                 se = document.getElementById("mySE");
