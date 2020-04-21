@@ -1,4 +1,5 @@
-﻿using Rental_Data.Data.Rental;
+﻿using Rental.Data.Data.Areas.Identity.Data;
+using Rental_Data.Data.Rental;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,16 +16,23 @@ namespace Rental.Data.Data.Rental
             [ForeignKey("VehicleID")]
             public Vehicle Vehicle { get; set; }
 
+        [Display(Name = "Klient")]
+        public string ApplicationUserID { get; set; }
+            [ForeignKey("Id")]
+            public ApplicationUser ApplicationUser { get; set; }
+
         // ************************************** from location
-        [Display(Name = "Miejsce odbioru")]
+
         [ForeignKey("RentalFromLocation")]
         public int? RentalFromLocationId { get; set; }
+        [Display(Name = "Miejsce odbioru")]
         public RentalAgencyAddress RentalFromLocation { get; set; }
 
         // ************************************** to location
-        [Display(Name = "Miejsce zwrotu")]
+
         [ForeignKey("RentalToLocation")]
         public int? RentalToLocationId { get; set; }
+        [Display(Name = "Miejsce zwrotu")]
         public RentalAgencyAddress RentalToLocation { get; set; }
 
         [DataType(DataType.Date)]

@@ -308,11 +308,17 @@ namespace Rental.Data
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ApplicationUserID")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("From")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -333,6 +339,8 @@ namespace Rental.Data
                         .HasColumnType("int");
 
                     b.HasKey("RentalVehicleID");
+
+                    b.HasIndex("Id");
 
                     b.HasIndex("RentalFromLocationId");
 
@@ -954,6 +962,10 @@ namespace Rental.Data
 
             modelBuilder.Entity("Rental.Data.Data.Rental.RentalVehicle", b =>
                 {
+                    b.HasOne("Rental.Data.Data.Areas.Identity.Data.ApplicationUser", "ApplicationUser")
+                        .WithMany("RentalVehicles")
+                        .HasForeignKey("Id");
+
                     b.HasOne("Rental_Data.Data.Rental.RentalAgencyAddress", "RentalFromLocation")
                         .WithMany("FromRentalVehicles")
                         .HasForeignKey("RentalFromLocationId");

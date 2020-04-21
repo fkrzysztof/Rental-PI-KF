@@ -32,13 +32,49 @@ namespace Rental_PI_KF.Controllers
             _roleManager = roleManager;
         }
 
-        // GET: RentalVehicles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search, DateTime? from, DateTime? to, int? fromLocation, int? toLocation, int? customer)
         {
-            UserProfile();
-            var applicationDbContext = _context.RentalVehicles.Include(r => r.RentalStatus).Include(r => r.Vehicle);
-           
-            return View(await applicationDbContext.ToListAsync());
+            var itemCollection = await _context.RentalVehicles.
+                Include(i => i.RentalStatus).
+                Include(i => i.Vehicle).
+                Include(i => i.Vehicle.Brand).
+                Include(i => i.Vehicle.VehicleModel).
+                Include(i => i.RentalToLocation).
+                Include(i => i.RentalFromLocation).
+                ToListAsync();
+            if (search != null)
+            {
+                itemCollection = itemCollection.Where(w =>
+                w.Vehicle.Brand.Name.Contains(search) ||
+                w.Vehicle.VehicleModel.Name.Contains(search) ||
+                w.Vehicle.NumberPlate.Contains(search)
+                ).ToList();
+            }
+            if( from != null)
+            {
+                itemCollection = itemCollection.Where(w => w.From.CompareTo(from) != -1).ToList();
+            }
+            if( from != null)
+            {
+                itemCollection = itemCollection.Where(w => w.To.CompareTo(to) != 1).ToList();
+            }
+            if (fromLocation != null)
+            {
+                itemCollection = itemCollection.Where(w => w.RentalFromLocation.RentalAgencyAddressID.CompareTo(to) != 1).ToList();
+            }
+            if (toLocation != null)
+            {
+                itemCollection = itemCollection.Where(w => w.RentalToLocation.RentalAgencyAddressID.CompareTo(to) != 1).ToList();
+            }
+            //if (customer != null)
+            //{
+            //    itemCollection = itemCollection.Where(w => w.RentalToLocation. .CompareTo(to) != 1).ToList();
+            //}
+
+            List <ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
+            ViewBag.Customers = new SelectList(users, "Id", "Fullname");
+            ViewBag.Cities = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressesID", "City");
+            return View(itemCollection.OrderByDescending(o => o.RentalVehicleID));
         }
 
         // GET: RentalVehicles/Details/5
@@ -162,7 +198,7 @@ namespace Rental_PI_KF.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive,RentalFromLocationId,RentalToLocationId")] RentalVehicle rentalVehicle, List<DateTime> RentalDate)
+        public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive,RentalFromLocationId,RentalToLocationId,ApplicationUserID")] RentalVehicle rentalVehicle, List<DateTime> RentalDate)
         {
             if (ModelState.IsValid)
             {
@@ -185,7 +221,9 @@ namespace Rental_PI_KF.Controllers
                             IsActive = true,
                         //dodane
                             RentalFromLocationId = rentalVehicle.RentalFromLocationId,
-                            RentalToLocationId = rentalVehicle.RentalToLocationId
+                            RentalToLocationId = rentalVehicle.RentalToLocationId,
+                            ApplicationUserID = rentalVehicle.ApplicationUserID
+                            
                         });
                         break;
                     }

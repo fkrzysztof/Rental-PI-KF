@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Rental.Data.Data.Rental;
 using Rental_Data.Data.Rental;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -57,5 +58,7 @@ namespace Rental.Data.Data.Areas.Identity.Data
         [Display(Name = "Oddział")]
         [ForeignKey("RentalAgencyID")]
         RentalAgency RentalAgency { get; set; }
+
+        public ICollection<RentalVehicle> RentalVehicles { get; set; }
     }
 }

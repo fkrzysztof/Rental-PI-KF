@@ -129,8 +129,9 @@ namespace Rental_Data.Data.Rental
         public bool? Blockade { get; set; }
 
         [NotMapped]
-        public string Name { get; set; }        
-        
+        public string Name { get; set; }
+
+
         //[NotMapped]
         //public string BrandAndModel { get { return this.Brand.Name + " " + this.VehicleModel.Name; } }
         public bool IsActive { get; set; }

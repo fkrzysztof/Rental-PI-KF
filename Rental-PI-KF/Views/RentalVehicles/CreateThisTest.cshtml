@@ -136,7 +136,7 @@
                         <div class="form-group">
                             <label for="exampleFormControlSelect2">Wybierz Użytkownika</label>
                             <input class="form-control" type="text" autocomplete="off" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-                            <select multiple class="form-control" id="mySE" asp-items="@ViewBag.Customers">
+                            <select multiple class="form-control" asp-for="ApplicationUserID" id="mySE" asp-items="@ViewBag.Customers">
                             </select>
                         </div>
 
