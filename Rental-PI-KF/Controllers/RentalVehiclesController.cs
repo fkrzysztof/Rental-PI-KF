@@ -32,7 +32,7 @@ namespace Rental_PI_KF.Controllers
             _roleManager = roleManager;
         }
 
-        public async Task<IActionResult> Index(string search, DateTime? from, DateTime? to, int? fromLocation, int? toLocation, int? customer)
+        public async Task<IActionResult> Index(string search, DateTime? from, DateTime? to, int? fromLocation, int? toLocation, string customer)
         {
             var itemCollection = await _context.RentalVehicles.
                 Include(i => i.RentalStatus).
@@ -42,6 +42,7 @@ namespace Rental_PI_KF.Controllers
                 Include(i => i.RentalToLocation).
                 Include(i => i.RentalFromLocation).
                 ToListAsync();
+           
             if (search != null)
             {
                 itemCollection = itemCollection.Where(w =>
@@ -50,32 +51,43 @@ namespace Rental_PI_KF.Controllers
                 w.Vehicle.NumberPlate.Contains(search)
                 ).ToList();
             }
+
             if( from != null)
             {
                 itemCollection = itemCollection.Where(w => w.From.CompareTo(from) != -1).ToList();
             }
-            if( from != null)
+            if( to != null)
             {
                 itemCollection = itemCollection.Where(w => w.To.CompareTo(to) != 1).ToList();
             }
             if (fromLocation != null)
             {
-                itemCollection = itemCollection.Where(w => w.RentalFromLocation.RentalAgencyAddressID.CompareTo(to) != 1).ToList();
+                itemCollection = itemCollection.Where(w => w.RentalFromLocationId == fromLocation).ToList();
             }
             if (toLocation != null)
             {
-                itemCollection = itemCollection.Where(w => w.RentalToLocation.RentalAgencyAddressID.CompareTo(to) != 1).ToList();
+                itemCollection = itemCollection.Where(w => w.RentalToLocationId == toLocation).ToList();
             }
-            //if (customer != null)
-            //{
-            //    itemCollection = itemCollection.Where(w => w.RentalToLocation. .CompareTo(to) != 1).ToList();
-            //}
+            if (customer != null)
+            {
+                itemCollection = itemCollection.Where(w => w.ApplicationUserID == customer).ToList();
+            }
 
             List <ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
             ViewBag.Customers = new SelectList(users, "Id", "Fullname");
-            ViewBag.Cities = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressesID", "City");
-            return View(itemCollection.OrderByDescending(o => o.RentalVehicleID));
+            ViewBag.CustomersList = users;
+            ViewBag.Cities = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City");
+
+            //Wczytujemy max i min wartosc obecnie wyswietlanego zapytania
+            if(itemCollection.Count > 0)
+            { 
+            ViewBag.FromDate = itemCollection.OrderBy(o => o.From).FirstOrDefault().From.ToString("yyyy-MM-dd");
+            ViewBag.ToDate = itemCollection.OrderByDescending(o => o.To).FirstOrDefault().To.ToString("yyyy-MM-dd");
+            ViewBag.Search = search;
+            }
+            return View(itemCollection.OrderBy(o => o.From));
         }
+
 
         // GET: RentalVehicles/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -125,9 +137,6 @@ namespace Rental_PI_KF.Controllers
             {
                 firstDay = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("FirstDayofMonth"));
             }
-           
-
-
 
             //Dodaje lub odejmuje miesiac NEXT - PREVIOUS oraz aktualizuje zmienna w sesji
             if(navigation != null)
@@ -144,8 +153,8 @@ namespace Rental_PI_KF.Controllers
                 HttpContext.Session.SetString("FirstDayofMonth", JsonConvert.SerializeObject(firstDay));
             }
 
-                                                                //co kiedy dzisiaj jest pierwszy ???
-
+            //co kiedy dzisiaj jest pierwszy ???
+            
             //cofamy do poniedzialku
             while (firstDay.DayOfWeek != DayOfWeek.Monday)
             {
@@ -262,32 +271,29 @@ namespace Rental_PI_KF.Controllers
         }
 
 
-
-
-
-
-
         // GET: RentalVehicles/Create
         public IActionResult Create()
         {
-            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "RentalStatusID");
             List<Vehicle> vehicleList = _context.Vehicles.Include(i => i.VehicleModel).Include(i => i.Brand).Where(w => w.Blockade == false).ToList();
             //doac isActive
             foreach (var itemVehicle in vehicleList)
             {
                 itemVehicle.Name = itemVehicle.Brand.Name + " " + itemVehicle.VehicleModel.Name + " /NR.R. " + itemVehicle.NumberPlate;
             }
-            ViewData["VehicleID"] = new SelectList(vehicleList, "VehicleID", "Name");
+
+            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name");
+            ViewBag.Vehicles = new SelectList(vehicleList, "VehicleID", "Name");
+            List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
+            ViewBag.Customers = new SelectList(users, "Id", "Fullname");
+            ViewBag.Cities = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City");
 
             return View();
         }
 
         // POST: RentalVehicles/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive")] RentalVehicle rentalVehicle)
+        public async Task<IActionResult> Create([Bind("From,To,RentalStatusID,RentalFromLocationId,RentalToLocationId,Annotations,VehicleID,ApplicationUserID")] RentalVehicle rentalVehicle)
         {
             if (ModelState.IsValid)
             {
@@ -308,33 +314,48 @@ namespace Rental_PI_KF.Controllers
                 return NotFound();
             }
 
-            var rentalVehicle = await _context.RentalVehicles.FindAsync(id);
+            var rentalVehicle = _context.RentalVehicles.
+                Include(i => i.RentalFromLocation).
+                Include(i => i.RentalToLocation).
+                Include(i => i.RentalStatus).
+                Include(i => i.Vehicle).
+                Include(i => i.Vehicle.Brand).
+                Include(i => i.Vehicle.VehicleModel).
+                First(f => f.RentalVehicleID == id);
             if (rentalVehicle == null)
             {
                 return NotFound();
             }
-            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "RentalStatusID", rentalVehicle.RentalStatusID);
-            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", rentalVehicle.VehicleID);
+            
+            ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
+            ViewBag.CustomersNow = await _userManager.FindByIdAsync(rentalVehicle.ApplicationUserID);
+            ViewBag.CitiesFrom = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalFromLocation.RentalAgencyAddressID );
+            ViewBag.CitiesTo = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalToLocation.RentalAgencyAddressID );
+
             return View(rentalVehicle);
         }
 
         // POST: RentalVehicles/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive")] RentalVehicle rentalVehicle)
+        public async Task<IActionResult> Edit(int id, [Bind("RentalVehicleID,From,To,RentalStatusID,RentalFromLocationId,RentalToLocationId,Annotations")] RentalVehicle rentalVehicle)
         {
             if (id != rentalVehicle.RentalVehicleID)
             {
                 return NotFound();
             }
+            var rv = await _context.RentalVehicles.FirstOrDefaultAsync(w => w.RentalVehicleID == id);
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(rentalVehicle);
+                    rv.From = rentalVehicle.From;
+                    rv.To = rentalVehicle.To;
+                    rv.RentalStatusID = rentalVehicle.RentalStatusID;
+                    rv.RentalFromLocationId = rentalVehicle.RentalFromLocationId;
+                    rv.RentalToLocationId = rentalVehicle.RentalToLocationId;
+                    rv.Annotations = rentalVehicle.Annotations;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -349,9 +370,13 @@ namespace Rental_PI_KF.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
-            }
-            ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "RentalStatusID", rentalVehicle.RentalStatusID);
-            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", rentalVehicle.VehicleID);
+            } 
+
+            ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
+            ViewBag.CustomersNow = await _userManager.FindByIdAsync(rv.ApplicationUserID);
+            ViewBag.CitiesFrom = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalFromLocation.RentalAgencyAddressID);
+            ViewBag.CitiesTo = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalToLocation.RentalAgencyAddressID);
+
             return View(rentalVehicle);
         }
 

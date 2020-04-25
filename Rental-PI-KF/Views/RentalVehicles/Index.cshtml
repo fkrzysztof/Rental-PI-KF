@@ -1,23 +1,27 @@
-﻿@*@model Rental_Data.Data.Rental.Brand*@
-@model IEnumerable<Rental.Data.Data.Rental.RentalVehicle>
+﻿@model IEnumerable<Rental.Data.Data.Rental.RentalVehicle>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link" asp-action="Index" asp-controller="VehicleModels">Model</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" asp-action="Index" asp-controller="Brands">Marka</a>
-    </li>
-</ul>
-<h4 class="pt-4 pb-2">Wypożyczalnia</h4>
 
-<div class="row mb-4">
+
+<div class="row mb-4 justify-content-center">
     <div class="col-md-12">
-        <div class="card">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" asp-action="Index">Lista</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Create">Utwórz</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" asp-action="Edit">Edycja</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-12">
+        <div class="card border-top-0 rounded-0 rounded-bottom">
             <div class="card-body">
                 <div class="row">
                     <div class="col-12 mb-2">
@@ -35,25 +39,35 @@
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput">Od dnia:</label>
-                                                        <input type="date" class="form-control" name="form">
+                                                        <input type="date" class="form-control" name="from" value="@ViewBag.FromDate">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput2">Do dnia:</label>
-                                                        <input type="date" class="form-control" name="to">
+                                                        <input type="date" class="form-control" name="to" value="@ViewBag.ToDate">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput">Miejsce odbioru:</label>
-                                                        <select class="form-control" asp-items="@ViewBag.Cities" name="formLocation"></select>
+                                                        <select class="form-control" asp-items="@ViewBag.Cities" name="fromLocation">
+                                                            <option disabled selected>Wybierz..</option>
+                                                        </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput2">Miejsce zwrotu:</label>
-                                                        <select class="form-control" asp-items="@ViewBag.Cities" name="toLocation"></select>
+                                                        <select class="form-control" asp-items="@ViewBag.Cities" name="toLocation">
+                                                            <option disabled selected>Wybierz..</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-12 align-self-center">
                                                     @*Wyszukiwarka*@
+                                                    @{
+                                                        if (@ViewBag.Search != null)
+                                                        {
+                                                            <span class="badge badge-pill badge-info">"@ViewBag.Search" <a class="text-white" asp-action="Index">&times;</a></span> @*<span aria-hidden="true">&times;</span>*@
+                                                        }
+                                                    }
                                                     <input type="text" name="search" class="form-control" placeholder="Wpisz szukaną frazę.." />
                                                 </div>
                                             </div>
@@ -61,27 +75,9 @@
                                         <div class="col-sm-6">
                                             <div class="row h-100">
                                                 <div class="col-sm-12">
-
-                                                    @*<div class="form-group h-25">
-                                                        <label for="exampleFormControlSelect2">Example multiple select</label>
-                                                    </div>*@
                                                     <div class="form-group card p-2 h-100">
                                                         <label for="exampleFormControlSelect2">Example multiple select</label>
                                                         <select multiple class="form-control h-100 border-0 p-0" asp-items="@ViewBag.Customers" name="customer">
-                                                            <option disabled selected>Wybierz Klienta..</option>
-                                                            <option>2</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
-                                                            <option>3</option>
-                                                            <option>4</option>
-                                                            <option>5</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -105,10 +101,10 @@
                                         @Html.DisplayNameFor(model => model.Vehicle.NumberPlate)
                                     </th>
                                     <th>
-                                      @Html.DisplayNameFor(model => model.Vehicle.Brand)
+                                        @Html.DisplayNameFor(model => model.Vehicle.Brand)
                                     </th>
                                     <th>
-                                      @Html.DisplayNameFor(model => model.Vehicle.VehicleModel)
+                                        @Html.DisplayNameFor(model => model.Vehicle.VehicleModel)
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.From)
@@ -126,16 +122,16 @@
                                         @Html.DisplayNameFor(model => model.RentalToLocation)
                                     </th>
                                     <th>
+                                        @Html.DisplayNameFor(model => model.ApplicationUser.Fullname)
+                                    </th>
+                                    <th>
                                         @Html.DisplayNameFor(model => model.CreationDate)
                                     </th>
                                     <th>
-                                        @*@Html.DisplayNameFor(model => model.IsActive)
-                                    </th>*@
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @*@foreach (var item in ViewBag.ItemCollection)*@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
@@ -144,6 +140,8 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Vehicle.Brand.Name)
+                                        </td>
+                                        <td>
                                             @Html.DisplayFor(modelItem => item.Vehicle.VehicleModel.Name)
                                         </td>
                                         <td>
@@ -156,25 +154,25 @@
                                             @Html.DisplayFor(modelItem => item.RentalStatus.Name)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.RentalToLocation.City)
+                                            @Html.DisplayFor(modelItem => item.RentalFromLocation.City)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.RentalToLocation.City)
                                         </td>
+                                        <th>
+                                            @foreach (var customerItem in @ViewBag.CustomersList)
+                                            {
+                                                if (customerItem.Id == item.ApplicationUserID)
+                                                {
+                                                    <span>@customerItem.Fullname</span>
+                                                }
+                                            }
+                                        </th>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.CreationDate)
                                         </td>
-                                        @*<td>
-                                            @Html.DisplayFor(modelItem => item.IsActive)
-                                        </td>*@
                                         <td class="text-right">
-                                            @* wywolywanie okna modalnego oraz przekazywanie do niego danych przez JQ *@
-                                            @*<a data-name="@item.Name" data-id="@item.BrandID" class="ml-2 j-s-EditDialog" data-toggle="modal" data-target="#editModal" href="#editModal"><i class="fas fa-wrench"></i></a>*@
-                                            
-                                            
-                                            @*dodac wiecej informacji o usuniecu albo zmniejszyc info do zapytania  t/n *@
-                                            
-                                            <a asp-action="Edit" asp-route-id="@item.RentalVehicleID">Edit</a>
+                                            <a asp-action="Edit" asp-route-id="@item.RentalVehicleID"><i class="fas fa-wrench"></i></a>
                                             <a data-id="@item.RentalVehicleID" data-name="@item.Vehicle.Name" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
@@ -186,29 +184,6 @@
             </div>
         </div>
     </div>
-    @************************************************************************************ CREATE **********@
-    @*<div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
-                        <form asp-action="Create">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <label class="control-label mb-3"><i class="fas fa-folder-plus mr-2"></i>Dodaj</label>
-                            <div class="form-group">
-                                <label asp-for="Name" class="control-label"></label>
-                                <input asp-for="Name" class="form-control" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Utwórz" class="btn btn-primary" />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>*@
 </div>
 
 <!-- Modal -->
@@ -218,17 +193,19 @@
         <div class="modal-content">
             <form asp-action="Delete" method="post">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                        Czy na pewno chcesz usunąć:
-                    </h5>
+                    @*<h5 class="modal-title" id="exampleModalLabel">
+                            Czy na pewno chcesz usunąć tą pozycje?
+                        </h5>*@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Czy na pewno chcesz usunąć tą pozycje?
+                    </h5>
                     @*Wysylanie ID*@
                     <input type="hidden" name="id" id="itemId" value="" />
-                    <input type="text" name="name" id="itemName" value="" disabled class="form-control" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Anuluj</button>
@@ -245,79 +222,7 @@
     $(document).ready(function () {
         $(document).on("click", ".j-s-DeleteDialog", function () {
             var itemId = $(this).data('id');
-            var itemName = $(this).data('name');
             $(".modal-body #itemId").val(itemId);
-            $(".modal-body #itemName").val(itemName);
         });
     });
 </script>
-
-
-
-
-
-@*@model IEnumerable<Rental.Data.Data.Rental.RentalVehicle>
-
-    @{
-        ViewData["Title"] = "Index";
-    }
-
-    <h1>Index</h1>
-
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Vehicle)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.From)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.To)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RentalStatus)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CreationDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsActive)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Vehicle.VehicleID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.From)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.To)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RentalStatus.RentalStatusID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.RentalVehicleID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.RentalVehicleID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.RentalVehicleID">Delete</a>
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>*@

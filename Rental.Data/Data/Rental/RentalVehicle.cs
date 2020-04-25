@@ -25,15 +25,15 @@ namespace Rental.Data.Data.Rental
 
         [ForeignKey("RentalFromLocation")]
         public int? RentalFromLocationId { get; set; }
-        [Display(Name = "Miejsce odbioru")]
-        public RentalAgencyAddress RentalFromLocation { get; set; }
+            [Display(Name = "Miejsce odbioru")]
+            public RentalAgencyAddress RentalFromLocation { get; set; }
 
         // ************************************** to location
 
         [ForeignKey("RentalToLocation")]
         public int? RentalToLocationId { get; set; }
-        [Display(Name = "Miejsce zwrotu")]
-        public RentalAgencyAddress RentalToLocation { get; set; }
+            [Display(Name = "Miejsce zwrotu")]
+            public RentalAgencyAddress RentalToLocation { get; set; }
 
         [DataType(DataType.Date)]
         [Display(Name = "Od")]
@@ -49,6 +49,11 @@ namespace Rental.Data.Data.Rental
 
         [Display(Name = "Data utworzenia")]
         public DateTime CreationDate { get; set; } 
+
+        
+        [Display(Name = "Adnotacje")]
+        public string Annotations { get; set; } 
+        
 
         public bool IsActive { get; set; }
 

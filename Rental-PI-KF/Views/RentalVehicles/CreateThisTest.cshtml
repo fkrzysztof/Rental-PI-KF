@@ -2,7 +2,7 @@
 
 @using Microsoft.AspNetCore.Identity;
 @*@using Rental.Data.Data.Areas.Identity.Data
-@using Rental_PI_KF.Areas.Identity.Pages.Account*@
+    @using Rental_PI_KF.Areas.Identity.Pages.Account*@
 @{
     ViewData["Title"] = "RentalThis";
     var roles = (List<IdentityRole>)ViewData["roles"];
@@ -10,20 +10,16 @@
 
 <div class="row">
     <div class="col-sm-12">
-
-
         <div class="btn-group-toggle" data-toggle="buttons">
             <label class="btn btn-secondary active">
                 <input type="checkbox" checked autocomplete="off"> Checked
             </label>
         </div>
-
         <form asp-action="CreateThis">
             <div class="card m-sm-4">
                 <div class="card-header">Formularz wypożyczenia pojazdy @Html.DisplayFor(model => model.Vehicle.Brand.Name)  @Html.DisplayFor(model => model.Vehicle.VehicleModel.Name) </div>
                 <div class="row">
-                    @*Kalendarz rezerwacji START *******************************************************************************@
-
+                    @**************************************** Kalendarz rezerwacji START ***************************@
                     <script src="~/js/jquery-1.10.2.js"></script>
                     <div class="col-lg-8 p-sm-4">
                         <div class="row justify-content-center m-4">
@@ -32,11 +28,8 @@
                                     <i class="fas fa-chevron-left float-right mt-4 mb-4"></i>
                                 </a>
                             </div>
-                            <div class="col-lg-8 text-center">
-
-
+                            <div class="col-lg-7 text-center">
                                 @{
-
                                     //wyswietlam date
                                     <div>
                                         @{
@@ -49,7 +42,7 @@
                                     <div class="bg-dark">
                                         @foreach (string day in @ViewBag.DaysOfWeek)
                                         {
-                                            <div class="d-inline-block rounded bg-dark align-middle" style="min-width: 40px; min-height: 40px"><small>@day</small> </div>
+                                            <div class="d-inline-block rounded bg-dark align-middle text-white" style="min-width: 46px; min-height: 46px"><small>@day</small> </div>
                                         }
                                     </div>
 
@@ -63,41 +56,21 @@
                                         //sprawdzam czy dzien jest zajety -- ZAJETY
                                         if (Model.Vehicle.RentalVehicles.FirstOrDefault(f => f.From.CompareTo(item) <= 0 && f.To.CompareTo(item) >= 0) != null)
                                         {
-                                            @*<div class="@(month.Month == item.Month? "bg-gray-200" : "")  d-inline-block rounded border-bottom-danger" style="min-width: 40px; min-height: 40px">*@
-
-                                            @*<small>
-                                z @item.Day
-                            </small>*@
                                             <div class="btn-group-toggle d-inline-block   rounded mt-1" data-toggle="buttons">
                                                 <label class="btn btn-secondary active bg-danger" style="min-width: 46px; min-height: 46px">
                                                     <input type="checkbox" disabled autocomplete="off"> @item.Day
                                                 </label>
                                             </div>
-                                            @*</div>*@
                                         }
                                         //Dzien jest -- WOLNY
                                         else
                                         {
-                                            @*<div class="@(month.Month == item.Month? "bg-gray-200" : "")  d-inline-block rounded border-bottom-success" style="min-width: 40px; min-height: 40px">*@
-
-
-                                            @*<small>
-                             @item.Day
-                            </small>*@
-
-
                                             <div class="btn-group-toggle d-inline-block rounded mt-1" data-toggle="buttons">
                                                 <label class="btn btn-secondary" style="min-width: 46px; min-height: 46px">
                                                     <input type="checkbox" name="RentalDate" value="@item"> @item.Day
                                                 </label>
                                             </div>
-
-                                            @*</div>*@
                                         }
-
-
-
-
                                     }
                                 }
                             </div>
@@ -106,13 +79,26 @@
                                     <i class="fas fa-chevron-right float-left mt-4 mb-4"></i>
                                 </a>
                             </div>
+                            <div class="col-sm-3">
+                                <div class="btn rounded mt-1">
+                                    <label class="btn btn-secondary" style="min-width: 46px; min-height: 46px">
+                                        13
+                                    </label>
+                                </div>
+                                <label>Termin Wolny</label>
 
+                                <div class="btn  rounded mt-1">
+                                    <label class="btn btn-danger" style="min-width: 46px; min-height: 46px">
+                                        13
+                                    </label>
+                                </div>
+                                <label>Termin Zajęty</label>
+
+                            </div>
                         </div>
+                        @*********************************** Kalendarz rezerwacji END *******************************@
 
-
-
-
-                        @*formularz*@
+                        @******************************* Formularz Rezerwacji****************************************@
 
                         <input type="hidden" asp-for="VehicleID" value="@Model.Vehicle.VehicleID" />
 
@@ -120,19 +106,14 @@
                             <labe class="control-label">Status</labe>
                             <select asp-for="RentalStatusID" class="form-control" asp-items="ViewBag.RentalStatusID"></select>
                         </div>
-
-                        @* ***************************** Dodawanie From To Location *********************************@
                         <div class="form-group">
                             <label asp-for="RentalFromLocation" class="control-label"></label>
                             <select asp-for="RentalFromLocationId" class="form-control" asp-items="@ViewBag.RentalAgencyAddress"></select>
                         </div>
-
                         <div class="form-group">
                             <label asp-for="RentalToLocation" class="control-label"></label>
                             <select asp-for="RentalToLocationId" class="form-control" asp-items="@ViewBag.RentalAgencyAddress"></select>
                         </div>
-
-
                         <div class="form-group">
                             <label for="exampleFormControlSelect2">Wybierz Użytkownika</label>
                             <input class="form-control" type="text" autocomplete="off" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
@@ -160,217 +141,150 @@
                                 }
                             }
                         </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        @*<div class="form-row">
-            <div class="form-group col-md-6">
-                <label asp-for="@user.Email">Email</label>
-                <input asp-for="@user.Email" class="form-control">
-            </div>
-            <div class="form-group col-md-6">
-                <label for="inputPassword4">Password</label>
-                <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputAddress">Address</label>
-            <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-        </div>
-        <div class="form-group">
-            <label for="inputAddress2">Address 2</label>
-            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="inputCity">City</label>
-                <input type="text" class="form-control" id="inputCity">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="inputState">State</label>
-                <select id="inputState" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                </select>
-            </div>
-            <div class="form-group col-md-2">
-                <label for="inputZip">Zip</label>
-                <input type="text" class="form-control" id="inputZip">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="gridCheck">
-                <label class="form-check-label" for="gridCheck">
-                    Check me out
-                </label>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Sign in</button>*@
-
-
-
-
-
-
-
-
-
-                        @*formularz*@
-
-
-
-
-
-
+                        <div>
+                            <button type="submit">Zapisz</button>
+                        </div>
                     </div>
-                    @*Kalendarz rezerwacji KONEC *******************************************************************************@
-
-
-
-
+                    @******************************** Kalendarz rezerwacji KONEC ************************************@
                     <div class="col-lg-4">
-                        <div class="card m-4 p-4 shadow-sm">
-                            @*<img src="..\@Model.Pictures.First(f => f.IsActive == true).URL" class="img-fluid rounded" />*@
+                        <div class="row">
+                            <div class="col-lg-10 card m-4 p-4 shadow-sm">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        @if (Model.Vehicle.Image != null)
+                                        {
+                                            var img = Model.Vehicle.Image;
 
-                            @if (Model.Vehicle.Image != null)
-                            {
-                                var img = Model.Vehicle.Image;
+                                            var base64 = Convert.ToBase64String(img);
+                                            var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                            <img class="img-fluid rounded" src="@imgSrc" />
 
-                                var base64 = Convert.ToBase64String(img);
-                                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                <img class="img-fluid rounded" style="width: 360px;" src="@imgSrc" />
+                                        }
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h5 class="mt-4 mb-2">Informacje</h5>
+                                        <hr />
+                                        <dl class="row">
 
-                            }
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.Brand.Name)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                <strong>
+                                                    @Html.DisplayFor(model => model.Vehicle.Brand.Name)
+                                                </strong>
+                                            </dd>
 
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.VehicleModel.Name)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                <strong>
+                                                    @Html.DisplayFor(model => model.Vehicle.VehicleModel.Name)
+                                                </strong>
+                                            </dd>
 
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.YearOfCarProduction)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.YearOfCarProduction)
+                                            </dd>
 
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.ExactType)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.ExactType.Name)
+                                            </dd>
 
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.Mileage)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.Mileage)
+                                            </dd>
 
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.EngineCapacity)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.EngineCapacity)
+                                            </dd>
 
-                            <div class="row">
-                                <div class="col-sm-6 m-2">
-                                    <dl class="row">
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.YearOfCarProduction)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.YearOfCarProduction)
-                                        </dd>
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.AirConditioning)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.AirConditioning.Type)
+                                            </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.ExactType)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.ExactType.Name)
-                                        </dd>
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.EngineType)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.EngineType.Name)
+                                            </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.Mileage)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.Mileage)
-                                        </dd>
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.EnginePower)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.EnginePower)
+                                            </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.EngineCapacity)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.EngineCapacity)
-                                        </dd>
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.Colour)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.Colour.Name)
+                                            </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.AirConditioning)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.AirConditioning.Type)
-                                        </dd>
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.VIN)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.VIN)
+                                            </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.EngineType)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.EngineType.Name)
-                                        </dd>
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.NumberPlate)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.NumberPlate)
+                                            </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.EnginePower)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.EnginePower)
-                                        </dd>
-                                    </dl>
-                                </div>
-                                <div class="col-sm-6 border-left">
-                                    <dl class="row">
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.Colour)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.Colour.Name)
-                                        </dd>
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.GearBox)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.GearBox.Name)
+                                            </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.VIN)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.VIN)
-                                        </dd>
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.WheelDrive)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.WheelDrive.Name)
+                                            </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.NumberPlate)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.NumberPlate)
-                                        </dd>
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.NumberOfSeats)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.NumberOfSeats)
+                                            </dd>
 
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.GearBox)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.GearBox.Name)
-                                        </dd>
-
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.WheelDrive)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.WheelDrive.Name)
-                                        </dd>
-
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.NumberOfSeats)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.NumberOfSeats)
-                                        </dd>
-
-                                        <dt class="col-sm-6">
-                                            @Html.DisplayNameFor(model => model.Vehicle.NumberOfDoors)
-                                        </dt>
-                                        <dd class="col-sm-6">
-                                            @Html.DisplayFor(model => model.Vehicle.NumberOfDoors)
-                                        </dd>
-
-                                    </dl>
-
+                                            <dt class="col-sm-6">
+                                                @Html.DisplayNameFor(model => model.Vehicle.NumberOfDoors)
+                                            </dt>
+                                            <dd class="col-sm-6">
+                                                @Html.DisplayFor(model => model.Vehicle.NumberOfDoors)
+                                            </dd>
+                                        </dl>
+                                    </div>
                                 </div>
                             </div>
-
-                            <button type="submit">button</button>
                         </div>
                     </div>
                 </div>
@@ -382,7 +296,7 @@
 <div>
     <a asp-action="Edit" asp-route-id="@Model.VehicleID">Edit</a> |
     <a asp-action="Index">Back to List</a>
-</div>                        
+</div>
 
 @*<script type="text/javascript">
         function Checken(element) {
