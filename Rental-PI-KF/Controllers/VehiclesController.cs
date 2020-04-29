@@ -22,7 +22,6 @@ namespace Rental_PI_KF.Controllers
 {
     public class VehiclesController : BasicControllerAbstract
     {
-
         IHostingEnvironment _env;
 
         public VehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IHostingEnvironment environment)
@@ -32,62 +31,30 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: Vehicles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string generalType)
         {
             UserProfile();
 
-            var applicationDbContext = _context.Vehicles
-                .Include(v => v.Brand)
-                .Include(v => v.Colour)
-                .Include(v => v.EngineType)
-                .Include(v => v.ExactType)
-                .Include(v => v.GearBox)
-                .Include(v => v.GeneralType)
-                .Include(v => v.VehicleModel)
-                .Include(v => v.WheelDrive)
-                .Include(v => v.Pictures)
-                .Include(v => v.Equipment)
-                .Include(v => v.RentalVehicles)
-                .Include(v => v.AirConditioning);
+            var applicationDbContext = _context.Vehicles.
+                Include(v => v.Brand).
+                Include(v => v.Colour).
+                Include(v => v.EngineType).
+                Include(v => v.ExactType).
+                Include(v => v.GearBox).
+                Include(v => v.GeneralType).
+                Include(v => v.VehicleModel).
+                Include(v => v.WheelDrive).
+                Include(v => v.Pictures).
+                Include(v => v.Equipment).
+                Include(v => v.RentalVehicles).
+                Include(v => v.AirConditioning);
+            
+            ViewBag.EQNameList = await _context.EquipmentNames.ToListAsync();
 
-           
-            ViewBag.EquipmentName = _context.EquipmentNames;
-
-            List<EquipmentName> eqNameList = new List<EquipmentName>();
-            foreach (var item in _context.EquipmentNames.ToList())
-            {
-                eqNameList.Add(item);
-            }
-
-            ViewBag.EQNameList = eqNameList;
-
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Vehicles/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vehicle = await _context.Vehicles
-                .Include(v => v.Brand)
-                .Include(v => v.Colour)
-                .Include(v => v.EngineType)
-                .Include(v => v.ExactType)
-                .Include(v => v.GearBox)
-                .Include(v => v.GeneralType)
-                .Include(v => v.VehicleModel)
-                .Include(v => v.WheelDrive)
-                .FirstOrDefaultAsync(m => m.VehicleID == id);
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-
-            return View(vehicle);
+            if(generalType != null)
+                return View(await applicationDbContext.Where(w => w.GeneralType.Name == generalType).ToListAsync());
+            else
+                return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Vehicles/Create
@@ -99,7 +66,6 @@ namespace Rental_PI_KF.Controllers
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name");
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "Name");
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
-            
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "Name");
 
             //dodane
@@ -110,10 +76,7 @@ namespace Rental_PI_KF.Controllers
             //Model JS
             List<Brand> brandList = new List<Brand>();
             brandList = _context.Brands.ToList();
-            //brandList.Insert(0, new Brand { BrandID = 0, Name = "Select first" });
             ViewBag.ListOfBrads = brandList;
-            
-            //ViewBag.ModelList = new SelectList(_context.VehicleModels, "VehicleModelID", "Name"); //na chwile
 
             return View();
         }
@@ -131,49 +94,18 @@ namespace Rental_PI_KF.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
-        //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
         public async Task<IActionResult> Create(Vehicle v, IFormFile file, List<int> Equipments)
         {
             if (ModelState.IsValid)
             {
-
                 //dodawanie pojazu
+                v.GeneralTypeID = _context.ExactTypes.FirstOrDefaultAsync(f => f.ExactTypeID == v.ExactTypeID).Result.GeneralTypeID;
                 v.Blockade = false;
+                v.IsActive = true;
                 _context.Add(v);
-
-                #region stara wersja zjecia w folderze
-                //stara wersja z img w folderze
-
-                //ladowanie zdjecia
-                //sprawdzam czy zdjecie jest dodane, jesli nie ustawiam na noimg.jpg
-                //string tempURL;
-                //if (file == null)
-                //{
-                //    tempURL = "..\\Upload\\Images\\noimg.png";
-                //}
-                //else
-                //{
-                //    tempURL = await ImageUpload(file);
-                //}
-
-
-                //Picture p = new Picture()
-                //{
-                //    URL = tempURL,
-                //    IsActive = true,
-                //};
-
-                //dodanie pojazdu do zdjecia 
-                //p.Vehicle = v;
-                //dodanie zdjecia
-                //_context.Pictures.Add(p);
-
-                #endregion
 
                 //dodanie zdjecia do sql
                 v.Image = ImgToSQLAsync(file).Result.ToArray();
-
-
 
                 //dodanie wyposazenia i przypisanie pojazdy do elementu wyposazenia
                 //wyposazenie nowa wersja
@@ -190,7 +122,6 @@ namespace Rental_PI_KF.Controllers
                         });
                     }
                 }
-                
                 await _context.SaveChangesAsync();
             
                 return RedirectToAction(nameof(Index));
@@ -203,14 +134,10 @@ namespace Rental_PI_KF.Controllers
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", v.GeneralTypeID);
             ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", v.VehicleModelID);
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", v.WheelDriveID);
-
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type"/*, v.Equipment.AirConditioning.AirConditioningID*/);
 
-
             //dopisane
-            List<Brand> brandList = new List<Brand>();
-            brandList = _context.Brands.ToList();
-            ViewBag.ListOfBrads = brandList;
+            ViewBag.ListOfBrads = _context.Brands.ToList();
             sendYear();
             ViewBag.EquipmentsNameList = _context.EquipmentNames;
             UserProfile();
@@ -227,12 +154,16 @@ namespace Rental_PI_KF.Controllers
                 return NotFound();
             }
 
-            //var vehicle = await _context.Vehicles.FindAsync(id);
-            var vehicle = await _context.Vehicles.Include(i => i.Equipment).Include(i => i.Pictures).FirstOrDefaultAsync(m => m.VehicleID == id); ;
+            var vehicle = await _context.Vehicles.
+                Include(i => i.Equipment).
+                Include(i => i.Pictures).
+                FirstOrDefaultAsync(m => m.VehicleID == id);
+            
             if (vehicle == null)
             {
                 return NotFound();
             }
+
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name", vehicle.ColourID);
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "Name", vehicle.EngineTypeID);
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name", vehicle.ExactTypeID);
@@ -241,114 +172,42 @@ namespace Rental_PI_KF.Controllers
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "Name", vehicle.WheelDriveID);
 
             //dodane
-
             //Lista Marek
-            List<Brand> brandList = new List<Brand>();
-            brandList = _context.Brands.ToList();
-            ViewBag.ListOfBrads = brandList;
+            ViewBag.ListOfBrads = _context.Brands.ToList();
             //30 lat do wyboru
             sendYear();
-            ViewBag.EquipmentsNameList = _context.EquipmentNames;
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
-            ViewBag.Equipments = _context.Equipment.Include(i => i.EquipmentName).Where(w => w.VehicleID == id);
             ViewBag.ModelList = new SelectList(_context.VehicleModels.Where(w=>w.BrandID == vehicle.BrandID), "VehicleModelID", "Name", vehicle.VehicleModelID); //lista Modeli do danego auta
-            // wywalic modele z include !!
+            await sendEquipmentList(id);
 
-
-            //**************************************************** Equioment
-
-            List<EquipmentName> eqNameList = new List<EquipmentName>();
-            foreach (var item in _context.EquipmentNames.ToList())
-            {
-                eqNameList.Add(item);
-            }
-            ViewBag.EQNameList = eqNameList;
-
-            List<EquipmentName> equipmentNameList = new List<EquipmentName>();
-            eqNameList = await _context.EquipmentNames.ToListAsync();
-
-            //Iteracja po nazwach wyposazenia
-            //List Wyposazenia do wyswietlanie TEMP
-            List<Equipment> TempList = new List<Equipment>();
-            bool trueOrfalse;
-            foreach (var name in eqNameList)
-            {
-                    //tu jest problem - is activ mozna wywalic !! nie jest tu potrzebne
-                    if (_context.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID && f.Check == true) == null)
-                        trueOrfalse = false;
-                    else
-                        trueOrfalse = true;
-
-                    TempList.Add(new Equipment()
-                    {
-                        EquipmentNameID = name.EquipmentNameID,
-                        Name = name.Name,
-                        Check = trueOrfalse
-                    }
-                    );
-            }
-
-            ViewBag.TempList = TempList;
-
-            //**************************************************** Equioment Koniec
-           
-            
-            
             return View(vehicle);
         }
 
         //POST: Vehicles/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
- 
         [HttpPost]
         [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle, List<int> Equipments, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive,Image")] Vehicle vehicle, List<int> Equipments, IFormFile file)
+        {
+            if (id != vehicle.VehicleID)
             {
-                if (id != vehicle.VehicleID)
-                {
-                    return NotFound();
-                }
+                return NotFound();
+            }
 
-                if (ModelState.IsValid)
+            //ustawiam typ generalny po typie dokladnym
+            vehicle.GeneralTypeID = _context.ExactTypes.FirstOrDefault(w => w.ExactTypeID == vehicle.ExactTypeID).GeneralTypeID;
+
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    try
-                    {
-                    
                     //dodanie zdjecia do sql
-                    if(file != null)
-                    vehicle.Image = ImgToSQLAsync(file).Result.ToArray();
-
-                    //update vehicle
+                    if (file != null)
+                    {
+                        vehicle.Image = ImgToSQLAsync(file).Result.ToArray();
+                    }
                     _context.Update(vehicle);
 
-                    await _context.SaveChangesAsync();
-
-
-
-                    //await _context.SaveChangesAsync();
-
-                    //string tempURL;
-                    //if (file == null)
-                    //{
-                    //    tempURL = "..\\Upload\\Images\\noimg.png";
-                    //}
-                    //else
-                    //{
-                    //    tempURL = await ImageUpload(file);
-                    //}
-                    //Picture p = new Picture()
-                    //{
-                    //    URL = await ImageUpload(file),
-                    //    IsActive = true,
-                    //};
-
-                    //dodanie pojazdu do zdjecia 
-
-
-
-                    ////Wyposazenie
-
+                    //Wyposazenie
                     //odejmuje 
                     //nowa kolekcja nie zawiera elementu starej
                     foreach (var oldCollectionItem in _context.Equipment.Where(w => w.VehicleID == vehicle.VehicleID))
@@ -358,8 +217,7 @@ namespace Rental_PI_KF.Controllers
                             _context.Remove(oldCollectionItem);
                         }
                     }
-                    await _context.SaveChangesAsync();
-                    
+                    //await _context.SaveChangesAsync();
 
                     //dodaje
                     //stara kolekcja nie posiada elementu nowej 
@@ -368,34 +226,29 @@ namespace Rental_PI_KF.Controllers
                         var rezult = _context.Equipment.FirstOrDefault(f => f.EquipmentNameID == newCollectionItem && f.VehicleID == vehicle.VehicleID);
                         if ( rezult == null)
                         {
-                            _context.Equipment.Add(new Equipment
-                            {
-                                Vehicle = vehicle,
-                                EquipmentNameID = newCollectionItem,
-                                Check = true
-                            });
-
+                                _context.Equipment.Add(new Equipment
+                                {
+                                    Vehicle = vehicle,
+                                    EquipmentNameID = newCollectionItem,
+                                    Check = true
+                                });
                         }                        
                     }
-
                     await _context.SaveChangesAsync();
-
                 }
                 catch (DbUpdateConcurrencyException)
+                {
+                    if (!VehicleExists(vehicle.VehicleID))
                     {
-                        if (!VehicleExists(vehicle.VehicleID))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
+                        return NotFound();
                     }
-                    return RedirectToAction(nameof(Index));
+                    else
+                    {
+                        throw;
+                    }
                 }
-
-                //*************************************************************************************************************************************88
+                return RedirectToAction(nameof(Index));
+            }
 
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name", vehicle.ColourID);
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "Name", vehicle.EngineTypeID);
@@ -403,89 +256,16 @@ namespace Rental_PI_KF.Controllers
             ViewData["GearBoxID"] = new SelectList(_context.GearBoxes, "GearBoxID", "Name", vehicle.GearBoxID);
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name", vehicle.GeneralTypeID);
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "Name", vehicle.WheelDriveID);
-
-
             //dodane
-
             //Lista Marek
-            List<Brand> brandList = new List<Brand>();
-            brandList = _context.Brands.ToList();
-            ViewBag.ListOfBrads = brandList;
+            ViewBag.ListOfBrads = _context.Brands.ToList();
             //30 lat do wyboru
             sendYear();
             ViewBag.EquipmentsNameList = _context.EquipmentNames;
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
-            // ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type", vehicle.AirConditioning.AirConditioningID) ;
-
-
-            //**************************************************** Equioment
-
-            List<EquipmentName> eqNameList = new List<EquipmentName>();
-            foreach (var item in _context.EquipmentNames.ToList())
-            {
-                eqNameList.Add(item);
-            }
-            ViewBag.EQNameList = eqNameList;
-
-            List<EquipmentName> equipmentNameList = new List<EquipmentName>();
-            eqNameList = await _context.EquipmentNames.ToListAsync();
-
-            //Iteracja po nazwach wyposazenia
-            //List Wyposazenia do wyswietlanie TEMP
-            List<Equipment> TempList = new List<Equipment>();
-            bool trueOrfalse;
-            foreach (var name in eqNameList)
-            {
-                //tu jest problem - is activ mozna wywalic !! nie jest tu potrzebne
-                if (_context.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID && f.Check == true) == null)
-                    trueOrfalse = false;
-                else
-                    trueOrfalse = true;
-
-                TempList.Add(new Equipment()
-                {
-                    EquipmentNameID = name.EquipmentNameID,
-                    Name = name.Name,
-                    Check = trueOrfalse
-                }
-                );
-            }
-
-            ViewBag.TempList = TempList;
-
-            //**************************************************** Equioment Koniec
-
-
-
-            //*************************************************************************************************************************************88
-
+            await sendEquipmentList(id);
             UserProfile();
-            return View(vehicle);
-        }
-
-        // GET: Vehicles/Delete/
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vehicle = await _context.Vehicles
-                .Include(v => v.Brand)
-                .Include(v => v.Colour)
-                .Include(v => v.EngineType)
-                .Include(v => v.ExactType)
-                .Include(v => v.GearBox)
-                .Include(v => v.GeneralType)
-                .Include(v => v.VehicleModel)
-                .Include(v => v.WheelDrive)
-                .FirstOrDefaultAsync(m => m.VehicleID == id);
-            if (vehicle == null)
-            {
-                return NotFound();
-            }
-
+            
             return View(vehicle);
         }
 
@@ -495,7 +275,8 @@ namespace Rental_PI_KF.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicles.FindAsync(id);
-            _context.Vehicles.Remove(vehicle);
+            //_context.Vehicles.Remove(vehicle);
+            vehicle.IsActive = false;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
@@ -517,45 +298,6 @@ namespace Rental_PI_KF.Controllers
             var streamToReturn = new MemoryStream();
             imageR.Save(streamToReturn, image.RawFormat);
             return streamToReturn;
-        }
-        
-
-
-        //Funkcja uzywana przez Create
-        private async Task<string> ImageUpload(IFormFile file)
-        {
-            if(file != null && file.Length > 0)
-            {
-                var imagePath = @"\Upload\Images\";
-                var uploadPath = _env.WebRootPath + imagePath;
-
-                //Sprawdzam katalog
-                if(!Directory.Exists(uploadPath))
-                {
-                    Directory.CreateDirectory(uploadPath);
-                }
-
-                //Tworze unikalną nazwe pliku
-                var uniqFileName = Guid.NewGuid().ToString();
-                var filename = Path.GetFileName(uniqFileName + "." + file.FileName.Split(".")[1].ToLower());
-                string fullPath = uploadPath + filename;
-
-                imagePath = imagePath + @"\";
-                var filePath = @".." + Path.Combine(imagePath, filename);
-
-                using (var fileStream = new FileStream(fullPath, FileMode.Create))
-                {
-                    await file.CopyToAsync(fileStream);
-                }
-
-                //ViewData["FileLocation"] = filePath;
-                return filePath;
-            }
-            //return RedirectToAction(nameof(Create));
-            //return View("Create");
-
-            //*********************************************  tu powninno zwracac domysle ustwione zdjecie albo pusty string..
-            return "";
         }
 
         private void sendYear()
@@ -579,5 +321,38 @@ namespace Rental_PI_KF.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        private async Task sendEquipmentList(int? id)
+        {
+            //lista wszystkich nazw equipment
+            var eqNameList = await _context.EquipmentNames.ToListAsync();
+
+            //Iteracja po nazwach wyposazenia
+            //List Wyposazenia do wyswietlanie TEMP
+            List<Equipment> TempList = new List<Equipment>();
+            bool trueOrfalse;
+            foreach (var name in eqNameList)
+            {
+                //tu jest problem - is activ mozna wywalic !! nie jest tu potrzebne
+                //zaznaczamy te ktore posiada juz pojazd
+                if (_context.Equipment.FirstOrDefault(f =>
+                    f.EquipmentNameID == name.EquipmentNameID &&
+                    f.Check == true &&
+                    f.VehicleID == id
+                    ) == null)
+                    trueOrfalse = false;
+                else
+                    trueOrfalse = true;
+
+                //dodaje do listy temp
+                TempList.Add(new Equipment()
+                {
+                    EquipmentNameID = name.EquipmentNameID,
+                    Name = name.Name,
+                    Check = trueOrfalse
+                });
+            }
+
+            ViewBag.TempList = TempList;
+        }
     }
 }

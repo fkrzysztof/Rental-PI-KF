@@ -830,9 +830,6 @@ namespace Rental.Data
                     b.Property<int>("YearOfCarProduction")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("YearOfProduction")
-                        .HasColumnType("Date");
-
                     b.HasKey("VehicleID");
 
                     b.HasIndex("AirConditioningID");

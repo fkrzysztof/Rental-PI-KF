@@ -158,8 +158,6 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netco
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Create.cshtml.g.cs
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Delete.cshtml.g.cs
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Details.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Edit.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Vehicles\Index.cshtml.g.cs
 C:\Users\Ja\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Rental.Intranet.csprojAssemblyReference.cache
@@ -411,3 +409,4 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netco
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\RentalAgenciesTest\Details.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\RentalAgenciesTest\Edit.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\RentalAgenciesTest\Index.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Login.cshtml.g.cs

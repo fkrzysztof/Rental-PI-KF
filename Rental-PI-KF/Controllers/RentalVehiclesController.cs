@@ -297,6 +297,7 @@ namespace Rental_PI_KF.Controllers
         {
             if (ModelState.IsValid)
             {
+                rentalVehicle.CreationDate = DateTime.Now;
                 _context.Add(rentalVehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

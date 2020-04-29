@@ -12,6 +12,8 @@
 <div class="container">
     <form asp-action="Edit" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <input type="hidden" asp-for="Image" />
         <input type="hidden" asp-for="VehicleID" />
         <div class="row">
             @* ************************************* Zmiana zdjecia ********************************************************** *@
@@ -237,7 +239,7 @@
                 @*TUTAJ KOD Z INDEXU !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*@
 
                 <hr />
-             //tu tem plist !!!
+             
 
                 <dl class="row">
                     @foreach (var eqtemp in @ViewBag.TempList as ICollection<Equipment>)

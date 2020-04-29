@@ -37,9 +37,10 @@ namespace Rental_PI_KF.Controllers
         public IActionResult Index()
         {
             UserProfile();
-            
+            GeneralTypeToMenu();
+
             //var u = _userManager.FindByIdAsync(_userManager.GetUserId(HttpContext.User));
-            
+
             return View();
         }
 

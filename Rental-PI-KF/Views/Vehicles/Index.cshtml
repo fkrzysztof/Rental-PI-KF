@@ -1,9 +1,7 @@
 ﻿@model IEnumerable<Rental_Data.Data.Rental.Vehicle>
-
 @{
     ViewData["Title"] = "Index";
 }
-
 @using Rental_Data.Data.Rental
 @using Rental.Data.Data.Rental
 <h4>Samochody osobowe</h4>
@@ -18,7 +16,6 @@
 </div>
 
 <div class="row justify-content-center">
-    @*@for (int i = 0; i < 20; i++)*@
     @foreach (var item in Model)
     {
         <div class="col-xl-5 m-4">
@@ -45,6 +42,9 @@
                             }
                             <a class="dropdown-item" asp-action="Activation" asp-route-id="@item.VehicleID" asp-controller="Vehicles">@blockade</a>
                             <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.VehicleID">Edytuj</a>
+                            <a data-id="@item.VehicleID" class="dropdown-item j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
+
+
                         </div>
                         @{
                             if (item.Blockade == true)
@@ -52,11 +52,7 @@
                                 <i class="text-danger fas fa-lock float-left ml-3 mr-1"></i>
                             }
                         }
-
-
                     </div>
-
-
                 </div>
                 <div class="card-body ">
                     <div class="row">
@@ -100,18 +96,7 @@
                             </small>
                         </div>
                         <div class="col-md-11 m-2">
-                            @*<span class="text-danger">
-                                @{
-                                    string blockade = "Zablokuj";
-                                    if (item.Blockade == true)
-                                    {
-                                        blockade = "Odblokuj";
-                                    }
-                                    <a type="button" asp-action="Activation" asp-route-id="@item.VehicleID" asp-controller="Vehicles" class="btn-sm btn-danger">
-                                        @blockade
-                                    </a> 
-                                    }
-                            </span>*@
+
                             @*Wypożyenie TAK NIE*@
                             @{
                                 DateTime.Now.Date.ToString();
@@ -165,16 +150,6 @@
                             }
                             <h6 class="card-title">Opis</h6>
                             <p><small>@item.Description</small><p>
-
-                                @*<div class="btn-group" role="group" aria-label="Basic example">
-                                    <a type="button" asp-action="Edit" asp-route-id="@item.VehicleID" class="btn-sm btn-secondary">Edytuj</a>
-                                    <a type="button" asp-action="Edit" asp-route-id="@item.VehicleID" asp-controller="RentalVehicles" class="btn-sm btn-secondary">Wypożycz</a>
-                                    <button type="button" class="btn-sm btn-secondary">Middle</button>
-                                    <button type="button" class="btn-sm btn-secondary">Right</button>
-                                </div>*@
-
-
-
                         </div>
 
                         <div class="col-md-11 m-2">
@@ -185,9 +160,15 @@
 
                             <hr />
                             @{
+                                //generowanie templisty do vehicle
+
                                 Equipment toAdd;
+                                //iteracja po wszystkich nazwach equipment
                                 foreach (var name in @ViewBag.EQNameList)
                                 {
+                                    //jesli item(akutalnie generowany vehicle) posiada taka nazwe equipment
+                                    //dodaje do TempList equipment z Check true
+                                    //jesli nie posiada dodaje do TempList equipment z Check false
                                     if ((toAdd = item.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID)) == null)
                                     {
                                         TempList.Add(new Equipment()
@@ -205,6 +186,7 @@
                                 }
                             }
 
+                            @*wyswietlanie generowanej wyżej listy*@
                             <div class="collapse" id="collapseExample">
                                 <dl class="row">
                                     @foreach (var eqtemp in TempList)
@@ -219,6 +201,7 @@
                                 </dl>
                             </div>
                             @{
+                                //przygotowanie do kolejnej iteracji po Vehicle
                                 TempList.Clear();
                             }
                         </div>
@@ -228,3 +211,42 @@
         </div>
     }
 </div>
+
+
+<!-- Modal -->
+<!-- Modal Delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="Delete" method="post">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @*Wysylanie ID*@
+                    <input type="hidden" name="id" id="itemId" value="" />
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Czy na pewno chcesz usunąć ten pojazd?
+                    </h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", ".j-s-DeleteDialog", function () {
+            var itemId = $(this).data('id');
+            $(".modal-body #itemId").val(itemId);
+        });
+    });
+</script>

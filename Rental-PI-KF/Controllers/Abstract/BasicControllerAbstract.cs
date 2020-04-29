@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
+using Rental_Data.Data.Rental;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,10 +15,18 @@ namespace Rental_PI_KF.Controllers.Abstract
         protected readonly ApplicationDbContext _context;
         public ApplicationUser user;
 
+        //potrzebne do wprawidlowego wyswietlania menu
+        //public List<GeneralType> _generalTypesList; 
+
         public BasicControllerAbstract(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
-          _userManager = userManager;
-          _context = context;
+            _userManager = userManager;
+            _context = context;
+        }
+
+        public void GeneralTypeToMenu()
+        {
+            ViewBag.GeneralTypesList = _context.GeneralTypes.ToList();
         }
 
         public void UserProfile()

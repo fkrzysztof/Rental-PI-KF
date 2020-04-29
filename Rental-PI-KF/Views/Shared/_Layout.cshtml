@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Rental_Data.Data.Rental
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -32,15 +33,15 @@
             @*<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">*@
 
             @*Sidebar - Brand
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink">cos tamjewst</i>
-            </div>
-            <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
-        </a>
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-laugh-wink">cos tamjewst</i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                </a>
 
-         Divider
-        <hr class="sidebar-divider my-0">*@
+                 Divider
+                <hr class="sidebar-divider my-0">*@
 
 
 
@@ -52,8 +53,23 @@
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
+                        <h6 class="collapse-header">Wybierz akcje:</h6>
                         <a class="collapse-item" asp-action="Index" asp-controller="Vehicles">Wszystkie</a>
+                        <hr />
+                        @{
+                            if(  @ViewBag.GeneralTypesList != null)
+                            { 
+                                List<GeneralType> generalTypesList;
+                                generalTypesList = @ViewBag.GeneralTypesList;
+
+                                foreach (var generalTypeItem in generalTypesList)
+                                {
+                                    <a class="collapse-item" asp-action="Index" asp-route-generalType="@generalTypeItem.Name" asp-controller="Vehicles">@generalTypeItem.Name</a>
+                                }
+                            }
+
+                        }
+                        <hr />
                         <a class="collapse-item" asp-action="Create" asp-controller="Vehicles">Dodaj</a>
                         <a class="collapse-item" asp-action="Edit" asp-controller="Vehicles">Edytuj</a>
                     </div>
@@ -68,7 +84,7 @@
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
+                        <h6 class="collapse-header">Dodaj / Zmień</h6>
                         <a class="collapse-item" asp-controller="ExactTypes" asp-action="Index">Typ</a>
                         <a class="collapse-item" asp-controller="GeneralTypes" asp-action="Index">Rodzaj</a>
                         <a class="collapse-item" asp-controller="Brands" asp-action="Index">Marka</a>
@@ -94,7 +110,7 @@
                 </a>
                 <div id="collapseRent" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
+                        <h6 class="collapse-header">Przeglądaj / Edytuj</h6>
                         <a class="collapse-item" asp-action="Index" asp-controller="RentalVehicles">Pokaż</a>
                         <a class="collapse-item" asp-action="Create" asp-controller="RentalVehicles">Dodaj</a>
                     </div>
@@ -105,54 +121,54 @@
 
 
             @*<li class="nav-item">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Dodaj Nowy</span>
-            </a>
-        </li>*@
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Dodaj Nowy</span>
+                    </a>
+                </li>*@
 
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Pages</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Login Screens:</h6>
-                        <a class="collapse-item" href="login.html">Login</a>
-                        <a class="collapse-item" href="register.html">Register</a>
-                        <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                        <div class="collapse-divider"></div>
-                        <h6 class="collapse-header">Other Pages:</h6>
-                        <a class="collapse-item" href="404.html">404 Page</a>
-                        <a class="collapse-item" href="blank.html">Blank Page</a>
+            @*<li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
+                        <i class="fas fa-fw fa-folder"></i>
+                        <span>Pages</span>
+                    </a>
+                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Login Screens:</h6>
+                            <a class="collapse-item" href="login.html">Login</a>
+                            <a class="collapse-item" href="register.html">Register</a>
+                            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">Other Pages:</h6>
+                            <a class="collapse-item" href="404.html">404 Page</a>
+                            <a class="collapse-item" href="blank.html">Blank Page</a>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>*@
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span>
-                </a>
-            </li>
+            @*<li class="nav-item">
+                    <a class="nav-link" href="charts.html">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Charts</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="charts.html">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Charts</span>
+                    </a>
+                </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Wypożycznia</span>
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="charts.html">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>Wypożycznia</span>
+                    </a>
+                </li>*@
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -262,11 +278,11 @@
         <!-- Page level custom scripts -->
         <script src="~/js/demo/chart-area-demo.js"></script>
         <script src="~/js/demo/chart-pie-demo.js"></script>
-        
-        
-        
+
+
+
         <script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
-       
+
         @RenderSection("Scripts", required: false)
     </div>
 </body>

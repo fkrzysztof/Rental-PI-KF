@@ -28,10 +28,6 @@ namespace Rental_Data.Data.Rental
         [ForeignKey("VehicleModelID")]
         public VehicleModel VehicleModel { get; set; }
 
-        [Column(TypeName = "Date")]
-        [DisplayFormat(DataFormatString = "{0:yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? YearOfProduction { get; set; }
-
         [Display(Name = "Rocznik")]
         public int YearOfCarProduction { get; set; }
 
@@ -45,9 +41,6 @@ namespace Rental_Data.Data.Rental
         public int? EngineCapacity { get; set; }
 
         [Display(Name = "Wyposażenie")]
-        //public int? EquipmentID { get; set; }
-        //    [ForeignKey("EquipmentID")]
-        //    public Equipment Equipment { get; set; }
         public ICollection<Equipment> Equipment { get; set; }
 
         [Display(Name = "Klimatyzacja")]
@@ -122,7 +115,6 @@ namespace Rental_Data.Data.Rental
         //cena (zmiany ceny)
         public ICollection<CurrentPrice> CurrentPrices { get; set; }
 
-
         public ICollection<RentalVehicle> RentalVehicles { get; set; }
 
         [Display(Name = "Zablokowany")]
@@ -131,9 +123,6 @@ namespace Rental_Data.Data.Rental
         [NotMapped]
         public string Name { get; set; }
 
-
-        //[NotMapped]
-        //public string BrandAndModel { get { return this.Brand.Name + " " + this.VehicleModel.Name; } }
         public bool IsActive { get; set; }
     }
 }
