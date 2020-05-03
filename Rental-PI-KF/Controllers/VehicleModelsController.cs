@@ -18,7 +18,7 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: VehicleModels
-        public async Task<IActionResult> Index(int? search)
+        public async Task<IActionResult> Index(int? search, bool? remove, string removeName)
         {
             ViewData["SelectItems"] = new SelectList(_context.Brands, "BrandID", "Name");
             var applicationDbContext = await _context.VehicleModels.Include(i => i.Brand).ToListAsync();
@@ -27,7 +27,9 @@ namespace Rental_PI_KF.Controllers
                 applicationDbContext = applicationDbContext.Where(w => w.BrandID == search).ToList();
             }
             ViewBag.Items = applicationDbContext.OrderBy(o => o.Brand.Name).ThenBy(t => t.Name);
-         
+            ViewBag.Remove = remove;
+            ViewBag.RemoveName = removeName;
+
             return View();
         }
 
@@ -80,10 +82,15 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var vehicleModel = await _context.VehicleModels.FindAsync(id);
-            _context.VehicleModels.Remove(vehicleModel);
+            var rezult = await _context.VehicleModels.FirstOrDefaultAsync(f => f.VehicleModelID == id);
+            if (rezult == null)
+                return RedirectToAction(nameof(Index));
+            if (await _context.Vehicles.FirstOrDefaultAsync(f => f.VehicleModelID == id) != null)
+                return RedirectToAction(nameof(Index), new { remove = false, removeName = rezult.Name });
+            _context.VehicleModels.Remove(rezult);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Index), new { remove = true, removeName = rezult.Name });
         }
 
         private bool VehicleModelExists(int id)

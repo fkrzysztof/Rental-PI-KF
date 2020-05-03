@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@await Html.PartialAsync("~/Views/Shared/RemoveAlerts.cshtml")
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link" asp-action="Index" asp-controller="VehicleModels">Model</a>

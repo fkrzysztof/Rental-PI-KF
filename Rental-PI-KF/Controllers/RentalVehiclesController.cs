@@ -21,11 +21,6 @@ namespace Rental_PI_KF.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        //private readonly ApplicationDbContext _context;
-
-        //public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
-        //: base(context, userManager)        
-
         public RentalVehiclesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         : base(context, userManager)
         {
@@ -184,16 +179,9 @@ namespace Rental_PI_KF.Controllers
             
             ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name");
 
-            //Where(w => w.From.CompareTo(calendarPage.First()) > -1 &&
-            //                w.To.CompareTo(calendarPage.Last()) > 0))
-
-
             ViewBag.CalendarPage = calendarPage;
             ViewBag.DaysOfWeek = dayscOfWeek;
-            ViewBag.Month = calendarPage.ElementAt(15); // do podswietlania wlasciwego miesiaca
-            //ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalVehicleID", "Name");
-            //dopisane
-            //ViewBag.Vehicle = vehicle;
+            ViewBag.Month = calendarPage.ElementAt(15); 
 
             //dopisane do dodania form i to lokalizacji
             var rentalAgencyAddressList = _context.RentalAgencyAddresses.Where(w => w.IsActive == true);
@@ -255,18 +243,17 @@ namespace Rental_PI_KF.Controllers
 
                         //podanie nowej zawartosci for
                         rentalVehicle.From = RentalDate.ElementAt(i + 1).Date;
-
                     }
                 }
                 await _context.SaveChangesAsync();
             
                 return RedirectToAction(nameof(Index));
-            
             }
 
             UserProfile();
             ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
             ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", rentalVehicle.VehicleID);
+            
             return View(rentalVehicle);
         }
 
@@ -275,7 +262,6 @@ namespace Rental_PI_KF.Controllers
         public IActionResult Create()
         {
             List<Vehicle> vehicleList = _context.Vehicles.Include(i => i.VehicleModel).Include(i => i.Brand).Where(w => w.Blockade == false).ToList();
-            //doac isActive
             foreach (var itemVehicle in vehicleList)
             {
                 itemVehicle.Name = itemVehicle.Brand.Name + " " + itemVehicle.VehicleModel.Name + " /NR.R. " + itemVehicle.NumberPlate;
@@ -298,6 +284,7 @@ namespace Rental_PI_KF.Controllers
             if (ModelState.IsValid)
             {
                 rentalVehicle.CreationDate = DateTime.Now;
+                rentalVehicle.IsActive = true;
                 _context.Add(rentalVehicle);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -323,6 +310,7 @@ namespace Rental_PI_KF.Controllers
                 Include(i => i.Vehicle.Brand).
                 Include(i => i.Vehicle.VehicleModel).
                 First(f => f.RentalVehicleID == id);
+            
             if (rentalVehicle == null)
             {
                 return NotFound();
@@ -381,25 +369,6 @@ namespace Rental_PI_KF.Controllers
             return View(rentalVehicle);
         }
 
-        // GET: RentalVehicles/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rentalVehicle = await _context.RentalVehicles
-                .Include(r => r.RentalStatus)
-                .Include(r => r.Vehicle)
-                .FirstOrDefaultAsync(m => m.RentalVehicleID == id);
-            if (rentalVehicle == null)
-            {
-                return NotFound();
-            }
-
-            return View(rentalVehicle);
-        }
 
         // POST: RentalVehicles/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -407,8 +376,10 @@ namespace Rental_PI_KF.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var rentalVehicle = await _context.RentalVehicles.FindAsync(id);
-            _context.RentalVehicles.Remove(rentalVehicle);
+            rentalVehicle.IsActive = false;
+            _context.RentalVehicles.Update(rentalVehicle);
             await _context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 

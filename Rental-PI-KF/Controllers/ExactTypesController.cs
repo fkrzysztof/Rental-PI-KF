@@ -20,7 +20,7 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: ExactTypes
-        public async Task<IActionResult> Index(int? generalType)
+        public async Task<IActionResult> Index(int? generalType, bool? remove, string removeName)
         {
             var applicationDbContext = await _context.ExactTypes.Include(e => e.GeneralType).ToListAsync();
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "Name");
@@ -28,7 +28,9 @@ namespace Rental_PI_KF.Controllers
             {
               applicationDbContext = applicationDbContext.Where(w => w.GeneralTypeID == generalType).ToList();
             }
-            ViewBag.GeneralTypeCollection = applicationDbContext.OrderBy(o => o.GeneralType.Name).ThenBy(t => t.Name); ;
+            ViewBag.GeneralTypeCollection = applicationDbContext.OrderBy(o => o.GeneralType.Name).ThenBy(t => t.Name);
+            ViewBag.Remove = remove;
+            ViewBag.RemoveName = removeName;
 
             return View();
         }
@@ -104,10 +106,15 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var exactType = await _context.ExactTypes.FindAsync(id);
-            _context.ExactTypes.Remove(exactType);
+            var rezult = await _context.ExactTypes.FirstOrDefaultAsync(f => f.ExactTypeID == id);
+            if (rezult == null)
+                return RedirectToAction(nameof(Index));
+            if (await _context.Vehicles.FirstOrDefaultAsync(f => f.ExactTypeID == id) != null)
+                return RedirectToAction(nameof(Index), new { remove = false, removeName = rezult.Name });
+            _context.ExactTypes.Remove(rezult);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Index), new { remove = true, removeName = rezult.Name });
         }
 
         private bool ExactTypeExists(int id)

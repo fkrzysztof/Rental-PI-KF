@@ -21,26 +21,14 @@ namespace Rental_PI_KF.Controllers
         public async Task<IActionResult> Index(string search)
         {
             var rentalAgencies = await _context.RentalAgencies.Include(i => i.RentalAgencyAddress).Where(w => w.IsActive == true).ToListAsync();
-            //var rentalAgencies = await _context.RentalAgencies.Include(i => i.RentalAgencyAddress).ToListAsync();
-            //var rentalAgencies = _context.RentalAgencies.Include(i => i.RentalAgencyAddress).ToList();
-
             if(search != null)
-            {
-                //rentalAgencies = rentalAgencies.Where(w => w.Name.Contains(search) ||
-                //    w.Number.Contains(search) ||
-                //    w.ContactPerson.Contains(search) ||
-                //    w.NIP.Contains(search) ||
-                //    w.RentalAgencyAddress.City.Contains(search)
-                //   ).ToList();
                 rentalAgencies = rentalAgencies.Where(w => w.Name.Contains(search)).ToList();
-            }
+            
             return View(rentalAgencies.OrderBy(o => o.Name));
-        
-            }
+        }
 
         // GET: CREATE
         public IActionResult Create() => View();
-
 
         // POST: RentalAgencies/Create
         [HttpPost]
@@ -75,30 +63,6 @@ namespace Rental_PI_KF.Controllers
 
             return View(rentalAgency);
         }
-
-
-        ////POST: RentalAgencies/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int? id, [Bind("RentalAgencyID,ContactPerson,Number,Name,Phone1,Phone2,Email1,Email2,Annotation,REGON,NIP")] RentalAgency rentalAgency,
-        //                                               [Bind("RentalAgencyAddressID,Country,City,Street,Number,ZIPCode")] RentalAgencyAddress rentalAgencyAddress)
-        ////public async Task<IActionResult> Edit(int? id, RentalAgency rentalAgency)
-        //{
-        //    rentalAgencyAddress.RentalAgencyID = id;
-
-        //    if (ModelState.IsValid)
-        //    {
-        //         _context.Update(rentalAgencyAddress);
-        //        _context.Update(rentalAgency);
-
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    //ViewBag.RentalAgencyAddress = _context.RentalAgencyAddresses.FirstOrDefault(f => f.RentalAgencyID == rentalAgency.RentalAgencyID);
-        //    return View(rentalAgency);
-        //}
-
-
 
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
@@ -144,6 +108,7 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            //Zmieniam tylko isActive
             var rentalAgency = await _context.RentalAgencies.FindAsync(id);
             rentalAgency.IsActive = false;
             _context.Update(rentalAgency);

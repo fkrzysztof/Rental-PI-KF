@@ -20,12 +20,15 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: WheelDrives
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string search, bool? remove, string removeName)
         {
             var itemCollection = await _context.WheelDrives.ToListAsync();
             if (search != null)
                 itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
             ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
+            ViewBag.Remove = remove;
+            ViewBag.RemoveName = removeName;
+
             return View();
         }
 
@@ -80,10 +83,15 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var wheelDrive = await _context.WheelDrives.FindAsync(id);
-            _context.WheelDrives.Remove(wheelDrive);
+            var rezult = await _context.WheelDrives.FirstOrDefaultAsync(f => f.WheelDriveID == id);
+            if (rezult == null)
+                return RedirectToAction(nameof(Index));
+            if (await _context.Vehicles.FirstOrDefaultAsync(f => f.WheelDriveID == id) != null)
+                return RedirectToAction(nameof(Index), new { remove = false, removeName = rezult.Name });
+            _context.WheelDrives.Remove(rezult);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Index), new { remove = true, removeName = rezult.Name });
         }
 
         private bool WheelDriveExists(int id)

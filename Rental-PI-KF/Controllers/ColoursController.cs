@@ -19,12 +19,15 @@ namespace Rental_PI_KF.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string search, bool? remove, string removeName)
         {
             var itemCollection = await _context.Colours.ToListAsync();
             if (search != null)
                 itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
             ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
+            ViewBag.Remove = remove;
+            ViewBag.RemoveName = removeName;
+            
             return View();
         }
 
@@ -76,10 +79,15 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var colour = await _context.Colours.FindAsync(id);
-            _context.Colours.Remove(colour);
+            var rezult = await _context.Colours.FirstOrDefaultAsync(f => f.ColourID == id);
+            if (rezult == null)
+                return RedirectToAction(nameof(Index));
+            if (await _context.Vehicles.FirstOrDefaultAsync(f => f.ColourID == id) != null)
+                return RedirectToAction(nameof(Index), new { remove = false, removeName = rezult.Name });
+            _context.Colours.Remove(rezult);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Index), new { remove = true, removeName = rezult.Name });
         }
 
         private bool ColourExists(int id)

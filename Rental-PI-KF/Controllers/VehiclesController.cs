@@ -31,10 +31,10 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: Vehicles
-        public async Task<IActionResult> Index(string generalType)
+        public async Task<IActionResult> Index(string generalType, bool active = true, bool table = false)
         {
             UserProfile();
-
+            
             var applicationDbContext = _context.Vehicles.
                 Include(v => v.Brand).
                 Include(v => v.Colour).
@@ -47,9 +47,14 @@ namespace Rental_PI_KF.Controllers
                 Include(v => v.Pictures).
                 Include(v => v.Equipment).
                 Include(v => v.RentalVehicles).
-                Include(v => v.AirConditioning);
-            
+                Include(v => v.AirConditioning).
+                Where(w => w.IsActive == active);
+
             ViewBag.EQNameList = await _context.EquipmentNames.ToListAsync();
+            ViewBag.Generaltypes = await _context.GeneralTypes.ToListAsync();
+            ViewBag.GeneraltypeNow = generalType;
+            ViewBag.ActiveNow = active;
+            ViewBag.Table = table;
 
             if(generalType != null)
                 return View(await applicationDbContext.Where(w => w.GeneralType.Name == generalType).ToListAsync());
@@ -93,7 +98,6 @@ namespace Rental_PI_KF.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,EngineCapacity,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive")] Vehicle vehicle)
         public async Task<IActionResult> Create(Vehicle v, IFormFile file, List<int> Equipments)
         {
             if (ModelState.IsValid)
@@ -134,7 +138,7 @@ namespace Rental_PI_KF.Controllers
             ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", v.GeneralTypeID);
             ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", v.VehicleModelID);
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", v.WheelDriveID);
-            ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type"/*, v.Equipment.AirConditioning.AirConditioningID*/);
+            ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
 
             //dopisane
             ViewBag.ListOfBrads = _context.Brands.ToList();
@@ -155,6 +159,8 @@ namespace Rental_PI_KF.Controllers
             }
 
             var vehicle = await _context.Vehicles.
+                Include(i => i.Brand).
+                Include(i => i.VehicleModel).
                 Include(i => i.Equipment).
                 Include(i => i.Pictures).
                 FirstOrDefaultAsync(m => m.VehicleID == id);
@@ -186,7 +192,7 @@ namespace Rental_PI_KF.Controllers
         //POST: Vehicles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,IsActive,Image")] Vehicle vehicle, List<int> Equipments, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,Image")] Vehicle vehicle, List<int> Equipments, IFormFile file)
         {
             if (id != vehicle.VehicleID)
             {
@@ -195,6 +201,7 @@ namespace Rental_PI_KF.Controllers
 
             //ustawiam typ generalny po typie dokladnym
             vehicle.GeneralTypeID = _context.ExactTypes.FirstOrDefault(w => w.ExactTypeID == vehicle.ExactTypeID).GeneralTypeID;
+            vehicle.IsActive = true;
 
             if (ModelState.IsValid)
             {
@@ -315,7 +322,9 @@ namespace Rental_PI_KF.Controllers
 
         public async Task<IActionResult> Activation(int? id)
         {
-            var v = _context.Vehicles.FirstOrDefault(f => f.VehicleID == id);
+            var v = await _context.Vehicles.FindAsync(id);
+            if (v.Blockade == null)
+                v.Blockade = false;
             v.Blockade = !v.Blockade;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

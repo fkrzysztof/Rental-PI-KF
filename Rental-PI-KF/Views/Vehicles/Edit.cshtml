@@ -4,10 +4,8 @@
     ViewData["Title"] = "Create";
 }
 
-
-<h1>Edycja</h1>
-
-<h4>Samochodu</h4>
+<h2>@Model.Brand.Name @Model.VehicleModel.Name</h2>
+<h4>Edycja</h4>
 <hr />
 <div class="container">
     <form asp-action="Edit" method="post" enctype="multipart/form-data">
@@ -18,19 +16,6 @@
         <div class="row">
             @* ************************************* Zmiana zdjecia ********************************************************** *@
             <script src="~/js/jquery-1.10.2.js"></script>
-            <div col-sm-12>
-                <span class="text-danger">
-                    @{
-                        string blockade = "Zablokuj";
-                        if (Model.Blockade == true)
-                        {
-                            blockade = "Odblokuj";
-                        }
-                        <a type="button" asp-action="Activation" asp-route-id="@Model.VehicleID" asp-controller="Vehicles" class="btn-sm btn-danger">
-                            @blockade
-                        </a> }
-                </span>
-            </div>
             <div class="col-sm-6">
                 <div id="dbimage">
 
@@ -269,10 +254,20 @@
 
         </div>
         <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-           
-            
-    <!-- Button trigger modal -->
+            <input type="submit" value="Zapisz" class="btn btn-primary btn-sm" />
+
+            @{
+                string blockade = "Zablokuj";
+                if (Model.Blockade == true)
+                {
+                    blockade = "Odblokuj";
+                }
+                <button asp-action="Activation" asp-route-id="@Model.VehicleID" asp-controller="Vehicles" class="btn-sm btn-danger btn-sm">
+                    @blockade
+                </button> }
+
+
+            <!-- Button trigger modal -->
             <button type="button" class="dropdown-item" data-toggle="modal" data-target="#staticBackdrop">
                 Launch static backdrop modal
             </button>
@@ -297,10 +292,10 @@
                     </div>
                 </div>
             </div>
-        
-        
-        
-        
+
+
+
+
         </div>
     </form>
 </div>

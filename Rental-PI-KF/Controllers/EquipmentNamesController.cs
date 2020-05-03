@@ -20,12 +20,15 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: EquipmentNames
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string search, bool? remove, string removeName)
         {
             var itemCollection = await _context.EquipmentNames.ToListAsync();
             if (search != null)
                 itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
             ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
+            ViewBag.Remove = remove;
+            ViewBag.RemoveName = removeName;
+
             return View();
         }
 
@@ -78,10 +81,15 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var equipmentName = await _context.EquipmentNames.FindAsync(id);
-            _context.EquipmentNames.Remove(equipmentName);
+            var rezult = await _context.EquipmentNames.FirstOrDefaultAsync(f => f.EquipmentNameID == id);
+            if (rezult == null)
+                return RedirectToAction(nameof(Index));
+            if (await _context.Equipment.FirstOrDefaultAsync(f => f.EquipmentNameID == id) != null)
+                return RedirectToAction(nameof(Index), new { remove = false, removeName = rezult.Name });
+            _context.EquipmentNames.Remove(rezult);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Index), new { remove = true, removeName = rezult.Name });
         }
 
         private bool EquipmentNameExists(int id)

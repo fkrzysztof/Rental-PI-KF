@@ -5,7 +5,7 @@
 }
 
 <h4 class="pt-4 pb-2">Kolory pojazdów</h4>
-
+@await Html.PartialAsync("~/Views/Shared/RemoveAlerts.cshtml")
 <div class="row mb-4">
     <div class="col-md-8">
         <div class="card">
@@ -39,7 +39,7 @@
                                 <tr>
                                     <th class="text-left">
                                         @Html.DisplayNameFor(model => model.Name)
-                                    </th>                                    
+                                    </th>
                                     <th class="text-left">
                                         @Html.DisplayNameFor(model => model.Description)
                                     </th>
@@ -52,7 +52,7 @@
                                     <tr>
                                         <td class="text-left">
                                             @item.Name
-                                        </td>                                        
+                                        </td>
                                         <td class="text-left">
                                             @item.Description
                                         </td>

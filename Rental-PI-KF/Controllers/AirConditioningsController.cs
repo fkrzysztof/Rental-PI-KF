@@ -20,12 +20,15 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: AirConditionings
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string search, bool? remove, string removeName)
         {
             var itemCollection = await _context.AirConditionings.ToListAsync();
             if (search != null)
                 itemCollection = itemCollection.Where(w => w.Type.Contains(search)).ToList();
             ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Type);
+            ViewBag.Remove = remove;
+            ViewBag.RemoveName = removeName;
+
             return View();
         }
 
@@ -80,10 +83,18 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var airConditioning = await _context.AirConditionings.FindAsync(id);
-            _context.AirConditionings.Remove(airConditioning);
+            var rezult = await _context.AirConditionings.FirstOrDefaultAsync(f => f.AirConditioningID == id);
+
+            if (rezult == null)
+                return RedirectToAction(nameof(Index));
+
+            if (await _context.Vehicles.FirstOrDefaultAsync(f => f.AirConditioningID == id) != null)
+                return RedirectToAction(nameof(Index), new { remove = false, removeName = rezult.Type });
+
+            _context.AirConditionings.Remove(rezult);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Index), new { remove = true, removeName = rezult.Type });
         }
 
         private bool AirConditioningExists(int id)

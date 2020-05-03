@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@if (@ViewBag.Remove == true)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Usuniecie pozycji @ViewBag.RemoveName przebiegło pomyślnie!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+@if (@ViewBag.Remove == false)
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Usunięcie pozycji @ViewBag.RemoveName nie powiodło się!</strong> W systemie isnieją elemnety wykorzystujące nazwę @ViewBag.RemoveName.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+

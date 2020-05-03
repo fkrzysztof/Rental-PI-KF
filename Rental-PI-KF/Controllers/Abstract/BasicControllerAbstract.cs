@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
 using Rental_Data.Data.Rental;

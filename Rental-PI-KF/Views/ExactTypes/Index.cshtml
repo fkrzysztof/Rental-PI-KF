@@ -3,15 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" asp-action="Index" asp-controller="ExactTypes">Rodzaj</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" asp-action="Index" asp-controller="GeneralTypes">Typ</a>
-        </li>
-    </ul>
+@await Html.PartialAsync("~/Views/Shared/RemoveAlerts.cshtml")
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" asp-action="Index" asp-controller="ExactTypes">Rodzaj</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" asp-action="Index" asp-controller="GeneralTypes">Typ</a>
+    </li>
+</ul>
 <h4 class="pt-4 pb-2">Edycja rodzajów pojazdów</h4>
 
 <div class="row mb-4">
@@ -197,4 +197,4 @@
             $(".modal-body #itemGeneral").val(itemGeneral);
         });
     });
-</script> 
+</script>

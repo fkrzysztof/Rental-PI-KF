@@ -17,12 +17,15 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: GeneralTypes
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string search, bool? remove, string removeName)
         {
             var itemCollection = await _context.GeneralTypes.ToListAsync();
             if (search != null)
                  itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
-            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name); ;
+            ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
+            ViewBag.Remove = remove;
+            ViewBag.RemoveName = removeName;
+
             return View();
         }
 
@@ -76,10 +79,15 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var generalType = await _context.GeneralTypes.FindAsync(id);
-            _context.GeneralTypes.Remove(generalType);
+            var rezult = await _context.GeneralTypes.FirstOrDefaultAsync(f => f.GeneralTypeID == id);
+            if (rezult == null)
+                return RedirectToAction(nameof(Index));
+            if (await _context.Vehicles.FirstOrDefaultAsync(f => f.GeneralTypeID == id) != null || await _context.ExactTypes.FirstOrDefaultAsync(f => f.GeneralTypeID == id) != null)
+                return RedirectToAction(nameof(Index), new { remove = false, removeName = rezult.Name });
+            _context.GeneralTypes.Remove(rezult);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Index), new { remove = true, removeName = rezult.Name });
         }
 
         private bool GeneralTypeExists(int id)

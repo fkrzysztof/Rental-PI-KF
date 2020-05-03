@@ -20,12 +20,15 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: GearBoxes
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string search, bool? remove, string removeName)
         {
             var itemCollection = await _context.GearBoxes.ToListAsync();
             if (search != null)
                 itemCollection = itemCollection.Where(w => w.Name.Contains(search)).ToList();
             ViewBag.ItemCollection = itemCollection.OrderBy(o => o.Name);
+            ViewBag.Remove = remove;
+            ViewBag.RemoveName = removeName;
+
             return View();
         }
 
@@ -77,10 +80,15 @@ namespace Rental_PI_KF.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var gearBox = await _context.GearBoxes.FindAsync(id);
-            _context.GearBoxes.Remove(gearBox);
+            var rezult = await _context.GearBoxes.FirstOrDefaultAsync(f => f.GearBoxID == id);
+            if (rezult == null)
+                return RedirectToAction(nameof(Index));
+            if (await _context.Vehicles.FirstOrDefaultAsync(f => f.GearBoxID == id) != null)
+                return RedirectToAction(nameof(Index), new { remove = false, removeName = rezult.Name });
+            _context.GearBoxes.Remove(rezult);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return RedirectToAction(nameof(Index), new { remove = true, removeName = rezult.Name });
         }
 
         private bool GearBoxExists(int id)

@@ -26,6 +26,7 @@ namespace Rental_PI_KF.Controllers
         {
             _roleManager = roleManager;
         }
+
         public async Task<IActionResult> Index()
         {            
             return RedirectToAction("Customers");
@@ -281,8 +282,6 @@ namespace Rental_PI_KF.Controllers
                 }
             }
         }
-
-        
         
 
         //CREATE *********************************** Tylko do konfiguracji ************************************

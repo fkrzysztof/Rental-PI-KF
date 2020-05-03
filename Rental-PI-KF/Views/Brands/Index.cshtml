@@ -1,8 +1,11 @@
 ﻿@model Rental_Data.Data.Rental.Brand
-
 @{
     ViewData["Title"] = "Index";
 }
+@using Rental_Data.Data.Rental
+
+
+@await Html.PartialAsync("~/Views/Shared/RemoveAlerts.cshtml")
 
 <ul class="nav nav-tabs">
     <li class="nav-item">
