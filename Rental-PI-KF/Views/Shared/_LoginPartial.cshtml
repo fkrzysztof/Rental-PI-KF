@@ -6,16 +6,18 @@
 @if (SignInManager.IsSignedIn(User))
 {
 
+    //kom
 
-    @*
-        Usuwam na chwile !!
+    //Usuwam na chwile !!
 
-    var img = ((ApplicationUser)@ViewBag.User).Image;
-    
+    @*var img = ((ApplicationUser)@ViewBag.User).Image;
+
     var base64 = Convert.ToBase64String(img);
     var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
     <img style="width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />*@
 
+
+    //kom
 }
 
 <ul class="navbar-nav">
