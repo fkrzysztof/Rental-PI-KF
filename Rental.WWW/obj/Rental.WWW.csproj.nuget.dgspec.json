@@ -120,6 +120,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "LazZiya.ImageResize": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.0, )"

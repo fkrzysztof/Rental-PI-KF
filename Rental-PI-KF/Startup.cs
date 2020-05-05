@@ -26,23 +26,18 @@ namespace Rental_PI_KF
             //sesja
             services.AddDistributedMemoryCache();
             services.AddSession();
-
-
-
-
+            //context
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            //dodane
-            services.AddDefaultIdentity<ApplicationUser>()
-                            //dodane
+            //Identity
+            //services.AddDefaultIdentity<ApplicationUser>()
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //role
             .AddRoles<IdentityRole>()
-           .AddEntityFrameworkStores<ApplicationDbContext>()
-
-           .AddDefaultUI();
-
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI();
+            
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

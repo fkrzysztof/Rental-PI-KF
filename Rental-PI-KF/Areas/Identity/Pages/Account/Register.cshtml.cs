@@ -3,6 +3,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
 using Microsoft.AspNetCore.Authentication;
@@ -12,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
@@ -106,10 +109,13 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             public int? RentalAgencyID { get; set; }
         }
 
-        public void OnGet(string returnUrl = null)
+        public async Task OnGet(string returnUrl = null)
         {
             ViewData["roles"] = _roleManager.Roles.ToList();
             ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
+            //dopisalem 
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //tyle
             ReturnUrl = returnUrl;
         }
 
@@ -130,12 +136,6 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                 var streamToReturn = new MemoryStream();
                 imageR.Save(streamToReturn, image.RawFormat);
 
-                //var stream = new MemoryStream();
-                //if (file != null)
-                //{
-                //        await file.CopyToAsync(stream);
-                //}
-
                 var user = new ApplicationUser 
                 { 
                     UserName = Input.Email, 
@@ -150,9 +150,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     Image = streamToReturn.ToArray(),
                     Phone = Input.Phone,
                     RentalAgencyID =Input.RentalAgencyID
-                    
                 };
-
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -160,6 +158,31 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     await _userManager.AddToRoleAsync(user, role.Name);
+
+                    #region Email
+
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        pageHandler: null,
+                        values: new { area = "Identity", userId = user.Id, code = code },
+                        protocol: Request.Scheme);
+
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    {
+                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
+                    }
+                    else
+                    {
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        return LocalRedirect(returnUrl);
+                    }
+
+                    #endregion
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return LocalRedirect(returnUrl);
@@ -173,6 +196,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             ViewData["roles"] = _roleManager.Roles.ToList(); //dopisane
+            ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
             return Page();
         }
     }
