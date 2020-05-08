@@ -6,8 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Rental.Data;
-using System;
 using Rental.Data.Data.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Rental.Data.Services;
 
 namespace Rental_PI_KF
 {
@@ -39,6 +40,19 @@ namespace Rental_PI_KF
             .AddDefaultUI();
             
             services.AddControllersWithViews();
+
+            //Email
+            // requires
+            // using Microsoft.AspNetCore.Identity.UI.Services;
+            // using WebPWrecover.Services;
+            services.AddTransient<IEmailSender, EmailSender>();
+            //services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            //services.AddTransient<IMailService, SendGridMailService>();
+
+
+
+
             services.AddRazorPages();
         }
 

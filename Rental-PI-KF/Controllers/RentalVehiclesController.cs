@@ -109,7 +109,6 @@ namespace Rental_PI_KF.Controllers
         {
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
             ViewBag.Customers = new SelectList(users, "Id", "Fullname");
-            UserProfile();
 
             //lepiej zabezpieczyc ?
             if (id == null)
@@ -250,7 +249,6 @@ namespace Rental_PI_KF.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            UserProfile();
             ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
             ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", rentalVehicle.VehicleID);
             

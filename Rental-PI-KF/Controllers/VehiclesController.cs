@@ -33,8 +33,6 @@ namespace Rental_PI_KF.Controllers
         // GET: Vehicles
         public async Task<IActionResult> Index(string generalType, bool active = true, bool table = false)
         {
-            UserProfile();
-            
             var applicationDbContext = _context.Vehicles.
                 Include(v => v.Brand).
                 Include(v => v.Colour).
@@ -65,7 +63,6 @@ namespace Rental_PI_KF.Controllers
         // GET: Vehicles/Create
         public IActionResult Create()
         {
-            UserProfile();
             ViewData["ColourID"] = new SelectList(_context.Colours, "ColourID", "Name");
             ViewData["EngineTypeID"] = new SelectList(_context.EngineTypes, "EngineTypeID", "Name");
             ViewData["ExactTypeID"] = new SelectList(_context.ExactTypes, "ExactTypeID", "Name");
@@ -144,7 +141,6 @@ namespace Rental_PI_KF.Controllers
             ViewBag.ListOfBrads = _context.Brands.ToList();
             sendYear();
             ViewBag.EquipmentsNameList = _context.EquipmentNames;
-            UserProfile();
 
             return View();
         }
@@ -152,7 +148,6 @@ namespace Rental_PI_KF.Controllers
         //GET: Vehicles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            UserProfile();
             if (id == null)
             {
                 return NotFound();
@@ -271,7 +266,6 @@ namespace Rental_PI_KF.Controllers
             ViewBag.EquipmentsNameList = _context.EquipmentNames;
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
             await sendEquipmentList(id);
-            UserProfile();
             
             return View(vehicle);
         }

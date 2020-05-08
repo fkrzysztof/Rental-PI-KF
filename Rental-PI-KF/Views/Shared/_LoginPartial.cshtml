@@ -3,44 +3,48 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+
+
 @if (SignInManager.IsSignedIn(User))
 {
 
-    //kom
+    var signInUser = await UserManager.FindByNameAsync(User.Identity.Name);
+    var img = signInUser.Image;
 
-    //Usuwam na chwile !!
+    if (img != null)
+    {
 
-    @*var img = ((ApplicationUser)@ViewBag.User).Image;
-
-    var base64 = Convert.ToBase64String(img);
-    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-    <img style="width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />*@
-
-
-    //kom
+        var base64 = Convert.ToBase64String(img);
+        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+        <img style = "width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />
+    }
+    else
+    {
+        <img style = "width: 40px; height:40px" class="img-profile rounded-circle" src="~/Upload/Default/DefaultUser.png" />
+    }
 }
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
-    }
+        {
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+    </li>
+    <li class="nav-item">
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+        </form>
+    </li>
+        }
+        else
+        {
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+        }
 </ul>
 
 

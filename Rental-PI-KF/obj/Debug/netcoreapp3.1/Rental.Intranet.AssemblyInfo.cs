@@ -12,7 +12,6 @@ using System;
 using System.Reflection;
 
 [assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap4")]
-[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("aspnet-Rental_PI_KF-5DC48DE0-D43F-4984-A574-D9482D679087")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Rental.Intranet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]

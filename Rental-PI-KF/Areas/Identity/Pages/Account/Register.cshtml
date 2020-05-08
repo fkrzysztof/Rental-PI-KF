@@ -75,14 +75,11 @@
                 <input asp-for="Input.Phone" class="form-control" />
                 <span asp-validation-for="Input.Phone" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group"> @***********  FOTO  ************@
                 <label>zdjecie</label>
                 <input type="file" class="form-control-file" id="file" name="file" />
                 @*<span asp-validation-for="Input.Image" class="text-danger"></span>*@
             </div>
-
-            @*cos nie ddziala*@
-
             <div class="form-group">
                 <label asp-for="Input.Name"></label>
                 <select asp-for="Input.Name" class="form-control" asp-items='new SelectList(roles,"Id","Name")'></select>

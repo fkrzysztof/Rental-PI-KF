@@ -82,8 +82,6 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             public string LastName { get; set; }
 
             //dodane
-
-
             [Display(Name = "Zdjęcie")]
             public byte[]? Image { get; set; }
 
@@ -113,28 +111,19 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
         {
             ViewData["roles"] = _roleManager.Roles.ToList();
             ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
-            //dopisalem 
-            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            //tyle
             ReturnUrl = returnUrl;
         }
 
         public async Task<IActionResult> OnPostAsync(IFormFile file, string returnUrl = null)
         {
+            
+
+            
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             var role = _roleManager.FindByIdAsync(Input.Name).Result;
             if (ModelState.IsValid)
             {
-                int w = 100;
-                int h = 100;
-
-                var stream = new MemoryStream();
-                await file.CopyToAsync(stream);
-                var image = Image.FromStream(stream);
-                Image imageR = ImageResize.ScaleAndCrop(image, w, h);
-                var streamToReturn = new MemoryStream();
-                imageR.Save(streamToReturn, image.RawFormat);
 
                 var user = new ApplicationUser 
                 { 
@@ -147,10 +136,25 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     Street = Input.Street,
                     Number = Input.Number,
                     ZIPCode = Input.ZIPCode,
-                    Image = streamToReturn.ToArray(),
+                    Image = null,
                     Phone = Input.Phone,
                     RentalAgencyID =Input.RentalAgencyID
                 };
+
+                if (file != null)
+                {
+                    int w = 100;
+                    int h = 100;
+
+                    var stream = new MemoryStream();
+                    await file.CopyToAsync(stream);
+                    var image = Image.FromStream(stream);
+                    Image imageR = ImageResize.ScaleAndCrop(image, w, h);
+                    var streamToReturn = new MemoryStream();
+                    imageR.Save(streamToReturn, image.RawFormat);
+
+                    user.Image = streamToReturn.ToArray();
+                }
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
@@ -160,6 +164,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     await _userManager.AddToRoleAsync(user, role.Name);
 
                     #region Email
+
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
@@ -194,8 +199,8 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                 }
             }
 
-            // If we got this far, something failed, redisplay form
-            ViewData["roles"] = _roleManager.Roles.ToList(); //dopisane
+            ViewData["roles"] = _roleManager.Roles.ToList(); 
+            //dopisane wymaga -> selectList
             ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
             return Page();
         }
