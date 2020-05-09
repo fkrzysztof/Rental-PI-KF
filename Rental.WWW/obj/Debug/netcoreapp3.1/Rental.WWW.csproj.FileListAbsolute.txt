@@ -175,3 +175,4 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\bin\Debug\netcore
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Rental.WWW.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Rental.WWW.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\RegisterConfirmation.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\Index.cshtml.g.cs

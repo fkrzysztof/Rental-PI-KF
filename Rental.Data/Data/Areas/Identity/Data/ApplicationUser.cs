@@ -26,10 +26,10 @@ namespace Rental.Data.Data.Areas.Identity.Data
         [Display(Name = "Zdjęcie")]
         public byte[] Image { get; set; }
 
-        [Required(ErrorMessage = "Pole jest wymagane")]
-        [StringLength(20, MinimumLength = 3, ErrorMessage = "Nazwa powinna zawierac od 3 do 20 znaków")]
-        [Display(Name = "Telefon")]
-        public string Phone { get; set; }
+        //[Required(ErrorMessage = "Pole jest wymagane")]
+        //[StringLength(20, MinimumLength = 3, ErrorMessage = "Nazwa powinna zawierac od 3 do 20 znaków")]
+        //[Display(Name = "Telefon")]
+        //public string Phone { get; set; }
 
         [Required(ErrorMessage = "Pole jest wymagane")]
         [StringLength(20, MinimumLength = 3, ErrorMessage = "Nazwa powinna zawierac od 3 do 20 znaków")]

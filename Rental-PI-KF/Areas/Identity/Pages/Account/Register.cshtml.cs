@@ -99,9 +99,12 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
 
             [Display(Name = "Kod")]
             public string ZIPCode { get; set; }
-            
+
+            //[Display(Name = "Telefon")]
+            //public string Phone { get; set; }
+
             [Display(Name = "Telefon")]
-            public string Phone { get; set; }
+            public string PhoneNumber { get; set; }
 
             [Display(Name = "Oddział")]
             public int? RentalAgencyID { get; set; }
@@ -115,10 +118,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
         }
 
         public async Task<IActionResult> OnPostAsync(IFormFile file, string returnUrl = null)
-        {
-            
-
-            
+        {          
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             var role = _roleManager.FindByIdAsync(Input.Name).Result;
@@ -137,7 +137,8 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     Number = Input.Number,
                     ZIPCode = Input.ZIPCode,
                     Image = null,
-                    Phone = Input.Phone,
+                    //Phone = Input.Phone,
+                    PhoneNumber = Input.PhoneNumber,
                     RentalAgencyID =Input.RentalAgencyID
                 };
 

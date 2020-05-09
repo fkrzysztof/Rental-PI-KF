@@ -45,7 +45,7 @@ namespace Rental_PI_KF.Controllers
                     w.City.Contains(search) ||
                     w.Country.Contains(search) ||
                     w.Street.Contains(search) ||
-                    w.Phone.Contains(search) ||
+                    w.PhoneNumber.Contains(search) ||
                     w.ZIPCode.Contains(search) ||
                     w.UserName.Contains(search)
                     ).ToList();
@@ -68,7 +68,7 @@ namespace Rental_PI_KF.Controllers
                      w.City.Contains(search) ||
                      w.Country.Contains(search) ||
                      w.Street.Contains(search) ||
-                     w.Phone.Contains(search) ||
+                     w.PhoneNumber.Contains(search) ||
                      w.ZIPCode.Contains(search) ||
                      w.UserName.Contains(search)
                       ).ToList();
@@ -91,7 +91,7 @@ namespace Rental_PI_KF.Controllers
                      w.City.Contains(search) ||
                      w.Country.Contains(search) ||
                      w.Street.Contains(search) ||
-                     w.Phone.Contains(search) ||
+                     w.PhoneNumber.Contains(search) ||
                      w.ZIPCode.Contains(search) ||
                      w.UserName.Contains(search)
                       ).ToList();
@@ -114,7 +114,7 @@ namespace Rental_PI_KF.Controllers
                      w.City.Contains(search) ||
                      w.Country.Contains(search) ||
                      w.Street.Contains(search) ||
-                     w.Phone.Contains(search) ||
+                     w.PhoneNumber.Contains(search) ||
                      w.ZIPCode.Contains(search) ||
                      w.UserName.Contains(search)
                       ).ToList();
@@ -191,6 +191,11 @@ namespace Rental_PI_KF.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string id, ApplicationUser au, IFormFile file, string actionLink)
         {
+            if (!ModelState.IsValid)
+            {
+                RedirectToAction("Edit");
+            }
+
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -198,7 +203,30 @@ namespace Rental_PI_KF.Controllers
             }
             else
             {
-                if(file != null)
+                //var emailUser = await _userManager.GetPhoneNumberAsync(user);
+                //if (user.Email != au.Email)
+                //{
+                //var setEmailResult1 = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                    
+                    var setEmailResult = await _userManager.SetEmailAsync(user, au.Email);
+                    if (!setEmailResult.Succeeded)
+                    {
+                        var userId = await _userManager.GetUserIdAsync(user);
+                        throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                    }
+                    var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var ConfirmEmailRezult = await _userManager.ConfirmEmailAsync(user, emailToken);
+
+                    var SetUserNameRezult = await _userManager.SetUserNameAsync(user, au.Email);
+                    if (!SetUserNameRezult.Succeeded)
+                    {
+                        var userId = await _userManager.GetUserIdAsync(user);
+                        throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                    }
+                //}
+
+
+                if (file != null)
                 { 
                     int w = 100;
                     int h = 100;
@@ -215,8 +243,8 @@ namespace Rental_PI_KF.Controllers
 
                 user.FirstName = au.FirstName;
                 user.LastName = au.LastName;
-                user.Email = au.Email;
-                user.Phone = au.Phone;
+                //user.Email = au.Email;
+                user.PhoneNumber = au.PhoneNumber;
                 user.Street = au.Street;
                 user.Number = au.Number;
                 user.Country = au.Country;
