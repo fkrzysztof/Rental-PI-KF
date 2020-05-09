@@ -1,0 +1,160 @@
+﻿@page
+    @model IndexModel
+
+@*@model Rental.Data.Data.Areas.Identity.Data.ApplicationUser*@
+
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    @*<div class="col-md-6">
+                    <form id="profile-form" method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="Username"></label>
+                            <input asp-for="Username" class="form-control" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.PhoneNumber"></label>
+                            <input asp-for="Input.PhoneNumber" class="form-control" />
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+                    </form>
+        </div>*@
+
+
+
+    @****** Zmienione *******@
+
+
+    <div col-md-6>
+        <form enctype="multipart/form-data" id="profile-form" method="post">
+            <input type="hidden" name="actionLink" value="@ViewBag.Action" />
+            <div class="card m-2">
+                <div class="card-header">
+                    <i class="fas fa-user-circle"></i> Zdjęcie
+                </div>
+                <div class="card-body">
+                    <div id="dbimage">
+                        @if (Model.Input.Image != null)
+                        {
+
+                            var base64 = Convert.ToBase64String(Model.Input.Image);
+                            var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                            <img style="width: 100px; height:100px" class="img-profile rounded mb-4" id="#dbimage" src="@imgSrc" />
+
+                        }
+                    </div>
+                    <div id="showimage"></div>
+
+                    <div class="custom-file">
+                        <input class="form-control custom-file-input" type="file" name="file" />
+                        <label class="custom-file-label">Wybierz..</label>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">
+
+                $(document).ready(function () {
+                    @*Java script dodaje siezke do pliku labeka *@
+                    $(".custom-file-input").on("change", function () {
+
+                        //dopisane
+                        document.getElementById("dbimage").style.display = "none";
+
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).next(".custom-file-label").html(fileName);
+
+                        @*Pokazuje zdjecie *@
+                        var previewimages = $("#showimage");
+                        previewimages.html("");
+                        $($(this)[0].files).each(function () {
+                            var file = $(this);
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = $("<img class=\"rounded mb-4 \" />");
+                                img.attr("style", "height:100px;width: 100px;");
+                                img.attr("src", e.target.result);
+                                previewimages.append(img);
+                            }
+                            reader.readAsDataURL(file[0]);
+                        });
+                    }); //dodalem ;
+                });
+            </script>
+            <div class="card m-2">
+                <div class="card-header">
+                    <i class="fas fa-folder-open"></i> Dane
+                </div>
+                <div class="card-body">
+
+                    @*<input type="hidden" value="@Model.Id" />*@
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Imię</label>
+                            <input type="text" asp-for="@Model.Input.FirstName" value="@Model.Input.FirstName" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Nazwisko</label>
+                            <input type="text" asp-for="@Model.Input.LastName" value="@Model.Input.LastName" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Email</label>
+                            <input type="text" asp-for="@Model.Input.Email" value="@Model.Input.Email" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Telefon</label>
+                            <input type="text" asp-for="@Model.Input.Phone" value="@Model.Input.Phone" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Ulica</label>
+                            <input type="text" asp-for="@Model.Input.Street" value="@Model.Input.Street" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Numer</label>
+                            <input type="text" asp-for="@Model.Input.Number" value="@Model.Input.Number" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="inputCity">Kraj</label>
+                            <input type="text" asp-for="@Model.Input.Country" value="@Model.Input.Country" class="form-control">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="inputState">Miasto</label>
+                            <input type="text" asp-for="@Model.Input.City" value="@Model.Input.City" class="form-control">
+
+                        </div>
+                        <div class="form-group col-md-2">
+                            <label for="inputZip">Kod</label>
+                            <input type="text" asp-for="@Model.Input.ZIPCode" value="@Model.Input.ZIPCode" class="form-control">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Zapisz zmiany</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+    @****** Zmienione *******@
+
+
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
