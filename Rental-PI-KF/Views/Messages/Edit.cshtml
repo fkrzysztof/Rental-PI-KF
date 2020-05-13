@@ -1,0 +1,101 @@
+﻿@model Rental.Data.Data.Rental.Message
+
+@{
+    ViewData["Title"] = String.Format("Edycja wiadomości: {0}", Model.Title);
+}
+
+<div class="container shadow p-4 mt-4 md-4">
+    <div class="row">
+        <form asp-action="Edit" method="post" class="col" id="saveForm">
+            <div class="form-row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="MessageID" />
+                <input type="hidden" asp-for="UserID" />
+                <input type="hidden" asp-for="AddedDate" />
+
+                <div class="form-group col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Grupa odbiorców</span>
+                        </div>
+                        <select asp-for="UserTypeName" class="form-control" asp-items="@ViewBag.UserTypeName"></select>
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Tytuł</span>
+                        </div>
+                        <input asp-for="Title" class="form-control" aria-describedby="label1" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Data od</span>
+                        </div>
+                        <input class="form-control" asp-for="StartDate" type="date" autocomplete="off" />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="label1">Data do</span>
+                        </div>
+                        <input type="date" asp-for="ExpirationDate" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-12">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Treść</span>
+                        </div>
+                        <textarea asp-for="MessageContent" class="form-control" rows="4"></textarea>
+                        <span asp-validation-for="MessageContent" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col">
+            @if (Model.IsActive)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.MessageID" onsubmit="alert('Na pewno chcesz usunąć wiadomość?')">
+                    <input type="hidden" asp-for="MessageID" />
+                    <input type="submit" value="Usuń" class="btn btn-outline-danger  btn-sm" />
+                </form>
+            }
+            else
+            {
+                <form asp-action="Restore" asp-route-id="@Model.MessageID">
+                    <input type="hidden" asp-for="MessageID" />
+                    <input type="submit" value="Przywróć" class="btn btn-outline-success buttMargin btn-sm" />
+                </form>
+            }
+        </div>
+        <div class="col">
+            <input form="saveForm" type="submit" value="Zapisz" class="btn btn-success float-right buttMargin  btn-sm" />
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

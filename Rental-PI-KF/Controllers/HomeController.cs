@@ -26,14 +26,6 @@ namespace Rental_PI_KF.Controllers
 
         }
 
-        //private void ImgProfile()
-        //{
-        //    var id = _userManager.GetUserId(HttpContext.User);
-        //    var us = _userManager.Users;
-        //    var u = us.FirstOrDefault(f => f.Id == id);
-        //    ViewBag.Img = u.Image;
-        //}
-
         public IActionResult Index()
         {
             GeneralTypeToMenu();

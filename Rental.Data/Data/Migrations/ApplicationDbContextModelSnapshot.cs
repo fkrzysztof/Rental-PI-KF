@@ -217,10 +217,6 @@ namespace Rental.Data
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -280,6 +276,71 @@ namespace Rental.Data
                     b.HasKey("EquipmentNameID");
 
                     b.ToTable("EquipmentNames");
+                });
+
+            modelBuilder.Entity("Rental.Data.Data.Rental.Message", b =>
+                {
+                    b.Property<int>("MessageID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("AddedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MessageContent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)")
+                        .HasMaxLength(40);
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserTypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("Rental.Data.Data.Rental.ReadMessages", b =>
+                {
+                    b.Property<int>("ReadMessagesID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MessageID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ReadMessagesID");
+
+                    b.HasIndex("MessageID");
+
+                    b.ToTable("ReadMessages");
                 });
 
             modelBuilder.Entity("Rental.Data.Data.Rental.RentalStatus", b =>
@@ -957,6 +1018,22 @@ namespace Rental.Data
                     b.HasOne("Rental_Data.Data.Rental.RentalAgency", null)
                         .WithMany("ApplicationUsers")
                         .HasForeignKey("RentalAgencyID");
+                });
+
+            modelBuilder.Entity("Rental.Data.Data.Rental.Message", b =>
+                {
+                    b.HasOne("Rental.Data.Data.Areas.Identity.Data.ApplicationUser", "SenderUser")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Rental.Data.Data.Rental.ReadMessages", b =>
+                {
+                    b.HasOne("Rental.Data.Data.Rental.Message", "Message")
+                        .WithMany("ReadMessages")
+                        .HasForeignKey("MessageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Rental.Data.Data.Rental.RentalVehicle", b =>

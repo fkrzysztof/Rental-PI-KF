@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Rental_PI_KF.Controllers.Abstract
 {
@@ -21,5 +22,16 @@ namespace Rental_PI_KF.Controllers.Abstract
         {
             ViewBag.GeneralTypesList = _context.GeneralTypes.ToList();
         }
+
+        public ApplicationUser GetUser()
+        {
+            return _userManager.FindByNameAsync(User.Identity.Name).Result;
+        }
+
+        public string GetUserRoleName()
+        {
+            return _userManager.GetRolesAsync(GetUser()).Result.First();
+        }
+
     }
 }

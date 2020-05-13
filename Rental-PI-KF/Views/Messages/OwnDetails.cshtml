@@ -1,0 +1,60 @@
+﻿@model Rental.Data.Data.Rental.Message
+
+@{
+    ViewData["Title"] = String.Format("Wiadomość");
+}
+<div class="container">
+    <div class="row  rounded shadow mt-sm-3 mb-sm-3 pb-1 pt-1">
+        <div class="col-sm-12">
+            <small class="text-muted align-bottom float-right">@Model.AddedDate</small>
+        </div>
+        <div class="col-sm-12">
+            <h3>@Model.Title</h3>
+            <hr />
+        </div>
+        <div class="col-sm-6">
+            @Model.MessageContent
+        </div>
+        <div class="col-sm-12">
+            @{
+                if (Model.SenderUser.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.SenderUser.Image);
+                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                    <img style="width: 80px; height:80px" class="card-img mt-4 mb-1 float-sm-left" src="@imgSrc" />
+                }
+                else
+                {
+                    <img style="width: 80px; height:80px" class="card-img mt-4 mb-1 float-sm-left" src="~/Upload/Default/DefaultUser.png" />
+                }
+            }
+        </div>
+        <div class="col-sm-12 mb-1">
+            <h6 class="float-sm-left mb-4">@Model.SenderUser.FirstName @Model.SenderUser.LastName</h6>
+            <div class="float-left col-12 bt-4">Przeczytali:</div>
+            <div class="col-12 float-left border rounded p-2 m-2">
+
+                @foreach (var u in ViewBag.UserList)
+                {
+                    if (u.Image != null)
+                    {
+                        var ibase64 = Convert.ToBase64String(u.Image);
+                        var i = String.Format("data:Image/jpeg;base64,{0}", ibase64);
+                        <img style="width: 30px; height:30px" class="card-img m-1 mb-1 float-sm-left" title="@u.Fullname" src="@i" />
+                    }
+                    else
+                    {
+                        <img style="width: 30px; height:30px" class="card-img m-1 mb-1 float-sm-left" title="@u.Fullname" src="~/Upload/Default/DefaultUser.png" />
+                    }
+                }
+            </div>
+
+
+            <a class="btn btn-outline-secondary float-right btn-sm" role="button" aria-haspopup="true" asp-action="Own">
+                <i class="fas fa-chevron-left"></i>
+                Powrót
+            </a>
+        </div>
+    </div>
+</div>
+

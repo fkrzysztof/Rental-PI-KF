@@ -173,7 +173,7 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
                     ZIPCode = Input.ZIPCode,
                     //Image = streamToReturn.ToArray(),
                     Image = null,
-                    Phone = Input.Phone,
+                    //Phone = Input.Phone,
                     RentalAgencyID = Input.RentalAgencyID
                 };
 

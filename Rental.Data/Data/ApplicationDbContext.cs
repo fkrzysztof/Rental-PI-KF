@@ -45,5 +45,7 @@ namespace Rental.Data
         public DbSet<EquipmentName> EquipmentNames { get; set; }
         public DbSet<RentalVehicle> RentalVehicles { get; set; }
         public DbSet<RentalStatus> RentalStatuses { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<ReadMessages> ReadMessages { get; set; }
     }
 }
