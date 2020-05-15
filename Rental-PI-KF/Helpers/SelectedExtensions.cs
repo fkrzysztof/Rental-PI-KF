@@ -8,22 +8,40 @@ namespace Rental_PI_KF.Helpers
 {
     public static class SelectedExtensions
     {
-        public static string IsActive(this IHtmlHelper htmlHelper, string controllers, string actions = null, string cssClass = "show show-force")
+        public static string IsActiveController(this IHtmlHelper htmlHelper, params string[] name)
         {
-
-            string currentController = htmlHelper.ViewContext.RouteData.Values["controller"] as string;
-            IEnumerable<string> acceptedControllers = (controllers ?? currentController).Split(',');
-
-            if (actions == null)
+            string controller = htmlHelper.ViewContext.RouteData.Values["controller"] as string;
+            if (name == null || name.Length == 0)
+                return "";
+            else
             {
-                return acceptedControllers.Contains(currentController) ? cssClass : String.Empty;
+                if(name.Contains(controller) == true)
+                {
+                    return "show";
+                }
+                else
+                {
+                    return "";
+                }
             }
-
-            string currentAction = htmlHelper.ViewContext.RouteData.Values["action"] as string;
-            IEnumerable<string> acceptedActions = (actions ?? currentAction).Split(',');
-
-            return acceptedActions.Contains(currentAction) && acceptedControllers.Contains(currentController) ?
-                cssClass : String.Empty;
         }
-    }
+        public static string IsActiveAction(this IHtmlHelper htmlHelper, string actionName, string controllerName)
+        {
+            string action = htmlHelper.ViewContext.RouteData.Values["action"] as string;
+            string controller = htmlHelper.ViewContext.RouteData.Values["controller"] as string;
+            if (action == null || controller == null)
+                return "";
+            else
+            {
+                if(action == actionName && controller == controllerName)
+                {
+                    return "active";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+        }
+}
 }

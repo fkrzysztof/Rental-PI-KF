@@ -1,81 +1,96 @@
 ﻿@model IEnumerable<Rental.Data.Data.Rental.Message>
 
 @{
-    ViewData["Title"] = "Moje Wiadomości";
+    //ViewData["Title"] = "Wiadomości nieodczytane";
+    ViewData["Title"] = ViewBag.Tite;
 }
 
-<div class="row mb-2">
-    <div class="col-12">
-        <a class="btn btn-outline-success float-right btn-sm" role="button" aria-haspopup="true" aria-expanded="false" asp-action="Create">
-            <i class="fas fa-plus-circle"></i>
-            Dodaj
-        </a>
-        <a class="btn btn-outline-secondary float-left btn-sm" role="button" aria-haspopup="true" aria-expanded="false" href='javascript:history.go(-1)'>
-            <i class="fas fa-chevron-left"></i>
-            Powrót
-        </a>
+<div class="row mb-4 justify-content-center">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Index">Lista</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Create">Utwórz</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" asp-action="Own">Moje</a>
+            </li>
+        </ul>
     </div>
-</div>
-
-<div id="accordion">
-    <div class="card mb-4">
-        <div class="card-header" id="Filtry">
-            <div class="mb-0 collapsed" data-toggle="collapse" data-target="#collapse1" aria-expanded="true" aria-controls="collapseOne">
-                <strong>Filtry</strong>
-                <button class="btn btn-link btn-sm">
-                    <i class="fa fa-bars text-black"></i>
-                </button>
-            </div>
-        </div>
-        <div id="collapse1" class="collapse @(ViewData["currentFilter"] == null ? "" : "show")" aria-labelledby="Filtry" data-parent="#accordion">
+    <div class="col-md-12">
+        <div class="card border-top-0 rounded-0 rounded-bottom">
             <div class="card-body">
-
-                <form class="form-inline" method="get">
-                    <div class="form-group mb-2">
-                        <label>Wyszukaj po: </label>
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <span class="float-left"><i class="fas fa-folder-open mr-2"></i>Lista aktualnych pozycji</span>
+                        <button class="btn text-primary float-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"><i class="fas fa-sliders-h"></i></button>
                     </div>
-                    <div class="form-group mx-sm-3 mb-2 col-md-6">
-                        <input type="text" class="form-control" name="SearchString" value="@ViewData["currentFilter"]" placeholder="Temat, Treść" />
+                    <div class="col-12 mb-4">
+                        <div class="text-center collapse show" id="collapseExample" style="">
+                            <div class="card card-body pb-0">
+                                <form asp-action="Index" method="get">
+                                    @***************************** Wyszukiwanie **********************************@
+                                    <div class="row">
+                                        <div class="col-sm-12 align-self-center">
+                                            @*Wyszukiwarka*@
+                                            @{
+                                                if (@ViewBag.Search != null)
+                                                {
+                                                    <span class="badge badge-pill badge-info">"@ViewBag.Search" <a class="text-white" asp-action="Index">&times;</a></span> @*<span aria-hidden="true">&times;</span>*@
+                                                }
+                                            }
+                                            <input type="text" name="searchString" class="form-control" placeholder="Wpisz szukaną frazę.." />
+                                        </div>
+                                        <div class="col-sm-12 text-right">
+                                            <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
+                                            <button asp-action="Index" class="btn text-primary"><i class="fas fa-ban"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                                @***************************** Wyszukiwanie Koniec****************************@
+                            </div>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-primary mb-2  btn-sm">Szukaj</button>
-                    @if (ViewData["currentFilter"] != null)
-                    {
-                        <a role="button" class="btn btn-outline-primary mb-2" id="usunFiltry" href='javascript:history.go(-1)'> <i class="fas fa-minus-circle"></i> Usuń filtry</a>
-                    }
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                    <div class="col-12">
 
 
-<div class="container">
-    @foreach (var item in Model)
-    {
-        <div class="row no-gutters rounded shadow-sm mt-2 mb-2">
-            @{
-                if (item.SenderUser.Image != null)
-                {
-                    var base64 = Convert.ToBase64String(item.SenderUser.Image);
-                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                    <img style="width: 80px; height:80px" class="card-img  mr-2" src="@imgSrc" />
-                }
-                else
-                {
-                    <img style="width: 80px; height:80px" class="card-img  mr-2" src="~/Upload/Default/DefaultUser.png" />
-                }
-            }
-            <div class="col-sm-11">
-                <a asp-action="OwnDetails" asp-route-id="@item.MessageID" type="button" class="btn btn-outline-secondary float-right btn-sm ml-2">Otwórz</a>
-                <a asp-action="Edit" asp-route-id="@item.MessageID" type="button" class="btn btn-outline-secondary float-right btn-sm">Edytuj</a>
-                <h5>@Html.DisplayFor(modelItem => item.SenderUser.FirstName) @Html.DisplayFor(modelItem => item.SenderUser.LastName)</h5>
-                <span class="card-text">
-                    @Html.DisplayFor(modelItem => item.Title)
-                </span><br />
-                <div class="float-right align-bottom">
-                    <small class="text-muted align-bottom">@Html.DisplayFor(modelItem => item.StartDate)</small>
+
+                        @foreach (var item in Model)
+                        {
+                            <div class="row no-gutters rounded shadow-sm mt-2 mb-2">
+                                @{
+                                    if (item.SenderUser.Image != null)
+                                    {
+                                        var base64 = Convert.ToBase64String(item.SenderUser.Image);
+                                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                        <img style="width: 80px; height:80px" class="card-img  mr-2" src="@imgSrc" />
+                                    }
+                                    else
+                                    {
+                                        <img style="width: 80px; height:80px" class="card-img  mr-2" src="~/Upload/Default/DefaultUser.png" />
+                                    }
+                                }
+                                <div class="col-sm-11">
+                                    <a asp-action="OwnDetails" asp-route-id="@item.MessageID" type="button" class="btn btn-outline-secondary float-right btn-sm ml-2">Otwórz</a>
+                                    <a asp-action="Edit" asp-route-id="@item.MessageID" type="button" class="btn btn-outline-secondary float-right btn-sm">Edytuj</a>
+                                    <h5>@Html.DisplayFor(modelItem => item.SenderUser.FirstName) @Html.DisplayFor(modelItem => item.SenderUser.LastName)</h5>
+                                    <span class="card-text">
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </span><br />
+                                    <div class="float-right align-bottom">
+                                        <small class="text-muted align-bottom">@Html.DisplayFor(modelItem => item.StartDate)</small>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
                 </div>
             </div>
         </div>
-    }
+    </div>
 </div>
+

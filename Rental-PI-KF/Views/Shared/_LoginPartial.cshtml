@@ -11,31 +11,45 @@
     //separuje zdjecie profiluje
     var img = signInUser.Image;
 
-    //sprawdzam czy instnieje 
-    if (img != null)
-    {
-        //wyswietlam
-        var base64 = Convert.ToBase64String(img);
-        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-        <img style = "width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />
-    }
-    else
-    {
-        //wyswietlam default wartosc 
-        <img style = "width: 40px; height:40px" class="img-profile rounded-circle" src="~/Upload/Default/DefaultUser.png" />
-    }
+    <div class="btn-group">
+        <a style="cursor: pointer;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @{
+                //sprawdzam czy instnieje
+                if (img != null)
+                {
+                    //wyswietlam
+                    var base64 = Convert.ToBase64String(img);
+                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                    <img style="width: 40px; height:40px" class="img-profile rounded-circle" src="@imgSrc" />
+                }
+                else
+                {
+                    //wyswietlam default wartosc
+                    <img style="width: 40px; height:40px" class="img-profile rounded-circle" src="~/Upload/Default/DefaultUser.png" />
+                }
+            }
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/ChangePassword" title="Manage">Zmiana Hasła</a>
+            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Ustawienia Konta</a>
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="dropdown-item">Logout</button>
+            </form>
+        </div>
+    </div>
 }
 
 <ul class="navbar-nav">
-   @if (SignInManager.IsSignedIn(User))
+    @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            <a class="nav-link text-dark disabled"  asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
         </li>
         <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
+            <a asp-action="Index" asp-controller="Messages" class="nav-link text-dark">
+                <i class="fas fa-envelope fa-fw"></i>
+                <span class="badge badge-danger badge-counter">7</span>
+            </a>
         </li>
     }
     else
@@ -48,5 +62,7 @@
         </li>
     }
 </ul>
+
+
 
 

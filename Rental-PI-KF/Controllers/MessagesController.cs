@@ -35,7 +35,7 @@ namespace Rental_PI_KF.Controllers
                 .Where(n => n.UserTypeName == GetUserRoleName() && n.IsActive == true && n.StartDate <= DateTime.Now &&
                 n.ExpirationDate >= DateTime.Now && n.SenderUser.Id != GetUser().Id);
 
-            ViewData["CurrentFilter"] = searchString;
+            ViewBag.Search = searchString;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -61,9 +61,9 @@ namespace Rental_PI_KF.Controllers
                 .Include(n => n.ReadMessages).Include(n => n.SenderUser)
                 .Where(n => n.IsActive == true && n.SenderUser.Id == GetUser().Id);
 
-            ViewData["CurrentFilter"] = searchString;
+            ViewBag.Search = searchString;
             if (!String.IsNullOrEmpty(searchString))
-            {
+            {// tu cos nie dziala !!
                 var searchResult = Messages.Where(w =>
                 w.SenderUser.FirstName.Contains(searchString) ||
                 w.SenderUser.LastName.Contains(searchString) ||
