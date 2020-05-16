@@ -33,6 +33,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
         {
             [Required]
             [EmailAddress]
+            [Display(Name = "Emial")]
             public string Email { get; set; }
         }
 

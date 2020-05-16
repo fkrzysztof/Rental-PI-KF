@@ -250,6 +250,45 @@ namespace Rental_PI_KF.Controllers
             return RedirectToAction("Own");
         }
 
+        public async Task<IActionResult> Restore(int id)
+        {
+            var messageDelete = await _context.Messages.FindAsync(id);
+            messageDelete.IsActive = true;
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("DeletedMessages");
+        }
+
+        
+
+        // GET: Moje
+        public async Task<IActionResult> DeletedMessages(string searchString)
+        {
+            SendCountMessages();
+
+            var Messages = _context.Messages
+                .Include(n => n.ReadMessages).Include(n => n.SenderUser)
+                .Where(n => n.IsActive == false);
+
+            ViewBag.Search = searchString;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                var searchResult = Messages.Where(w =>
+                w.SenderUser.FirstName.Contains(searchString) ||
+                w.SenderUser.LastName.Contains(searchString) ||
+                w.Title.Contains(searchString) ||
+                w.MessageContent.Contains(searchString)
+                );
+
+                return View(await searchResult.OrderByDescending(u => u.StartDate).ToListAsync());
+            }
+
+            return View(await Messages.OrderByDescending(u => u.StartDate).ToListAsync());
+        }
+
+
+
+
         private bool NewsExists(int id)
         {
             return _context.News.Any(e => e.NewsID == id);

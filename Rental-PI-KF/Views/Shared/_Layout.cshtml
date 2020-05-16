@@ -139,6 +139,7 @@
                             }
                         </a>
                         <a class="collapse-item @(Html.IsActiveAction("Own","Messages"))" asp-controller="Messages" asp-action="Own"><i class="fas fa-user-edit mr-2"></i><span>Moje</span></a>
+                        <a class="collapse-item @(Html.IsActiveAction("DeletedMessages","Messages"))" asp-controller="Messages" asp-action="DeletedMessages"><i class="fas fa-trash mr-2"></i><span>Moje</span></a>
                     </div>
                 </div>
             </li>

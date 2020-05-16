@@ -6,17 +6,7 @@
 
 <div class="row mb-4 justify-content-center">
     <div class="col-md-12">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link" asp-action="Index">Lista</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" asp-action="Create">Utwórz</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" asp-action="Own">Moje</a>
-            </li>
-        </ul>
+        @await Html.PartialAsync("Navi")
     </div>
     <div class="col-md-12">
         <div class="card border-top-0 rounded-0 rounded-bottom">
