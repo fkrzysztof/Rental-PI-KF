@@ -36,6 +36,7 @@ namespace Rental_PI_KF.Controllers
                 Include(i => i.Vehicle.VehicleModel).
                 Include(i => i.RentalToLocation).
                 Include(i => i.RentalFromLocation).
+                Where(w => w.IsActive == true).
                 ToListAsync();
            
             if (search != null)

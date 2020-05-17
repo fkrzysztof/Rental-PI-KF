@@ -18,7 +18,7 @@
                     @*<script src="~/js/jquery-1.10.2.js"></script>*@
                     <div class="col-lg-8 p-sm-4">
                         <div class="row justify-content-center m-4">
-                            <div class="col-sm-1">
+                            <div class="col-sm-1 align-self-center">
                                 <a asp-action="CreateThis" asp-route-id="@Model.Vehicle.VehicleID" asp-route-navigation="previous">
                                     <i class="fas fa-chevron-left float-right mt-4 mb-4"></i>
                                 </a>
@@ -30,11 +30,11 @@
                                         @{
                                             var calendar = ViewBag.CalendarPage as List<DateTime>;
                                             DateTime month = (DateTime)ViewBag.Month;
-                                            <span>@month.ToShortDateString()</span>
+                                            <span class="m-2">@month.ToShortDateString()</span>
                                         }
                                     </div>
 
-                                    <div class="bg-dark">
+                                    <div class="bg-dark rounded">
                                         @foreach (string day in @ViewBag.DaysOfWeek)
                                         {
                                             <div class="d-inline-block rounded bg-dark align-middle text-white" style="min-width: 46px; min-height: 46px"><small>@day</small> </div>
@@ -51,25 +51,59 @@
                                         //sprawdzam czy dzien jest zajety -- ZAJETY
                                         if (Model.Vehicle.RentalVehicles.FirstOrDefault(f => f.From.CompareTo(item) <= 0 && f.To.CompareTo(item) >= 0) != null)
                                         {
-                                            <div class="btn-group-toggle d-inline-block   rounded mt-1" data-toggle="buttons">
-                                                <label class="btn btn-secondary active bg-danger" style="min-width: 46px; min-height: 46px">
-                                                    <input type="checkbox" disabled autocomplete="off"> @item.Day
+                                            <div class="btn-group-toggle d-inline-block rounded mt-1" data-toggle="buttons">
+                                                <label class="btn btn-secondary active bg-gradient-danger" style="min-width: 46px; min-height: 46px">
+                                                    <input type="checkbox" disabled autocomplete="off">
+                                                    @{
+                                                        if (item.Day == DateTime.Now.Day)
+                                                        {
+                                                            <u>@item.Day</u>
+                                                        }
+                                                        else
+                                                        {
+                                                            @item.Day
+                                                        }
+                                                    }
                                                 </label>
                                             </div>
                                         }
                                         //Dzien jest -- WOLNY
                                         else
                                         {
-                                            <div class="btn-group-toggle d-inline-block   rounded mt-1" data-toggle="buttons">
-                                                <label class="btn btn-secondary" style="min-width: 46px; min-height: 46px">
-                                                    <input type="checkbox" name="RentalDate" value="@item" autocomplete="off"> @item.Day
-                                                </label>
-                                            </div>
+                                            //Ten dzien jest juz był.. brak moziwosci rezerwacji
+                                            if (@item.CompareTo(DateTime.Now.Date) < 0)
+                                            {
+                                                <div class="btn-group-toggle d-inline-block rounded mt-1" data-toggle="buttons">
+                                                    <label class="btn btn-secondary active bg-gradient-info" style="min-width: 46px; min-height: 46px">
+                                                        <input type="checkbox" disabled autocomplete="off">
+                                                        @item.Day
+                                                    </label>
+                                                </div>
+                                            }
+                                            // REZERWACJA
+                                            else
+                                            {
+                                                <div class="btn-group-toggle d-inline-block rounded mt-1" data-toggle="buttons">
+                                                    <label class="btn btn-secondary" style="min-width: 46px; min-height: 46px">
+                                                        <input type="checkbox" name="RentalDate" value="@item" autocomplete="off">
+                                                        @{
+                                                            if (item.Day == DateTime.Now.Day)
+                                                            {
+                                                                <u>@item.Day</u>
+                                                            }
+                                                            else
+                                                            {
+                                                                @item.Day
+                                                            }
+                                                        }
+                                                    </label>
+                                                </div>
+                                            }
                                         }
                                     }
                                 }
                             </div>
-                            <div class="col-sm-1">
+                            <div class="col-sm-1 align-self-center">
                                 <a asp-action="CreateThis" asp-route-id="@Model.Vehicle.VehicleID" asp-route-navigation="next">
                                     <i class="fas fa-chevron-right float-left mt-4 mb-4"></i>
                                 </a>
@@ -298,5 +332,5 @@
         element.checken = true;
     }
 
-   
+
 </script>
