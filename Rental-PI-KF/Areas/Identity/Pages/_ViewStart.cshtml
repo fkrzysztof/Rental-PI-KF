@@ -2,8 +2,6 @@
 @using Rental.Data.Data.Areas.Identity.Data
 @inject SignInManager<ApplicationUser> SignInManager
 @{
-
-
     @if (SignInManager.IsSignedIn(User))
     {
          Layout = "/Views/Shared/_Layout.cshtml";

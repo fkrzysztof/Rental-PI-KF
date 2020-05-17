@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
 using Microsoft.AspNetCore.Http;
@@ -49,7 +46,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nie można załadować użytkownika ID '{_userManager.GetUserId(User)}'.");
             }
             await LoadAsync(user);
 
@@ -61,7 +58,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nie można załadować użytkownika ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -77,7 +74,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account.Manage
                 if (!setPhoneResult.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                    throw new InvalidOperationException($"Wystąpił nieoczekiwany błąd z ID '{userId}'.");
                 }
             }
 
@@ -121,13 +118,13 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account.Manage
             if (!rezult.Succeeded)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
-                throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                throw new InvalidOperationException($"Wystąpił nieoczekiwany błąd podczas ustawiania numeru telefonu dla użytkownika z ID '{userId}'.");
             }
 
 
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Twój profil został zaktualizowany";
             return RedirectToPage();
         }
     }

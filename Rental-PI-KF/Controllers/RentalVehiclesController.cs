@@ -189,7 +189,7 @@ namespace Rental_PI_KF.Controllers
             RentalVehicle rv = new RentalVehicle();
             rv.Vehicle = vehicle;
 
-            return View("CreateThisTest",rv);
+            return View("CreateThis",rv);
         }
 
         [HttpPost]
