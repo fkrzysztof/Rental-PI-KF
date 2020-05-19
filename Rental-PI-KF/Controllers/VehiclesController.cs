@@ -51,7 +51,7 @@ namespace Rental_PI_KF.Controllers
             ViewBag.EQNameList = await _context.EquipmentNames.ToListAsync();
             ViewBag.Generaltypes = await _context.GeneralTypes.ToListAsync();
             ViewBag.GeneraltypeNow = generalType;
-            ViewBag.ActiveNow = active;
+            ViewBag.Active = active;
             ViewBag.Table = table;
 
             if(generalType != null)
@@ -278,6 +278,17 @@ namespace Rental_PI_KF.Controllers
             var vehicle = await _context.Vehicles.FindAsync(id);
             //_context.Vehicles.Remove(vehicle);
             vehicle.IsActive = false;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Vehicles/Restore/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restore(int id)
+        {
+            var vehicle = await _context.Vehicles.FindAsync(id);
+            vehicle.IsActive = true;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

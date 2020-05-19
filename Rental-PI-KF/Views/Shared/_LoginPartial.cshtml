@@ -43,12 +43,12 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link text-dark disabled"  asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
+            <a class="nav-link text-dark disabled" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Witaj @User.Identity.Name!</a>
         </li>
         <li class="nav-item">
             <a asp-action="Index" asp-controller="Messages" class="nav-link text-dark">
                 <i class="fas fa-envelope fa-fw"></i>
-                <span class="badge badge-danger badge-counter">7</span>
+                <span class="badge badge-danger badge-counter" id="counttop">...</span>
             </a>
         </li>
     }
@@ -62,6 +62,8 @@
         </li>
     }
 </ul>
+
+
 
 
 

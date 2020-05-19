@@ -29,24 +29,6 @@
         <!-- Sidebar -->
         @*<ul class="navbar-nav sidebar sidebar-light accordion" style="background-color: #000000; background-image: url()"   id="accordionSidebar">*@
         <ul class="navbar-nav sidebar sidebar-light accordion" style="background: url('/Upload/Images/bg-menu2.jpg') top no-repeat;" id="accordionSidebar">
-
-
-            @*<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">*@
-
-            @*Sidebar - Brand
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-                <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink">cos tamjewst</i>
-                </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
-            </a>
-
-             Divider
-            <hr class="sidebar-divider my-0">*@
-
-
-
-            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
@@ -103,7 +85,6 @@
             </li>
 
 
-
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseRent" aria-expanded="true" aria-controls="collapseTwo">
@@ -132,10 +113,7 @@
                         <a class="collapse-item @(Html.IsActiveAction("Create","Messages"))" asp-controller="Messages" asp-action="Create"><i class="fas fa-file  mr-2"></i><span>Nowa</span></a>
                         <a class="collapse-item @(Html.IsActiveAction("Index","Messages"))" asp-controller="Messages" asp-action="Index">
                             <i class="fas fa-comments mr-2"></i><span>Przychodzące</span>
-                            @if (ViewBag.NewMessage > 0)
-                            {
-                                <span class="badge badge-secondary">@ViewBag.NewMessage</span>
-                            }
+                            <span class="badge badge-secondary" id="countmenu">...</span>
                         </a>
                         <a class="collapse-item @(Html.IsActiveAction("Own","Messages"))" asp-controller="Messages" asp-action="Own"><i class="fas fa-user-edit mr-2"></i><span>Moje</span></a>
                         <a class="collapse-item @(Html.IsActiveAction("DeletedMessages","Messages"))" asp-controller="Messages" asp-action="DeletedMessages"><i class="fas fa-trash mr-2"></i><span>Moje</span></a>
@@ -143,22 +121,12 @@
                 </div>
             </li>
 
-
-            @*<li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Dodaj Nowy</span>
-                </a>
-            </li>*@
-
-
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>
             </div>
 
         </ul>
-
 
         <!-- End of Sidebar -->
         <!-- Content Wrapper -->
@@ -168,7 +136,6 @@
             <div id="content">
 
 
-                @*z podstawowego*@
                 @await Html.PartialAsync("TopNav")
 
 
@@ -181,7 +148,6 @@
                             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
                         </div>
 
-                        @*@await Html.PartialAsync("RecentNews", (IEnumerable<VetClinic.Data.Data.CMS.RecentNews>)ViewBag.ModelRecentNews)*@
                         @await Html.PartialAsync("News")
 
 
@@ -253,9 +219,20 @@
 
 
 
+        <script type="text/javascript">
+            $(document).ready(function () {
 
+                    var items = "<div>to jest 1</div>";
+                    $('#x').html(items);
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+                    var url = '@Url.Content("~/")' + "Messages/GetMessagesCount";
+                    $.getJSON(url, function (coutmessages) {
+                        $('#counttop').html(coutmessages);
+                        $('#countmenu').html(coutmessages);
+                    });
+            });
+        </script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 

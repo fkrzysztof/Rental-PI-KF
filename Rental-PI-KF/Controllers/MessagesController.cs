@@ -28,8 +28,7 @@ namespace Rental_PI_KF.Controllers
         public async Task<IActionResult> Index(string searchString)
         {
             ViewBag.Tite = "Wiadomosci przychodzące";
-            SendCountMessages();
-
+            
             var Messages = _context.Messages
                 .Include(n => n.ReadMessages).Include(n => n.SenderUser)
                 .Where(n => n.UserTypeName == GetUserRoleName() && n.IsActive == true && n.StartDate <= DateTime.Now &&
@@ -55,15 +54,13 @@ namespace Rental_PI_KF.Controllers
         // GET: Moje
         public async Task<IActionResult> Own(string searchString)
         {
-            SendCountMessages();
-
             var Messages = _context.Messages
                 .Include(n => n.ReadMessages).Include(n => n.SenderUser)
                 .Where(n => n.IsActive == true && n.SenderUser.Id == GetUser().Id);
 
             ViewBag.Search = searchString;
             if (!String.IsNullOrEmpty(searchString))
-            {// tu cos nie dziala !!
+            {
                 var searchResult = Messages.Where(w =>
                 w.SenderUser.FirstName.Contains(searchString) ||
                 w.SenderUser.LastName.Contains(searchString) ||
@@ -80,7 +77,6 @@ namespace Rental_PI_KF.Controllers
         // GET: News/Create
         public IActionResult Create()
         {
-            SendCountMessages();
             ViewData["UserTypeName"] = new SelectList(_roleManager.Roles, "Name", "Name");
 
             return View();
@@ -100,7 +96,6 @@ namespace Rental_PI_KF.Controllers
 
                 _context.Add(message);
                 await _context.SaveChangesAsync();
-                //return RedirectToAction("Own", "News");
                 return RedirectToAction("Index");
             }
             return View(message);
@@ -120,12 +115,9 @@ namespace Rental_PI_KF.Controllers
                 return NotFound();
             }
 
-            SendCountMessages();
-
             ViewData["UserTypeName"] = new SelectList(_roleManager.Roles, "Name", "Name", ShowMessage.UserTypeName); 
 
             return View(ShowMessage);
-
         }
 
         // POST: News/Edit/5
@@ -161,7 +153,6 @@ namespace Rental_PI_KF.Controllers
                         throw;
                     }
                 }
-                //return RedirectToAction("Own", "News");
                 return RedirectToAction("Index");
             }
 
@@ -175,8 +166,6 @@ namespace Rental_PI_KF.Controllers
             {
                 return NotFound();
             }
-
-            SendCountMessages();
 
             List<string> userReaded = _context.ReadMessages
             .Where(w => w.MessageID == id && w.UserID != GetUser().Id).Select(s => s.UserID).ToList();
@@ -208,8 +197,6 @@ namespace Rental_PI_KF.Controllers
             {
                 return NotFound();
             }
-
-            SendCountMessages();
 
             //zmiana na przeczytana
             if (_context.ReadMessages.FirstOrDefault(f => f.MessageID == id && f.UserID == GetUser().Id) == null)
@@ -264,8 +251,6 @@ namespace Rental_PI_KF.Controllers
         // GET: Moje
         public async Task<IActionResult> DeletedMessages(string searchString)
         {
-            SendCountMessages();
-
             var Messages = _context.Messages
                 .Include(n => n.ReadMessages).Include(n => n.SenderUser)
                 .Where(n => n.IsActive == false);
@@ -288,22 +273,23 @@ namespace Rental_PI_KF.Controllers
 
 
 
-
         private bool NewsExists(int id)
         {
             return _context.News.Any(e => e.NewsID == id);
         }
 
-        private void SendCountMessages()
-        {
-            ViewBag.NewMessage = _context.Messages
-            .Where(w => w.UserTypeName == GetUserRoleName() &&
-                w.UserID != GetUser().Id &&
-                w.StartDate <= DateTime.Now &&
-                w.ExpirationDate >= DateTime.Now &&
-                w.ReadMessages.FirstOrDefault(f => f.UserID == GetUser().Id) == null)
-            .Count();
-        }
 
+        //JS licznik nieprzeczytanych wiadomosci
+        public ActionResult GetMessagesCount()
+        {
+            var newMessages = _context.Messages
+                .Where(w => w.UserTypeName == GetUserRoleName() &&
+                    w.UserID != GetUser().Id &&
+                    w.StartDate <= DateTime.Now &&
+                    w.ExpirationDate >= DateTime.Now &&
+                    w.ReadMessages.FirstOrDefault(f => f.UserID == GetUser().Id) == null).Count();
+            return Json(newMessages);
+        }
+        
     }
 }
