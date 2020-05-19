@@ -39,7 +39,8 @@
                         <h6 class="collapse-header">Wybierz akcje:</h6>
                         <a class="collapse-item @(Html.IsActiveAction("Index","Vehicles"))" asp-action="Index" asp-controller="Vehicles">Wszystkie</a>
                         <hr />
-                        @{
+                        <div id="generaltypejs"></div>
+                        @*@{
                             if (@ViewBag.GeneralTypesList != null)
                             {
                                 List<GeneralType> generalTypesList;
@@ -50,7 +51,7 @@
                                     <a class="collapse-item" asp-action="Index" asp-route-generalType="@generalTypeItem.Name" asp-controller="Vehicles">@generalTypeItem.Name</a>
                                 }
                             }
-                        }
+                        }*@
                         <hr />
                         <a class="collapse-item @(Html.IsActiveAction("Create","Vehicles"))" asp-action="Create" asp-controller="Vehicles">Dodaj</a>
                         <a class="collapse-item @(Html.IsActiveAction("Edit","Vehicles"))" asp-action="Edit" asp-controller="Vehicles">Edytuj</a>
@@ -113,10 +114,10 @@
                         <a class="collapse-item @(Html.IsActiveAction("Create","Messages"))" asp-controller="Messages" asp-action="Create"><i class="fas fa-file  mr-2"></i><span>Nowa</span></a>
                         <a class="collapse-item @(Html.IsActiveAction("Index","Messages"))" asp-controller="Messages" asp-action="Index">
                             <i class="fas fa-comments mr-2"></i><span>Przychodzące</span>
-                            <span class="badge badge-secondary" id="countmenu">...</span>
+                            <span class="badge badge-danger" id="countmenu">...</span>
                         </a>
                         <a class="collapse-item @(Html.IsActiveAction("Own","Messages"))" asp-controller="Messages" asp-action="Own"><i class="fas fa-user-edit mr-2"></i><span>Moje</span></a>
-                        <a class="collapse-item @(Html.IsActiveAction("DeletedMessages","Messages"))" asp-controller="Messages" asp-action="DeletedMessages"><i class="fas fa-trash mr-2"></i><span>Moje</span></a>
+                        <a class="collapse-item @(Html.IsActiveAction("DeletedMessages","Messages"))" asp-controller="Messages" asp-action="DeletedMessages"><i class="fas fa-trash mr-2"></i><span>Usunięte</span></a>
                     </div>
                 </div>
             </li>
@@ -143,10 +144,10 @@
                 <!-- /.container-fluid -->
                 <div class="row">
                     <div class="container-fluid">
-                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        @*<div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                        </div>
+                        </div>*@
 
                         @await Html.PartialAsync("News")
 
@@ -222,14 +223,22 @@
         <script type="text/javascript">
             $(document).ready(function () {
 
-                    var items = "<div>to jest 1</div>";
-                    $('#x').html(items);
-
-                    var url = '@Url.Content("~/")' + "Messages/GetMessagesCount";
-                    $.getJSON(url, function (coutmessages) {
+                    var urlMessages = '@Url.Content("~/")' + "Messages/GetMessagesCount";
+                    $.getJSON(urlMessages, function (coutmessages) {
                         $('#counttop').html(coutmessages);
                         $('#countmenu').html(coutmessages);
                     });
+
+                    var urlGeneraltypes = '@Url.Content("~/")' + "Vehicles/GetGeneraltypes";
+                    $.getJSON(urlGeneraltypes, function (generaltypesList) {
+                        var items = " ";
+                        $.each(generaltypesList, function (i, generaltypes) {
+                            items += "<a href=\"/Vehicles?generalType="+generaltypes+"\" class=\"collapse-item\">" + generaltypes + "</a>";
+                        });
+                        $('#generaltypejs').html(items);
+
+                    });
+
             });
         </script>
 

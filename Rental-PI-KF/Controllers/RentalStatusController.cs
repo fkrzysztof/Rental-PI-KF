@@ -1,22 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
+using Rental.Data.Data.Areas.Identity.Data;
 using Rental.Data.Data.Rental;
+using Rental_PI_KF.Controllers.Abstract;
 
 namespace Rental_PI_KF.Controllers
 {
-    public class RentalStatusController : Controller
+    public class RentalStatusController : BasicControllerAbstract
     {
-        private readonly ApplicationDbContext _context;
-
-        public RentalStatusController(ApplicationDbContext context)
+        public RentalStatusController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        : base(context, userManager)
         {
-            _context = context;
         }
 
         // GET: RentalStatus
@@ -32,8 +31,6 @@ namespace Rental_PI_KF.Controllers
         }
 
         // POST: RentalStatus/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("RentalStatusID,Name,IsActive")] RentalStatus rentalStatus)
@@ -48,8 +45,6 @@ namespace Rental_PI_KF.Controllers
         }
 
         // POST: RentalStatus/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("RentalStatusID,Name,IsActive")] RentalStatus rentalStatus)

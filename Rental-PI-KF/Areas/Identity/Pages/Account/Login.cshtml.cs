@@ -85,6 +85,12 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var userToLogout = await _userManager.FindByEmailAsync(Input.Email);
+                    if (await _userManager.IsInRoleAsync(userToLogout, "Zablokowani"))
+                    {
+                        await _signInManager.SignOutAsync();
+                        return RedirectToPage("./Lockout");
+                    }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

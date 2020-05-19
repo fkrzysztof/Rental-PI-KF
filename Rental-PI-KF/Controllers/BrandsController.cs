@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
@@ -93,7 +91,6 @@ namespace Rental_PI_KF.Controllers
 
             return RedirectToAction(nameof(Index), new { remove = true, removeName = rezult.Name });
         }
-
 
         private bool BrandExists(int id)
         {

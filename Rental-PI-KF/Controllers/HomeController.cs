@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,7 +10,6 @@ using Rental_PI_KF.Models;
 
 namespace Rental_PI_KF.Controllers
 {
-    [Authorize]
     public class HomeController : BasicControllerAbstract
     {
         protected readonly ILogger<HomeController> _logger;

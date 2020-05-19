@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -157,8 +158,8 @@ namespace Rental_PI_KF.Controllers
             }
 
             return View(message);
-
         }
+
         // GET: News/Details/5
         public async Task<IActionResult> OwnDetails(int? id)
         {
@@ -246,7 +247,6 @@ namespace Rental_PI_KF.Controllers
             return RedirectToAction("DeletedMessages");
         }
 
-        
 
         // GET: Moje
         public async Task<IActionResult> DeletedMessages(string searchString)
@@ -270,7 +270,6 @@ namespace Rental_PI_KF.Controllers
 
             return View(await Messages.OrderByDescending(u => u.StartDate).ToListAsync());
         }
-
 
 
         private bool NewsExists(int id)

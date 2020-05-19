@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -58,7 +56,6 @@ namespace Rental_PI_KF.Controllers
             int a = _context.Vehicles.Count();
 
             var query = _context.RentalVehicles
-                //.Include(r => r.Brand).Include(r => r.VehicleModel)
                 .GroupBy(g => g.From)
                 .Select(s => new { name = s.Key.Date.ToShortDateString(), nameCount = s.Count(), all = a }).ToList();
 

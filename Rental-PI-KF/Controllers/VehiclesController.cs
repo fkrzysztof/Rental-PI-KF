@@ -5,16 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
-using Rental.Data.Data.Rental;
 using Rental_Data.Data.Rental;
 using Rental_PI_KF.Controllers.Abstract;
 
@@ -49,12 +48,12 @@ namespace Rental_PI_KF.Controllers
                 Where(w => w.IsActive == active);
 
             ViewBag.EQNameList = await _context.EquipmentNames.ToListAsync();
-            ViewBag.Generaltypes = await _context.GeneralTypes.ToListAsync();
             ViewBag.GeneraltypeNow = generalType;
             ViewBag.Active = active;
             ViewBag.Table = table;
+            ViewBag.Generaltypes = await _context.GeneralTypes.ToListAsync();
 
-            if(generalType != null)
+            if (generalType != null)
                 return View(await applicationDbContext.Where(w => w.GeneralType.Name == generalType).ToListAsync());
             else
                 return View(await applicationDbContext.ToListAsync());
@@ -367,6 +366,13 @@ namespace Rental_PI_KF.Controllers
             }
 
             ViewBag.TempList = TempList;
+        }
+
+        //js 
+        public async Task<ActionResult> GetGeneraltypes()
+        {
+            var GeneralTypesList = await _context.GeneralTypes.Select(s => s.Name).ToListAsync();
+            return Json(GeneralTypesList);
         }
     }
 }

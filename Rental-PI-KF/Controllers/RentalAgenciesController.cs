@@ -1,20 +1,22 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
+using Rental.Data.Data.Areas.Identity.Data;
 using Rental_Data.Data.Rental;
+using Rental_PI_KF.Controllers.Abstract;
 
 namespace Rental_PI_KF.Controllers
 {
-    public class RentalAgenciesController : Controller
+    [Authorize(Roles = "Administrator")]
+    public class RentalAgenciesController : BasicControllerAbstract
     {
-        private readonly ApplicationDbContext _context;
-
-        public RentalAgenciesController(ApplicationDbContext context)
+        public RentalAgenciesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        : base(context, userManager)
         {
-            _context = context;
         }
 
         // GET: RentalAgencies
@@ -45,6 +47,7 @@ namespace Rental_PI_KF.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(rentalAgency);
         }
 

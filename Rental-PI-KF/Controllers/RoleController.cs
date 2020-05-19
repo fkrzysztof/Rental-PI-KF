@@ -5,18 +5,18 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using LazZiya.ImageResize;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
-using Rental_Data.Data.Rental;
 using Rental_PI_KF.Controllers.Abstract;
 
 namespace Rental_PI_KF.Controllers
 {
-
+    [Authorize(Roles = "Administrator")]
     public class RoleController : BasicControllerAbstract
     {
         RoleManager<IdentityRole> _roleManager;
@@ -312,7 +312,7 @@ namespace Rental_PI_KF.Controllers
         }
         
 
-        //CREATE *********************************** Tylko do konfiguracji ************************************
+        // *********************************** Tylko do konfiguracji ************************************
         [HttpPost]
         public async Task<IActionResult> Delete(string id, string action)
         {
@@ -327,7 +327,6 @@ namespace Rental_PI_KF.Controllers
             }
 
             return Content("Nie ma takiego użytkownia");
-
         }
         public IActionResult Create()
         {
@@ -339,7 +338,8 @@ namespace Rental_PI_KF.Controllers
             await _roleManager.CreateAsync(role);
             return RedirectToAction("Index");
         }
-        //END CREATE ******************************************************************************************
+        
+        //END ******************************************************************************************
 
         private void allUsers(List<ApplicationUser> users)
         {

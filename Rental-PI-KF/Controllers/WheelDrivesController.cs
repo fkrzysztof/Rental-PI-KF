@@ -2,21 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data;
+using Rental.Data.Data.Areas.Identity.Data;
 using Rental_Data.Data.Rental;
+using Rental_PI_KF.Controllers.Abstract;
 
 namespace Rental_PI_KF.Controllers
 {
-    public class WheelDrivesController : Controller
+    public class WheelDrivesController : BasicControllerAbstract
     {
-        private readonly ApplicationDbContext _context;
-
-        public WheelDrivesController(ApplicationDbContext context)
+        public WheelDrivesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        : base(context, userManager)
         {
-            _context = context;
         }
 
         // GET: WheelDrives

@@ -30,6 +30,7 @@
             }
         </a>
         <div class="dropdown-menu dropdown-menu-right">
+            <h6 class="dropdown-header">@UserManager.GetRolesAsync(signInUser).Result.First().ToString()</h6>
             <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/ChangePassword" title="Manage">Zmiana Hasła</a>
             <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Ustawienia Konta</a>
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
