@@ -75,7 +75,7 @@ namespace Rental_PI_KF.Controllers
             return View(await Messages.OrderByDescending(u => u.StartDate).ToListAsync());
         }
 
-        // GET: News/Create
+        // GET: Messages/Create
         public IActionResult Create()
         {
             ViewData["UserTypeName"] = new SelectList(_roleManager.Roles, "Name", "Name");
@@ -83,7 +83,7 @@ namespace Rental_PI_KF.Controllers
             return View();
         }
 
-        // POST: News/Create
+        // POST: Messages/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Message message)
@@ -102,7 +102,7 @@ namespace Rental_PI_KF.Controllers
             return View(message);
         }
 
-        // GET: News/Edit/5
+        // GET: Messages/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -121,7 +121,7 @@ namespace Rental_PI_KF.Controllers
             return View(ShowMessage);
         }
 
-        // POST: News/Edit/5
+        // POST: Messages/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Message message)
@@ -160,7 +160,7 @@ namespace Rental_PI_KF.Controllers
             return View(message);
         }
 
-        // GET: News/Details/5
+        // GET: Messages/Details/5
         public async Task<IActionResult> OwnDetails(int? id)
         {
             if (id == null)
@@ -191,7 +191,7 @@ namespace Rental_PI_KF.Controllers
             return View(ShowMessage);
         }
 
-        // GET: News/Details/5
+        // GET: Messages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -225,7 +225,7 @@ namespace Rental_PI_KF.Controllers
         }
 
 
-        // POST: News/Delete/5
+        // POST: Messages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -234,7 +234,6 @@ namespace Rental_PI_KF.Controllers
             messageDelete.IsActive = false;
             await _context.SaveChangesAsync();
 
-            //return RedirectToAction("Own", "News");
             return RedirectToAction("Own");
         }
 
@@ -274,7 +273,7 @@ namespace Rental_PI_KF.Controllers
 
         private bool NewsExists(int id)
         {
-            return _context.News.Any(e => e.NewsID == id);
+            return _context.Messages.Any(e => e.MessageID == id);
         }
 
 

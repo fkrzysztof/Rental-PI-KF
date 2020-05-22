@@ -1,10 +1,7 @@
-﻿
-
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Rental.Data.Data.Areas.Identity.Data;
 using Rental.Data.Data.Rental;
-using Rental_Data.Data.CMS;
 using Rental_Data.Data.Rental;
 
 namespace Rental.Data
@@ -23,9 +20,7 @@ namespace Rental.Data
         }
 
 
-        //Strona
-        public DbSet<Page> Pages { get; set; }
-        public DbSet<News> News { get; set; }
+
         //Wypozyczalnia
         public DbSet<ExactType> ExactTypes { get; set; }
         public DbSet<AirConditioning> AirConditionings { get; set; }
@@ -47,5 +42,7 @@ namespace Rental.Data
         public DbSet<RentalStatus> RentalStatuses { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<ReadMessages> ReadMessages { get; set; }
+        public DbSet<News> News { get; set; }
+
     }
 }

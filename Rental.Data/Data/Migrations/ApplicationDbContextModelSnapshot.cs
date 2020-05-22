@@ -323,6 +323,33 @@ namespace Rental.Data
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("Rental.Data.Data.Rental.News", b =>
+                {
+                    b.Property<int>("NewsID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Create")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NewsContent")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Topic")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.Property<string>("UserID")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("NewsID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("News");
+                });
+
             modelBuilder.Entity("Rental.Data.Data.Rental.ReadMessages", b =>
                 {
                     b.Property<int>("ReadMessagesID")
@@ -414,68 +441,6 @@ namespace Rental.Data
                     b.HasIndex("VehicleID");
 
                     b.ToTable("RentalVehicles");
-                });
-
-            modelBuilder.Entity("Rental_Data.Data.CMS.News", b =>
-                {
-                    b.Property<int>("NewsID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(MAX)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LinkName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.HasKey("NewsID");
-
-                    b.ToTable("News");
-                });
-
-            modelBuilder.Entity("Rental_Data.Data.CMS.Page", b =>
-                {
-                    b.Property<int>("PageID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(MAX)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LinkName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
-
-                    b.Property<int>("Position")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.HasKey("PageID");
-
-                    b.ToTable("Pages");
                 });
 
             modelBuilder.Entity("Rental_Data.Data.Rental.AirConditioning", b =>
@@ -1021,6 +986,13 @@ namespace Rental.Data
                 });
 
             modelBuilder.Entity("Rental.Data.Data.Rental.Message", b =>
+                {
+                    b.HasOne("Rental.Data.Data.Areas.Identity.Data.ApplicationUser", "SenderUser")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Rental.Data.Data.Rental.News", b =>
                 {
                     b.HasOne("Rental.Data.Data.Areas.Identity.Data.ApplicationUser", "SenderUser")
                         .WithMany()

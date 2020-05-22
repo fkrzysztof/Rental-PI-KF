@@ -46,8 +46,7 @@
                             }
                             reader.readAsDataURL(file[0]);
                         });
-
-                    }); //dodalem ;
+                    }); 
                 });
             </script>
             @* ************************************* Dodawanie zdjecia Koniec*************************************************** *@
@@ -56,14 +55,12 @@
             <div class="col-sm-6">
 
                 <div class="form-group">
-                    @*<label asp-for="@Model.EquipmentID" class="control-label"></label>*@
                     <select asp-for="@Model.ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
                 </div>
                 <div class="form-group">
                     @*zmieniam nie daje modelu*@
                     <label asp-for="@Model.BrandID" class="control-label"></label>
                     <select asp-for="@Model.BrandID" class="form-control" asp-items="@(new SelectList(ViewBag.ListOfBrads,"BrandID","Name"))">
-                        @*<option value="">Wybierz Marke</option>*@
                         <option id="BrandOptions"></option>
                     </select>
                     <span asp-validation-for="@Model.BrandID" class="text-danger"></span>
@@ -72,12 +69,10 @@
 
                     <label asp-for="@Model.VehicleModelID" class="control-label"></label>
                     <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList">
-                        @*<option value="" selected>Wybierz Modelxxxx</option>*@
                     </select>
                     <span asp-validation-for="@Model.VehicleModelID" class="text-danger"></span>
                 </div>
 
-                @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
                 <script type="text/javascript">
 
                     $(document).ready(function () {
@@ -85,11 +80,11 @@
                         $('#VehicleModelID').html(items);
 
                         //dodane
-                        var itemsBrand = "<option selected value=''>Wybierz Marke script</option>";
+                        var itemsBrand = "<option selected value=''>Wybierz Marke</option>";
                         $('#BrandOptions').html(itemsBrand);
-                    });
 
-                    $(document).ready(function () {
+
+
                         $('#BrandID').change(function () {
                             var url = '@Url.Content("~/")' + "Vehicles/GetModel";
                             var ddlsource = "#BrandID";
@@ -103,18 +98,14 @@
                                 $('#VehicleModelID').html(items);
                             });
                         });
+
                     });
 
                 </script>
 
 
-
-
-
                 <div class="form-group">
                     <label asp-for="@Model.YearOfCarProduction" class="control-label"></label>
-                    @*datapicker z pelna data i godzina nie jest potrzebny*@
-                    @*<input asp-for="@Model.YearOfProduction" class="form-control" />*@
                     <select asp-for="@Model.YearOfCarProduction" class="form-control" asp-items="ViewBag.YearOfProduction">
                         <option selected>Wybierz Rok</option>
                     </select>
@@ -140,7 +131,6 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="@Model.EngineCapacity" class="control-label"></label>
-                    @*<input asp-for="EngineCapacity" class="form-control" />*@
                     <select name="EngineCapacity" class="form-control">
                         @for (int i = 0; i < 6000; i += 100)
                         {
@@ -207,8 +197,6 @@
 
             @************************************ Wyposazenie ***************************************@
 
-            @*Wyposazenie nowe !!!*@
-
                 <div class="col-sm-12">
                     <h4>Wyposażenie Nowe</h4>
                     <hr />
@@ -226,10 +214,7 @@
                     </dl>
                 </div>
 
-            @*Wyposazenie nowe Koniec !!!*@
-
-
-
+            @*****************************  Wyposazenie Koniec ***************************************@
 
 
         </div>
@@ -242,31 +227,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-
-
-
-@*generalny typ wybieramy w czasie wyboru co dodajemy nowego.. samochod rower itd..*@
-@*<div class="form-group">
-    <label asp-for="GeneralTypeID" class="control-label"></label>
-    <select asp-for="GeneralTypeID" class="form-control" asp-items="ViewBag.GeneralTypeID"></select>
-    </div>*@
-
-@*
-        //Pozycje dodane zostana automatycznie przy dodaniu lub pozbyciu sie pozycji
-
-        <div class="form-group">
-        <label asp-for="DateIn" class="control-label"></label>
-        <input asp-for="DateIn" class="form-control" />
-        <span asp-validation-for="DateIn" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="DateOut" class="control-label"></label>
-        <input asp-for="DateOut" class="form-control" />
-        <span asp-validation-for="DateOut" class="text-danger"></span>
-    </div>*@
-
-@*<div class="form-group form-check">
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-        </label>
-    </div>*@
