@@ -13,7 +13,6 @@ $(document).ready(function () {
         for (var i = 0; i < data.length; i++) {
             Names.push(data[i].name);
             StatData.push(parseInt(((data[i].nameCount) / (data[i].all)) * 100));
-            //StatData.push(parseInt(data[i].nameCount);
         }
 
 
@@ -87,12 +86,12 @@ $(document).ready(function () {
                         ticks: {
                             min: 0,
                             //max: 15000,
-                            max: 50,
-                            maxTicksLimit: 5,
+                            max: 100,
+                            maxTicksLimit: 10,
                             padding: 10,
                             // Include a dollar sign in the ticks
                             callback: function (value, index, values) {
-                                return '$' + number_format(value);
+                                return number_format(value) + '%';
                             }
                         },
                         gridLines: {
@@ -122,7 +121,7 @@ $(document).ready(function () {
                     callbacks: {
                         label: function (tooltipItem, chart) {
                             var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                            return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                            return /*datasetLabel + ': $' +*/number_format(tooltipItem.yLabel) + '%';
                         }
                     }
                 },

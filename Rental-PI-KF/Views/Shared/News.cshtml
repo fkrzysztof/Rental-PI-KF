@@ -1,5 +1,4 @@
-﻿@*To bedzie  generowane automatycznie !!*@
-<div class="row" id="newsTop">
+﻿<div class="row" id="newsTop">
     
     <div class="col-12 justify-content-center text-center" id="load">
         <div class="spinner-border" role="status">
@@ -16,13 +15,8 @@
                     var urlNews = '@Url.Content("~/")' + "News/GetTopNews";
                     $.getJSON(urlNews, function (newscollection) {
                         var htmlstring = "";
+
                         $.each(newscollection, function (i, newsItem) {
-                            //items += "<a href=\"/Vehicles?generalType="+generaltypes+"\" class=\"collapse-item\">" + generaltypes + "</a>";
-
-
-                            //for (var i = 0; i < data.length; i++) {
-                             //   Names.push(data[i].name);
-
                             
                             htmlstring += "<div class=\"col-xl-3 col-md-6 mb-4\">" +
                                 "<div class=\"card border-left-info h-100 py-2\">" +
@@ -43,12 +37,10 @@
                                                     "</div>" +
                                                 "</div>" +
                                             "</div >";
-
                         });
-                        $('#load').css({ display: "none"});
-                        $('#newsTop').html(htmlstring);
-                        
-                    });
 
+                        $('#load').css({ display: "none" });
+                        $('#newsTop').html(htmlstring);
+                    });
             });
 </script>

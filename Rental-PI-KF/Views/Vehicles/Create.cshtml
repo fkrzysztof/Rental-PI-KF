@@ -1,11 +1,10 @@
 ﻿@*@model Rental.Data.Data.HelpersClass.Car*@
 @model Rental_Data.Data.Rental.Vehicle
-    ViewData["Title"] = "Create";
+@{ 
+    ViewData["Title"] = "Dodaj Pojazd";
 }
 
-<h1>Create</h1>
-
-<h4>Vehicle</h4>
+<h4><i class="fas fa-plus-circle mr-2"></i>Dodaj Pojazd</h4>
 <hr />
 
 <div class="container">
@@ -20,6 +19,7 @@
                 <div class="custom-file">
                     <input class="form-control custom-file-input" type="file" name="file" />
                     <label class="custom-file-label">Wybierz..</label>
+                    <span asp-validation-for="@Model.Image" class="text-danger"></span>
                 </div>
             </div>
 
@@ -205,7 +205,6 @@
                         {
                             <dt class="col-sm-5">
                                 <small>@item.Name</small>
-
                             </dt>
                             <dd class="col-sm-1">
                                 <input type="checkbox" value="@item.EquipmentNameID" name="Equipments" />

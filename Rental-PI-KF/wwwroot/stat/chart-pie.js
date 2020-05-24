@@ -11,11 +11,20 @@ $(document).ready(function () {
     $.getJSON("/Statistics/GetData", function (data) {
         var Names = []
         var StatData = []
-        
+
+        var add = 100;
+
         for (var i = 0; i < data.length; i++) {
             Names.push(data[i].name);
             StatData.push(parseInt(((data[i].nameCount) / (data[i].all)) * 100));
         }
+
+        for (var i = 0; i < StatData.length; i++) {
+            add = add - StatData[i];
+        }
+
+        StatData.push(add);
+        Names.push("Pozostałe marki");
 
         console.log(typeof StatData[1]);
 
@@ -29,8 +38,9 @@ $(document).ready(function () {
                 datasets: [{
                     //data: [85, 10, 15],
                     data: StatData,
-                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    //Primary #4e73df, Success #1cc88a, Info #36b9cc, Warning #f6c23e, Danger #e74a3b, Secondary #858796
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#EFEFEF'],
+                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#F6C211', '#E74A11', '#D2D2D2'], 
                     hoverBorderColor: "rgba(234, 236, 244, 1)",
                 }],
             },

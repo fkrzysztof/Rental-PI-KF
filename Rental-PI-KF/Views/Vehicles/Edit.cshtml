@@ -1,7 +1,7 @@
 ﻿@model Rental_Data.Data.Rental.Vehicle
 @using Rental_Data.Data.Rental
 @{ 
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edycja";
 }
 
 <h2>@Model.Brand.Name @Model.VehicleModel.Name</h2>
@@ -36,7 +36,7 @@
                     <input class="form-control custom-file-input" type="file" name="file" />
                     <label class="custom-file-label">Wybierz..</label>
                 </div>
-                <button type="submit">Upload</button>
+                @*<button type="submit">Upload</button>*@
 
             </div>
 
@@ -100,10 +100,6 @@
                 <script type="text/javascript">
 
                     $(document).ready(function () {
-                        //var items = "<option value=''>Wybierz Model</option>";
-                        //$('#VehicleModelID').html(items);
-
-                        //dodane
                         var itemsBrand = "<option selected value=''>Wybierz Marke</option>";
                         $('#BrandOptions').html(itemsBrand);
                     });

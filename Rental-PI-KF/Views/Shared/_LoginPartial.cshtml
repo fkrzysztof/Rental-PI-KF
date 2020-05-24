@@ -47,10 +47,11 @@
             <a class="nav-link text-dark disabled" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Witaj @User.Identity.Name!</a>
         </li>
         <li class="nav-item">
-            <a asp-action="Index" asp-controller="Messages" class="nav-link text-dark">
-                <i class="fas fa-envelope fa-fw"></i>
-                <span class="badge badge-danger badge-counter" id="counttop">...</span>
-            </a>
+            <div id="counttop">
+                <div class="spinner-grow text-danger" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
         </li>
     }
     else

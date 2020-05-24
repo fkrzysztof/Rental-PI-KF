@@ -21,10 +21,10 @@ namespace Rental_PI_KF.Controllers.Abstract
             _context = context;
         }
 
-        public void GeneralTypeToMenu()
-        {
-            ViewBag.GeneralTypesList = _context.GeneralTypes.ToList();
-        }
+        //public void GeneralTypeToMenu()
+        //{
+        //    ViewBag.GeneralTypesList = _context.GeneralTypes.ToList();
+        //}
 
         public ApplicationUser GetUser()
         {

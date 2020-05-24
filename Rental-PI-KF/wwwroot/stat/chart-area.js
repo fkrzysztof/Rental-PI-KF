@@ -9,14 +9,16 @@ $(document).ready(function () {
     $.getJSON("/Statistics/GetDataRentalAll", function (data) {
         var Names = []
         var StatData = []
+        var Namespl = ["","Styczen", "Luty", "Marzec", "Kwiecien", "Maj", "Czerwiec", "Lipiec", "Sierpien", "Wrzesien", "Pazdziernik", "Listopad", "Grudzien"];
 
         for (var i = 0; i < data.length; i++) {
-            Names.push(data[i].name);
+            Names.push(Namespl[data[i].name]);
+
             //StatData.push(parseInt(((data[i].nameCount) / (data[i].all)) * 100));
             StatData.push(data[i].nameCount);
         }
 
-
+        
 
         function number_format(number, decimals, dec_point, thousands_sep) {
           // *     example: number_format(1234.56, 2, ',', ' ');
@@ -49,7 +51,9 @@ $(document).ready(function () {
           type: 'line',
           data: {
               //labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+              //labels: ["Styczen", "Luty", "Marzec","Kwiecien","Maj","Czerwiec","Lipiec","Sierpien","Wrzesien","Pazdziernik","Listopad","Grudzien"],
               labels: Names,
+              //labels: pl,
             datasets: [{
               label: "Earnings",
               lineTension: 0.3,
@@ -87,16 +91,16 @@ $(document).ready(function () {
                   drawBorder: false
                 },
                 ticks: {
-                  maxTicksLimit: 7
+                  maxTicksLimit: 12 //bylo 7
                 }
               }],
               yAxes: [{
                 ticks: {
-                  maxTicksLimit: 5,
+                  maxTicksLimit: 50, //bylo 5 max..
                   padding: 10,
                   // Include a dollar sign in the ticks
                   callback: function(value, index, values) {
-                    return '$' + number_format(value);
+                    return '' + number_format(value);
                   }
                 },
                 gridLines: {
@@ -128,7 +132,7 @@ $(document).ready(function () {
               callbacks: {
                 label: function(tooltipItem, chart) {
                   var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                  return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+                      return /*datasetLabel+*/  'Wypożyczenia: ' + number_format(tooltipItem.yLabel);
                 }
               }
             }
