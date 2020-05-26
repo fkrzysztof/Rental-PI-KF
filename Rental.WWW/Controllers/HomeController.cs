@@ -4,22 +4,27 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Rental.Data;
+using Rental.Data.Data.Areas.Identity.Data;
+using Rental.WWW.Controllers.Abstract;
 using Rental.WWW.Models;
 
 namespace Rental.WWW.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BasicAbstractController
     {
-        private readonly ILogger<HomeController> _logger;
+        protected readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        : base(context, userManager)
         {
             _logger = logger;
         }
 
-        
+
         public IActionResult Index()
         {
             return View();
@@ -41,6 +46,15 @@ namespace Rental.WWW.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public ActionResult GetTopNews()
+        {
+            var query = _context.News
+                .OrderBy(o => o.Create)
+                .Select(s => new { topic = s.Topic, newsContent = s.NewsContent }).Take(4).ToList();
+
+            return Json(query);
         }
     }
 }

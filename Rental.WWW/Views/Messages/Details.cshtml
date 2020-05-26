@@ -1,0 +1,66 @@
+﻿@model Rental.Data.Data.Rental.Message
+
+@{
+    ViewData["Title"] = String.Format("Wiadomość");
+}
+
+<div class="container">
+    <div class="row  rounded bg-white shadow-sm mt-sm-3 mb-sm-3 pb-1 pt-1">
+        <div class="col-sm-12">
+            <small class="text-muted align-bottom float-right">@Model.UpdatedDate</small>
+        </div>
+        <div class="col-sm-12">
+            <h3>@Model.Title</h3>
+            <hr />
+        </div>
+        <div class="col-sm-6">
+            <i class="fas fa-quote-left mr-2"></i>
+            @Model.MessageContent
+            <i class="fas fa-quote-right ml-2"></i>
+        </div>
+        <div class="col-sm-12">
+            @{
+                if (Model.SenderUser.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.SenderUser.Image);
+                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                    <img style="width: 80px; height:80px" class="card-img mt-4 mb-1 float-sm-left" src="@imgSrc" />
+                }
+                else
+                {
+                    <img style="width: 80px; height:80px" class="card-img mt-4 mb-1 float-sm-left" src="~/Upload/Default/DefaultUser.png" />
+                }
+            }
+        </div>
+        <div class="col-sm-12 mb-1">
+            <h6 class="float-sm-left">@Model.SenderUser.FirstName @Model.SenderUser.LastName</h6>
+        </div>
+        <div class="col-sm-12 mb-1">
+            <hr />
+            <div class="row">
+                <div class="col">
+                    @if (Model.IsActive)
+                    {
+                        <form asp-action="Delete" asp-route-id="@Model.MessageID" onsubmit="alert('Na pewno chcesz usunąć wiadomość?')">
+                            <input type="hidden" asp-for="MessageID" />
+                            <input type="submit" value="Usuń" class="btn btn-outline-danger  btn-sm" />
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="Restore" asp-route-id="@Model.MessageID">
+                            <input type="hidden" asp-for="MessageID" />
+                            <input type="submit" value="Przywróć" class="btn btn-outline-success buttMargin btn-sm" />
+                        </form>
+                    }
+                </div>
+                <div class="col">
+                    <a class="btn btn-outline-secondary float-right btn-sm" role="button" aria-haspopup="true" asp-action="Index">
+                        <i class="fas fa-chevron-left"></i>
+                        Powrót
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

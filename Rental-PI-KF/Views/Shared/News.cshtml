@@ -12,7 +12,7 @@
 <script type="text/javascript">
             $(document).ready(function () {
 
-                    var urlNews = '@Url.Content("~/")' + "News/GetTopNews";
+                    var urlNews = '@Url.Content("~/")' + "Home/GetTopNews";
                     $.getJSON(urlNews, function (newscollection) {
                         var htmlstring = "";
 

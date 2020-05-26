@@ -1,0 +1,15 @@
+﻿@using Rental.Data.Helper
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link @(Html.IsActiveAction("Index","Messages"))" asp-action="Index">Lista</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(Html.IsActiveAction("Create","Messages"))" asp-action="Create">Utwórz</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(Html.IsActiveAction("Own","Messages"))" asp-action="Own">Moje</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @(Html.IsActiveAction("DeletedMessages","Messages"))" asp-action="DeletedMessages"><i class="fas fa-trash mr-2"></i>Usunięte</a>
+    </li>
+</ul>

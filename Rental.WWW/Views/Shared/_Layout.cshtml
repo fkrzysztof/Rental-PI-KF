@@ -1,53 +1,225 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Rental.WWW</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Full Width Pics - Start Bootstrap Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/Layout/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="~/Layout/css/full-width-pics.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="~/Layout/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Rental.WWW</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Dla Klienta</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DlaAdmina">Dla Admina</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            &copy; 2020 - Rental.WWW - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            @*Logo Name*@
+            <a class="navbar-brand" href="#">RentIT</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">
+                            Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Messages" asp-action="Index">Wiadomości</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+
+                @*<partial name="News" />*@
+
+                <partial name="_LoginPartial" />
+
+
+
+            </div>
         </div>
+    </nav>
+
+    <!-- Header - set the background image for the header in the line below -->
+    <header class="py-5 bg-image-full" style="background-image: url('https://unsplash.it/1900/1080?image=1076');">
+        @*Logo*@
+        @*<img class="img-fluid d-block mx-auto" src="http://placehold.it/200x200&text=Logo" alt="">*@
+    </header>
+
+    <!-- Content section 1 -->
+    <section class="py-5">
+        <div class="container">
+
+            @RenderBody()
+
+        </div>
+    </section>
+    @{
+        string controllerName = Html.ViewContext.RouteData.Values["controller"] as string;
+        string actionName = Html.ViewContext.RouteData.Values["action"] as string;
+
+        if (controllerName == "Home" && actionName == "Index")
+        {
+            <!-- Image Section - set the background image for the header in the line below -->
+            <section class="py-5 bg-image-full" style="background-image: url('https://unsplash.it/1900/1080?image=1081');">
+                <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
+                <div style="height: 200px;"></div>
+            </section>
+
+            <!-- Content section 2 -->
+            <section class="py-5">
+                <div class="container">
+                    <h1>Section Heading</h1>
+                    <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
+                </div>
+            </section>
+        }
+    }
+
+
+
+    <!-- Footer -->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+        </div>
+        <!-- /.container -->
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="~/Layout/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Layout/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     @RenderSection("Scripts", required: false)
+
+
 </body>
 </html>
+
+
+<script type="text/javascript">
+            $(document).ready(function () {
+
+                    var urlMessages = '@Url.Content("~/")' + "Messages/GetMessagesCount";
+                    var htmlStringMessagesCount = "";
+                    var htmlStringMessagesMenuCount = "";
+                    $.getJSON(urlMessages, function (coutmessages) {
+                    if (coutmessages != null) {
+                        htmlStringMessagesCount = "<a href=\"/Messages\" class=\"nav-link text-white\">" +
+                            "<i class=\"fas fa-envelope fa-fw\"></i>" +
+                            "<span class=\"badge badge-danger badge-counter\">"+ coutmessages  +"</span></a>";
+
+                        $('#counttop').html(htmlStringMessagesCount);
+                        }
+                        //htmlStringMessagesMenuCount = "<i class=\"fas fa-comments mr-2\"></i><span>Przychodzące</span>" +
+                        //    "<span class=\"badge badge-danger\">"+ coutmessages +"</span>";
+                        //$('#countmenu').html(htmlStringMessagesMenuCount);
+                    });
+
+                    @*var urlGeneraltypes = '@Url.Content("~/")' + "Vehicles/GetGeneraltypes";
+                    $.getJSON(urlGeneraltypes, function (generaltypesList) {
+                        var items = " ";
+                        $.each(generaltypesList, function (i, generaltypes) {
+                            items += "<a href=\"/Vehicles?generalType="+generaltypes+"\" class=\"collapse-item\">" + generaltypes + "</a>";
+                        });
+                        $('#generaltypejs').html(items);
+
+                    });*@
+
+            });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - Rental.WWW</title>
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Rental.WWW</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <partial name="_LoginPartial" />
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Dla Klienta</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="DlaAdmina">Dla Admina</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2020 - Rental.WWW - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @RenderSection("Scripts", required: false)
+    </body>
+    </html>*@
