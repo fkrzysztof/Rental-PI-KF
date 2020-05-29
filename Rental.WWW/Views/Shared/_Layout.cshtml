@@ -42,17 +42,17 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" asp-action="Index" asp-controller="Vehicles">Pojazdy</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Messages" asp-action="Index">Wiadomości</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" asp-action="Index" asp-controller="Contact">Kontakt</a>
                     </li>
                 </ul>
 
-                @*<partial name="News" />*@
+                
 
                 <partial name="_LoginPartial" />
 
@@ -71,6 +71,12 @@
     <!-- Content section 1 -->
     <section class="py-5">
         <div class="container">
+
+            <partial name="News" />
+            <div col-sm-12>
+                <h4>RentIT / @ViewBag.PageTitle</h4>
+                <hr />
+            </div>
 
             @RenderBody()
 
@@ -134,20 +140,44 @@
 
                         $('#counttop').html(htmlStringMessagesCount);
                         }
-                        //htmlStringMessagesMenuCount = "<i class=\"fas fa-comments mr-2\"></i><span>Przychodzące</span>" +
-                        //    "<span class=\"badge badge-danger\">"+ coutmessages +"</span>";
-                        //$('#countmenu').html(htmlStringMessagesMenuCount);
                     });
 
-                    @*var urlGeneraltypes = '@Url.Content("~/")' + "Vehicles/GetGeneraltypes";
-                    $.getJSON(urlGeneraltypes, function (generaltypesList) {
-                        var items = " ";
-                        $.each(generaltypesList, function (i, generaltypes) {
-                            items += "<a href=\"/Vehicles?generalType="+generaltypes+"\" class=\"collapse-item\">" + generaltypes + "</a>";
-                        });
-                        $('#generaltypejs').html(items);
+                    var urlNews = '@Url.Content("~/")' + "Home/GetTopNews";
+                    $.getJSON(urlNews, function (newscollection) {
+                        var htmlstring = "";
 
-                    });*@
+                        $.each(newscollection, function (i, newsItem) {
+                            
+                            htmlstring += "<div class=\"col-xl-3 col-md-6 mb-4\">" +
+                                "<div class=\"card border-left-info h-100 py-2\">" +
+                                "<div class=\"card-body\">" +
+                                "<div class=\"row no-gutters align-items-center\">" +
+                                "<div class=\"col mr-2\">" +
+                                "<div class=\"text-xs font-weight-bold text-info text-uppercase mb-1\">" + newsItem.topic + "</div>" +
+                                "<div class=\"row no-gutters align-items-center\">" +
+                                "<div class=\"col-auto\">" +
+                                "<div class=\"h6 mb-0 mr-3 font-weight-bold text-gray-800 \">" + newsItem.newsContent.substring(0, 50) + "...</div>" +
+                                                                    "</div>" +
+                                                                "</div>" +
+                                                            "</div>" +
+                                                            "<div class=\"col-auto\">" +
+                                                                "<i class=\"fas fa-clipboard-list fa-2x text-gray-300\"></i>" +
+                                                            "</div>" +
+                                                        "</div>" +
+                                                    "</div>" +
+                                                "</div>" +
+                                            "</div >";
+                        });
+
+                        $('#load').css({ display: "none" });
+                        $('#newsTop').html(htmlstring);
+                    });
+
+
+
+
+
+
 
             });
 </script>

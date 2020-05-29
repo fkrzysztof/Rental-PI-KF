@@ -3,6 +3,7 @@
 @{
     //ViewData["Title"] = "Wiadomości nieodczytane";
     ViewData["Title"] = ViewBag.Tite;
+    ViewBag.PageTitle = "Wysłane";
 }
 
 <div class="row mb-4 justify-content-center">
@@ -55,11 +56,11 @@
                                     {
                                         var base64 = Convert.ToBase64String(item.SenderUser.Image);
                                         var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                        <img style="width: 80px; height:80px" class="card-img  mr-2" src="@imgSrc" />
+                                        <img style="width: 60px; height:60px" class="card-img  mr-2" src="@imgSrc" />
                                     }
                                     else
                                     {
-                                        <img style="width: 80px; height:80px" class="card-img  mr-2" src="~/Upload/Default/DefaultUser.png" />
+                                        <img style="width: 60px; height:60px" class="card-img  mr-2" src="~/Upload/Default/DefaultUser.png" />
                                     }
                                 }
                                 <div class="col-sm-11">

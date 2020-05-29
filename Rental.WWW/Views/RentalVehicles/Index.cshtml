@@ -1,0 +1,225 @@
+﻿@model IEnumerable<Rental.Data.Data.Rental.RentalVehicle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row mb-4 justify-content-center">
+    <div class="col-md-12">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" asp-action="Index">Lista</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" asp-action="Create">Utwórz</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" asp-action="Edit">Edycja</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-12">
+        <div class="card border-top-0 rounded-0 rounded-bottom">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <span class="float-left"><i class="fas fa-folder-open mr-2"></i>Lista aktualnych pozycji</span>
+                        <button class="btn text-primary float-right" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample"><i class="fas fa-sliders-h"></i></button>
+                    </div>
+                    <div class="col-12 mb-4">
+                        <div class="text-center collapse show" id="collapseExample" style="">
+                            <div class="card card-body pb-0">
+                                <form asp-action="Index" method="get">
+                                    @***************************** Wyszukiwanie **********************************@
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput">Od dnia:</label>
+                                                        <input type="date" class="form-control" name="from" value="@ViewBag.FromDate">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput2">Do dnia:</label>
+                                                        <input type="date" class="form-control" name="to" value="@ViewBag.ToDate">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput">Miejsce odbioru:</label>
+                                                        <select class="form-control" asp-items="@ViewBag.Cities" name="fromLocation">
+                                                            <option disabled selected>Wybierz..</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput2">Miejsce zwrotu:</label>
+                                                        <select class="form-control" asp-items="@ViewBag.Cities" name="toLocation">
+                                                            <option disabled selected>Wybierz..</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12 align-self-center">
+                                                    @*Wyszukiwarka*@
+                                                    @{
+                                                        if (@ViewBag.Search != null)
+                                                        {
+                                                            <span class="badge badge-pill badge-info">"@ViewBag.Search" <a class="text-white" asp-action="Index">&times;</a></span> @*<span aria-hidden="true">&times;</span>*@
+                                                        }
+                                                    }
+                                                    <input type="text" name="search" class="form-control" placeholder="Wpisz szukaną frazę.." />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="row h-100">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group card p-2 h-100">
+                                                        <label for="exampleFormControlSelect2">Wyszukaj po Kliencie</label>
+                                                        <select multiple class="form-control h-100 border-0 p-0" asp-items="@ViewBag.Customers" name="customer">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 text-right">
+                                            <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
+                                            <button asp-action="Index" class="btn text-primary"><i class="fas fa-ban"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                                @***************************** Wyszukiwanie Koniec****************************@
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <table class="table table-borderless table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Vehicle.NumberPlate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Vehicle.Brand)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Vehicle.VehicleModel)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.From)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.To)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RentalStatus)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RentalFromLocation)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.RentalToLocation)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ApplicationUser.Fullname)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreationDate)
+                                    </th>
+                                    <th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Vehicle.NumberPlate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Vehicle.Brand.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Vehicle.VehicleModel.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.From)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.To)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RentalStatus.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RentalFromLocation.City)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RentalToLocation.City)
+                                        </td>
+                                        <th>
+                                            @foreach (var customerItem in @ViewBag.CustomersList)
+                                            {
+                                                if (customerItem.Id == item.ApplicationUserID)
+                                                {
+                                                    <span>@customerItem.Fullname</span>
+                                                }
+                                            }
+                                        </th>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreationDate)
+                                        </td>
+                                        <td class="text-right">
+                                            <a asp-action="Edit" asp-route-id="@item.RentalVehicleID"><i class="fas fa-wrench"></i></a>
+                                            <a data-id="@item.RentalVehicleID" data-name="@item.Vehicle.Name" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<!-- Modal Delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form asp-action="Delete" method="post">
+                <div class="modal-header">
+                    @*<h5 class="modal-title" id="exampleModalLabel">
+                            Czy na pewno chcesz usunąć tą pozycje?
+                        </h5>*@
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        Czy na pewno chcesz usunąć tą pozycje?
+                    </h5>
+                    @*Wysylanie ID*@
+                    <input type="hidden" name="id" id="itemId" value="" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-dark" data-dismiss="modal">Anuluj</button>
+                    <button type="submit" class="btn btn-sm btn-danger">Usuń</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/jquery-1.10.2.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on("click", ".j-s-DeleteDialog", function () {
+            var itemId = $(this).data('id');
+            $(".modal-body #itemId").val(itemId);
+        });
+    });
+</script>

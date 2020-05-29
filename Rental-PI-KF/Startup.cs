@@ -32,7 +32,6 @@ namespace Rental_PI_KF
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             //Identity
-            //services.AddDefaultIdentity<ApplicationUser>()
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //role
             .AddRoles<IdentityRole>()
@@ -42,16 +41,7 @@ namespace Rental_PI_KF
             services.AddControllersWithViews();
 
             //Email
-            // requires
-            // using Microsoft.AspNetCore.Identity.UI.Services;
-            // using WebPWrecover.Services;
             services.AddTransient<IEmailSender, EmailSender>();
-            //services.Configure<AuthMessageSenderOptions>(Configuration);
-
-            //services.AddTransient<IMailService, SendGridMailService>();
-
-
-
 
             services.AddRazorPages();
         }

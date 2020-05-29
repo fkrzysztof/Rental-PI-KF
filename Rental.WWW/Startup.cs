@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Rental.Data.Services;
 
 namespace Rental.WWW
 {
@@ -29,29 +31,45 @@ namespace Rental.WWW
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // //sesja
+            // services.AddDistributedMemoryCache();
+            // services.AddSession();
+
+            // services.AddDbContext<ApplicationDbContext>(options =>
+            //     options.UseSqlServer(
+            //         Configuration.GetConnectionString("DefaultConnection")));
+            // //dodane
+            // services.AddDefaultIdentity<ApplicationUser>()
+            // //dodane
+            //.AddRoles<IdentityRole>()
+            //.AddEntityFrameworkStores<ApplicationDbContext>()
+
+            //.AddDefaultUI();
+
+            // //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            // //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            // services.AddControllersWithViews();
+            // services.AddRazorPages();
+
             //sesja
             services.AddDistributedMemoryCache();
             services.AddSession();
-
-
-
-
+            //context
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            //dodane
-            services.AddDefaultIdentity<ApplicationUser>()
-            //dodane
+            //Identity
+            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //role
             .AddRoles<IdentityRole>()
-           .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultUI();
 
-           .AddDefaultUI();
-
-
-
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            //Email
+            services.AddTransient<IEmailSender, EmailSender>();
+
             services.AddRazorPages();
         }
 
@@ -76,6 +94,8 @@ namespace Rental.WWW
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
