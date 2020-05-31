@@ -169,7 +169,7 @@
                                             @Html.DisplayFor(modelItem => item.CreationDate)
                                         </td>
                                         <td class="text-right">
-                                            <a asp-action="Edit" asp-route-id="@item.RentalVehicleID"><i class="fas fa-wrench"></i></a>
+                                            @*<a asp-action="Edit" asp-route-id="@item.RentalVehicleID"><i class="fas fa-wrench"></i></a>*@
                                             <a data-id="@item.RentalVehicleID" data-name="@item.Vehicle.Name" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
                                         </td>
                                     </tr>
@@ -190,9 +190,9 @@
         <div class="modal-content">
             <form asp-action="Delete" method="post">
                 <div class="modal-header">
-                    @*<h5 class="modal-title" id="exampleModalLabel">
-                            Czy na pewno chcesz usunąć tą pozycje?
-                        </h5>*@
+                    <h5 class="modal-title" id="itemName">
+                            
+                        </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -219,7 +219,9 @@
     $(document).ready(function () {
         $(document).on("click", ".j-s-DeleteDialog", function () {
             var itemId = $(this).data('id');
+            var itemName = $(this).data('name');
             $(".modal-body #itemId").val(itemId);
+            $(".modal-body #itemName").val(itemName);
         });
     });
 </script>

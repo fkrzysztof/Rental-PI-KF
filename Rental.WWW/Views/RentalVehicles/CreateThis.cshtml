@@ -13,11 +13,10 @@
                 <div class="card-header">Formularz wypożyczenia pojazdy @Html.DisplayFor(model => model.Vehicle.Brand.Name)  @Html.DisplayFor(model => model.Vehicle.VehicleModel.Name) </div>
                 <div class="row">
                     @**************************************** Kalendarz rezerwacji START ***************************@
-                    @*<script src="~/js/jquery-1.10.2.js"></script>*@
-                    <div class="col-lg-8 p-sm-4">
+                    <div class="col-xl-8 p-sm-4">
                         <div class="row justify-content-center m-4">
                             <div class="col-sm-1 align-self-center">
-                                <a asp-action="CreateThis" asp-route-id="@Model.Vehicle.VehicleID" asp-route-navigation="previous">
+                                <a class="stretched-link" asp-action="CreateThis" asp-route-id="@Model.Vehicle.VehicleID" asp-route-navigation="previous">
                                     <i class="fas fa-chevron-left float-right mt-4 mb-4"></i>
                                 </a>
                             </div>
@@ -50,7 +49,7 @@
                                         if (Model.Vehicle.RentalVehicles.FirstOrDefault(f => f.From.CompareTo(item) <= 0 && f.To.CompareTo(item) >= 0) != null)
                                         {
                                             <div class="btn-group-toggle d-inline-block rounded mt-1" data-toggle="buttons">
-                                                <label class="btn btn-secondary active bg-gradient-danger" style="min-width: 46px; min-height: 46px">
+                                                <label class="btn btn-danger active" style="min-width: 46px; min-height: 46px">
                                                     <input type="checkbox" disabled autocomplete="off">
                                                     @{
                                                         if (item.Day == DateTime.Now.Day)
@@ -72,7 +71,7 @@
                                             if (@item.CompareTo(DateTime.Now.Date) < 0)
                                             {
                                                 <div class="btn-group-toggle d-inline-block rounded mt-1" data-toggle="buttons">
-                                                    <label class="btn btn-secondary active bg-gradient-info" style="min-width: 46px; min-height: 46px">
+                                                    <label class="btn btn-light active" style="min-width: 46px; min-height: 46px">
                                                         <input type="checkbox" disabled autocomplete="off">
                                                         @item.Day
                                                     </label>
@@ -82,7 +81,7 @@
                                             else
                                             {
                                                 <div class="btn-group-toggle d-inline-block rounded mt-1" data-toggle="buttons">
-                                                    <label class="btn btn-secondary" style="min-width: 46px; min-height: 46px">
+                                                    <label class="btn btn-secondary btn-success" style="min-width: 46px; min-height: 46px">
                                                         <input type="checkbox" name="RentalDate" value="@item" autocomplete="off">
                                                         @{
                                                             if (item.Day == DateTime.Now.Day)
@@ -106,20 +105,26 @@
                                     <i class="fas fa-chevron-right float-left mt-4 mb-4"></i>
                                 </a>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="btn rounded mt-1">
-                                    <label class="btn btn-secondary" style="min-width: 46px; min-height: 46px">
-                                        13
-                                    </label>
-                                </div>
-                                <label>Termin Wolny</label>
 
-                                <div class="btn  rounded mt-1">
-                                    <label class="btn btn-danger" style="min-width: 46px; min-height: 46px">
+                            <div class="col-lg-3 text-center align-self-center">
+                                <div>
+                                    <label class="btn btn-secondary btn-success" style="min-width: 46px; min-height: 46px">
                                         13
                                     </label>
                                 </div>
-                                <label>Termin Zajęty</label>
+                                <label>Termin wolny</label>
+                                <div>
+                                    <label class="btn btn-danger active" style="min-width: 46px; min-height: 46px">
+                                        13
+                                    </label>
+                                </div>
+                                <label>Termin zajęty</label>
+                                <div>
+                                    <label class="btn btn-light active" style="min-width: 46px; min-height: 46px">
+                                        13
+                                    </label>
+                                </div>
+                                <label>Termin minął</label>
 
                             </div>
                         </div>
@@ -141,12 +146,12 @@
                             <label asp-for="RentalToLocation" class="control-label"></label>
                             <select asp-for="RentalToLocationId" class="form-control" asp-items="@ViewBag.RentalAgencyAddress"></select>
                         </div>
-                        <div class="form-group">
+                        @*<div class="form-group">
                             <label for="exampleFormControlSelect2">Wybierz Użytkownika</label>
                             <input class="form-control" type="text" autocomplete="off" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
                             <select multiple class="form-control" asp-for="ApplicationUserID" id="mySE" asp-items="@ViewBag.Customers">
                             </select>
-                        </div>
+                        </div>*@
 
 
                         <script>
@@ -169,13 +174,13 @@
                             }
                         </script>
                         <div>
-                            <button type="submit">Zapisz</button>
+                            <button type="button" class="btn btn-secondary btn-sm">Zapisz</button>
                         </div>
                     </div>
                     @******************************** Kalendarz rezerwacji KONEC ************************************@
-                    <div class="col-lg-4">
+                    <div class="col-xl-4">
                         <div class="row">
-                            <div class="col-lg-10 card m-4 p-4 shadow-sm">
+                            <div class="col-xl-10 card m-4 p-4 shadow-sm">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         @if (Model.Vehicle.Image != null)
@@ -185,7 +190,6 @@
                                             var base64 = Convert.ToBase64String(img);
                                             var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
                                             <img class="img-fluid rounded" src="@imgSrc" />
-
                                         }
                                     </div>
                                     <div class="col-lg-12">
@@ -321,14 +325,6 @@
 </div>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.VehicleID">Edit</a> |
+    @*<a asp-action="Edit" asp-route-id="@Model.VehicleID">Edit</a> |*@
     <a asp-action="Index">Back to List</a>
 </div>
-
-<script type="text/javascript">
-    function Checken(element) {
-        element.checken = true;
-    }
-
-
-</script>

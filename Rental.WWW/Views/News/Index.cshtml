@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Rental.Data.Data.Rental.News>
+@{
+    ViewData["Title"] = "Aktualności";
+    ViewBag.PageTitle = "Aktualności";
+}
+
+<div class="row no-gutters">
+    <div class="row mb-4 no-gutters">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <span class="nav-link @(ViewBag.GeneraltypeNow == null ? "active":"")">Zapoznaj się z naszymi promocjami</span>
+                </li>
+            </ul>
+        </div> 
+        <div class="col-md-12">
+            <div class="card border-top-0 rounded-0 rounded-bottom">
+                <div class="card-body">
+                    <div class="row no-gutters">
+                        @*<div class="col-12 mb-2">
+                            <span class="float-left"><i class="fas fa-folder-open mr-2"></i>Zapoznaj się z naszymi promocjami</span>
+                        </div>*@
+                        <div class="col-12">
+                            
+
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <div class="card shadow-sm mb-4 mt-4">
+                                                            <div class="card-body">
+                                                                <small class="float-sm-right">@item.Create</small>
+                                                                <h5 class="card-title text-info">@item.Topic</h5>
+                                                                <p class="card-text">@item.NewsContent</p>
+                                                                <hr />
+                                                                <div class="float-right">
+                                                                    <span class="align-bottom">@item.SenderUser.FirstName @item.SenderUser.LastName</span>
+                                                                    @{
+                                                                        //wyswietlamy zdjecie profilowe autora
+                                                                        if (item.SenderUser.Image != null)
+                                                                        {
+                                                                            var base64 = Convert.ToBase64String(item.SenderUser.Image);
+                                                                            var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                                                            <img style="width: 30px; height:30px" class="card-img  mr-2" src="@imgSrc" />
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <img style="width: 30px; height:30px" class="card-img  mr-2" src="~/Upload/Default/DefaultUser.png" />
+                                                                        }
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> @*dopisane*@
+    </div>
+</div>

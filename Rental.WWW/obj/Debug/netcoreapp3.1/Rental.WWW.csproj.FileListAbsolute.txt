@@ -214,3 +214,4 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcore
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Views\RentalVehicles\CreateThis.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Views\RentalVehicles\Edit.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Views\RentalVehicles\Index.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Views\News\Index.cshtml.g.cs

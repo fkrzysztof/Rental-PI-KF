@@ -27,9 +27,10 @@ namespace Rental.WWW.Controllers
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index(string search, DateTime? from, DateTime? to, int? fromLocation, int? toLocation, string customer)
+        public async Task<IActionResult> Index(string search, DateTime? from, DateTime? to, int? fromLocation, int? toLocation, int? rentalItemBrand)
         {
             var itemCollection = await _context.RentalVehicles.
+                Where(w => w.ApplicationUserID == GetUser().Id).
                 Include(i => i.RentalStatus).
                 Include(i => i.Vehicle).
                 Include(i => i.Vehicle.Brand).
@@ -38,6 +39,7 @@ namespace Rental.WWW.Controllers
                 Include(i => i.RentalFromLocation).
                 Where(w => w.IsActive == true).
                 ToListAsync();
+
 
             if (search != null)
             {
@@ -64,14 +66,17 @@ namespace Rental.WWW.Controllers
             {
                 itemCollection = itemCollection.Where(w => w.RentalToLocationId == toLocation).ToList();
             }
-            if (customer != null)
+            if (rentalItemBrand != null)
             {
-                itemCollection = itemCollection.Where(w => w.ApplicationUserID == customer).ToList();
+                itemCollection = itemCollection.Where(w => w.Vehicle.BrandID == rentalItemBrand).ToList();
+                ViewBag.RentalItemBrand = new SelectList(_context.Brands, "BrandID", "Name", rentalItemBrand);
+            }
+            else
+            {
+                ViewBag.RentalItemBrand = new SelectList(_context.Brands, "BrandID", "Name");
             }
 
-            List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
-            ViewBag.Customers = new SelectList(users, "Id", "Fullname");
-            ViewBag.CustomersList = users;
+
             ViewBag.Cities = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City");
 
             //Wczytujemy max i min wartosc obecnie wyswietlanego zapytania
@@ -81,17 +86,16 @@ namespace Rental.WWW.Controllers
                 ViewBag.ToDate = itemCollection.OrderByDescending(o => o.To).FirstOrDefault().To.ToString("yyyy-MM-dd");
                 ViewBag.Search = search;
             }
-            return View(itemCollection.OrderBy(o => o.From));
+            return View(itemCollection.OrderByDescending(o => o.From));
         }
 
 
         // GET: RentalVehicles/CreateThis
         public async Task<IActionResult> CreateThis(int? id, string navigation)
         {
-            List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
-            ViewBag.Customers = new SelectList(users, "Id", "Fullname");
+            //List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
+            //ViewBag.Customers = new SelectList(users, "Id", "Fullname");
 
-            //lepiej zabezpieczyc ?
             if (id == null)
             {
                 return NotFound();
@@ -173,8 +177,9 @@ namespace Rental.WWW.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive,RentalFromLocationId,RentalToLocationId,ApplicationUserID")] RentalVehicle rentalVehicle, List<DateTime> RentalDate)
+        public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive,RentalFromLocationId,RentalToLocationId")] RentalVehicle rentalVehicle, List<DateTime> RentalDate)
         {
+            rentalVehicle.ApplicationUserID = GetUser().Id;
             if (ModelState.IsValid)
             {
                 //sprawdzanie zaznaczonych pozycji w kalendarzu
@@ -183,7 +188,7 @@ namespace Rental.WWW.Controllers
                 for (int i = 0; i < RentalDate.Count(); i++)
                 {
                     //ostatni lub jedyny 
-                    if ((i + 1) == RentalDate.Count)
+                    if ((i + 1) == RentalDate.Count) 
                     {
                         rentalVehicle.To = RentalDate.ElementAt(i).Date;
                         _context.Add(new RentalVehicle
@@ -205,7 +210,7 @@ namespace Rental.WWW.Controllers
                     }
                     //nastepny dzien rezerwacji to nie kolejny dzien!
                     //konczymy ta rezerwacje zaczynamy nawa
-                    if (RentalDate.ElementAt(i).AddDays(1).Date != RentalDate.ElementAt(i + 1).Date)
+                    if (RentalDate[i + 1].Date.CompareTo(RentalDate[i].Date.AddDays(1)) > 0)
                     {
                         rentalVehicle.To = RentalDate.ElementAt(i).Date;
                         _context.Add(new RentalVehicle
@@ -216,7 +221,11 @@ namespace Rental.WWW.Controllers
                             To = rentalVehicle.To,
                             RentalStatusID = rentalVehicle.RentalStatusID,
                             CreationDate = DateTime.Now,
-                            IsActive = true
+                            IsActive = true,
+                            //dodane
+                            RentalFromLocationId = rentalVehicle.RentalFromLocationId,
+                            RentalToLocationId = rentalVehicle.RentalToLocationId,
+                            ApplicationUserID = rentalVehicle.ApplicationUserID
 
                         });
 
@@ -234,6 +243,106 @@ namespace Rental.WWW.Controllers
 
             return View(rentalVehicle);
         }
+
+
+        #region Edit Delete
+
+
+        // GET: RentalVehicles/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var rentalVehicle = _context.RentalVehicles.
+                Include(i => i.RentalFromLocation).
+                Include(i => i.RentalToLocation).
+                Include(i => i.RentalStatus).
+                Include(i => i.Vehicle).
+                Include(i => i.Vehicle.Brand).
+                Include(i => i.Vehicle.VehicleModel).
+                First(f => f.RentalVehicleID == id);
+
+            if (rentalVehicle == null)
+            {
+                return NotFound();
+            }
+
+            //ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
+            ViewBag.CustomersNow = await _userManager.FindByIdAsync(rentalVehicle.ApplicationUserID);
+            ViewBag.CitiesFrom = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalFromLocation.RentalAgencyAddressID);
+            ViewBag.CitiesTo = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalToLocation.RentalAgencyAddressID);
+
+            return View(rentalVehicle);
+        }
+
+        // POST: RentalVehicles/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("RentalVehicleID,From,To,RentalFromLocationId,RentalToLocationId,Annotations")] RentalVehicle rentalVehicle)
+        {
+            if (id != rentalVehicle.RentalVehicleID)
+            {
+                return NotFound();
+            }
+            var rv = await _context.RentalVehicles.FirstOrDefaultAsync(w => w.RentalVehicleID == id);
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    rv.From = rentalVehicle.From;
+                    rv.To = rentalVehicle.To;
+                    rv.RentalFromLocationId = rentalVehicle.RentalFromLocationId;
+                    rv.RentalToLocationId = rentalVehicle.RentalToLocationId;
+                    rv.Annotations = rentalVehicle.Annotations;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RentalVehicleExists(rentalVehicle.RentalVehicleID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
+            ViewBag.CustomersNow = await _userManager.FindByIdAsync(rv.ApplicationUserID);
+            ViewBag.CitiesFrom = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalFromLocation.RentalAgencyAddressID);
+            ViewBag.CitiesTo = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalToLocation.RentalAgencyAddressID);
+
+            return View(rentalVehicle);
+        }
+
+
+        // POST: RentalVehicles/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var rentalVehicle = await _context.RentalVehicles.FindAsync(id);
+            rentalVehicle.IsActive = false;
+            _context.RentalVehicles.Update(rentalVehicle);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool RentalVehicleExists(int id)
+        {
+            return _context.RentalVehicles.Any(e => e.RentalVehicleID == id);
+        }
+
+        #endregion Edit Delete
+
 
     }
 }
