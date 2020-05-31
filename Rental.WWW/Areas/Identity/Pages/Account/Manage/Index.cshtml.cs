@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+using System.Drawing;
+using System.IO;
 using System.Threading.Tasks;
+using LazZiya.ImageResize;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -29,26 +30,15 @@ namespace Rental.WWW.Areas.Identity.Pages.Account.Manage
         public string StatusMessage { get; set; }
 
         [BindProperty]
-        public InputModel Input { get; set; }
+        public ApplicationUser Input { get; set; }
 
-        public class InputModel
-        {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
-        }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             Username = userName;
-
-            Input = new InputModel
-            {
-                PhoneNumber = phoneNumber
-            };
+            Input = user;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -56,19 +46,19 @@ namespace Rental.WWW.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nie można załadować użytkownika ID '{_userManager.GetUserId(User)}'.");
             }
-
             await LoadAsync(user);
+
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(IFormFile file)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Nie można załadować użytkownika ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -84,12 +74,57 @@ namespace Rental.WWW.Areas.Identity.Pages.Account.Manage
                 if (!setPhoneResult.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
-                    throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
+                    throw new InvalidOperationException($"Wystąpił nieoczekiwany błąd z ID '{userId}'.");
                 }
             }
 
+
+
+            #region Edycja profilu
+
+            if (file != null)
+            {
+                int w = 100;
+                int h = 100;
+
+                var stream = new MemoryStream();
+                await file.CopyToAsync(stream);
+                var image = Image.FromStream(stream);
+                Image imageR = ImageResize.ScaleAndCrop(image, w, h);
+                var streamToReturn = new MemoryStream();
+                imageR.Save(streamToReturn, image.RawFormat);
+
+                user.Image = streamToReturn.ToArray();
+            }
+
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+            //user.Email = Input.Email;
+            //user.Phone = Input.Phone;
+            user.Street = Input.Street;
+            user.Number = Input.Number;
+            user.Country = Input.Country;
+            user.City = Input.City;
+            user.ZIPCode = Input.ZIPCode;
+
+            var rezult = await _userManager.UpdateAsync(user);
+
+            #endregion Edycja profilu
+
+
+
+
+
+            if (!rezult.Succeeded)
+            {
+                var userId = await _userManager.GetUserIdAsync(user);
+                throw new InvalidOperationException($"Wystąpił nieoczekiwany błąd podczas ustawiania numeru telefonu dla użytkownika z ID '{userId}'.");
+            }
+
+
+
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Twój profil został zaktualizowany";
             return RedirectToPage();
         }
     }

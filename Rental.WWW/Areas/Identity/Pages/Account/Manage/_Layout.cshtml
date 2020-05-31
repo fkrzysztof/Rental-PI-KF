@@ -1,0 +1,23 @@
+﻿@{
+    //Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewBag.PageTitle = "Zarządzaj kontem";
+}
+    @*<h1>Zarządzaj kontem</h1>*@
+
+<div>
+    <h1>Zmień ustawienia konta</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-3">
+            <partial name="_ManageNav" />
+        </div>
+        <div class="col-md-9">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

@@ -139,12 +139,10 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcore
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ForgotPassword.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Logout.cshtml.g.cs
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\SetPassword.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Register.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ResetPassword.cshtml.g.cs
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ResetPasswordConfirmation.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
@@ -215,3 +213,9 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcore
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Views\RentalVehicles\Edit.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Views\RentalVehicles\Index.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Views\News\Index.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\ResetPasswordConfirmation.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\ChangePassword.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\DeletePersonalData.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\DownloadPersonalData.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\PersonalData.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Manage\_Layout.cshtml.g.cs
