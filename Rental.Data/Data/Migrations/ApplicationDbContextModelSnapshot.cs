@@ -823,6 +823,7 @@ namespace Rental.Data
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Image")
+                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<bool>("IsActive")

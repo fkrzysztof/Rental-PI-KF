@@ -65,21 +65,20 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Hasło")]
+            [Display(Name = "Password")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Potwierdz Hasło", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Display(Name = "Login")]
             public string Name { get; set; }
 
-            [Display(Name ="Imię")]
+            [Display(Name = "Imię")]
             public string FistNane { get; set; }
-            
-            [Display(Name ="Nazwisko")]
+
+            [Display(Name = "Nazwisko")]
             public string LastName { get; set; }
 
             //dodane
@@ -119,17 +118,17 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
         }
 
         public async Task<IActionResult> OnPostAsync(IFormFile file, string returnUrl = null)
-        {          
+        {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             var role = _roleManager.FindByIdAsync(Input.Name).Result;
             if (ModelState.IsValid)
             {
 
-                var user = new ApplicationUser 
-                { 
-                    UserName = Input.Email, 
-                    Email = Input.Email, 
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
                     FirstName = Input.FistNane,
                     LastName = Input.LastName,
                     Country = Input.Country,
@@ -140,7 +139,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     Image = null,
                     //Phone = Input.Phone,
                     PhoneNumber = Input.PhoneNumber,
-                    RentalAgencyID =Input.RentalAgencyID
+                    RentalAgencyID = Input.RentalAgencyID
                 };
 
                 if (file != null)
@@ -201,7 +200,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                 }
             }
 
-            ViewData["roles"] = _roleManager.Roles.ToList(); 
+            ViewData["roles"] = _roleManager.Roles.ToList();
             //dopisane wymaga -> selectList
             ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
             return Page();
