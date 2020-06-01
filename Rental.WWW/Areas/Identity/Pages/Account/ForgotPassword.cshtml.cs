@@ -31,7 +31,7 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole wymagane")]
             [EmailAddress]
             [Display(Name = "Emial")]
             public string Email { get; set; }

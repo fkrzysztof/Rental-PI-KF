@@ -30,7 +30,7 @@ namespace Rental.WWW.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole wymagane")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
         }

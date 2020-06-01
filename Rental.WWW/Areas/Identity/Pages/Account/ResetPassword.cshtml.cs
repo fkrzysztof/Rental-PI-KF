@@ -28,19 +28,19 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole wymagane")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Pole wymagane")]
+            [StringLength(100, ErrorMessage = "{0} musi zawierać co najmniej {2} i maksymalnie {1} znaków.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Hasło")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Potwierdz Hasło")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Hasło i hasło potwierdzające nie są zgodne.")]
             public string ConfirmPassword { get; set; }
 
             public string Code { get; set; }
@@ -50,7 +50,7 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
         {
             if (code == null)
             {
-                return BadRequest("A code must be supplied for password reset.");
+                return BadRequest("Aby zresetować hasło, należy podać kod.");
             }
             else
             {

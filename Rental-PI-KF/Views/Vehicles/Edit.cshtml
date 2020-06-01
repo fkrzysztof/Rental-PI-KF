@@ -214,13 +214,8 @@
             </div>
 
             @*Wyposazenie nowe !!!*@
-
             <div class="col-sm-12">
-
-                @*TUTAJ KOD Z INDEXU !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*@
-
                 <hr />
-             
 
                 <dl class="row">
                     @foreach (var eqtemp in @ViewBag.TempList as ICollection<Equipment>)
@@ -243,14 +238,9 @@
             </div>
 
             @*Wyposazenie nowe Koniec !!!*@
-
-
-
-
-
         </div>
         <div class="form-group">
-            <input type="submit" value="Zapisz" class="btn btn-primary btn-sm" />
+            <button type="submit" class="btn btn-sm btn-primary">Zapisz</button>
 
             @{
                 string blockade = "Zablokuj";
@@ -258,72 +248,12 @@
                 {
                     blockade = "Odblokuj";
                 }
-                <button asp-action="Activation" asp-route-id="@Model.VehicleID" asp-controller="Vehicles" class="btn-sm btn-danger btn-sm">
+                <button asp-action="Activation" asp-route-id="@Model.VehicleID" asp-controller="Vehicles" class="btn btn-danger btn-sm">
                     @blockade
                 </button> }
-
-
-            <!-- Button trigger modal -->
-            <button type="button" class="dropdown-item" data-toggle="modal" data-target="#staticBackdrop">
-                Launch static backdrop modal
-            </button>
-
-            <!-- Modal -->
-            <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <small>to jest do auta @Model.VehicleID</small>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Understood</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-
-
         </div>
     </form>
 </div>
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
-
-
-
-@*generalny typ wybieramy w czasie wyboru co dodajemy nowego.. samochod rower itd..*@
-@*<div class="form-group">
-    <label asp-for="GeneralTypeID" class="control-label"></label>
-    <select asp-for="GeneralTypeID" class="form-control" asp-items="ViewBag.GeneralTypeID"></select>
-    </div>*@
-
-@*
-        //Pozycje dodane zostana automatycznie przy dodaniu lub pozbyciu sie pozycji
-
-        <div class="form-group">
-        <label asp-for="DateIn" class="control-label"></label>
-        <input asp-for="DateIn" class="form-control" />
-        <span asp-validation-for="DateIn" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="DateOut" class="control-label"></label>
-        <input asp-for="DateOut" class="form-control" />
-        <span asp-validation-for="DateOut" class="text-danger"></span>
-    </div>*@
-
-@*<div class="form-group form-check">
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-        </label>
-    </div>*@

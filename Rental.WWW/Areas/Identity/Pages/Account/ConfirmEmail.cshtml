@@ -1,8 +1,13 @@
 ﻿@page
 @model ConfirmEmailModel
 @{
-    ViewData["Title"] = "Confirm email";
+    ViewData["Title"] = "Potwierdź email";
+    ViewBag.PageTitle = "Potwierdź email";
 }
 
-<h1>@ViewData["Title"]</h1>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <div class="col-12">
+        <a class="btn btn-sm btn-dark" href="/">Powrót</a>
+    </div>
+</div>

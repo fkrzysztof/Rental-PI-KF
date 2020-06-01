@@ -173,7 +173,7 @@
                                                     }
                                                     else
                                                     {
-                                                        <a asp-action="CreateThis" asp-controller="RentalVehicles" asp-route-id="@item.VehicleID"><i class="fas fa-cart-plus"></i></a>
+                                                        <a asp-controller="RentalVehicles" asp-action="CreateThis" asp-route-id="@item.VehicleID"><i class="fas fa-cart-plus"></i></a>
                                                     }
                                                     @*<a asp-action="Details" asp-route-id="@item.VehicleID"><i class="fas fa-search"></i></a>
                                                     <a asp-action="Edit" asp-route-id="@item.VehicleID"><i class="fas fa-wrench"></i></a>
@@ -187,161 +187,161 @@
                             else
                             {
                                 @*<div class="row justify-content-center no-gutters">*@
-                                <div class="row flex-row no-gutters">
-                                    @{ 
-                                        bool leftRight = true;
-                                    }
-                                    @foreach (var item in Model)
-                                    {
+                        <div class="row flex-row no-gutters">
+                            @{
+                                bool leftRight = true;
+                            }
+                            @foreach (var item in Model)
+                            {
 
-                                        <div class="col-xl-6 ml-auto mr-auto mb-4">
-                                            <div style="width: 98%;" class="card shadow-sm @(leftRight == true ? "float-xl-left" : "float-xl-right")">
-                                                
+                                <div class="col-xl-6 ml-auto mr-auto mb-4">
+                                    <div style="width: 98%;" class="card shadow-sm @(leftRight == true ? "float-xl-left" : "float-xl-right")">
 
 
-                                                @{
-                                                    leftRight = !leftRight;
-                                                }
-                                                <div class="card-header bg-gradient-white ">
-                                                    <h5 class="card-title float-left align-items-center m-0">
-                                                        @Html.DisplayFor(modelItem => item.Brand.Name) @Html.DisplayFor(modelItem => item.VehicleModel.Name)
-                                                    </h5>
+
+                                        @{
+                                            leftRight = !leftRight;
+                                        }
+                                        <div class="card-header bg-gradient-white ">
+                                            <h5 class="card-title float-left align-items-center m-0">
+                                                @Html.DisplayFor(modelItem => item.Brand.Name) @Html.DisplayFor(modelItem => item.VehicleModel.Name)
+                                            </h5>
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    @{
+                                                        RentalVehicle rentalVehicleItem;
+                                                        if ((rentalVehicleItem = item.RentalVehicles.FirstOrDefault(f =>
+                                                        f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
+                                                        )) != null)
+                                                        {
+                                                            <div class="position-absolute bg-danger text-white p-3 d-inline-block my-1 rounded shadow-sm" style="transform: rotate(-20deg);">Wypożyczony</div>
+                                                        }
+                                                    }
+                                                    @*Zmiana na zdjec na sql*@
+                                                    @if (item.Image != null)
+                                                    {
+                                                        var img = item.Image;
+
+                                                        var base64 = Convert.ToBase64String(img);
+                                                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                                        <img class="img-fluid rounded" style="width: 360px;" src="@imgSrc" />
+
+                                                    }
                                                 </div>
-                                                <div class="card-body ">
-                                                    <div class="row">
-                                                        <div class="col-md-7">
-                                                            @{
-                                                                RentalVehicle rentalVehicleItem;
-                                                                if ((rentalVehicleItem = item.RentalVehicles.FirstOrDefault(f =>
-                                                                f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
-                                                                )) != null)
-                                                                {
-                                                                    <div class="position-absolute bg-danger text-white p-3 d-inline-block my-1 rounded shadow-sm" style="transform: rotate(-20deg);">Wypożyczony</div>
-                                                                }
-                                                            }
-                                                            @*Zmiana na zdjec na sql*@
-                                                            @if (item.Image != null)
+                                                <div class="col-md-4 m-2">
+                                                    <small>
+                                                        Rocznik: @Html.DisplayFor(modelItem => item.YearOfCarProduction)<br />
+                                                        Pojemność: @Html.DisplayFor(modelItem => item.EngineCapacity) cm3<br />
+                                                        Silnik: @Html.DisplayFor(modelItem => item.EngineType.Name)<br />
+                                                        Przebieg: @Html.DisplayFor(modelItem => item.Mileage) km<br />
+                                                        Moc (KM): @Html.DisplayFor(modelItem => item.EnginePower) KM<br />
+                                                        Skrzynia: @Html.DisplayFor(modelItem => item.GearBox.Name)<br />
+                                                        Klimatyzacja: @Html.DisplayFor(modelItem => item.AirConditioning.Type) @(item.AirConditioningID == null ? "Brak danych" : "")<br />
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-11 m-2">
+
+                                                    @*Wypożyenie TAK NIE*@
+                                                    @{
+                                                        DateTime.Now.Date.ToString();
+                                                        DateTime nextRentalDate;
+                                                        //szukam zajetego
+                                                        if ((rentalVehicleItem = item.RentalVehicles.FirstOrDefault(f =>
+                                                        f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
+                                                        )) != null)
+                                                        {
+                                                            <h6>Aktualnie Wypożyczony</h6>
+                                                            <p>Koniec wypożyczenia za @((rentalVehicleItem.To.Date - DateTime.Now.Date).Days)dni / @rentalVehicleItem.To.Date.ToShortDateString()</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            @if (item.Blockade == true)
                                                             {
-                                                                var img = item.Image;
-
-                                                                var base64 = Convert.ToBase64String(img);
-                                                                var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                                                <img class="img-fluid rounded" style="width: 360px;" src="@imgSrc" />
-
+                                                                <h6>Chwilowo niedostępny!<i class="text-danger fas fa-lock ml-2"></i></h6>
                                                             }
-                                                        </div>
-                                                        <div class="col-md-4 m-2">
-                                                            <small>
-                                                                Rocznik: @Html.DisplayFor(modelItem => item.YearOfCarProduction)<br />
-                                                                Pojemność: @Html.DisplayFor(modelItem => item.EngineCapacity) cm3<br />
-                                                                Silnik: @Html.DisplayFor(modelItem => item.EngineType.Name)<br />
-                                                                Przebieg: @Html.DisplayFor(modelItem => item.Mileage) km<br />
-                                                                Moc (KM): @Html.DisplayFor(modelItem => item.EnginePower) KM<br />
-                                                                Skrzynia: @Html.DisplayFor(modelItem => item.GearBox.Name)<br />
-                                                                Klimatyzacja: @Html.DisplayFor(modelItem => item.AirConditioning.Type) @(item.AirConditioningID == null ? "Brak danych" : "")<br />
-                                                            </small>
-                                                        </div>
-                                                        <div class="col-md-11 m-2">
-
-                                                            @*Wypożyenie TAK NIE*@
-                                                            @{
-                                                                DateTime.Now.Date.ToString();
-                                                                DateTime nextRentalDate;
-                                                                //szukam zajetego
-                                                                if ((rentalVehicleItem = item.RentalVehicles.FirstOrDefault(f =>
-                                                                f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
-                                                                )) != null)
-                                                                {
-                                                                    <h6>Aktualnie Wypożyczony</h6>
-                                                                    <p>Koniec wypożyczenia za @((rentalVehicleItem.To.Date - DateTime.Now.Date).Days)dni / @rentalVehicleItem.To.Date.ToShortDateString()</p>
-                                                                }
-                                                                else
-                                                                {
-                                                                    @if (item.Blockade == true)
-                                                                    {
-                                                                        <h6>Chwilowo niedostępny!<i class="text-danger fas fa-lock ml-2"></i></h6>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <h6>Aktualnie Dostepny<i class="fas fa-flag ml-2 text-success"></i></h6>
-                                                                    }
-
-                                                                    if ((nextRentalDate = item.RentalVehicles.OrderBy(o => o.From).Select(s => s.From).FirstOrDefault(f => f.CompareTo(DateTime.Now.Date) > 0)).CompareTo(DateTime.Now.Date) > 0)
-                                                                    {
-                                                                        <p>Następna rezerwacja za: @((nextRentalDate.Date - DateTime.Now.Date).Days)dni / @nextRentalDate.Date.ToShortDateString()</p>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <p>Brak rezerwacji</p>
-                                                                    }
-                                                                }
+                                                            else
+                                                            {
+                                                                <h6>Aktualnie Dostepny<i class="fas fa-flag ml-2 text-success"></i></h6>
                                                             }
-                                                            <h6 class="card-title">Opis</h6>
-                                                            <p><small>@item.Description</small><p>
-                                                        </div>
 
-                                                        <div class="col-md-11 m-2">
-                                                            <h5>Wyposażenie</h5>
-                                                            <hr />
-                                                            @{
-                                                                //generowanie templisty do vehicle
-
-                                                                Equipment toAdd;
-                                                                //iteracja po wszystkich nazwach equipment
-                                                                foreach (var name in @ViewBag.EQNameList)
-                                                                {
-                                                                    //jesli item(akutalnie generowany vehicle) posiada taka nazwe equipment
-                                                                    //dodaje do TempList equipment z Check true
-                                                                    //jesli nie posiada dodaje do TempList equipment z Check false
-                                                                    if ((toAdd = item.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID)) == null)
-                                                                    {
-                                                                        TempList.Add(new Equipment()
-                                                                        {
-                                                                            Name = name.Name,
-                                                                            Check = false
-                                                                        }
-                                                                        );
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        toAdd.Name = name.Name;
-                                                                        TempList.Add(toAdd);
-                                                                    }
-                                                                }
+                                                            if ((nextRentalDate = item.RentalVehicles.OrderBy(o => o.From).Select(s => s.From).FirstOrDefault(f => f.CompareTo(DateTime.Now.Date) > 0)).CompareTo(DateTime.Now.Date) > 0)
+                                                            {
+                                                                <p>Następna rezerwacja za: @((nextRentalDate.Date - DateTime.Now.Date).Days)dni / @nextRentalDate.Date.ToShortDateString()</p>
                                                             }
-                                                            @*wyswietlanie generowanej wyżej listy*@
-                                                            <dl class="row">
-                                                                @foreach (var eqtemp in TempList)
-                                                                {
-                                                                    <dt class="col-sm-5">
-                                                                        <small>@Html.DisplayFor(eqtempModel => eqtemp.Name)</small>
-                                                                    </dt>
-                                                                    <dd class="col-sm-1">
-                                                                        @Html.DisplayFor(eqtempModel => eqtemp.Check)
-                                                                    </dd>
-                                                                }
-                                                            </dl>
-                                                            @{
-                                                                //przygotowanie do kolejnej iteracji po Vehicle
-                                                                TempList.Clear();
+                                                            else
+                                                            {
+                                                                <p>Brak rezerwacji</p>
                                                             }
-                                                        </div>
-                                                        <div class="col-12">
-                                                            @*@if (item.Blockade != true)*@
+                                                        }
+                                                    }
+                                                    <h6 class="card-title">Opis</h6>
+                                                    <p><small>@item.Description</small><p>
+                                                </div>
 
-                                                                <button type="button" class="btn btn-success btn-sm btn-block" asp-action="CreateThis" asp-route-id="@item.VehicleID @(item.Blockade == true ? "disabled" : "") " asp-controller="RentalVehicles"><i class="fas fa-cart-plus mr-2"></i>Wypożycz / Zarezerwuj</button>
+                                                <div class="col-md-11 m-2">
+                                                    <h5>Wyposażenie</h5>
+                                                    <hr />
+                                                    @{
+                                                        //generowanie templisty do vehicle
 
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-                                    }
+                                                        Equipment toAdd;
+                                                        //iteracja po wszystkich nazwach equipment
+                                                        foreach (var name in @ViewBag.EQNameList)
+                                                        {
+                                                            //jesli item(akutalnie generowany vehicle) posiada taka nazwe equipment
+                                                            //dodaje do TempList equipment z Check true
+                                                            //jesli nie posiada dodaje do TempList equipment z Check false
+                                                            if ((toAdd = item.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID)) == null)
+                                                            {
+                                                                TempList.Add(new Equipment()
+                                                                {
+                                                                    Name = name.Name,
+                                                                    Check = false
+                                                                }
+                                                                );
+                                                            }
+                                                            else
+                                                            {
+                                                                toAdd.Name = name.Name;
+                                                                TempList.Add(toAdd);
+                                                            }
+                                                        }
+                                                    }
+                                                    @*wyswietlanie generowanej wyżej listy*@
+                                                    <dl class="row">
+                                                        @foreach (var eqtemp in TempList)
+                                                        {
+                                                            <dt class="col-sm-5">
+                                                                <small>@Html.DisplayFor(eqtempModel => eqtemp.Name)</small>
+                                                            </dt>
+                                                            <dd class="col-sm-1">
+                                                                @Html.DisplayFor(eqtempModel => eqtemp.Check)
+                                                            </dd>
+                                                        }
+                                                    </dl>
+                                                    @{
+                                                        //przygotowanie do kolejnej iteracji po Vehicle
+                                                        TempList.Clear();
+                                                    }
+                                                </div>
+                                                <div class="col-12">
+                                                    @if (item.Blockade != true)
+                                                    {
+                                                        <a class="btn btn-success btn-sm btn-block" asp-action="CreateThis" asp-route-id="@item.VehicleID" asp-controller="RentalVehicles"><i class="fas fa-cart-plus mr-2"></i>Wypożycz / Zarezerwuj</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn btn-success btn-sm btn-block" disabled><i class="fas fa-cart-plus mr-2"></i>Wypożycz / Zarezerwuj</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            }
+                        </div>
                             }
                             @*main end*@
 

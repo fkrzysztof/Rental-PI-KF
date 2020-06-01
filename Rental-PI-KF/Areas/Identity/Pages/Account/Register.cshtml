@@ -2,18 +2,18 @@
 @model RegisterModel
 @using Rental_Data.Data.Rental
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Zarejestruj";
 
     var roles = (List<IdentityRole>)ViewData["roles"];
     var rentalAgency = (List<RentalAgency>)ViewData["rentalAgency"];
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>Zarejestruj nowe konto.</h1>
 
 <div class="row">
     <div class="col-md-12">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
-            <h4>Create a new account. nowe</h4>
+            <h4>Wypełnij formularz:</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -71,10 +71,10 @@
                 <span asp-validation-for="Input.ZIPCode" class="text-danger"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>*@
+            <label asp-for="Input.PhoneNumber"></label>
+            <input asp-for="Input.PhoneNumber" class="form-control" />
+            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 @***********  FOTO  ************@
                 <label>zdjecie</label>
@@ -92,7 +92,8 @@
                 <select asp-for="Input.RentalAgencyID" class="form-control" asp-items='new SelectList(rentalAgency,"RentalAgencyID","Name")'></select>
                 <span asp-validation-for="Input.RentalAgencyID" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Zapisz</button>
+            <button type="submit" class="btn btn-sm btn-primary">Utwórz nowe konto</button>
+            <button class="btn btn-sm btn-dark ml-2" onclick="window.history.go(-1); return false;">Powrót</button>
         </form>
     </div>
     <div class="col-md-6 col-md-offset-2">

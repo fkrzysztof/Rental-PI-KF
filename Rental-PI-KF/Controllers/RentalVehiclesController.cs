@@ -237,7 +237,11 @@ namespace Rental_PI_KF.Controllers
                             To = rentalVehicle.To,
                             RentalStatusID = rentalVehicle.RentalStatusID,
                             CreationDate = DateTime.Now,
-                            IsActive = true
+                            IsActive = true,
+                            //dodane
+                            RentalFromLocationId = rentalVehicle.RentalFromLocationId,
+                            RentalToLocationId = rentalVehicle.RentalToLocationId,
+                            ApplicationUserID = rentalVehicle.ApplicationUserID
 
                         });
 
