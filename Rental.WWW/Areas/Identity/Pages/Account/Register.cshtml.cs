@@ -109,8 +109,8 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
 
         public void OnGet(string returnUrl = null)
         {
-            ViewData["roles"] = _roleManager.Roles.ToList();
-            ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
+            //ViewData["roles"] = _roleManager.Roles.Where(w => w.Name == "Klient").ToList();
+            //ViewData["rentalAgency"] = _context.RentalAgencies.Where(w => w.IsActive == true).ToList();
             ReturnUrl = returnUrl;
         }
 
@@ -118,7 +118,7 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            var role = _roleManager.FindByIdAsync(Input.Name).Result;
+            var role = _roleManager.FindByNameAsync("Klient").Result;
             if (ModelState.IsValid)
             {
 
@@ -135,7 +135,7 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
                     ZIPCode = Input.ZIPCode,
                     Image = null,
                     PhoneNumber = Input.PhoneNumber,
-                    RentalAgencyID = Input.RentalAgencyID
+                    RentalAgencyID = null
                 };
 
                 if (file != null)
@@ -171,8 +171,8 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Potwierdź swój email",
+                        $"Potwierdź swoje konto <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>kliknij tutaj</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -196,9 +196,8 @@ namespace Rental.WWW.Areas.Identity.Pages.Account
                 }
             }
 
-            ViewData["roles"] = _roleManager.Roles.ToList();
-            //dopisane wymaga -> selectList
-            ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
+            //ViewData["roles"] = _roleManager.Roles.Where(w => w.Name == "Klient").ToList();
+            //ViewData["rentalAgency"] = _context.RentalAgencies.Where(w => w.IsActive == true).ToList();
             return Page();
         }
     }

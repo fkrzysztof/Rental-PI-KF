@@ -31,7 +31,7 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage ="Pole wymagane")]
             [EmailAddress]
             [Display(Name = "Emial")]
             public string Email { get; set; }
@@ -60,8 +60,8 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
 
                 await _emailSender.SendEmailAsync(
                     Input.Email,
-                    "Reset Password",
-                    $"Please reset your password by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    "Reset hasła",
+                    $"Zresetuj hasło za pomocą linku <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>kliknij tutaj</a>.");
 
                 return RedirectToPage("./ForgotPasswordConfirmation");
             }

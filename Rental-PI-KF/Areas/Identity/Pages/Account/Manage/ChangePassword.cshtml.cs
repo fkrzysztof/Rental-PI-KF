@@ -34,12 +34,12 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole wymagane")]
             [DataType(DataType.Password)]
             [Display(Name = "Aktualne hasło")]
             public string OldPassword { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole wymagane")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Nowe hasło")]

@@ -36,7 +36,6 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account.Manage
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
-            //var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             Username = userName;
             Input = user;
         }
@@ -99,8 +98,6 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account.Manage
 
             user.FirstName = Input.FirstName;
             user.LastName = Input.LastName;
-            //user.Email = Input.Email;
-            //user.Phone = Input.Phone;
             user.Street = Input.Street;
             user.Number = Input.Number;
             user.Country = Input.Country;
@@ -111,17 +108,11 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account.Manage
 
             #endregion Edycja profilu
 
-
-
-
-
             if (!rezult.Succeeded)
             {
                 var userId = await _userManager.GetUserIdAsync(user);
                 throw new InvalidOperationException($"Wystąpił nieoczekiwany błąd podczas ustawiania numeru telefonu dla użytkownika z ID '{userId}'.");
             }
-
-
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Twój profil został zaktualizowany";

@@ -57,12 +57,12 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Pole wymagane")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "Pole wymagane")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -100,9 +100,6 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
             [Display(Name = "Kod")]
             public string ZIPCode { get; set; }
 
-            //[Display(Name = "Telefon")]
-            //public string Phone { get; set; }
-
             [Display(Name = "Telefon")]
             public string PhoneNumber { get; set; }
 
@@ -112,8 +109,8 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
 
         public async Task OnGet(string returnUrl = null)
         {
-            ViewData["roles"] = _roleManager.Roles.ToList();
-            ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
+            ViewData["roles"] = _roleManager.Roles.Where(w => w.Name != "Zablokowani" && w.Name != "Klient").ToList();
+            ViewData["rentalAgency"] = _context.RentalAgencies.Where(w => w.IsActive == true).ToList();
             ReturnUrl = returnUrl;
         }
 
@@ -137,7 +134,6 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                     Number = Input.Number,
                     ZIPCode = Input.ZIPCode,
                     Image = null,
-                    //Phone = Input.Phone,
                     PhoneNumber = Input.PhoneNumber,
                     RentalAgencyID = Input.RentalAgencyID
                 };
@@ -175,8 +171,8 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Potwierdź konto",
+                        $"Potwierdź swoje konto przez <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>kliknij tutaj</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -200,9 +196,8 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
                 }
             }
 
-            ViewData["roles"] = _roleManager.Roles.ToList();
-            //dopisane wymaga -> selectList
-            ViewData["rentalAgency"] = _context.RentalAgencies.ToList();
+            ViewData["roles"] = _roleManager.Roles.Where(w => w.Name != "Zablokowani" && w.Name != "Klient").ToList();
+            ViewData["rentalAgency"] = _context.RentalAgencies.Where(w => w.IsActive == true).ToList();
             return Page();
         }
     }

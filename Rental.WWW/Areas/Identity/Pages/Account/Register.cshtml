@@ -2,25 +2,24 @@
 @model RegisterModel
 @using Rental_Data.Data.Rental
 @{
-        ViewData["Title"] = "Zarejestruj";
-        ViewBag.PageTitle = "Zarejestruj nowe konto";
-
-    var roles = (List<IdentityRole>)ViewData["roles"];
-    var rentalAgency = (List<RentalAgency>)ViewData["rentalAgency"];
+    ViewData["Title"] = "Zarejestruj";
+    ViewBag.PageTitle = "Zarejestruj nowe konto";
 }
 
-<div class="row">
-    <div class="col-md-12">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+
+<form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+    <div class="form-row">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="col-md-12">
             <h4>Wypełnij formularz:</h4>
             <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" class="form-control" />
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="Input.FistNane"></label>
                 <input asp-for="Input.FistNane" class="form-control" />
@@ -31,8 +30,6 @@
                 <input asp-for="Input.LastName" class="form-control" />
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
-
-
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />
@@ -43,6 +40,22 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                @***********  FOTO  ************@
+                <label>Zdjecie</label>
+
+                <div id="dbimage">
+                    <img style="width: 100px; height:100px" class="img-profile rounded mb-4" id="#dbimage" src="~/img/default/DefaultUser.png" />
+                </div>
+                <div id="showimage"></div>
+                @*<input type="file" class="form-control-file" id="file" name="file" />*@
+                <div class="custom-file">
+                    <input class="form-control custom-file-input" type="file" name="file" />
+                    <label class="form-control custom-file-label">Wybierz..</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
 
             <div class="form-group">
                 <label asp-for="Input.Country"></label>
@@ -69,63 +82,45 @@
                 <input asp-for="Input.ZIPCode" class="form-control" />
                 <span asp-validation-for="Input.ZIPCode" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-                    <label asp-for="Input.PhoneNumber"></label>
-                    <input asp-for="Input.PhoneNumber" class="form-control" />
-                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-                </div>*@
-            <div class="form-group">
-                @***********  FOTO  ************@
-                <label>zdjecie</label>
-                <input type="file" class="form-control-file" id="file" name="file" />
-                @*<span asp-validation-for="Input.Image" class="text-danger"></span>*@
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Name"></label>
-                <select asp-for="Input.Name" class="form-control" asp-items='new SelectList(roles,"Id","Name")'></select>
-                <span asp-validation-for="Input.Name" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Input.RentalAgencyID"></label>
-                <select asp-for="Input.RentalAgencyID" class="form-control" asp-items='new SelectList(rentalAgency,"RentalAgencyID","Name")'></select>
-                <span asp-validation-for="Input.RentalAgencyID" class="text-danger"></span>
-            </div>
+        </div>
+        <div class="col-md-12">
             <button type="submit" class="btn btn-primary">Zapisz</button>
-        </form>
+        </div>
     </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h4>Use another service to register.</h4>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                            for details on setting up this ASP.NET application to support logging in via external services.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
-                        </div>
-                    </form>
-                }
-            }
-        </section>
-    </div>
-</div>
+</form>
+<script src="~/Layout/vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+
+                $(document).ready(function () {
+                    @*Java script dodaje siezke do pliku labeka *@
+                    $(".custom-file-input").on("change", function () {
+
+                        //dopisane
+                        document.getElementById("dbimage").style.display = "none";
+
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).next(".custom-file-label").html(fileName);
+
+                        @*Pokazuje zdjecie *@
+                        var previewimages = $("#showimage");
+                        previewimages.html("");
+                        $($(this)[0].files).each(function () {
+                            var file = $(this);
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = $("<img class=\"rounded mb-4 \" />");
+                                img.attr("style", "height:100px;width: 100px;");
+                                img.attr("src", e.target.result);
+                                previewimages.append(img);
+                            }
+                            reader.readAsDataURL(file[0]);
+                        });
+                    }); //dodalem ;
+                });
+</script>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+
