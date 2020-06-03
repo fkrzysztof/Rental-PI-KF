@@ -56,7 +56,6 @@
             </div>
         </div>
         <div class="col-md-6">
-
             <div class="form-group">
                 <label asp-for="Input.Country"></label>
                 <input asp-for="Input.Country" class="form-control" />
@@ -85,6 +84,7 @@
         </div>
         <div class="col-md-12">
             <button type="submit" class="btn btn-primary">Zapisz</button>
+            <button class="btn btn-sm btn-dark ml-2" onclick="window.history.go(-1); return false;">Powrót</button>
         </div>
     </div>
 </form>

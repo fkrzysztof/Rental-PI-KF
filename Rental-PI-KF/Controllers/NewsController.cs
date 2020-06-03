@@ -124,10 +124,18 @@ namespace Rental_PI_KF.Controllers
         {
             var query = _context.News
                 .OrderBy(o => o.Create)
-                .Select(s => new { topic = s.Topic, newsContent = s.NewsContent }).Take(4).ToList();
+                .Select(s => new { topic = s.Topic, newsContent = s.NewsContent, id = s.NewsID }).Take(4).ToList();
 
             return Json(query);
         }
 
+        public async Task<IActionResult> ReadItem(int? id)
+        {
+            var toRead = await _context.News.Include(i => i.SenderUser).FirstOrDefaultAsync(w => w.NewsID == id);
+            if (toRead == null)
+                return View("Index");
+            else
+                return View(toRead);
+        }
     }
 }

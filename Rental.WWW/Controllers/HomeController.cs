@@ -52,7 +52,7 @@ namespace Rental.WWW.Controllers
         {
             var query = _context.News
                 .OrderBy(o => o.Create)
-                .Select(s => new { topic = s.Topic, newsContent = s.NewsContent }).Take(4).ToList();
+                .Select(s => new { topic = s.Topic, newsContent = s.NewsContent, id = s.NewsID }).Take(4).ToList();
 
             return Json(query);
         }

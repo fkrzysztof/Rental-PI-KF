@@ -78,7 +78,7 @@ namespace Rental_PI_KF.Controllers
         // GET: Messages/Create
         public IActionResult Create()
         {
-            ViewData["UserTypeName"] = new SelectList(_roleManager.Roles, "Name", "Name");
+            ViewData["UserTypeName"] = new SelectList(_roleManager.Roles.Where(w => w.Name != "Zablokowani"), "Name", "Name");
 
             return View();
         }

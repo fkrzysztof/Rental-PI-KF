@@ -421,3 +421,4 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netco
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\News\Details.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\News\Edit.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\News\Index.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental-PI-KF\obj\Debug\netcoreapp3.1\Razor\Views\News\ReadItem.cshtml.g.cs

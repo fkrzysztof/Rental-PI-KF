@@ -1,0 +1,34 @@
+﻿@model Rental.Data.Data.Rental.News
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.PageTitle = "Aktualności / " + Model.Topic;
+}
+
+<div class="card shadow-sm mb-4 mt-4">
+    <div class="card-body">
+        <small class="float-sm-right">@Model.Create</small>
+        <h5 class="card-title text-info">@Model.Topic</h5>
+        <p class="card-text">@Model.NewsContent</p>
+        <hr />
+        <div class="float-right">
+            <span class="align-bottom">@Model.SenderUser.FirstName @Model.SenderUser.LastName</span>
+            @{
+                //wyswietlamy zdjecie profilowe autora
+                if (Model.SenderUser.Image != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.SenderUser.Image);
+                    var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                    <img style="width: 30px; height:30px" class="card-img  mr-2" src="@imgSrc" />
+                }
+                else
+                {
+                    <img style="width: 30px; height:30px" class="card-img  mr-2" src="~/Upload/Default/DefaultUser.png" />
+                }
+            }
+        </div>
+        <div class="float-left">
+            <button class="btn btn-sm btn-dark ml-2" onclick="window.history.go(-1); return false;">Powrót</button>
+        </div>
+    </div>
+
+</div>

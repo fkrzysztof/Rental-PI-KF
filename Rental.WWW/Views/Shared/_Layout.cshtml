@@ -5,10 +5,10 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Wypożyczalnia RentIT">
+    <meta name="author" content="Krzysztof Franczyk WSB-NLU Nowy Sącz PI">
 
-    <title>Full Width Pics - Start Bootstrap Template</title>
+    <title>RentIT</title>
 
     <!-- Bootstrap core CSS -->
     <link href="~/Layout/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -20,7 +20,6 @@
     <link href="~/Layout/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-    @*<link href="~/css/sb-admin-2.css" rel="stylesheet" />*@
 </head>
 
 <body>
@@ -28,46 +27,45 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <div class="container">
-            @*Logo Name*@
-            <a class="navbar-brand" href="#">RentIT</a>
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <img class="img-fluid" src="~/img/logo.png">
+                
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item @(Html.ViewContext.RouteData.Values["controller"] as string == "Home"? "active": "")">
                         <a class="nav-link" asp-action="Index" asp-controller="Home">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item @(Html.ViewContext.RouteData.Values["controller"] as string == "News"? "active": "")">
                         <a class="nav-link" asp-action="Index" asp-controller="News">Aktualności</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item @(Html.ViewContext.RouteData.Values["controller"] as string == "Vehicles"? "active": "")">
                         <a class="nav-link" asp-action="Index" asp-controller="Vehicles">Pojazdy</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item @(Html.ViewContext.RouteData.Values["controller"] as string == "Messages"? "active": "")">
                         <a class="nav-link" asp-controller="Messages" asp-action="Index">Wiadomości</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item @(Html.ViewContext.RouteData.Values["controller"] as string == "Contact"? "active": "")">
                         <a class="nav-link" asp-action="Index" asp-controller="Contact">Kontakt</a>
                     </li>
                 </ul>
 
-                
-
                 <partial name="_LoginPartial" />
-
-
 
             </div>
         </div>
     </nav>
 
     <!-- Header - set the background image for the header in the line below -->
-    <header class="py-5 bg-image-full" style="background-image: url('https://unsplash.it/1900/1080?image=1076');">
+    <header class="py-5 bg-image-full" style="background-image: url('/img/oldcar-cut4.jpg');">
         @*Logo*@
         @*<img class="img-fluid d-block mx-auto" src="http://placehold.it/200x200&text=Logo" alt="">*@
-    </header>
+        
 
+    </header>
     <!-- Content section 1 -->
     <section class="py-5">
         <div class="container">
@@ -89,7 +87,7 @@
         if (controllerName == "Home" && actionName == "Index")
         {
             <!-- Image Section - set the background image for the header in the line below -->
-            <section class="py-5 bg-image-full" style="background-image: url('https://unsplash.it/1900/1080?image=1081');">
+            <section class="py-5 bg-image-full" style="background-image: url('/img/car-cut.jpg');">
                 <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
                 <div style="height: 200px;"></div>
             </section>
@@ -97,20 +95,35 @@
             <!-- Content section 2 -->
             <section class="py-5">
                 <div class="container">
-                    <h1>Section Heading</h1>
+                    <h1>O Firmie</h1>
                     <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid, suscipit, rerum quos facilis repellat architecto commodi officia atque nemo facere eum non illo voluptatem quae delectus odit vel itaque amet.</p>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam blandit augue at urna vehicula, vel commodo mauris semper. Cras pulvinar orci est, in tempor massa consectetur a. Sed molestie rutrum congue. In semper massa purus, in placerat tortor volutpat non. Interdum et malesuada fames ac ante ipsum primis in faucibus. In purus dui, convallis sit amet vulputate sed, convallis sed nibh. Maecenas facilisis lacinia vulputate. Sed varius, quam quis porttitor vulputate, lacus dui rutrum augue, elementum dignissim orci augue non magna. Vestibulum vitae vulputate ante, sed pretium mi. Vivamus ultrices eros eget magna maximus, et sodales tellus pharetra. Donec pellentesque libero ut lacus lacinia maximus. Proin lobortis a ante eu finibus. Maecenas cursus scelerisque dui, eu eleifend dolor volutpat ac. Sed et augue ut tellus accumsan pulvinar ut quis orci. Vivamus dignissim metus sem, et sodales dui euismod et.
+
+                        Praesent id maximus arcu. Sed mollis velit ac metus laoreet sagittis. Cras porttitor quam sit amet felis viverra, vitae dignissim orci ultrices. Mauris condimentum mi lorem, vel dignissim dui lacinia a. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer urna mi, iaculis sed tempor quis, tristique vitae neque. Quisque id vestibulum ipsum. Quisque convallis odio sit amet eleifend accumsan. Donec consequat magna tortor, ut posuere nulla malesuada quis.
+
+                        Duis tempus augue a leo condimentum, in euismod ligula hendrerit. Donec nisl quam, dictum vel eros et, aliquet faucibus tellus. Ut luctus quam mi, a tempor tortor lacinia non. Donec placerat pellentesque elit, placerat ullamcorper arcu interdum quis. Nulla auctor risus non augue tristique, id maximus diam lacinia. Phasellus varius sem magna, in fermentum enim ultricies in. Nam dui velit, hendrerit efficitur suscipit at, convallis at erat. Vivamus quis dolor ac magna luctus congue. Integer vel quam aliquam, consequat diam et, blandit turpis. Sed pharetra accumsan est quis suscipit. Integer tincidunt vel lectus et euismod. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Proin vel sagittis est. Etiam malesuada massa sed cursus egestas.
+                    </p>
                 </div>
             </section>
         }
     }
 
-
-
     <!-- Footer -->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2019</p>
+            <div class="row">
+                <div class="col-sm-8 text-left">
+                    <p class="m-0 text-white">Copyright &copy; RentIT Praca Inżynierska Krzysztof Franczyk WSB-NLU 2019</p>
+                </div>                
+                <div class="col-sm-4 text-right text-danger">
+                    <a href="#" class="text-danger"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-danger"><i class="fab fa-facebook-square"></i></a>
+                    <a href="#" class="text-danger"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            
         </div>
         <!-- /.container -->
     </footer>
@@ -149,22 +162,23 @@
                         $.each(newscollection, function (i, newsItem) {
                             
                             htmlstring += "<div class=\"col-xl-3 col-md-6 mb-4\">" +
-                                "<div class=\"card border-left-info h-100 py-2\">" +
-                                "<div class=\"card-body\">" +
-                                "<div class=\"row no-gutters align-items-center\">" +
-                                "<div class=\"col mr-2\">" +
-                                "<div class=\"text-xs font-weight-bold text-info text-uppercase mb-1\">" + newsItem.topic + "</div>" +
-                                "<div class=\"row no-gutters align-items-center\">" +
-                                "<div class=\"col-auto\">" +
-                                "<div class=\"h6 mb-0 mr-3 font-weight-bold text-gray-800 \">" + newsItem.newsContent.substring(0, 50) + "...</div>" +
-                                                                    "</div>" +
-                                                                "</div>" +
-                                                            "</div>" +
+                                            "<div class=\"card border-left-info h-100 py-2\">" +
+                                                "<div class=\"card-body\">" +
+                                                    "<div class=\"row no-gutters align-items-center\">" +
+                                                     "<div class=\"col mr-2\">" +
+                                                         "<div class=\"text-xs font-weight-bold text-info text-uppercase mb-1\">" + newsItem.topic + "</div>" +
+                                                         "<div class=\"row no-gutters align-items-center\">" +
                                                             "<div class=\"col-auto\">" +
-                                                                "<i class=\"fas fa-clipboard-list fa-2x text-gray-300\"></i>" +
+                                                            "<div class=\"h6 mb-0 mr-3 font-weight-bold text-gray-800 \">" + newsItem.newsContent.substring(0, 50) + "...</div>" +
                                                             "</div>" +
+                                                            "</div>" +
+                                                         "</div>" +
+                                                        "<div class=\"col-auto\">" +
+                                                            "<i class=\"fas fa-clipboard-list fa-2x text-gray-300\"></i>" +
                                                         "</div>" +
                                                     "</div>" +
+                                                   "<a class=\"stretched-link\" href=\"/News/ReadItem/" + newsItem.id +"\"></a>" +
+                                                  "</div>" +
                                                 "</div>" +
                                             "</div >";
                         });

@@ -10,12 +10,15 @@
 
 <h1>Zarejestruj nowe konto.</h1>
 
-<div class="row">
-    <div class="col-md-12">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+<form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+    <div class="form-row p-4">
+        <div class="col-md-12">
+
             <h4>Wypełnij formularz:</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
+        </div>
+        <div class="col-md-5 m-4">
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
                 <input asp-for="Input.Email" class="form-control" />
@@ -32,8 +35,6 @@
                 <input asp-for="Input.LastName" class="form-control" />
                 <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
-
-
             <div class="form-group">
                 <label asp-for="Input.Password"></label>
                 <input asp-for="Input.Password" class="form-control" />
@@ -44,7 +45,22 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                @***********  FOTO  ************@
+                <label>Zdjecie</label>
 
+                <div id="dbimage">
+                    <img style="width: 100px; height:100px" class="img-profile rounded mb-4" id="#dbimage" src="~/Upload/Default/DefaultUser.png" />
+                </div>
+                <div id="showimage"></div>
+                <div class="custom-file">
+                    <input class="form-control custom-file-input" type="file" name="file" />
+                    <label class="form-control custom-file-label">Wybierz..</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5 m-4">
             <div class="form-group">
                 <label asp-for="Input.Country"></label>
                 <input asp-for="Input.Country" class="form-control" />
@@ -71,26 +87,55 @@
                 <span asp-validation-for="Input.ZIPCode" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @***********  FOTO  ************@
-                <label>zdjecie</label>
-                <input type="file" class="form-control-file" id="file" name="file" />
-            </div>
-            <div class="form-group">
-                <label asp-for="Input.Name"></label>
+                <label>Uprawnienia</label>
                 <select asp-for="Input.Name" class="form-control" asp-items='new SelectList(roles,"Id","Name")'></select>
                 <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <label asp-for="Input.RentalAgencyID"></label>
                 <select asp-for="Input.RentalAgencyID" class="form-control" asp-items='new SelectList(rentalAgency,"RentalAgencyID","Name")'></select>
                 <span asp-validation-for="Input.RentalAgencyID" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-12">
             <button type="submit" class="btn btn-sm btn-primary">Utwórz nowe konto</button>
             <button class="btn btn-sm btn-dark ml-2" onclick="window.history.go(-1); return false;">Powrót</button>
-        </form>
+        </div>
     </div>
-</div>
+</form>
+
+
+
+<script type="text/javascript">
+
+                $(document).ready(function () {
+                    @*Java script dodaje siezke do pliku labeka *@
+                    $(".custom-file-input").on("change", function () {
+
+                        //dopisane
+                        document.getElementById("dbimage").style.display = "none";
+
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).next(".custom-file-label").html(fileName);
+
+                        @*Pokazuje zdjecie *@
+                        var previewimages = $("#showimage");
+                        previewimages.html("");
+                        $($(this)[0].files).each(function () {
+                            var file = $(this);
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                var img = $("<img class=\"rounded mb-4 \" />");
+                                img.attr("style", "height:100px;width: 100px;");
+                                img.attr("src", e.target.result);
+                                previewimages.append(img);
+                            }
+                            reader.readAsDataURL(file[0]);
+                        });
+                    }); //dodalem ;
+                });
+</script>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

@@ -10,8 +10,6 @@ using Rental.Data.Data.Areas.Identity.Data;
 
 namespace Rental.WWW.Controllers.Abstract
 {
-    //[Authorize(Roles = "Administrator,Pracownik")]
-    //[Authorize]
     public class BasicAbstractController : Controller
     {
         protected readonly UserManager<ApplicationUser> _userManager;

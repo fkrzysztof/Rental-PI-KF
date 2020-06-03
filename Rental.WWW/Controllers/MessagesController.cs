@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,7 @@ using Rental.WWW.Controllers.Abstract;
 
 namespace Rental.WWW.Controllers
 {
+    [Authorize]
     public class MessagesController : BasicAbstractController
     {
 
@@ -77,7 +79,7 @@ namespace Rental.WWW.Controllers
         // GET: Messages/Create
         public IActionResult Create()
         {
-            ViewData["UserTypeName"] = new SelectList(_roleManager.Roles, "Name", "Name");
+            ViewData["UserTypeName"] = new SelectList(_roleManager.Roles.Where(w => w.Name != "Zablokowani" && w.Name != "Klient"), "Name", "Name");
 
             return View();
         }

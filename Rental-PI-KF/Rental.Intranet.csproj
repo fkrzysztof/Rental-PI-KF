@@ -25,9 +25,4 @@
     <ProjectReference Include="..\Rental.Data\Rental.Data.csproj" />
   </ItemGroup>
 
-
-  <ItemGroup>
-    <Folder Include="wwwroot\img\" />
-  </ItemGroup>
-
 </Project>

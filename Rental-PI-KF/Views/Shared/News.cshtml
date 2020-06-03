@@ -12,7 +12,7 @@
 <script type="text/javascript">
             $(document).ready(function () {
 
-                    var urlNews = '@Url.Content("~/")' + "Home/GetTopNews";
+                    var urlNews = '@Url.Content("~/")' + "News/GetTopNews";
                     $.getJSON(urlNews, function (newscollection) {
                         var htmlstring = "";
 
@@ -34,6 +34,7 @@
                                                                 "<i class=\"fas fa-clipboard-list fa-2x text-gray-300\"></i>" +
                                                             "</div>" +
                                                         "</div>" +
+                                                        "<a class=\"stretched-link\" href=\"/News/ReadItem/" + newsItem.id +"\"> </a>" +
                                                     "</div>" +
                                                 "</div>" +
                                             "</div >";

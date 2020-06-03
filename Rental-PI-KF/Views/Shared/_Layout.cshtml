@@ -26,7 +26,6 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @*<ul class="navbar-nav sidebar sidebar-light accordion" style="background: url('/Upload/Images/bg-menu2.jpg') top no-repeat; background-color: black;" id="accordionSidebar">*@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -151,10 +150,22 @@
                 <!-- Footer -->
                 <footer class="sticky-footer bg-white">
                     <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; Your Website 2019 to jest footer!</span>
-                            <span>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></span>
+
+                        <div class="row">
+                            <div class="col-sm-8 text-left">
+                                <p class="m-0 text-dark">Copyright &copy; RentIT Praca Inżynierska Krzysztof Franczyk WSB-NLU 2019</p>
+                            </div>
+                            <div class="col-sm-4 text-right text-danger">
+                                <a href="#" class="text-primary"><i class="fab fa-twitter"></i></a>
+                                <a href="#" class="text-primary"><i class="fab fa-facebook-square"></i></a>
+                                <a href="#" class="text-primary"><i class="fab fa-instagram"></i></a>
+                            </div>
                         </div>
+
+                        @*<div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2019 to jest footer!</span>
+            <span>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a></span>
+        </div>*@
                     </div>
                 </footer>
                 <!-- End of Footer -->
@@ -221,7 +232,7 @@
                             "<span class=\"badge badge-danger badge-counter\">"+ coutmessages  +"</span></a>";
                         
                         htmlStringMessagesMenuCount = "<i class=\"fas fa-comments mr-2\"></i><span>Przychodzące</span>" +
-                            "<span class=\"badge badge-danger\">"+ coutmessages +"</span>";
+                            "<span class=\"badge badge-danger ml-1\">"+ coutmessages +"</span>";
 
                         $('#counttop').html(htmlStringMessagesCount);
                         $('#countmenu').html(htmlStringMessagesMenuCount);
