@@ -520,7 +520,16 @@ namespace Rental.Data
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<decimal?>("Price")
+                    b.Property<decimal?>("PriceDay")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("PriceLong")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("PriceWeek")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("PriceWeekend")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("VehicleID")

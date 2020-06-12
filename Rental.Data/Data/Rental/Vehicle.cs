@@ -11,7 +11,7 @@ namespace Rental_Data.Data.Rental
         [Key]
         public int VehicleID { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Zdjęcie")]
         public byte[]? Image { get; set; }
 

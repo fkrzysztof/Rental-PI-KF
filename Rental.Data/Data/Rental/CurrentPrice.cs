@@ -15,8 +15,17 @@ namespace Rental_Data.Data.Rental
             [ForeignKey("VehicleID")]
             public Vehicle Vehicle { get; set;}
 
-        [Display(Name = "Cena /24h")]
-        public decimal? Price { get; set; }
+        [Display(Name = "Cena / 24h")]
+        public decimal? PriceDay { get; set; }
+        
+        [Display(Name = "Cena / Weekend+")]
+        public decimal? PriceWeekend { get; set; }   
+        
+        [Display(Name = "Cena / 7+ dni")]
+        public decimal? PriceWeek { get; set; }    
+        
+        [Display(Name = "Cena / 14+ dni")]
+        public decimal? PriceLong { get; set; }
         
         [Display(Name = "Wypożyczenie od")]
         public DateTime? DateTimeFrom { get; set; }

@@ -1,5 +1,4 @@
-﻿@*@model Rental.Data.Data.HelpersClass.Car*@
-@model Rental_Data.Data.Rental.Vehicle
+﻿@model Rental_Data.Data.Rental.Vehicle
 @{ 
     ViewData["Title"] = "Dodaj Pojazd";
 }
@@ -19,12 +18,11 @@
                 <div class="custom-file">
                     <input class="form-control custom-file-input" type="file" name="file" />
                     <label class="custom-file-label">Wybierz..</label>
-                    <span asp-validation-for="@Model.Image" class="text-danger"></span>
+                    @*<span asp-validation-for="@Model.Image" class="text-danger"></span>*@
                 </div>
             </div>
 
             <script type="text/javascript">
-
                 $(document).ready(function () {
                     @*Java script dodaje siezke do pliku labeka *@
                     $(".custom-file-input").on("change", function () {
@@ -40,13 +38,12 @@
                             var reader = new FileReader();
                             reader.onload = function (e) {
                                 var img = $("<img class=\"rounded  img-fluid\" />");
-                                //img.attr("style", "height:150px;width: 150px;");
                                 img.attr("src", e.target.result);
                                 previewimages.append(img);
                             }
                             reader.readAsDataURL(file[0]);
                         });
-                    }); 
+                    });
                 });
             </script>
             @* ************************************* Dodawanie zdjecia Koniec*************************************************** *@
@@ -163,9 +160,9 @@
 
             <div class="col-sm-6">
                 <div class="form-group">
-                <label asp-for="@Model.AirConditioningID" class="control-label"></label>
-                <select asp-for="@Model.AirConditioningID" class="form-control" asp-items="@ViewBag.AirConditioningID"></select>
-            </div>
+                    <label asp-for="@Model.AirConditioningID" class="control-label"></label>
+                    <select asp-for="@Model.AirConditioningID" class="form-control" asp-items="@ViewBag.AirConditioningID"></select>
+                </div>
                 <div class="form-group">
                     <label asp-for="@Model.ColourID" class="control-label"></label>
                     <select asp-for="@Model.ColourID" class="form-control" asp-items="ViewBag.ColourID"></select>
@@ -197,30 +194,53 @@
 
             @************************************ Wyposazenie ***************************************@
 
-                <div class="col-sm-12">
-                    <h4>Wyposażenie Nowe</h4>
-                    <hr />
-                    <dl class="row">
-                        @foreach (var item in ViewBag.EquipmentsNameList)
-                        {
-                            <dt class="col-sm-5">
-                                <small>@item.Name</small>
-                            </dt>
-                            <dd class="col-sm-1">
-                                <input type="checkbox" value="@item.EquipmentNameID" name="Equipments" />
-                            </dd>
-                        }
-                    </dl>
-                </div>
+            <div class="col-sm-12">
+                <h5>Wyposażenie</h5>
+                <hr />
+                <dl class="row">
+                    @foreach (var item in ViewBag.EquipmentsNameList)
+                    {
+                        <dt class="col-sm-5">
+                            <small>@item.Name</small>
+                        </dt>
+                        <dd class="col-sm-1">
+                            <input type="checkbox" value="@item.EquipmentNameID" name="Equipments" />
+                        </dd>
+                    }
+                </dl>
+            </div>
 
             @*****************************  Wyposazenie Koniec ***************************************@
 
+            @*****************************  Cena *****************************************************@
+        <div class="col-sm-12">
+            <h5>Cena wypożyczenia (PLN)</h5>
+            <div class="row">
+                <div class="form-group col-sm-3">
+                    <label class="control-label">24 H</label>
+                    <input name="price_Day" class="form-control text-right" />
+                </div>
+                <div class="form-group col-sm-3">
+                    <label class="control-label">Weekend+</label>
+                    <input name="price_Weekend" class="form-control text-right" />
+                </div>
+                <div class="form-group col-sm-3">
+                    <label class="control-label">Tydzień+</label>
+                    <input name="price_Week" class="form-control text-right" />
+                </div>
+                <div class="form-group col-sm-3">
+                    <label class="control-label">14+ dni</label>
+                    <input name="price_Long" class="form-control text-right" />
+                </div>
+            </div>
+        </div>
+                @*****************************  Cena Koniec **********************************************@
 
-        </div>
-        <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
-        </div>
-    </form>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+</form>
 </div>
 <div>
     <a asp-action="Index">Back to List</a>

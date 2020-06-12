@@ -326,7 +326,7 @@
                                             </div>
                                         </div>
                                         <div class="card-body ">
-                                            <div class="row">
+                                            <div class="row no-gutters"> @*dodalem*@
                                                 <div class="col-md-7">
                                                     @{
                                                         RentalVehicle rentalVehicleItem;
@@ -360,7 +360,7 @@
                                                         Klimatyzacja: @Html.DisplayFor(modelItem => item.AirConditioning.Type) @(item.AirConditioningID == null ? "Brak danych" : "")<br />
                                                     </small>
                                                 </div>
-                                                <div class="col-md-11 m-2">
+                                                <div class="col-md-12 mt-2">
 
                                                     @*Wypożyenie TAK NIE*@
                                                     @{
@@ -388,11 +388,35 @@
                                                             }
                                                         }
                                                     }
+
+                                                    <!-- dodalem tabele cen-->
+                                                    @if (item.VehicleID == 10)
+                                                    {
+                                                        <table class="table table-sm bg-light table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>24 H</th>
+                                                                    <th>Weekend+</th>
+                                                                    <th>Tydzień+</th>
+                                                                    <th>14 dni+</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>@item.CurrentPrices.First().PriceDay PLN</td>
+                                                                    <td>@item.CurrentPrices.First().PriceWeekend PLN /dzień</td>
+                                                                    <td>@item.CurrentPrices.First().PriceWeek PLN /dzień</td>
+                                                                    <td>@item.CurrentPrices.First().PriceLong PLN /dzień</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    }
+
                                                     <h6 class="card-title">Opis</h6>
                                                     <p><small>@item.Description</small><p>
                                                 </div>
 
-                                                <div class="col-md-11 m-2">
+                                                <div class="col-md-12 mt-2">
                                                     <h5>Wyposażenie</h5>
                                                     <hr />
                                                     @{

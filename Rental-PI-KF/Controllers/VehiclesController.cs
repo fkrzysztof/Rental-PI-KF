@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using LazZiya.ImageResize;
-using Microsoft.AspNetCore.Authorization;
+﻿using LazZiya.ImageResize;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -16,6 +9,12 @@ using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
 using Rental_Data.Data.Rental;
 using Rental_PI_KF.Controllers.Abstract;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Rental_PI_KF.Controllers
 {
@@ -46,6 +45,7 @@ namespace Rental_PI_KF.Controllers
                 Include(v => v.Equipment).
                 Include(v => v.RentalVehicles).
                 Include(v => v.AirConditioning).
+                Include(v => v.CurrentPrices).
                 Where(w => w.IsActive == active).
                 ToList();
             
@@ -167,7 +167,9 @@ namespace Rental_PI_KF.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Vehicle v, IFormFile file, List<int> Equipments)
+        public async Task<IActionResult> Create(Vehicle v, IFormFile file, List<int> Equipments,
+                                                decimal price_Day, decimal price_Weekend, decimal price_Week, decimal price_Long,
+                                                DateTime? dateTime_To, DateTime? DateTimeFrom)
         {
             if (ModelState.IsValid)
             {
@@ -195,6 +197,18 @@ namespace Rental_PI_KF.Controllers
                         });
                     }
                 }
+
+                _context.CurrentPrices.Add(new CurrentPrice
+                {
+                    Vehicle = v,
+                    PriceDay = price_Day,
+                    PriceWeekend = price_Weekend,
+                    PriceWeek = price_Week,
+                    PriceLong = price_Long,
+                    DateTimeTo = DateTime.Now,
+                    DateTimeFrom = DateTime.Now
+                });
+
                 await _context.SaveChangesAsync();
             
                 return RedirectToAction(nameof(Index));
