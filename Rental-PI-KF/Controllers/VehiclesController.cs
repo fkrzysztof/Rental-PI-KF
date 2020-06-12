@@ -30,7 +30,8 @@ namespace Rental_PI_KF.Controllers
         }
 
         // GET: Vehicles
-        public async Task<IActionResult> Index(string generalType, bool active = true, bool table = false)
+        public async Task<IActionResult> Index(string generalType, string search, int? exactType, int? gearBox, int? engineType, 
+                                               int? enginePower,int? rentalItemBrand, string cut, bool active = true, bool table = false)
         {
             var applicationDbContext = _context.Vehicles.
                 Include(v => v.Brand).
@@ -45,7 +46,13 @@ namespace Rental_PI_KF.Controllers
                 Include(v => v.Equipment).
                 Include(v => v.RentalVehicles).
                 Include(v => v.AirConditioning).
-                Where(w => w.IsActive == active);
+                Where(w => w.IsActive == active).
+                ToList();
+            
+            if(generalType != null)
+            {
+                applicationDbContext = applicationDbContext.Where(w => w.GeneralType.Name == generalType).ToList();
+            }
 
             ViewBag.EQNameList = await _context.EquipmentNames.ToListAsync();
             ViewBag.GeneraltypeNow = generalType;
@@ -53,10 +60,76 @@ namespace Rental_PI_KF.Controllers
             ViewBag.Table = table;
             ViewBag.Generaltypes = await _context.GeneralTypes.ToListAsync();
 
-            if (generalType != null)
-                return View(await applicationDbContext.Where(w => w.GeneralType.Name == generalType).ToListAsync());
+            #region dodatkowe opcje wyszukiwania
+
+            if (search != null)
+            {
+                List<string> searchList = search.ToLower().Split(" ").ToList();
+
+                if (cut != null)
+                    searchList.Remove(cut);
+
+                applicationDbContext = applicationDbContext.Where(w =>
+                searchList.Contains(w.Brand.Name.ToLower()) ||
+                searchList.Contains(w.VehicleModel.Name.ToLower()) ||
+                searchList.Contains(w.Colour.Name.ToLower()) ||
+                searchList.Contains(w.WheelDrive.Name.ToLower())
+                ).ToList();
+                ViewBag.Search = searchList;
+                ViewBag.SearchString = string.Join(" ", searchList);
+            }
+
+
+            if (exactType != null)
+            {
+                applicationDbContext = applicationDbContext.Where(w => w.ExactTypeID == exactType).ToList();
+                ViewBag.ExactType = new SelectList(applicationDbContext.Select(s => s.ExactType).Distinct(), "ExactTypeID", "Name", exactType);
+            }
             else
-                return View(await applicationDbContext.ToListAsync());
+            {
+                ViewBag.ExactType = new SelectList(applicationDbContext.Select(s => s.ExactType).Distinct(), "ExactTypeID", "Name");
+            }
+
+            if (gearBox != null)
+            {
+                applicationDbContext = applicationDbContext.Where(w => w.GearBoxID == gearBox ).ToList();
+                ViewBag.GearBox = new SelectList(_context.GearBoxes, "GearBoxID", "Name", gearBox);
+            }
+            else
+            {
+                ViewBag.GearBox = new SelectList(_context.GearBoxes, "GearBoxID", "Name");
+            }
+
+            if (engineType != null)
+            {
+                applicationDbContext = applicationDbContext.Where(w => w.EngineTypeID == engineType).ToList();
+                ViewBag.EngineType = new SelectList(_context.EngineTypes, "EngineTypeID", "Name", engineType);
+            }
+            else
+            {
+                ViewBag.EngineType = new SelectList(_context.EngineTypes, "EngineTypeID", "Name");
+            }
+
+            if (enginePower != null)
+            {
+                applicationDbContext = applicationDbContext.Where(w => w.EnginePower >= enginePower).ToList();
+                ViewBag.EnginePower = enginePower;
+            }
+
+
+            if (rentalItemBrand != null)
+            {
+                applicationDbContext = applicationDbContext.Where(w => w.BrandID == rentalItemBrand).ToList();
+                ViewBag.RentalItemBrand = new SelectList(_context.Brands, "BrandID", "Name", rentalItemBrand);
+            }
+            else
+            {
+                ViewBag.RentalItemBrand = new SelectList(_context.Brands, "BrandID", "Name", rentalItemBrand);
+            }
+
+            #endregion dodatkowe opcje wyszukiwania
+
+            return View(applicationDbContext);
         }
 
         // GET: Vehicles/Create

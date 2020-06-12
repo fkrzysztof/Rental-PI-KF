@@ -60,20 +60,102 @@
                     </div>
                     <div class="col-12 mb-2">
                         <div class="text-center collapse show" id="collapseExample" style="">
-                            <div class="card card-body">
-                                <form asp-action="@ViewBag.Action" method="get">
-                                    <div class="row">
-                                        <div class="col-sm-10 align-self-center">
-                                            @*Wyszukiwarka*@
-                                            <input type="text" name="search" class="form-control" placeholder="Wpisz szukaną frazę.." />
+
+
+                            <div class="card card-body pb-0">
+                                <form asp-action="Index" method="get" id="vehicleForm">
+                                    <input type="hidden" name="generalType" value="@ViewBag.GeneraltypeNow" />
+                                    @***************************** Wyszukiwanie **********************************@
+                                    <div class="row mb-4">
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput">Rodzaj:</label>
+                                                        <select class="form-control" asp-items="@ViewBag.ExactType" name="exactType">
+                                                            @if ((@ViewBag.ExactType as SelectList).SelectedValue == null)
+                                                            {
+                                                                <option disabled selected>Wybierz..</option>
+                                                            }
+                                                                <option value="null">Wszystkie</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput2">Skrzynia:</label>
+                                                        <select class="form-control" asp-items="@ViewBag.GearBox" name="gearBox">
+                                                            @if ((@ViewBag.GearBox as SelectList).SelectedValue == null)
+                                                            {
+                                                                <option disabled selected>Wybierz..</option>
+                                                            }
+                                                                <option value="null">Wszystkie</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput">Silnik:</label>
+                                                        <select class="form-control" asp-items="@ViewBag.EngineType" name="engineType">
+                                                            @if ((@ViewBag.EngineType as SelectList).SelectedValue == null)
+                                                            {
+                                                                <option disabled selected>Wybierz..</option>
+                                                            }
+                                                                <option value="null">Wszystkie</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput2">Minimalna moc (KM):</label>
+                                                        <input type="number" min="75" max="250" step="25" class="form-control" name="enginePower" value="@ViewBag.EnginePower">
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-lg-12 align-self-center">
+                                                    @*Wyszukiwarka*@
+                                                    @{
+                                                            if (@ViewBag.Search != null)
+                                                                foreach (var itemSearch in @ViewBag.Search as List<string>)
+                                                                {
+                                                                <span class="badge badge-pill badge-info">"@itemSearch"<a class="text-white" 
+                                                                                                                          asp-action="Index" 
+                                                                                                                          asp-route-search="@((ViewBag.Search as List<string>).Count > 1? ViewBag.SearchString : null )" 
+                                                                                                                          asp-route-cut="@itemSearch" asp-route-enginePower="@ViewBag.EnginePower" 
+                                                                                                                          asp-route-engineType="@((ViewBag.EngineType as SelectList).SelectedValue)"  
+                                                                                                                          asp-route-gearBox="@((ViewBag.GearBox as SelectList).SelectedValue)"  
+                                                                                                                          asp-route-exactType="@((ViewBag.exactType as SelectList).SelectedValue)"  
+                                                                                                                          asp-route-generalType="@ViewBag.GeneraltypeNow"
+                                                                                                                       >
+                                                                                                                       <i class="far fa-times-circle"></i></a>
+                                                                </span>
+                                                                }
+                                                    }
+                                                    <input type="text" name="search" class="form-control" placeholder="Wpisz szukaną frazę.." value="@ViewBag.SearchString" />
+                                                </div>
+
+                                            </div>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-lg-6">
+
+                                            <div class="row h-100">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group card p-2 h-100">
+                                                        <label for="exampleFormControlSelect2">Wybierz marke:</label>
+                                                        <select multiple class="form-control h-100 border-0 p-0" asp-items="@ViewBag.RentalItemBrand" name="rentalItemBrand">
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-12 text-right mt-2">
                                             <button type="submit" class="btn text-primary"><i class="fas fa-search"></i></button>
-                                            <button asp-action="@ViewBag.Action" class="btn text-primary"><i class="fas fa-ban"></i></button>
+                                            <a href="/Vehicles" class="btn text-primary"><i class="fas fa-ban"></i></a>
                                         </div>
                                     </div>
                                 </form>
+                                @***************************** Wyszukiwanie Koniec****************************@
                             </div>
+
+
                         </div>
                     </div>
                     <div class="col-12">
@@ -186,176 +268,182 @@
                         }
                         else
                         {
-                            <div class="row justify-content-center no-gutters">
-                                @foreach (var item in Model)
+                    <div class="row justify-content-center no-gutters">
+
+                            @if (Model.Count() == 0)
+                            {
+                                <h2 class="mt-4 mb-4"><i class="far fa-folder mr-2 text-danger"></i>Brak wyników..</h2>  
+                            }
+                            else
+                               @foreach (var item in Model)
                                 {
-                                    <div class="col-xl-5 m-4">
-                                        <div class="card shadow-sm">
-                                            <div class="card-header bg-gradient-white ">
-                                                <h5 class="card-title float-left align-items-center m-0">
-                                                    @Html.DisplayFor(modelItem => item.Brand.Name) @Html.DisplayFor(modelItem => item.VehicleModel.Name)
-                                                </h5>
+                                <div class="col-xl-5 m-4">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header bg-gradient-white ">
+                                            <h5 class="card-title float-left align-items-center m-0">
+                                                @Html.DisplayFor(modelItem => item.Brand.Name) @Html.DisplayFor(modelItem => item.VehicleModel.Name)
+                                            </h5>
 
-                                                <div class="dropdown no-arrow float-right">
-                                                    @*<a class="dropdown-toggle"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">*@
-                                                    <a class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                                                        <div class="dropdown-header">Dostępne opcje:</div>
+                                            <div class="dropdown no-arrow float-right">
+                                                @*<a class="dropdown-toggle"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">*@
+                                                <a class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
+                                                    <div class="dropdown-header">Dostępne opcje:</div>
 
-                                                        @{
-                                                            if (@ViewBag.Active != false)
+                                                    @{
+                                                        if (@ViewBag.Active != false)
+                                                        {
+                                                            <a class="dropdown-item @(item.Blockade == true ? "disabled" : "")" asp-action="CreateThis" asp-route-id="@item.VehicleID" asp-controller="RentalVehicles"><i class="fas fa-cart-plus mr-2"></i>Wypożycz</a>
+                                                            <div class="dropdown-divider"></div>
+
+
+                                                            string blockade = "Zablokuj";
+                                                            if (item.Blockade == true)
                                                             {
-                                                                <a class="dropdown-item @(item.Blockade == true ? "disabled" : "")" asp-action="CreateThis" asp-route-id="@item.VehicleID" asp-controller="RentalVehicles"><i class="fas fa-cart-plus mr-2"></i>Wypożycz</a>
-                                                                <div class="dropdown-divider"></div>
-
-
-                                                                string blockade = "Zablokuj";
-                                                                if (item.Blockade == true)
-                                                                {
-                                                                    blockade = "Odblokuj";
-                                                                }
-
-                                                                <a class="dropdown-item" asp-action="Activation" asp-route-id="@item.VehicleID" asp-controller="Vehicles"><i class="fas fa-lock mr-2"></i>@blockade</a>
-                                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.VehicleID"><i class="fas fa-wrench mr-2"></i>Edytuj</a>
-                                                                <a data-id="@item.VehicleID" class="dropdown-item j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash mr-2"></i>Usuń</a>
-                                                            }
-                                                            else
-                                                            {
-                                                                <a data-id="@item.VehicleID" class="dropdown-item j-s-RestoreDialog" data-toggle="modal" data-target="#restoreModal" href="#restoreModal"><i class="fas fa-undo-alt mr-2"></i>Przywróć</a>
+                                                                blockade = "Odblokuj";
                                                             }
 
+                                                            <a class="dropdown-item" asp-action="Activation" asp-route-id="@item.VehicleID" asp-controller="Vehicles"><i class="fas fa-lock mr-2"></i>@blockade</a>
+                                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.VehicleID"><i class="fas fa-wrench mr-2"></i>Edytuj</a>
+                                                            <a data-id="@item.VehicleID" class="dropdown-item j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash mr-2"></i>Usuń</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a data-id="@item.VehicleID" class="dropdown-item j-s-RestoreDialog" data-toggle="modal" data-target="#restoreModal" href="#restoreModal"><i class="fas fa-undo-alt mr-2"></i>Przywróć</a>
                                                         }
 
-                                                    </div>
+                                                    }
+
+                                                </div>
+                                                @{
+                                                    if (item.Blockade == true)
+                                                    {
+                                                        <i class="text-danger fas fa-lock float-left ml-3 mr-1"></i>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="card-body ">
+                                            <div class="row">
+                                                <div class="col-md-7">
                                                     @{
-                                                        if (item.Blockade == true)
+                                                        RentalVehicle rentalVehicleItem;
+                                                        if ((rentalVehicleItem = item.RentalVehicles.FirstOrDefault(f =>
+                                                        f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
+                                                        )) != null)
                                                         {
-                                                            <i class="text-danger fas fa-lock float-left ml-3 mr-1"></i>
+                                                            <div class="position-absolute bg-gradient-info text-white p-3 rotate-n-15 d-inline-block my-1 rounded shadow-sm">Wypożyczony</div>
                                                         }
                                                     }
+
+                                                    @*Zmiana na zdjec na sql*@
+                                                    @if (item.Image != null)
+                                                    {
+                                                        var img = item.Image;
+
+                                                        var base64 = Convert.ToBase64String(img);
+                                                        var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
+                                                        <img class="img-fluid rounded" style="width: 360px;" src="@imgSrc" />
+
+                                                    }
                                                 </div>
-                                            </div>
-                                            <div class="card-body ">
-                                                <div class="row">
-                                                    <div class="col-md-7">
-                                                        @{
-                                                            RentalVehicle rentalVehicleItem;
-                                                            if ((rentalVehicleItem = item.RentalVehicles.FirstOrDefault(f =>
-                                                            f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
-                                                            )) != null)
-                                                            {
-                                                                <div class="position-absolute bg-gradient-info text-white p-3 rotate-n-15 d-inline-block my-1 rounded shadow-sm">Wypożyczony</div>
-                                                            }
-                                                        }
+                                                <div class="col-md-4 m-2">
+                                                    <small>
+                                                        Rocznik: @Html.DisplayFor(modelItem => item.YearOfCarProduction)<br />
+                                                        Pojemność: @Html.DisplayFor(modelItem => item.EngineCapacity) cm3<br />
+                                                        Silnik: @Html.DisplayFor(modelItem => item.EngineType.Name)<br />
+                                                        Przebieg: @Html.DisplayFor(modelItem => item.Mileage) km<br />
+                                                        Moc (KM): @Html.DisplayFor(modelItem => item.EnginePower) KM<br />
+                                                        Skrzynia: @Html.DisplayFor(modelItem => item.GearBox.Name)<br />
+                                                        Klimatyzacja: @Html.DisplayFor(modelItem => item.AirConditioning.Type) @(item.AirConditioningID == null ? "Brak danych" : "")<br />
+                                                    </small>
+                                                </div>
+                                                <div class="col-md-11 m-2">
 
-                                                        @*Zmiana na zdjec na sql*@
-                                                        @if (item.Image != null)
+                                                    @*Wypożyenie TAK NIE*@
+                                                    @{
+                                                        DateTime.Now.Date.ToString();
+                                                        DateTime nextRentalDate;
+                                                        //szukam zajetego
+                                                        if ((rentalVehicleItem = item.RentalVehicles.FirstOrDefault(f =>
+                                                        f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
+                                                        )) != null)
                                                         {
-                                                            var img = item.Image;
-
-                                                            var base64 = Convert.ToBase64String(img);
-                                                            var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                                            <img class="img-fluid rounded" style="width: 360px;" src="@imgSrc" />
-
+                                                            <h6>Aktualnie Wypożyczony</h6>
+                                                            <p>Koniec wypożyczenia za @((rentalVehicleItem.To.Date - DateTime.Now.Date).Days)dni / @rentalVehicleItem.To.Date.ToShortDateString()</p>
                                                         }
-                                                    </div>
-                                                    <div class="col-md-4 m-2">
-                                                        <small>
-                                                            Rocznik: @Html.DisplayFor(modelItem => item.YearOfCarProduction)<br />
-                                                            Pojemność: @Html.DisplayFor(modelItem => item.EngineCapacity) cm3<br />
-                                                            Silnik: @Html.DisplayFor(modelItem => item.EngineType.Name)<br />
-                                                            Przebieg: @Html.DisplayFor(modelItem => item.Mileage) km<br />
-                                                            Moc (KM): @Html.DisplayFor(modelItem => item.EnginePower) KM<br />
-                                                            Skrzynia: @Html.DisplayFor(modelItem => item.GearBox.Name)<br />
-                                                            Klimatyzacja: @Html.DisplayFor(modelItem => item.AirConditioning.Type) @(item.AirConditioningID == null ? "Brak danych" : "")<br />
-                                                        </small>
-                                                    </div>
-                                                    <div class="col-md-11 m-2">
-
-                                                        @*Wypożyenie TAK NIE*@
-                                                        @{
-                                                            DateTime.Now.Date.ToString();
-                                                            DateTime nextRentalDate;
-                                                            //szukam zajetego
-                                                            if ((rentalVehicleItem = item.RentalVehicles.FirstOrDefault(f =>
-                                                            f.From.CompareTo(DateTime.Now.Date) <= 0 && f.To.CompareTo(DateTime.Now.Date) >= 0
-                                                            )) != null)
+                                                        else
+                                                        {
+                                                            <h6>Aktualnie Dostepny<i class="fas fa-flag ml-2 text-success"></i></h6>
+                                                            if ((nextRentalDate = item.RentalVehicles.OrderBy(o => o.From).Select(s => s.From).FirstOrDefault(f => f.CompareTo(DateTime.Now.Date) > 0)).CompareTo(DateTime.Now.Date) > 0)
                                                             {
-                                                                <h6>Aktualnie Wypożyczony</h6>
-                                                                <p>Koniec wypożyczenia za @((rentalVehicleItem.To.Date - DateTime.Now.Date).Days)dni / @rentalVehicleItem.To.Date.ToShortDateString()</p>
+                                                                <p>Następna rezerwacja za: @((nextRentalDate.Date - DateTime.Now.Date).Days)dni  / @nextRentalDate.Date.ToShortDateString()</p>
+                                                                @*<p>Następna rezerwacja za: @nextRentalDate.Date</p>*@
                                                             }
                                                             else
                                                             {
-                                                                <h6>Aktualnie Dostepny<i class="fas fa-flag ml-2 text-success"></i></h6>
-                                                                if ((nextRentalDate = item.RentalVehicles.OrderBy(o => o.From).Select(s => s.From).FirstOrDefault(f => f.CompareTo(DateTime.Now.Date) > 0)).CompareTo(DateTime.Now.Date) > 0)
-                                                                {
-                                                                    <p>Następna rezerwacja za: @((nextRentalDate.Date - DateTime.Now.Date).Days)dni  / @nextRentalDate.Date.ToShortDateString()</p>
-                                                                    @*<p>Następna rezerwacja za: @nextRentalDate.Date</p>*@
-                                                                }
-                                                                else
-                                                                {
-                                                                    <p>Brak rezerwacji</p>
-                                                                }
+                                                                <p>Brak rezerwacji</p>
                                                             }
                                                         }
-                                                        <h6 class="card-title">Opis</h6>
-                                                        <p><small>@item.Description</small><p>
-                                                    </div>
+                                                    }
+                                                    <h6 class="card-title">Opis</h6>
+                                                    <p><small>@item.Description</small><p>
+                                                </div>
 
-                                                    <div class="col-md-11 m-2">
-                                                        <h5>Wyposażenie</h5>
-                                                        <hr />
-                                                        @{
-                                                            //generowanie templisty do vehicle
+                                                <div class="col-md-11 m-2">
+                                                    <h5>Wyposażenie</h5>
+                                                    <hr />
+                                                    @{
+                                                        //generowanie templisty do vehicle
 
-                                                            Equipment toAdd;
-                                                            //iteracja po wszystkich nazwach equipment
-                                                            foreach (var name in @ViewBag.EQNameList)
+                                                        Equipment toAdd;
+                                                        //iteracja po wszystkich nazwach equipment
+                                                        foreach (var name in @ViewBag.EQNameList)
+                                                        {
+                                                            //jesli item(akutalnie generowany vehicle) posiada taka nazwe equipment
+                                                            //dodaje do TempList equipment z Check true
+                                                            //jesli nie posiada dodaje do TempList equipment z Check false
+                                                            if ((toAdd = item.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID)) == null)
                                                             {
-                                                                //jesli item(akutalnie generowany vehicle) posiada taka nazwe equipment
-                                                                //dodaje do TempList equipment z Check true
-                                                                //jesli nie posiada dodaje do TempList equipment z Check false
-                                                                if ((toAdd = item.Equipment.FirstOrDefault(f => f.EquipmentNameID == name.EquipmentNameID)) == null)
+                                                                TempList.Add(new Equipment()
                                                                 {
-                                                                    TempList.Add(new Equipment()
-                                                                    {
-                                                                        Name = name.Name,
-                                                                        Check = false
-                                                                    }
-                                                                    );
+                                                                    Name = name.Name,
+                                                                    Check = false
                                                                 }
-                                                                else
-                                                                {
-                                                                    toAdd.Name = name.Name;
-                                                                    TempList.Add(toAdd);
-                                                                }
+                                                                );
+                                                            }
+                                                            else
+                                                            {
+                                                                toAdd.Name = name.Name;
+                                                                TempList.Add(toAdd);
                                                             }
                                                         }
-                                                        @*wyswietlanie generowanej wyżej listy*@
-                                                        <dl class="row">
-                                                            @foreach (var eqtemp in TempList)
-                                                            {
-                                                                <dt class="col-sm-5">
-                                                                    <small>@Html.DisplayFor(eqtempModel => eqtemp.Name)</small>
-                                                                </dt>
-                                                                <dd class="col-sm-1">
-                                                                    @Html.DisplayFor(eqtempModel => eqtemp.Check)
-                                                                </dd>
-                                                            }
-                                                        </dl>
-                                                        @{
-                                                            //przygotowanie do kolejnej iteracji po Vehicle
-                                                            TempList.Clear();
+                                                    }
+                                                    @*wyswietlanie generowanej wyżej listy*@
+                                                    <dl class="row">
+                                                        @foreach (var eqtemp in TempList)
+                                                        {
+                                                            <dt class="col-sm-5">
+                                                                <small>@Html.DisplayFor(eqtempModel => eqtemp.Name)</small>
+                                                            </dt>
+                                                            <dd class="col-sm-1">
+                                                                @Html.DisplayFor(eqtempModel => eqtemp.Check)
+                                                            </dd>
                                                         }
-                                                    </div>
+                                                    </dl>
+                                                    @{
+                                                        //przygotowanie do kolejnej iteracji po Vehicle
+                                                        TempList.Clear();
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                }
-                            </div>
+                                </div>
+                            }
+                    </div>
                         }
                         @*main end*@
 
