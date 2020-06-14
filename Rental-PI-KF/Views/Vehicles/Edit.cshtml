@@ -10,7 +10,6 @@
 <div class="container">
     <form asp-action="Edit" method="post" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
         <input type="hidden" asp-for="Image" />
         <input type="hidden" asp-for="VehicleID" />
         <div class="row">
@@ -18,7 +17,6 @@
             <script src="~/js/jquery-1.10.2.js"></script>
             <div class="col-sm-6">
                 <div id="dbimage">
-
                     @if (Model.Image != null)
                     {
                         var img = Model.Image;
@@ -28,16 +26,12 @@
                         <img class="img-fluid rounded" id="#dbimage" src="@imgSrc" />
 
                     }
-
                 </div>
                 <div id="showimage"></div>
-
                 <div class="custom-file">
                     <input class="form-control custom-file-input" type="file" name="file" />
                     <label class="custom-file-label">Wybierz..</label>
                 </div>
-                @*<button type="submit">Upload</button>*@
-
             </div>
 
             <script type="text/javascript">
@@ -46,7 +40,6 @@
                     @*Java script dodaje siezke do pliku labeka *@
                     $(".custom-file-input").on("change", function () {
 
-                        //dopisane
                         document.getElementById("dbimage").style.display = "none";
 
                         var fileName = $(this).val().split("\\").pop();
@@ -60,24 +53,18 @@
                             var reader = new FileReader();
                             reader.onload = function (e) {
                                 var img = $("<img class=\"rounded  img-fluid\" />");
-                                //img.attr("style", "height:150px;width: 150px;");
                                 img.attr("src", e.target.result);
                                 previewimages.append(img);
                             }
                             reader.readAsDataURL(file[0]);
-
                         });
-
-                    }); //dodalem ;
+                    }); 
                 });
             </script>
             @* ************************************* Zmiana zdjecia Koniec*************************************************** *@
 
-
             <div class="col-sm-6">
-
                 <div class="form-group">
-                    @*<label asp-for="@Model.EquipmentID" class="control-label"></label>*@
                     <select asp-for="@Model.ExactTypeID" class="form-control" asp-items="ViewBag.ExactTypeID"></select>
                 </div>
                 <div class="form-group">
@@ -90,11 +77,9 @@
                 <div class="form-group">
                     <label asp-for="@Model.VehicleModelID" class="control-label"></label>
                     <select class="form-control" name="VehicleModelID" asp-for="@Model.VehicleModelID" asp-items="@ViewBag.ModelList">
-                        @*<option value="@Model.VehicleModelID">@Model.VehicleModel.Name</option>*@
                     </select>
                     <span asp-validation-for="@Model.VehicleModelID" class="text-danger"></span>
                 </div>
-
 
                 <script src="~/lib/jquery/dist/jquery.js"></script>
                 <script type="text/javascript">
@@ -119,9 +104,7 @@
                             });
                         });
                     });
-
                 </script>
-
 
                 <div class="form-group">
                     <label asp-for="@Model.YearOfCarProduction" class="control-label"></label>
@@ -139,8 +122,6 @@
                     <span asp-validation-for="@Model.Description" class="text-danger"></span>
                 </div>
             </div>
-
-
 
             <div class="col-sm-6">
                 <div class="form-group">
@@ -210,11 +191,10 @@
                 </div>
             </div>
 
-            @*Wyposazenie nowe !!!*@
+            @***************************** Wyposazenie ***********************************************@
             <div class="col-sm-12">
                 <h5 class="mt-4">Wyposażnie</h5>
                 <hr />
-
                 <dl class="row">
                     @foreach (var eqtemp in @ViewBag.TempList as ICollection<Equipment>)
                     {
@@ -229,13 +209,9 @@
                     }
                 </dl>
             </div>
-
-            @*Wyposazenie nowe Koniec !!!*@
-
+            @*****************************  Wyposazenie Koniec ***************************************@
 
             @*****************************  Cena *****************************************************@
-
-
             <div class="col-sm-12 card card-body mt-4">
                 <h5 class="mb-2">Aktualne ceny:</h5>
                 <table class="table table-sm">
@@ -264,7 +240,6 @@
                         }
                     </tbody>
                 </table>
-
             </div>
             <div class="col-sm-12">
                 <h5 class="mt-4">Ustaw/Zaplanuj nowe ceny</h5>
@@ -327,75 +302,66 @@
 
                 </div>
             </div>
-
-            <h5 class="mt-4">Zaplanowane zmiany cen:</h5>
-            <hr />
-            <table class="table table-sm">
-                <thead>
-                    <tr>
-                        <th scope="col" class="text-center">24H</th>
-                        <th scope="col" class="text-center">Weekend+</th>
-                        <th scope="col" class="text-center">Tydzień+</th>
-                        <th scope="col" class="text-center">14 dni+</th>
-                        <th scope="col" class="text-center">Aktualne od:</th>
-                        <th scope="col" class="text-center">Usuń</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        var queryNextPrices = Model.CurrentPrices.Where(w => w.DateTimeFrom.Value.CompareTo(DateTime.Now.Date) > 0).OrderBy(o => o.DateTimeFrom).ToList();
-                    }
-                    @if (queryNextPrices.Count() > 0)
-                        @foreach (var itemPrices in queryNextPrices)
-                        {
-                            <tr>
-                                <td class="text-center">@Decimal.Round(query.PriceDay.Value, 2)</td>
-                                <td class="text-center">@Decimal.Round(query.PriceWeekend.Value, 2)</td>
-                                <td class="text-center">@Decimal.Round(query.PriceWeek.Value, 2)</td>
-                                <td class="text-center">@Decimal.Round(query.PriceLong.Value, 2)</td>
-                                <td class="text-center">@itemPrices.DateTimeFrom.Value.Date.ToShortDateString()</td>
-                                <td class="text-center">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="@itemPrices.CurrentPriceID" name="removePrice">
-                                    </div>
-                                </td>
-                            </tr>
+            <div class="col-sm-12">
+                <h5 class="mt-4">Zaplanowane zmiany cen:</h5>
+                <hr />
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">24H</th>
+                            <th scope="col" class="text-center">Weekend+</th>
+                            <th scope="col" class="text-center">Tydzień+</th>
+                            <th scope="col" class="text-center">14 dni+</th>
+                            <th scope="col" class="text-center">Aktualne od:</th>
+                            <th scope="col" class="text-center">Usuń</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var queryNextPrices = Model.CurrentPrices.Where(w => w.DateTimeFrom.Value.CompareTo(DateTime.Now.Date) > 0).OrderBy(o => o.DateTimeFrom).ToList();
                         }
+                        @if (queryNextPrices.Count() > 0)
+                        { 
+                            @foreach (var itemPrices in queryNextPrices)
+                            {
+                                <tr>
+                                    <td class="text-center">@Decimal.Round(itemPrices.PriceDay.Value, 2)</td>
+                                    <td class="text-center">@Decimal.Round(itemPrices.PriceWeekend.Value, 2)</td>
+                                    <td class="text-center">@Decimal.Round(itemPrices.PriceWeek.Value, 2)</td>
+                                    <td class="text-center">@Decimal.Round(itemPrices.PriceLong.Value, 2)</td>
+                                    <td class="text-center">@itemPrices.DateTimeFrom.Value.Date.ToShortDateString()</td>
+                                    <td class="text-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="@itemPrices.CurrentPriceID" name="removePrice">
+                                        </div>
+                                    </td>
+                                </tr>
+                             }
+                         }
                         else
                         {
                             <tr><td>Brak wyników</td></tr>
                         }
-                </tbody>
-            </table>
-            @*****************************  Cena Koniec **********************************************@
-
-        </div>
-
-        <div class="col-sm-12">
-            <h5 class="mt-4">Blokada</h5>
-            <hr />
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" asp-for="@Model.Blockade" value="true" checked="@(Model.Blockade == true? "checked" : "")">
-                <label class="form-check-label">Zablokuj</label>
+                    </tbody>
+                </table>
             </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" asp-for="@Model.Blockade" value="false" checked="@(Model.Blockade != true? "checked" : "")">
-                <label class="form-check-label" for="inlineRadio2">Odblokuj</label>
+                @*****************************  Cena Koniec **********************************************@
+            <div class="col-sm-12">
+                <h5 class="mt-4">Blokada</h5>
+                <hr />
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" @(Model.Blockade == true ? "checked" : "") name="Blockade" id="inlineRadio1" value="true">
+                    <label class="form-check-label" for="inlineRadio1">Zablokuj</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" @(Model.Blockade != true ? "checked" : "") name="Blockade" id="inlineRadio2" value="false">
+                    <label class="form-check-label" for="inlineRadio2">Odblokuj</label>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-12">
-            <div class="form-group">
-                <button type="submit" class="btn btn-sm btn-primary mt-2">Zapisz</button>
-
-                @*@{
-                string blockade = "Zablokuj";
-                if (Model.Blockade == true)
-                {
-                    blockade = "Odblokuj";
-                }
-                <button asp-action="Activation" asp-route-id="@Model.VehicleID" asp-controller="Vehicles" class="btn btn-danger btn-sm">
-                    @blockade
-                </button> }*@
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-sm btn-primary mt-4">Zapisz</button>
+                </div>
             </div>
         </div>
     </form>

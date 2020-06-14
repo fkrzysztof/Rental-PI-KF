@@ -39,8 +39,8 @@ namespace Rental_Data.Data.Rental
         public bool IsActive { get; set; }
 
         public int? RentalAgencyID { get; set; }
-            [ForeignKey("RentalAgencyID")]
-            public RentalAgency RentalAgency { get; set; }
+        [ForeignKey("RentalAgencyID")]
+        public RentalAgency RentalAgency { get; set; }
 
 
         //potrzebne do wybierania miejsca wypozyczenia i zdania pojazdu

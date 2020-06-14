@@ -18,8 +18,8 @@ namespace Rental_Data.Data.Rental
         public bool IsActive { get; set; }
         
         public int? BrandID { get; set; }
-            [ForeignKey("BrandID")]
-            public Brand Brand { get; set; }
+        [ForeignKey("BrandID")]
+        public Brand Brand { get; set; }
         
         public ICollection<Vehicle> Vehicles { get; set; }
     }

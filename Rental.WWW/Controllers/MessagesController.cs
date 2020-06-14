@@ -140,8 +140,6 @@ namespace Rental.WWW.Controllers
                     message.IsActive = true;
                     _context.Update(message);
 
-                    //do sprawdzenia ! mozliwa zamina na pobranie i zmiane pobranej wiadomosci
-
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

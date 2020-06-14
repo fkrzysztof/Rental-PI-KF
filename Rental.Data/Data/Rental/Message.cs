@@ -18,8 +18,6 @@ namespace Rental.Data.Data.Rental
 
         [Required(ErrorMessage = "Grupa odbiorców jest wymagana")] // grupa odbiorców
         public string UserTypeName { get; set; } 
-        //[ForeignKey("UserTypeID")]
-        //public ApplicationUser ReceiverUserTypes { get; set; } //zmienic na ROLE~!!
 
         [Required(ErrorMessage = "Tytuł jest wymagany")]
         [StringLength(40, ErrorMessage = "Maksymalnie 40 znaków")]
@@ -39,10 +37,6 @@ namespace Rental.Data.Data.Rental
         public DateTime AddedDate { get; set; }
         
         public DateTime? UpdatedDate { get; set; }
-
-        //public int? UpdatedUserID { get; set; } // użytkownik modyfikujący
-        //[ForeignKey("UpdatedUserID")]
-        //public ApplicationUser MessageUpdatedUser { get; set; }
 
         public ICollection<ReadMessages> ReadMessages { get; set; }
     }

@@ -13,8 +13,8 @@ namespace Rental_Data.Data.Rental
         public int EquipmentID { get; set; }
 
         public int? VehicleID { get; set; }
-            [ForeignKey("VehicleID")]
-            public Vehicle Vehicle { get; set; }
+        [ForeignKey("VehicleID")]
+        public Vehicle Vehicle { get; set; }
 
         public int? EquipmentNameID { get; set; }
         [ForeignKey("EquipmentNameID")]

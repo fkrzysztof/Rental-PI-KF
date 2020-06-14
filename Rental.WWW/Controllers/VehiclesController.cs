@@ -27,35 +27,6 @@ namespace Rental.WWW.Controllers
         {
             _logger = logger;
         }
-        // GET: Vehicles
-        //public async Task<IActionResult> Index(string generalType, bool table = false)
-        //{
-        //    var applicationDbContext = _context.Vehicles.
-        //        Include(v => v.Brand).
-        //        Include(v => v.Colour).
-        //        Include(v => v.EngineType).
-        //        Include(v => v.ExactType).
-        //        Include(v => v.GearBox).
-        //        Include(v => v.GeneralType).
-        //        Include(v => v.VehicleModel).
-        //        Include(v => v.WheelDrive).
-        //        Include(v => v.Pictures).
-        //        Include(v => v.Equipment).
-        //        Include(v => v.RentalVehicles).
-        //        Include(v => v.AirConditioning).
-        //        Where(w => w.IsActive == true);
-
-        //    ViewBag.EQNameList = await _context.EquipmentNames.ToListAsync();
-        //    ViewBag.GeneraltypeNow = generalType;
-        //    ViewBag.Table = table;
-        //    ViewBag.Generaltypes = await _context.GeneralTypes.ToListAsync();
-
-        //    if (generalType != null)
-        //        return View(await applicationDbContext.Where(w => w.GeneralType.Name == generalType).ToListAsync());
-        //    else
-        //        return View(await applicationDbContext.ToListAsync());
-        //}
-
 
         public async Task<IActionResult> Index(string generalType, string search, int? exactType, int? gearBox, int? engineType,
                                        int? enginePower, int? rentalItemBrand, string cut, bool table = false)
@@ -73,6 +44,7 @@ namespace Rental.WWW.Controllers
                 Include(v => v.Equipment).
                 Include(v => v.RentalVehicles).
                 Include(v => v.AirConditioning).
+                Include(v => v.CurrentPrices).
                 Where(w => w.IsActive == true).
                 ToList();
 
@@ -83,7 +55,6 @@ namespace Rental.WWW.Controllers
 
             ViewBag.EQNameList = await _context.EquipmentNames.ToListAsync();
             ViewBag.GeneraltypeNow = generalType;
-            //ViewBag.Active = active;
             ViewBag.Table = table;
             ViewBag.Generaltypes = await _context.GeneralTypes.ToListAsync();
 

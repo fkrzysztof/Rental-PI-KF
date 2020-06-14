@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Rental.Data;
 using Rental.Data.Data.Areas.Identity.Data;
 using Rental.WWW.Controllers.Abstract;
-using Rental_Data.Data.Rental;
 
 namespace Rental.WWW.Controllers
 {

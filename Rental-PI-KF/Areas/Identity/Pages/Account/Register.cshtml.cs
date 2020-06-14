@@ -186,8 +186,8 @@ namespace Rental_PI_KF.Areas.Identity.Pages.Account
 
                     #endregion
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    //await _signInManager.SignInAsync(user, isPersistent: false);
+                    //return LocalRedirect(returnUrl);
 
                 }
                 foreach (var error in result.Errors)

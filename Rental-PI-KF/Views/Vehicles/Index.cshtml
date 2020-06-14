@@ -156,8 +156,6 @@
                         </div>
                     </div>
                     <div class="col-12">
-
-                        @* main *@
                         @* Wyswietlam zgdonie z wybranym trybem wyswietlania - tabelka / karta *@
                         @if (ViewBag.Table == true)
                         {
@@ -197,6 +195,7 @@
                                         <th>
                                             @Html.DisplayNameFor(model => model.NumberPlate)
                                         </th>
+                                        <th>Ceny</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -211,7 +210,7 @@
 
                                                     var base64 = Convert.ToBase64String(img);
                                                     var imgSrc = String.Format("data:Image/jpeg;base64,{0}", base64);
-                                                    <img class="img-fluid rounded" style="width: 360px;" src="@imgSrc" />
+                                                    <img class="img-fluid rounded" src="@imgSrc" />
 
                                                 }
                                             </td>
@@ -246,17 +245,43 @@
                                                 @Html.DisplayFor(modelItem => item.NumberPlate)
                                             </td>
                                             <td>
+                                                <!-- dodalem tabele cen-->
+                                                @{
+                                                    var queryShowPrices = item.CurrentPrices.Where(w => w.DateTimeFrom.Value.Date.CompareTo(DateTime.Now.Date) < 1 == true).OrderByDescending(o => o.DateTimeFrom).FirstOrDefault();
+                                                }
+                                                @if (queryShowPrices != null)
+                                                {
+                                                    <table class="table table-sm bg-light table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>24H</th>
+                                                                <th>Weekend+</th>
+                                                                <th>Tydzień+</th>
+                                                                <th>14dni+</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>@Decimal.Round(queryShowPrices.PriceDay.Value, 2) PLN <br />/dzień</td>
+                                                                <td>@Decimal.Round(queryShowPrices.PriceWeekend.Value, 2) PLN <br />/dzień</td>
+                                                                <td>@Decimal.Round(queryShowPrices.PriceWeek.Value, 2) PLN <br />/dzień</td>
+                                                                <td>@Decimal.Round(queryShowPrices.PriceLong.Value, 2) PLN <br />/dzień</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                            </td>
+                                            <td>
                                                 @if (item.Blockade == true)
                                                 {
-                                                    <i class="text-danger fas fa-lock float-left ml-3 mr-1"></i>
+                                                    <i class="text-danger fas fa-lock"></i><br />
                                                 }
                                                 else
                                                 {
-                                                    <a asp-action="CreateThis" asp-route-id="@item.VehicleID"><i class="fas fa-cart-plus"></i></a>
+                                                    <a asp-action="CreateThis" asp-controller="RentalVehicles" asp-route-id="@item.VehicleID"><i class="fas fa-cart-plus"></i></a><br />
                                                 }
-                                                <a asp-action="Details" asp-route-id="@item.VehicleID"><i class="fas fa-search"></i></a>
-                                                <a asp-action="Edit" asp-route-id="@item.VehicleID"><i class="fas fa-wrench"></i></a>
-                                                <a asp-action="Delete" asp-route-id="@item.VehicleID"><i class="fas fa-trash"></i></a>
+                                                <a asp-action="Edit" asp-route-id="@item.VehicleID"><i class="fas fa-wrench"></i></a><br />
+                                                <a data-id="@item.VehicleID" class="j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     }
@@ -282,7 +307,6 @@
                                             </h5>
 
                                             <div class="dropdown no-arrow float-right">
-                                                @*<a class="dropdown-toggle"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">*@
                                                 <a class="dropdown-toggle" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
                                                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                                                 </a>
@@ -385,7 +409,10 @@
                                                     }
 
                                                     <!-- dodalem tabele cen-->
-                                                    @if (item.VehicleID == 10)
+                                                    @{ 
+                                                         var queryShowPrices = item.CurrentPrices.Where(w => w.DateTimeFrom.Value.Date.CompareTo(DateTime.Now.Date) < 1 == true).OrderByDescending(o => o.DateTimeFrom).FirstOrDefault();
+                                                    }
+                                                    @if (queryShowPrices != null)
                                                     {
                                                         <table class="table table-sm bg-light table-bordered">
                                                             <thead>
@@ -399,9 +426,10 @@
                                                             <tbody>
                                                                 <tr>
                                                                     @{
-                                                                        var queryShowPrices = item.CurrentPrices.Where(w => w.DateTimeFrom.Value.Date.CompareTo(DateTime.Now.Date) < 1 == true).OrderByDescending(o => o.DateTimeFrom).First();
+                                                                        //
+                                                                        //var queryShowPrices = item.CurrentPrices.Where(w => w.DateTimeFrom.Value.Date.CompareTo(DateTime.Now.Date) < 1 == true).OrderByDescending(o => o.DateTimeFrom).FirstOrDefault();
                                                                 }
-                                                                <td>@Decimal.Round(queryShowPrices.PriceDay.Value,2) PLN / dzień</td>
+                                                                <td>@Decimal.Round(queryShowPrices.PriceDay.Value,2) PLN /dzień</td>
                                                                 <td>@Decimal.Round(queryShowPrices.PriceWeekend.Value,2) PLN /dzień</td>
                                                                 <td>@Decimal.Round(queryShowPrices.PriceWeek.Value,2) PLN /dzień</td>
                                                                 <td>@Decimal.Round(queryShowPrices.PriceLong.Value,2) PLN /dzień</td>
@@ -464,11 +492,9 @@
                                         </div>
                                     </div>
                                 </div>
-                            }
-                    </div>
+                                }
+                        </div>
                         }
-                        @*main end*@
-
                     </div>
                 </div>
             </div>

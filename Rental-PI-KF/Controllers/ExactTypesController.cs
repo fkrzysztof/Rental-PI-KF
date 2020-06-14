@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -52,23 +51,6 @@ namespace Rental_PI_KF.Controllers
             ViewBag.GeneralTypeCollection = applicationDbContext;
             return View("Index");
         }
-
-        // GET: ExactTypes/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var exactType = await _context.ExactTypes.FindAsync(id);
-        //    if (exactType == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["GeneralTypeID"] = new SelectList(_context.GeneralTypes, "GeneralTypeID", "GeneralTypeID", exactType.GeneralTypeID);
-        //    return View(exactType);
-        //}
 
         // POST: ExactTypes/Edit/5
         [HttpPost]

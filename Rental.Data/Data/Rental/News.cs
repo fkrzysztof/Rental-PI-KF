@@ -25,9 +25,5 @@ namespace Rental.Data.Data.Rental
         public ApplicationUser SenderUser { get; set; }
 
         public DateTime Create { get; set; }
-
-
-        
-
     }
 }

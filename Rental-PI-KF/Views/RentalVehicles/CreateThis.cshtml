@@ -47,7 +47,7 @@
                                             <div class="bg-dark m-0 p-0"></div>
                                         }
                                         //sprawdzam czy dzien jest zajety -- ZAJETY
-                                        if (Model.Vehicle.RentalVehicles.FirstOrDefault(f => f.From.CompareTo(item) <= 0 && f.To.CompareTo(item) >= 0) != null)
+                                        if (Model.Vehicle.RentalVehicles.FirstOrDefault(f => f.From.CompareTo(item) <= 0 && f.To.CompareTo(item) >= 0 && f.IsActive == true) != null)
                                         {
                                             <div class="btn-group-toggle d-inline-block rounded mt-1" data-toggle="buttons">
                                                 <label class="btn btn-secondary active bg-gradient-danger" style="min-width: 46px; min-height: 46px">
@@ -147,8 +147,6 @@
                             <select multiple class="form-control" asp-for="ApplicationUserID" id="mySE" asp-items="@ViewBag.Customers">
                             </select>
                         </div>
-
-
                         <script>
                             function myFunction() {
                                 var input, filter, di, se, op, a, i, txtValue;
@@ -322,16 +320,8 @@
 </div>
 
 <div>
-    @*<a asp-action="Edit" asp-route-id="@Model.VehicleID">Edit</a>*@
     <a asp-action="Index">Back to List</a>
 </div>
-
-@*<script type="text/javascript">
-    function Checken(element) {
-        element.checken = true;
-    }
-</script>*@
-
 
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

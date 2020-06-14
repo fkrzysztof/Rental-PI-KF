@@ -21,11 +21,6 @@ namespace Rental_PI_KF.Controllers.Abstract
             _context = context;
         }
 
-        //public void GeneralTypeToMenu()
-        //{
-        //    ViewBag.GeneralTypesList = _context.GeneralTypes.ToList();
-        //}
-
         public ApplicationUser GetUser()
         {
             return _userManager.FindByNameAsync(User.Identity.Name).Result;

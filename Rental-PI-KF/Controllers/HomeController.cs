@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,11 +24,6 @@ namespace Rental_PI_KF.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //stat
-            //to jest blizniacze zapytanie do tego w statystykach, potrzebne do legendy
-            //var query = _context.Vehicles
-            //    .Include(r => r.Brand).Include(r => r.VehicleModel)
-            //    .GroupBy(g => g.Brand.Name)
             var query = _context.RentalVehicles
                 .Include(r => r.Vehicle.Brand).Include(r => r.Vehicle.VehicleModel)
                 .GroupBy(g => g.Vehicle.Brand.Name)
@@ -39,13 +33,8 @@ namespace Rental_PI_KF.Controllers
                 .ToList();
 
             ViewBag.Brands = query.Select(s => s.name).ToArray();
-
-            
             //news
             ViewBag.ItemCollection = await _context.News.Include(n => n.SenderUser).ToListAsync();
-
-            //users
-            //var users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
             var users = _userManager.Users.ToList();
 
             return View(users);

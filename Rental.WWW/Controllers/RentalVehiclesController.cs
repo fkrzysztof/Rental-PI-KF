@@ -272,7 +272,6 @@ namespace Rental.WWW.Controllers
                 return NotFound();
             }
 
-            //ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
             ViewBag.CustomersNow = await _userManager.FindByIdAsync(rentalVehicle.ApplicationUserID);
             ViewBag.CitiesFrom = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalFromLocation.RentalAgencyAddressID);
             ViewBag.CitiesTo = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalToLocation.RentalAgencyAddressID);

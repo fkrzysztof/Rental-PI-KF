@@ -191,7 +191,6 @@ namespace Rental_PI_KF.Controllers
                         {
                             Vehicle = v,
                             EquipmentNameID = item,
-                            //Name = _context.EquipmentNames.FirstOrDefault(f => f.EquipmentNameID == item).Name,
                             Check = true
                         });
                     }
@@ -323,7 +322,8 @@ namespace Rental_PI_KF.Controllers
                                 });
                         }                        
                     }
-
+                    
+                    //usuwam wybrane zaplanowane ceny
                     if(removePrice.Count > 0)
                     {
                         foreach (var itemRemove in removePrice)
@@ -336,7 +336,7 @@ namespace Rental_PI_KF.Controllers
                     if (price_Day != null && price_Weekend != null && price_Week != null && price_Long != null && datetime_to != null)
                     {
                         //usuwam - jesli data jest ta sama
-                        var sameDate = _context.CurrentPrices.Where(w => w.DateTimeFrom.Value.Date.CompareTo(datetime_to.Value.Date) == 0).ToList();
+                        var sameDate = _context.CurrentPrices.Where(w => w.VehicleID == vehicle.VehicleID && w.DateTimeFrom.Value.Date.CompareTo(datetime_to.Value.Date) == 0).ToList();
                         if (sameDate.Count() > 0)
                         {
                             _context.CurrentPrices.RemoveRange(sameDate);
@@ -394,7 +394,6 @@ namespace Rental_PI_KF.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var vehicle = await _context.Vehicles.FindAsync(id);
-            //_context.Vehicles.Remove(vehicle);
             vehicle.IsActive = false;
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

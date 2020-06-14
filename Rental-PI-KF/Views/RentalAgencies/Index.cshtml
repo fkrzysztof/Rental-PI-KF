@@ -15,10 +15,6 @@
             <li class="nav-item">
                 <a class="nav-link" asp-action="Create">Dodaj nowy</a>
             </li>         
-           @* tu bedzie lisa nieaktywnych*@ 
-            @*<li class="nav-item">
-                <a class="nav-link" asp-action="Create">Lisya</a>
-            </li>*@
         </ul>
     </div>
     <div class="col-md-12">
@@ -66,30 +62,12 @@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Phone1)
                                     </th>
-                                    @*<th>
-                                           @Html.DisplayNameFor(model => model.Phone2)
-                                        </th>*@
                                     <th>
                                         @Html.DisplayNameFor(model => model.Email1)
                                     </th>
                                     <th>
                                         @Html.DisplayNameFor(model => model.RentalAgencyAddress.City)
                                     </th>
-                                    @*<th>
-                                                @Html.DisplayNameFor(model => model.Email2)
-                                        </th>*@
-                                    @*<th>
-                                            @Html.DisplayNameFor(model => model.DateAdded)
-                                        </th>*@
-                                    @*<th>
-                                            @Html.DisplayNameFor(model => model.Annotation)
-                                        </th>*@
-                                    @*<th>
-                                            @Html.DisplayNameFor(model => model.IsActive)
-                                        </th>*@
-                                    @*<th>
-                                            @Html.DisplayNameFor(model => model.REGON)
-                                        </th>*@
                                     <th>
                                         @Html.DisplayNameFor(model => model.NIP)
                                     </th>
@@ -112,30 +90,12 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Phone1)
                                         </td>
-                                        @*<td>
-                                                @Html.DisplayFor(modelItem => item.Phone2)
-                                            </td>*@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Email1)
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.RentalAgencyAddress.City)
                                         </td>
-                                        @*<td>
-                                                @Html.DisplayFor(modelItem => item.Email2)
-                                            </td>*@
-                                        @*<td>
-                                                @Html.DisplayFor(modelItem => item.DateAdded)
-                                            </td>*@
-                                        @*<td>
-                                                @Html.DisplayFor(modelItem => item.Annotation)
-                                            </td>*@
-                                        @*<td>
-                                                @Html.DisplayFor(modelItem => item.IsActive)
-                                            </td>*@
-                                        @*<td>
-                                                @Html.DisplayFor(modelItem => item.REGON)
-                                            </td>*@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.NIP)
                                         </td>
@@ -143,10 +103,6 @@
                                             <div class="d-flex">
                                                 <a asp-action="Edit" asp-route-id="@item.RentalAgencyID" class="btn text-primary"><i class="fas fa-wrench"></i></a>
                                                 <a data-id="@item.RentalAgencyID" data-name="@item.Name" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>    
-                                            @*<form asp-action="Delete">
-                                                    <input type="hidden" name="id" value="@item.RentalAgencyID" />
-                                                    <button type="submit" class="btn border-0 text-danger"><i class="fas fa-trash"></i></button>
-                                                </form>*@
                                             </div>
                                         </td>
                                     </tr>

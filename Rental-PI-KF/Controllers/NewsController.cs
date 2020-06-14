@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -39,6 +38,7 @@ namespace Rental_PI_KF.Controllers
             var news = await _context.News
                 .Include(n => n.SenderUser)
                 .FirstOrDefaultAsync(m => m.NewsID == id);
+
             if (news == null)
             {
                 return NotFound();
@@ -80,8 +80,6 @@ namespace Rental_PI_KF.Controllers
             
             if (ModelState.IsValid)
             {
-
-
                 try
                 {
                     _context.Update(news);

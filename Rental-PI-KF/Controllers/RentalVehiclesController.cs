@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -111,7 +110,6 @@ namespace Rental_PI_KF.Controllers
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
             ViewBag.Customers = new SelectList(users, "Id", "Fullname");
 
-            //lepiej zabezpieczyc ?
             if (id == null)
             {
                 return NotFound();
@@ -148,9 +146,7 @@ namespace Rental_PI_KF.Controllers
                 HttpContext.Session.SetString("FirstDayofMonth", JsonConvert.SerializeObject(firstDay));
             }
 
-            //co kiedy dzisiaj jest pierwszy ???
-            
-            //cofamy do poniedzialku
+            //do poniedzialku
             while (firstDay.DayOfWeek != DayOfWeek.Monday)
             {
                 firstDay = firstDay.AddDays(-1);
@@ -264,7 +260,12 @@ namespace Rental_PI_KF.Controllers
         // GET: RentalVehicles/Create
         public IActionResult Create()
         {
-            List<Vehicle> vehicleList = _context.Vehicles.Include(i => i.VehicleModel).Include(i => i.Brand).Where(w => w.Blockade == false).ToList();
+            List<Vehicle> vehicleList = _context.Vehicles.
+                Include(i => i.VehicleModel).
+                Include(i => i.Brand).
+                Where(w => w.Blockade != true).
+                ToList();
+
             foreach (var itemVehicle in vehicleList)
             {
                 itemVehicle.Name = itemVehicle.Brand.Name + " " + itemVehicle.VehicleModel.Name + " /NR.R. " + itemVehicle.NumberPlate;
@@ -274,7 +275,7 @@ namespace Rental_PI_KF.Controllers
             ViewBag.Vehicles = new SelectList(vehicleList, "VehicleID", "Name");
             List<ApplicationUser> users = _userManager.GetUsersInRoleAsync("Klient").Result.ToList();
             ViewBag.Customers = new SelectList(users, "Id", "Fullname");
-            ViewBag.Cities = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City");
+            ViewBag.Cities = new SelectList(_context.RentalAgencyAddresses.Where(w => w.RentalAgency.IsActive == true), "RentalAgencyAddressID", "City");
 
             return View();
         }
@@ -293,7 +294,7 @@ namespace Rental_PI_KF.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RentalStatusID"] = new SelectList(_context.RentalStatuses, "RentalStatusID", "RentalStatusID", rentalVehicle.RentalStatusID);
-            ViewData["VehicleID"] = new SelectList(_context.Vehicles, "VehicleID", "VehicleID", rentalVehicle.VehicleID);
+            ViewData["VehicleID"] = new SelectList(_context.Vehicles.Where(w => w.IsActive == true && w.Blockade != true), "VehicleID", "VehicleID", rentalVehicle.VehicleID);
             return View(rentalVehicle);
         }
 

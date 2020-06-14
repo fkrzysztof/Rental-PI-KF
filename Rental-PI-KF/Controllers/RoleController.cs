@@ -154,7 +154,6 @@ namespace Rental_PI_KF.Controllers
                 return View("NotFound");
             }
             var getUserRole = await _userManager.GetRolesAsync(user);
-            //tutaj powinni byc wszyscy bo b uc moze bedie przypadek ze bedzie 2 role do jednego usera 1!!!!!!!!!!!!!
             var usersRole = _roleManager.Roles.Where(w => w.Name != "Zablokowani" && w.Name != getUserRole.First());
             //usuwam z listy aktualna role oraz zablokowanych uzytkownikow
             ViewBag.UsersRole = new SelectList(usersRole, "Name", "Name");
@@ -203,11 +202,6 @@ namespace Rental_PI_KF.Controllers
             }
             else
             {
-                //var emailUser = await _userManager.GetPhoneNumberAsync(user);
-                //if (user.Email != au.Email)
-                //{
-                //var setEmailResult1 = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                    
                     var setEmailResult = await _userManager.SetEmailAsync(user, au.Email);
                     if (!setEmailResult.Succeeded)
                     {
@@ -223,8 +217,6 @@ namespace Rental_PI_KF.Controllers
                         var userId = await _userManager.GetUserIdAsync(user);
                         throw new InvalidOperationException($"Unexpected error occurred setting phone number for user with ID '{userId}'.");
                     }
-                //}
-
 
                 if (file != null)
                 { 
@@ -243,7 +235,6 @@ namespace Rental_PI_KF.Controllers
 
                 user.FirstName = au.FirstName;
                 user.LastName = au.LastName;
-                //user.Email = au.Email;
                 user.PhoneNumber = au.PhoneNumber;
                 user.Street = au.Street;
                 user.Number = au.Number;

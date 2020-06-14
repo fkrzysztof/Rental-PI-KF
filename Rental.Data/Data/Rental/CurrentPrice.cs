@@ -12,8 +12,8 @@ namespace Rental_Data.Data.Rental
         public int CurrentPriceID { get; set; }
 
         public int? VehicleID { get; set; }
-            [ForeignKey("VehicleID")]
-            public Vehicle Vehicle { get; set;}
+        [ForeignKey("VehicleID")]
+        public Vehicle Vehicle { get; set;}
         
         [Column(TypeName = "money")]
         [Display(Name = "Cena / 24h")]
