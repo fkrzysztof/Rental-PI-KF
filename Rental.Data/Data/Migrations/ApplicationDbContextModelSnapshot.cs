@@ -514,23 +514,20 @@ namespace Rental.Data
                     b.Property<DateTime?>("DateTimeFrom")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DateTimeTo")
-                        .HasColumnType("datetime2");
-
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<decimal?>("PriceDay")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("money");
 
                     b.Property<decimal?>("PriceLong")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("money");
 
                     b.Property<decimal?>("PriceWeek")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("money");
 
                     b.Property<decimal?>("PriceWeekend")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("money");
 
                     b.Property<int?>("VehicleID")
                         .HasColumnType("int");
@@ -832,7 +829,6 @@ namespace Rental.Data
                         .HasColumnType("int");
 
                     b.Property<byte[]>("Image")
-                        .IsRequired()
                         .HasColumnType("varbinary(max)");
 
                     b.Property<bool>("IsActive")

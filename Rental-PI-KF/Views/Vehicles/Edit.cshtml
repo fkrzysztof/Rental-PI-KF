@@ -123,9 +123,6 @@
                 </script>
 
 
-
-
-
                 <div class="form-group">
                     <label asp-for="@Model.YearOfCarProduction" class="control-label"></label>
                     <select asp-for="@Model.YearOfCarProduction" class="form-control" asp-items="ViewBag.YearOfProduction">
@@ -215,6 +212,7 @@
 
             @*Wyposazenie nowe !!!*@
             <div class="col-sm-12">
+                <h5 class="mt-4">Wyposażnie</h5>
                 <hr />
 
                 <dl class="row">
@@ -224,25 +222,172 @@
                             <small>@Html.DisplayFor(eqtempModel => eqtemp.Name)</small>
                         </dt>
                         <dd class="col-sm-1">
-                            <input class="form-check-input" type="checkbox" value="@eqtemp.EquipmentNameID" name="Equipments"  
-                                   @{ 
-                                       if (eqtemp.Check)
-                                       {
-                                           @:checked
-                                       }
-                                     } 
-                            />
+                            <input class="form-check-input" type="checkbox" value="@eqtemp.EquipmentNameID" name="Equipments"
+                                   @{ if (eqtemp.Check) { @: checked
+                                   } } />
                         </dd>
                     }
                 </dl>
             </div>
 
             @*Wyposazenie nowe Koniec !!!*@
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-sm btn-primary">Zapisz</button>
 
-            @{
+
+            @*****************************  Cena *****************************************************@
+
+
+            <div class="col-sm-12 card card-body mt-4">
+                <h5 class="mb-2">Aktualne ceny:</h5>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-center">24H</th>
+                            <th scope="col" class="text-center">Weekend+</th>
+                            <th scope="col" class="text-center">Tydzień+</th>
+                            <th scope="col" class="text-center">14 dni+</th>
+                            <th scope="col" class="text-center">Aktualne od:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var query = Model.CurrentPrices.OrderByDescending(o => o.DateTimeFrom).FirstOrDefault(w => w.DateTimeFrom.Value.CompareTo(DateTime.Now.Date) < 1);
+                        }
+                        @if (query != null)
+                        {
+                            <tr>
+                                <td class="text-center">@Decimal.Round(query.PriceDay.Value, 2)</td>
+                                <td class="text-center">@Decimal.Round(query.PriceWeekend.Value, 2)</td>
+                                <td class="text-center">@Decimal.Round(query.PriceWeek.Value, 2)</td>
+                                <td class="text-center">@Decimal.Round(query.PriceLong.Value, 2)</td>
+                                <td class="text-center">@query.DateTimeFrom.Value.Date.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="col-sm-12">
+                <h5 class="mt-4">Ustaw/Zaplanuj nowe ceny</h5>
+                <hr />
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div>
+                            <label class="control-label">24 H</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control text-right" name="price_Day">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">PLN</span>
+                                    <span class="input-group-text">1 dzień</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="control-label">Weekend+</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control text-right" name="price_Weekend">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">PLN</span>
+                                    <span class="input-group-text">1 dzień</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+
+                        <div>
+                            <label class="control-label">Tydzień</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control text-right" name="price_Week">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">PLN</span>
+                                    <span class="input-group-text">1 dzień</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="control-label">14 dni +</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control text-right" name="price_Long">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">PLN</span>
+                                    <span class="input-group-text">1 dzień</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <label class="control-label">Aktualne od:</label>
+                            @{
+                                string minDate = String.Format("{0:yyyy-MM-dd}", DateTime.Now.Date);
+                            }
+                            <input name="datetime_to" type="date" min="@minDate" class="form-control text-right" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <h5 class="mt-4">Zaplanowane zmiany cen:</h5>
+            <hr />
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">24H</th>
+                        <th scope="col" class="text-center">Weekend+</th>
+                        <th scope="col" class="text-center">Tydzień+</th>
+                        <th scope="col" class="text-center">14 dni+</th>
+                        <th scope="col" class="text-center">Aktualne od:</th>
+                        <th scope="col" class="text-center">Usuń</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var queryNextPrices = Model.CurrentPrices.Where(w => w.DateTimeFrom.Value.CompareTo(DateTime.Now.Date) > 0).OrderBy(o => o.DateTimeFrom).ToList();
+                    }
+                    @if (queryNextPrices.Count() > 0)
+                        @foreach (var itemPrices in queryNextPrices)
+                        {
+                            <tr>
+                                <td class="text-center">@Decimal.Round(query.PriceDay.Value, 2)</td>
+                                <td class="text-center">@Decimal.Round(query.PriceWeekend.Value, 2)</td>
+                                <td class="text-center">@Decimal.Round(query.PriceWeek.Value, 2)</td>
+                                <td class="text-center">@Decimal.Round(query.PriceLong.Value, 2)</td>
+                                <td class="text-center">@itemPrices.DateTimeFrom.Value.Date.ToShortDateString()</td>
+                                <td class="text-center">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="@itemPrices.CurrentPriceID" name="removePrice">
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr><td>Brak wyników</td></tr>
+                        }
+                </tbody>
+            </table>
+            @*****************************  Cena Koniec **********************************************@
+
+        </div>
+
+        <div class="col-sm-12">
+            <h5 class="mt-4">Blokada</h5>
+            <hr />
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" asp-for="@Model.Blockade" value="true" checked="@(Model.Blockade == true? "checked" : "")">
+                <label class="form-check-label">Zablokuj</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" asp-for="@Model.Blockade" value="false" checked="@(Model.Blockade != true? "checked" : "")">
+                <label class="form-check-label" for="inlineRadio2">Odblokuj</label>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <button type="submit" class="btn btn-sm btn-primary mt-2">Zapisz</button>
+
+                @*@{
                 string blockade = "Zablokuj";
                 if (Model.Blockade == true)
                 {
@@ -250,7 +395,8 @@
                 }
                 <button asp-action="Activation" asp-route-id="@Model.VehicleID" asp-controller="Vehicles" class="btn btn-danger btn-sm">
                     @blockade
-                </button> }
+                </button> }*@
+            </div>
         </div>
     </form>
 </div>

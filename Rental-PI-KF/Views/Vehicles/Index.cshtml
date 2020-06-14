@@ -61,7 +61,6 @@
                     <div class="col-12 mb-2">
                         <div class="text-center collapse show" id="collapseExample" style="">
 
-
                             <div class="card card-body pb-0">
                                 <form asp-action="Index" method="get" id="vehicleForm">
                                     <input type="hidden" name="generalType" value="@ViewBag.GeneraltypeNow" />
@@ -108,7 +107,6 @@
                                                     </div>
                                                 </div>
 
-
                                                 <div class="col-lg-12 align-self-center">
                                                     @*Wyszukiwarka*@
                                                     @{
@@ -154,7 +152,6 @@
                                 </form>
                                 @***************************** Wyszukiwanie Koniec****************************@
                             </div>
-
 
                         </div>
                     </div>
@@ -313,9 +310,7 @@
                                                         {
                                                             <a data-id="@item.VehicleID" class="dropdown-item j-s-RestoreDialog" data-toggle="modal" data-target="#restoreModal" href="#restoreModal"><i class="fas fa-undo-alt mr-2"></i>Przywróć</a>
                                                         }
-
                                                     }
-
                                                 </div>
                                                 @{
                                                     if (item.Blockade == true)
@@ -403,10 +398,13 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <td>@item.CurrentPrices.First().PriceDay PLN</td>
-                                                                    <td>@item.CurrentPrices.First().PriceWeekend PLN /dzień</td>
-                                                                    <td>@item.CurrentPrices.First().PriceWeek PLN /dzień</td>
-                                                                    <td>@item.CurrentPrices.First().PriceLong PLN /dzień</td>
+                                                                    @{
+                                                                        var queryShowPrices = item.CurrentPrices.Where(w => w.DateTimeFrom.Value.Date.CompareTo(DateTime.Now.Date) < 1 == true).OrderByDescending(o => o.DateTimeFrom).First();
+                                                                }
+                                                                <td>@Decimal.Round(queryShowPrices.PriceDay.Value,2) PLN / dzień</td>
+                                                                <td>@Decimal.Round(queryShowPrices.PriceWeekend.Value,2) PLN /dzień</td>
+                                                                <td>@Decimal.Round(queryShowPrices.PriceWeek.Value,2) PLN /dzień</td>
+                                                                <td>@Decimal.Round(queryShowPrices.PriceLong.Value,2) PLN /dzień</td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>

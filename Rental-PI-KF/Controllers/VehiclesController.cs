@@ -168,8 +168,7 @@ namespace Rental_PI_KF.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Vehicle v, IFormFile file, List<int> Equipments,
-                                                decimal price_Day, decimal price_Weekend, decimal price_Week, decimal price_Long,
-                                                DateTime? dateTime_To, DateTime? DateTimeFrom)
+                                                decimal price_Day, decimal price_Weekend, decimal price_Week, decimal price_Long)
         {
             if (ModelState.IsValid)
             {
@@ -205,8 +204,7 @@ namespace Rental_PI_KF.Controllers
                     PriceWeekend = price_Weekend,
                     PriceWeek = price_Week,
                     PriceLong = price_Long,
-                    DateTimeTo = DateTime.Now,
-                    DateTimeFrom = DateTime.Now
+                    DateTimeFrom = DateTime.Now.Date
                 });
 
                 await _context.SaveChangesAsync();
@@ -244,6 +242,7 @@ namespace Rental_PI_KF.Controllers
                 Include(i => i.VehicleModel).
                 Include(i => i.Equipment).
                 Include(i => i.Pictures).
+                Include(i => i.CurrentPrices).
                 FirstOrDefaultAsync(m => m.VehicleID == id);
             
             if (vehicle == null)
@@ -273,7 +272,9 @@ namespace Rental_PI_KF.Controllers
         //POST: Vehicles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,Image")] Vehicle vehicle, List<int> Equipments, IFormFile file)
+        public async Task<IActionResult> Edit(int id, [Bind("VehicleID,BrandID,VehicleModelID,YearOfProduction,YearOfCarProduction,RentalAgencyID,EngineCapacity,AirConditioningID,Description,GeneralTypeID,ExactTypeID,EngineTypeID,Mileage,ColourID,VIN,DateIn,DateOut,NumberPlate,EnginePower,GearBoxID,WheelDriveID,NumberOfSeats,NumberOfDoors,Image,Blockade")] Vehicle vehicle, 
+                                              List<int> Equipments, IFormFile file, decimal? price_Day, decimal? price_Weekend, decimal? price_Week,
+                                              decimal? price_Long, DateTime? datetime_to, List<int> removePrice)
         {
             if (id != vehicle.VehicleID)
             {
@@ -321,6 +322,37 @@ namespace Rental_PI_KF.Controllers
                                     Check = true
                                 });
                         }                        
+                    }
+
+                    if(removePrice.Count > 0)
+                    {
+                        foreach (var itemRemove in removePrice)
+                        {
+                            var rezultItemRemove = _context.CurrentPrices.FirstOrDefault(f => f.CurrentPriceID == itemRemove);
+                            _context.CurrentPrices.RemoveRange(rezultItemRemove);
+                        }
+                    }
+
+                    if (price_Day != null && price_Weekend != null && price_Week != null && price_Long != null && datetime_to != null)
+                    {
+                        //usuwam - jesli data jest ta sama
+                        var sameDate = _context.CurrentPrices.Where(w => w.DateTimeFrom.Value.Date.CompareTo(datetime_to.Value.Date) == 0).ToList();
+                        if (sameDate.Count() > 0)
+                        {
+                            _context.CurrentPrices.RemoveRange(sameDate);
+                            _context.SaveChanges();
+                        }
+
+                        //dodaje nowy
+                        _context.CurrentPrices.Add(new CurrentPrice
+                        {
+                            Vehicle = vehicle,
+                            PriceDay = price_Day,
+                            PriceWeekend = price_Weekend,
+                            PriceWeek = price_Week,
+                            PriceLong = price_Long,
+                            DateTimeFrom = datetime_to
+                        });
                     }
                     await _context.SaveChangesAsync();
                 }

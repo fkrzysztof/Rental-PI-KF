@@ -113,6 +113,8 @@
     <Compile Remove="Data\Migrations\20200416225059_One-to-One relaton RentalAgency-RentalAgencyAdress.Designer.cs" />
     <Compile Remove="Data\Migrations\20200418183542_one-one-Relation-RentalAgencyAdress.cs" />
     <Compile Remove="Data\Migrations\20200418183542_one-one-Relation-RentalAgencyAdress.Designer.cs" />
+    <Compile Remove="Data\Migrations\20200613143409_Price decimal to money.cs" />
+    <Compile Remove="Data\Migrations\20200613143409_Price decimal to money.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

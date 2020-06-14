@@ -14,25 +14,26 @@ namespace Rental_Data.Data.Rental
         public int? VehicleID { get; set; }
             [ForeignKey("VehicleID")]
             public Vehicle Vehicle { get; set;}
-
+        
+        [Column(TypeName = "money")]
         [Display(Name = "Cena / 24h")]
         public decimal? PriceDay { get; set; }
-        
+
+        [Column(TypeName = "money")]
         [Display(Name = "Cena / Weekend+")]
-        public decimal? PriceWeekend { get; set; }   
-        
+        public decimal? PriceWeekend { get; set; }
+
+        [Column(TypeName = "money")]
         [Display(Name = "Cena / 7+ dni")]
-        public decimal? PriceWeek { get; set; }    
-        
+        public decimal? PriceWeek { get; set; }
+
+        [Column(TypeName = "money")]
         [Display(Name = "Cena / 14+ dni")]
         public decimal? PriceLong { get; set; }
         
         [Display(Name = "Wypożyczenie od")]
         public DateTime? DateTimeFrom { get; set; }
         
-        [Display(Name = "Wypożyczenie do")]
-        public DateTime? DateTimeTo { get; set; }
-       
         public bool IsActive { get; set; }
     }
 }

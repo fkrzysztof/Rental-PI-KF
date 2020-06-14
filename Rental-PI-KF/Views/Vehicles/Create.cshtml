@@ -14,7 +14,6 @@
             <script src="~/js/jquery-1.10.2.js"></script>
             <div class="col-sm-6">
                 <div id="showimage"></div>
-
                 <div class="custom-file">
                     <input class="form-control custom-file-input" type="file" name="file" />
                     <label class="custom-file-label">Wybierz..</label>
@@ -215,22 +214,28 @@
             @*****************************  Cena *****************************************************@
         <div class="col-sm-12">
             <h5>Cena wypożyczenia (PLN)</h5>
+            <hr />
             <div class="row">
-                <div class="form-group col-sm-3">
-                    <label class="control-label">24 H</label>
-                    <input name="price_Day" class="form-control text-right" />
-                </div>
-                <div class="form-group col-sm-3">
-                    <label class="control-label">Weekend+</label>
-                    <input name="price_Weekend" class="form-control text-right" />
-                </div>
-                <div class="form-group col-sm-3">
-                    <label class="control-label">Tydzień+</label>
-                    <input name="price_Week" class="form-control text-right" />
-                </div>
-                <div class="form-group col-sm-3">
-                    <label class="control-label">14+ dni</label>
-                    <input name="price_Long" class="form-control text-right" />
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">24 H</label>
+                        <input name="price_Day" class="form-control text-right" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Weekend+ / 1 dzień</label>
+                        <input name="price_Weekend" class="form-control text-right" />
+                    </div>
+
+                </div> 
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="control-label">Tydzień+ / 1 dzień</label>
+                        <input name="price_Week" class="form-control text-right" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">14+ dni / 1 dzień</label>
+                        <input name="price_Long" class="form-control text-right" />
+                    </div>
                 </div>
             </div>
         </div>
