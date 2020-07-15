@@ -166,6 +166,7 @@
                                             {
                                                 <a data-id="@item.RentalVehicleID" onclick="return false;" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
                                             }
+                                            <a asp-action="Details" asp-route-id="@item.RentalVehicleID">Edytuj</a>
                                         </td>
                                     </tr>
                                 }

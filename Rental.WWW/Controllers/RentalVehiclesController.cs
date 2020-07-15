@@ -247,11 +247,11 @@ namespace Rental.WWW.Controllers
         }
 
 
-        #region Edit Delete
+        #region Edit
 
 
         // GET: RentalVehicles/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -280,48 +280,48 @@ namespace Rental.WWW.Controllers
         }
 
         // POST: RentalVehicles/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("RentalVehicleID,From,To,RentalFromLocationId,RentalToLocationId,Annotations")] RentalVehicle rentalVehicle)
-        {
-            if (id != rentalVehicle.RentalVehicleID)
-            {
-                return NotFound();
-            }
-            var rv = await _context.RentalVehicles.FirstOrDefaultAsync(w => w.RentalVehicleID == id);
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("RentalVehicleID,From,To,RentalFromLocationId,RentalToLocationId,Annotations")] RentalVehicle rentalVehicle)
+        //{
+        //    if (id != rentalVehicle.RentalVehicleID)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var rv = await _context.RentalVehicles.FirstOrDefaultAsync(w => w.RentalVehicleID == id);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    rv.From = rentalVehicle.From;
-                    rv.To = rentalVehicle.To;
-                    rv.RentalFromLocationId = rentalVehicle.RentalFromLocationId;
-                    rv.RentalToLocationId = rentalVehicle.RentalToLocationId;
-                    rv.Annotations = rentalVehicle.Annotations;
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RentalVehicleExists(rentalVehicle.RentalVehicleID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            rv.From = rentalVehicle.From;
+        //            rv.To = rentalVehicle.To;
+        //            rv.RentalFromLocationId = rentalVehicle.RentalFromLocationId;
+        //            rv.RentalToLocationId = rentalVehicle.RentalToLocationId;
+        //            rv.Annotations = rentalVehicle.Annotations;
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!RentalVehicleExists(rentalVehicle.RentalVehicleID))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
-            ViewBag.CustomersNow = await _userManager.FindByIdAsync(rv.ApplicationUserID);
-            ViewBag.CitiesFrom = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalFromLocation.RentalAgencyAddressID);
-            ViewBag.CitiesTo = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalToLocation.RentalAgencyAddressID);
+        //    ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
+        //    ViewBag.CustomersNow = await _userManager.FindByIdAsync(rv.ApplicationUserID);
+        //    ViewBag.CitiesFrom = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalFromLocation.RentalAgencyAddressID);
+        //    ViewBag.CitiesTo = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalToLocation.RentalAgencyAddressID);
 
-            return View(rentalVehicle);
-        }
+        //    return View(rentalVehicle);
+        //}
 
 
         // POST: RentalVehicles/Delete/5
