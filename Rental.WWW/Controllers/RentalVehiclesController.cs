@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +17,7 @@ using Rental.Data.Data.Areas.Identity.Data;
 using Rental.Data.Data.Rental;
 using Rental.WWW.Controllers.Abstract;
 using Rental_Data.Data.Rental;
+using SelectPdf;
 
 namespace Rental.WWW.Controllers
 {
@@ -22,11 +25,14 @@ namespace Rental.WWW.Controllers
     public class RentalVehiclesController : BasicAbstractController
     {
         protected readonly ILogger<HomeController> _logger;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public RentalVehiclesController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public RentalVehiclesController(ILogger<HomeController> logger, UserManager<ApplicationUser> userManager, ApplicationDbContext context
+                                        , IWebHostEnvironment hostingEnvironment)
         : base(context, userManager)
         {
             _logger = logger;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         public async Task<IActionResult> Index(string search, DateTime? from, DateTime? to, int? fromLocation, int? toLocation, int? rentalItemBrand)
@@ -342,8 +348,216 @@ namespace Rental.WWW.Controllers
             return _context.RentalVehicles.Any(e => e.RentalVehicleID == id);
         }
 
-        #endregion Edit Delete
+        //Generowanie PDF
+
+        //public IActionResult GeneratePdf(string html)
+        //{
+        //    html = html.Replace("StrTag", "<").Replace("EndTag", ">");
+        //    HtmlToPdf converter = new HtmlToPdf();
+            
+        //    PdfDocument doc = converter.ConvertHtmlString(html);
+        //    byte[] pdf = doc.Save();
+        //    doc.Close();
+
+        //    return File(
+        //            pdf,
+        //            "application/pdf",
+        //            "Potwierdzenie.pdf"
+        //        );
+        //}
+
+        public IActionResult GeneratePdf(int id)
+        {
+            //  html = html.Replace("StrTag", "<").Replace("EndTag", ">");
+            
+            var rentalVehicle = _context.RentalVehicles.
+             Include(i => i.RentalFromLocation).
+             Include(i => i.RentalToLocation).
+             Include(i => i.RentalStatus).
+             Include(i => i.Vehicle).
+             Include(i => i.Vehicle.Brand).
+             Include(i => i.Vehicle.VehicleModel).
+             Include(i => i.Vehicle.EngineType).
+             Include(i => i.Vehicle.Equipment).
+             Include(i => i.Vehicle.AirConditioning).
+             First(f => f.RentalVehicleID == id);
+
+            var eqnName = _context.EquipmentNames.ToList();
+            string eqString = "";
+            int countLst = rentalVehicle.Vehicle.Equipment.Count;
+            foreach (var eq in rentalVehicle.Vehicle.Equipment)
+            {
+                eqString += eqnName.Where(w => w.EquipmentNameID == eq.EquipmentNameID).Select(s => s.Name).FirstOrDefault();
+                if (countLst-- > 1)
+                    eqString += ", ";
+                //else
+                //    eqString += " .";
+                           
+            }
+
+            var user = GetUser();
+            var agency = _context.RentalAgencies.
+                Include(i => i.RentalAgencyAddress).
+                FirstOrDefault(w => w.RentalAgencyID == rentalVehicle.Vehicle.RentalAgencyID);
+
+            string htmlcode =
+            "<table style=\"width: 100%\"><tr><td align=\"left\">" +
+            "<h3>" + "RentIT" + "<h3>" +
+            "</td><td align=\"right\">" +
+            "<h3>" + DateTime.Now.ToShortDateString() + "<h3>" +
+            "</td></tr></table><br>" +
+            "<h1>Potwierdzenie rezerwacji pojazdu</h2>" +
+            "<hr />" +
+            "<h2>Dane Pojazdy:</h3>" +
+            "<table style=\"border: 1px solid black; padding: 5px; font-size: 24px; width: 100%; \">" +
+              "<tbody>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Marka i model</td>" +
+                      "<td><b>" + rentalVehicle.Vehicle.Brand.Name + " " + rentalVehicle.Vehicle.VehicleModel.Name + "</b> /"
+                      + rentalVehicle.Vehicle.YearOfCarProduction + " " + rentalVehicle.Vehicle.EngineType.Name + " "
+                      + String.Format("{0:0.0}", Math.Round(((Convert.ToDouble(rentalVehicle.Vehicle.EngineCapacity)) / 1000), 2)) + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">VIN / Numer rejestracyjny</td>" +
+                      "<td>" + rentalVehicle.Vehicle.VIN + " / " + rentalVehicle.Vehicle.NumberPlate + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Wyposażenie</td>" +
+                      "<td>" + eqString + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Klimatyzacja</td>" +
+                      "<td>" + rentalVehicle.Vehicle.AirConditioning.Type + "</td>" +
+                  "</tr>" +
+
+              "</tbody>" +
+             "</table>" +
+             "<h2>Rezerwacja:</h3>" +
+            "<table style=\"border: 1px solid black; padding: 5px; font-size: 24px; width: 100%; \">" +
+              "<tbody>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Data wypożyczenia</td>" +
+                      "<td>" + rentalVehicle.CreationDate + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\"Odbiór pojazdu</td>" +
+                      "<td><b>" + rentalVehicle.From.ToShortDateString() + "</b></td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Zwrot pojazdu</td>" +
+                      "<td><b>" + rentalVehicle.To.ToShortDateString() + "</b></td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Miejsce odbioru</td>" +
+                      "<td>" + rentalVehicle.RentalFromLocation.City + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Miejsce zwrotu</td>" +
+                      "<td>" + rentalVehicle.RentalToLocation.City + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Status rezerwacji</td>" +
+                      "<td>" + rentalVehicle.RentalStatus.Name + "</td>" +
+                  "</tr>" +
+
+               "</tbody>" +
+             "</table>" +
+             "<h2>Dane Klienta:</h3>" +
+             "<table style=\"border: 1px solid black; padding: 5px; font-size: 24px; width: 100%; \">" +
+              "<tbody>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Imię i Nazwisko</td>" +
+                      "<td>" + user.FirstName + " " + user.LastName + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Adres</td>" +
+                      "<td>" + user.Street + " " + user.Number +
+                      "<br>" + user.ZIPCode + " " + user.City + ", " + user.Country + " </td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                       "<td style=\"width:40%;\">Telefon</td>" +
+                      "<td> Telefon:" + user.PhoneNumber + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                       "<td style=\"width:40%;\">E-mail</td>" +
+                      "<td>" + user.Email + "</td>" +
+                  "</tr>" +
 
 
+              "</tbody>" +
+             "</table>" +
+
+
+              "<h2>Wypożyczalnia</h3>" +
+             "<table style=\"border: 1px solid black; padding: 5px; font-size: 24px; width: 100%; \">" +
+              "<tbody>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Nazwa:</td>" +
+                      "<td>" + agency.Name + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Adres:</td>" +
+                      "<td>" + agency.RentalAgencyAddress.Street + " " + agency.RentalAgencyAddress.Number + "<br>" 
+                      + agency.RentalAgencyAddress.ZIPCode + " " + agency.RentalAgencyAddress.City + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">NIP:</td>" +
+                      "<td>" + agency.NIP + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Telefon:</td>" +
+                      "<td>" + agency.Phone1 + "</td>" +
+                  "</tr>" +
+
+                  "<tr>" +
+                      "<td style=\"width:40%;\">Email:</td>" +
+                      "<td>" + agency.Email1 + "</td>" +
+                  "</tr>" +
+
+
+              "</tbody>" +
+             "</table>"
+             ;
+
+            HtmlToPdf converter = new HtmlToPdf();
+
+
+            converter.Options.PdfPageSize = PdfPageSize.A4;
+            converter.Options.PdfPageOrientation = PdfPageOrientation.Portrait;
+            converter.Options.MarginLeft = 20;
+            converter.Options.MarginRight = 20;
+            converter.Options.MarginTop = 30;
+            converter.Options.MarginBottom = 30;
+
+            PdfDocument doc = converter.ConvertHtmlString(htmlcode);
+            byte[] pdf = doc.Save();
+            doc.Close();
+
+            return File(
+                    pdf,
+                    "application/pdf",
+                    "Potwierdzenie.pdf"
+                );
+        }
+
+        #endregion Edit
     }
 }

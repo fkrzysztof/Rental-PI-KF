@@ -213,7 +213,9 @@ C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\bin\Debug\netcore
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Rental.WWW.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Rental.WWW.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Views\News\ReadItem.cshtml.g.cs
 C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Razor\Views\RentalVehicles\Details.cshtml.g.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\bin\Debug\netcoreapp3.1\Select.Html.dep
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\bin\Debug\netcoreapp3.1\Select.HtmlToPdf.dll
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Rental.WWW.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\krzys\Documents\Programowanie\Rental-PI-KF\Rental.WWW\obj\Debug\netcoreapp3.1\Rental.WWW.MvcApplicationPartsAssemblyInfo.cache

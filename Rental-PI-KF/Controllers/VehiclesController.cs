@@ -176,6 +176,7 @@ namespace Rental_PI_KF.Controllers
                 v.GeneralTypeID = _context.ExactTypes.FirstOrDefaultAsync(f => f.ExactTypeID == v.ExactTypeID).Result.GeneralTypeID;
                 v.Blockade = false;
                 v.IsActive = true;
+                v.RentalAgencyID = GetUser().RentalAgencyID;
                 _context.Add(v);
 
                 //dodanie zdjecia do sql
@@ -283,6 +284,7 @@ namespace Rental_PI_KF.Controllers
             //ustawiam typ generalny po typie dokladnym
             vehicle.GeneralTypeID = _context.ExactTypes.FirstOrDefault(w => w.ExactTypeID == vehicle.ExactTypeID).GeneralTypeID;
             vehicle.IsActive = true;
+            vehicle.RentalAgencyID = GetUser().RentalAgencyID;
 
             if (ModelState.IsValid)
             {
