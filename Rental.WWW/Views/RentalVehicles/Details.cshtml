@@ -1,7 +1,7 @@
 ﻿@model Rental.Data.Data.Rental.RentalVehicle
-
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Szczegóły rezerwacji";
+    ViewBag.PageTitle = "Szczegóły rezerwacji";
 }
 @using Rental.Data.Data.Areas.Identity.Data
 
@@ -9,9 +9,9 @@
 
     <div class="col-12 mt-2">
         <button asp-action="Index" class="btn text-primary float-left"><i class="fas fa-chevron-left"></i> Powrót</button>
-        <a class="text-primary float-right" asp-route-id="@Model.RentalVehicleID" asp-action="GeneratePdf" target="_blank">Generuj PDF</a>
+        <a class="text-primary float-right" asp-route-id="@Model.RentalVehicleID" asp-action="GeneratePdf" target="_blank"><i class="far fa-file-pdf mr-2"></i>Generuj PDF</a>
     </div>
-    
+
     <div class="col-md-12">
         <ul class="nav nav-tabs">
             <li class="nav-item">
@@ -195,8 +195,9 @@
                                                 </dd>
 
                                                 <dt class="col-sm-6">
-                                                    @Html.DisplayNameFor(model => model.Vehicle.AirConditioning)
+                                                    @Html.DisplayNameFor(model => model.Vehicle.AirConditioning.Type)
                                                 </dt>
+
                                                 <dd class="col-sm-6">
                                                     @Html.DisplayFor(model => model.Vehicle.AirConditioning.Type)
                                                 </dd>
@@ -271,8 +272,8 @@
                         </div>
 
                         <div class="col-sm-12 mt-4 p-2 text-left">
-                            <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-check mr-2"></i>Zapisz</button>
-                            @*<a data-id="@Model.RentalVehicleID" class="btn btn-sm btn-danger mr-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i> Usuń</a>*@
+                            @*<button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-check mr-2"></i>Zapisz</button>*@
+                            <a data-id="@Model.RentalVehicleID" class="btn btn-sm btn-danger mr-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i> Zrezygnuj</a>
                             <a asp-action="Index" class="float-right"><i class="fas fa-chevron-left mr-2"></i>Powrót</a>
                         </div>
 
@@ -284,7 +285,7 @@
 </div>
 
 <!-- Modal -->
-<!-- Modal Delete
+<!-- Modal Delete -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -309,42 +310,13 @@
         </div>
     </div>
 </div>
-    -->
-
-<table>
-    <tbody>
-        <tr>
-            <td style="font-size: 14px;">ala</td>
-            <td style="font-size: 10px;">alas</td>
-        </tr>
-    </tbody>
-</table>
-<table style="font-size: 32px; border-radius: 10px 10px; border:2px solid red;">
-    <tbody>
-        <tr>
-            <td>ala</td>
-            <td>alas</td>
-        </tr>
-    </tbody>
-</table>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        //$(document).on("click", ".j-s-DeleteDialog", function () {
-        //    var itemId = $(this).data('id');
-        //    $(".modal-body #itemId").val(itemId);
-        //});
-
-        //Generowanie PDF
-
-        $('#btnPdf').click(function () {
-            //alert("PDF z potwierdzeniem zostanie wygenerowany i pobrany");
-            //var sHtml = $("#pdfContainer").html();
-            //sHtml = sHtml.replace(/</g, "StrTag").replace(/>/g, "EndTag");
-            //window.open('../GeneratePdf?html=' + sHtml, '_blank');
-            window.open('../GeneratePdf?html=' + Model.RentalVehicleID, '_blank');
+        $(document).on("click", ".j-s-DeleteDialog", function () {
+            var itemId = $(this).data('id');
+            $(".modal-body #itemId").val(itemId);
         });
-
     });
 </script>

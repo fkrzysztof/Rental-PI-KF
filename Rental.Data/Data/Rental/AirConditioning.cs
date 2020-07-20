@@ -12,7 +12,7 @@ namespace Rental_Data.Data.Rental
         public int AirConditioningID { get; set; }
         
         [Required]
-        [Display(Name = "Typ")]
+        [Display(Name = "Klimatyzacja")]
         public string Type { get; set; }
         
         public bool IsActive { get; set; }

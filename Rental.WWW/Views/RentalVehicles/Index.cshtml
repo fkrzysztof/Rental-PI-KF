@@ -1,7 +1,8 @@
 ﻿@model IEnumerable<Rental.Data.Data.Rental.RentalVehicle>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Lista rezerwacji";
+    ViewBag.PageTitle = "Lista rezerwacji";
 }
 <div class="row mb-4 justify-content-center">
     <div class="col-md-12">
@@ -162,11 +163,11 @@
                                         @item.CreationDate.ToShortDateString()
                                         </td>
                                         <td class="text-right">
+                                            <a asp-action="Details" asp-route-id="@item.RentalVehicleID"><i class="fas fa-search"></i></a>
                                             @if (item.To.CompareTo(DateTime.Now) > 0)
                                             {
                                                 <a data-id="@item.RentalVehicleID" onclick="return false;" class="ml-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i></a>
                                             }
-                                            <a asp-action="Details" asp-route-id="@item.RentalVehicleID">Edytuj</a>
                                         </td>
                                     </tr>
                                 }

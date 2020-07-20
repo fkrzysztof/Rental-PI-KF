@@ -9,6 +9,7 @@
 
         <div class="col-12 mt-2">
             <button asp-action="Index" class="btn text-primary float-left"><i class="fas fa-chevron-left"></i> Powrót</button>
+            <a class="text-primary float-right" asp-route-id="@Model.RentalVehicleID" asp-action="GeneratePdf" target="_blank"><i class="far fa-file-pdf mr-2"></i>Generuj PDF</a>
         </div>
 
             <div class="col-md-12">
@@ -47,11 +48,11 @@
                                                         <div class="col-sm-6">
                                                             <div class="form-group">
                                                                 <label for="formGroupExampleInput">Od dnia:</label>
-                                                                <input type="date" class="form-control" asp-for="From" value="@Model.From.Date.ToString("yyyy-MM-dd")">
+                                                                <input type="date" disabled class="form-control" asp-for="From" value="@Model.From.Date.ToString("yyyy-MM-dd")">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="formGroupExampleInput2">Do dnia:</label>
-                                                                <input type="date" class="form-control" asp-for="To" value="@Model.To.Date.ToString("yyyy-MM-dd")">
+                                                                <input type="date" disabled class="form-control" asp-for="To" value="@Model.To.Date.ToString("yyyy-MM-dd")">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
@@ -83,7 +84,7 @@
                                                         <div class="col-sm-12">
                                                             <div class="form-group">
                                                                 <label for="formGroupExampleInput2">Utworzono:</label>
-                                                                <input disabled class="form-control" asp-for="CreationDate">
+                                                                <input disabled class="form-control" value="@Model.CreationDate.ToShortDateString(), @Model.CreationDate.ToShortTimeString()">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -194,7 +195,7 @@
                                                         </dd>
 
                                                         <dt class="col-sm-6">
-                                                            @Html.DisplayNameFor(model => model.Vehicle.AirConditioning)
+                                                            @Html.DisplayNameFor(model => model.Vehicle.AirConditioning.Type)
                                                         </dt>
                                                         <dd class="col-sm-6">
                                                             @Html.DisplayFor(model => model.Vehicle.AirConditioning.Type)
@@ -270,7 +271,7 @@
                                 </div>
 
                                 <div class="col-sm-12 mt-4 p-2 text-left">
-                                    <button type="submit" class="btn btn-sm btn-primary"><i class="fas fa-check mr-2"></i>Zapisz</button>
+                                    <button type="submit" class="btn btn-sm btn-primary" asp-route-id="@Model.RentalVehicleID"><i class="fas fa-check mr-2"></i>Zapisz</button>
                                     <a data-id="@Model.RentalVehicleID" class="btn btn-sm btn-danger mr-2 j-s-DeleteDialog" data-toggle="modal" data-target="#deleteModal" href="#deleteModal"><i class="fas fa-trash"></i> Usuń</a>
                                     <a asp-action="Index" class="float-right"><i class="fas fa-chevron-left mr-2"></i>Powrót</a>
                                 </div>

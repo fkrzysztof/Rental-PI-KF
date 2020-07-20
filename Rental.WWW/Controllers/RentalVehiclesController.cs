@@ -269,6 +269,12 @@ namespace Rental.WWW.Controllers
                 Include(i => i.RentalToLocation).
                 Include(i => i.RentalStatus).
                 Include(i => i.Vehicle).
+                Include(i => i.Vehicle.AirConditioning).
+                Include(i => i.Vehicle.EngineType).
+                Include(i => i.Vehicle.ExactType).
+                Include(i => i.Vehicle.Colour).
+                Include(i => i.Vehicle.GearBox).
+                Include(i => i.Vehicle.WheelDrive).
                 Include(i => i.Vehicle.Brand).
                 Include(i => i.Vehicle.VehicleModel).
                 First(f => f.RentalVehicleID == id);
@@ -284,51 +290,6 @@ namespace Rental.WWW.Controllers
 
             return View(rentalVehicle);
         }
-
-        // POST: RentalVehicles/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(int id, [Bind("RentalVehicleID,From,To,RentalFromLocationId,RentalToLocationId,Annotations")] RentalVehicle rentalVehicle)
-        //{
-        //    if (id != rentalVehicle.RentalVehicleID)
-        //    {
-        //        return NotFound();
-        //    }
-        //    var rv = await _context.RentalVehicles.FirstOrDefaultAsync(w => w.RentalVehicleID == id);
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            rv.From = rentalVehicle.From;
-        //            rv.To = rentalVehicle.To;
-        //            rv.RentalFromLocationId = rentalVehicle.RentalFromLocationId;
-        //            rv.RentalToLocationId = rentalVehicle.RentalToLocationId;
-        //            rv.Annotations = rentalVehicle.Annotations;
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!RentalVehicleExists(rentalVehicle.RentalVehicleID))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    ViewBag.RentalStatusID = new SelectList(_context.RentalStatuses, "RentalStatusID", "Name", rentalVehicle.RentalStatusID);
-        //    ViewBag.CustomersNow = await _userManager.FindByIdAsync(rv.ApplicationUserID);
-        //    ViewBag.CitiesFrom = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalFromLocation.RentalAgencyAddressID);
-        //    ViewBag.CitiesTo = new SelectList(_context.RentalAgencyAddresses, "RentalAgencyAddressID", "City", rentalVehicle.RentalToLocation.RentalAgencyAddressID);
-
-        //    return View(rentalVehicle);
-        //}
-
 
         // POST: RentalVehicles/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -348,28 +309,8 @@ namespace Rental.WWW.Controllers
             return _context.RentalVehicles.Any(e => e.RentalVehicleID == id);
         }
 
-        //Generowanie PDF
-
-        //public IActionResult GeneratePdf(string html)
-        //{
-        //    html = html.Replace("StrTag", "<").Replace("EndTag", ">");
-        //    HtmlToPdf converter = new HtmlToPdf();
-            
-        //    PdfDocument doc = converter.ConvertHtmlString(html);
-        //    byte[] pdf = doc.Save();
-        //    doc.Close();
-
-        //    return File(
-        //            pdf,
-        //            "application/pdf",
-        //            "Potwierdzenie.pdf"
-        //        );
-        //}
-
         public IActionResult GeneratePdf(int id)
         {
-            //  html = html.Replace("StrTag", "<").Replace("EndTag", ">");
-            
             var rentalVehicle = _context.RentalVehicles.
              Include(i => i.RentalFromLocation).
              Include(i => i.RentalToLocation).
@@ -390,9 +331,8 @@ namespace Rental.WWW.Controllers
                 eqString += eqnName.Where(w => w.EquipmentNameID == eq.EquipmentNameID).Select(s => s.Name).FirstOrDefault();
                 if (countLst-- > 1)
                     eqString += ", ";
-                //else
-                //    eqString += " .";
-                           
+                else
+                    eqString += " .";
             }
 
             var user = GetUser();
@@ -411,128 +351,103 @@ namespace Rental.WWW.Controllers
             "<h2>Dane Pojazdy:</h3>" +
             "<table style=\"border: 1px solid black; padding: 5px; font-size: 24px; width: 100%; \">" +
               "<tbody>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Marka i model</td>" +
+                      "<td style=\"width:40%;\">Marka i model:</td>" +
                       "<td><b>" + rentalVehicle.Vehicle.Brand.Name + " " + rentalVehicle.Vehicle.VehicleModel.Name + "</b> /"
                       + rentalVehicle.Vehicle.YearOfCarProduction + " " + rentalVehicle.Vehicle.EngineType.Name + " "
                       + String.Format("{0:0.0}", Math.Round(((Convert.ToDouble(rentalVehicle.Vehicle.EngineCapacity)) / 1000), 2)) + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">VIN / Numer rejestracyjny</td>" +
+                      "<td style=\"width:40%;\">VIN / Numer rejestracyjny:</td>" +
                       "<td>" + rentalVehicle.Vehicle.VIN + " / " + rentalVehicle.Vehicle.NumberPlate + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Wyposażenie</td>" +
+                      "<td style=\"width:40%;\">Wyposażenie:</td>" +
                       "<td>" + eqString + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Klimatyzacja</td>" +
+                      "<td style=\"width:40%;\">Klimatyzacja:</td>" +
                       "<td>" + rentalVehicle.Vehicle.AirConditioning.Type + "</td>" +
                   "</tr>" +
-
               "</tbody>" +
              "</table>" +
              "<h2>Rezerwacja:</h3>" +
             "<table style=\"border: 1px solid black; padding: 5px; font-size: 24px; width: 100%; \">" +
               "<tbody>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Data wypożyczenia</td>" +
+                      "<td style=\"width:40%;\">Data wypożyczenia:</td>" +
                       "<td>" + rentalVehicle.CreationDate + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\"Odbiór pojazdu</td>" +
+                      "<td style=\"width:40%;\"Odbiór pojazdu:</td>" +
                       "<td><b>" + rentalVehicle.From.ToShortDateString() + "</b></td>" +
                   "</tr>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Zwrot pojazdu</td>" +
+                      "<td style=\"width:40%;\">Zwrot pojazdu:</td>" +
                       "<td><b>" + rentalVehicle.To.ToShortDateString() + "</b></td>" +
                   "</tr>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Miejsce odbioru</td>" +
+                      "<td style=\"width:40%;\">Miejsce odbioru:</td>" +
                       "<td>" + rentalVehicle.RentalFromLocation.City + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Miejsce zwrotu</td>" +
+                      "<td style=\"width:40%;\">Miejsce zwrotu:</td>" +
                       "<td>" + rentalVehicle.RentalToLocation.City + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Status rezerwacji</td>" +
+                      "<td style=\"width:40%;\">Status rezerwacji:</td>" +
                       "<td>" + rentalVehicle.RentalStatus.Name + "</td>" +
                   "</tr>" +
-
                "</tbody>" +
              "</table>" +
              "<h2>Dane Klienta:</h3>" +
              "<table style=\"border: 1px solid black; padding: 5px; font-size: 24px; width: 100%; \">" +
               "<tbody>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Imię i Nazwisko</td>" +
+                      "<td style=\"width:40%;\">Imię i Nazwisko:</td>" +
                       "<td>" + user.FirstName + " " + user.LastName + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
-                      "<td style=\"width:40%;\">Adres</td>" +
+                      "<td style=\"width:40%;\">Adres:</td>" +
                       "<td>" + user.Street + " " + user.Number +
                       "<br>" + user.ZIPCode + " " + user.City + ", " + user.Country + " </td>" +
                   "</tr>" +
 
                   "<tr>" +
-                       "<td style=\"width:40%;\">Telefon</td>" +
+                       "<td style=\"width:40%;\">Telefon:</td>" +
                       "<td> Telefon:" + user.PhoneNumber + "</td>" +
                   "</tr>" +
 
                   "<tr>" +
-                       "<td style=\"width:40%;\">E-mail</td>" +
+                       "<td style=\"width:40%;\">E-mail:</td>" +
                       "<td>" + user.Email + "</td>" +
                   "</tr>" +
-
-
-              "</tbody>" +
+               "</tbody>" +
              "</table>" +
-
-
               "<h2>Wypożyczalnia</h3>" +
              "<table style=\"border: 1px solid black; padding: 5px; font-size: 24px; width: 100%; \">" +
               "<tbody>" +
-
                   "<tr>" +
                       "<td style=\"width:40%;\">Nazwa:</td>" +
                       "<td>" + agency.Name + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
                       "<td style=\"width:40%;\">Adres:</td>" +
                       "<td>" + agency.RentalAgencyAddress.Street + " " + agency.RentalAgencyAddress.Number + "<br>" 
                       + agency.RentalAgencyAddress.ZIPCode + " " + agency.RentalAgencyAddress.City + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
                       "<td style=\"width:40%;\">NIP:</td>" +
                       "<td>" + agency.NIP + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
                       "<td style=\"width:40%;\">Telefon:</td>" +
                       "<td>" + agency.Phone1 + "</td>" +
                   "</tr>" +
-
                   "<tr>" +
                       "<td style=\"width:40%;\">Email:</td>" +
                       "<td>" + agency.Email1 + "</td>" +
                   "</tr>" +
-
-
               "</tbody>" +
              "</table>"
              ;

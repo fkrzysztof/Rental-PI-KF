@@ -2,9 +2,13 @@
 
 @using Microsoft.AspNetCore.Identity;
 @{
-    ViewData["Title"] = "RentalThis";
+    ViewData["Title"] = "Zarezerwuj pojazd";
+    ViewBag.PageTitle = "Zarezerwuj pojazd";
     var roles = (List<IdentityRole>)ViewData["roles"];
 }
+
+
+
 
 <div class="row no-gutters">
     <div class="col-sm-12">
@@ -46,7 +50,7 @@
                                             <div class="bg-dark m-0 p-0"></div>
                                         }
                                         //sprawdzam czy dzien jest zajety -- ZAJETY
-                                        if (Model.Vehicle.RentalVehicles.FirstOrDefault(f => f.From.CompareTo(item) <= 0 && f.To.CompareTo(item) >= 0  && f.IsActive == true) != null)
+                                        if (Model.Vehicle.RentalVehicles.FirstOrDefault(f => f.From.CompareTo(item) <= 0 && f.To.CompareTo(item) >= 0 && f.IsActive == true) != null)
                                         {
                                             <div class="btn-group-toggle d-inline-block rounded mt-1" data-toggle="buttons">
                                                 <label class="btn btn-danger active" style="min-width: 46px; min-height: 46px">
