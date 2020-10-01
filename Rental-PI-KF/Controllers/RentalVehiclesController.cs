@@ -190,6 +190,22 @@ namespace Rental_PI_KF.Controllers
             return View("CreateThis",rv);
         }
 
+        private async void AddRentalVehicle(RentalVehicle rv)
+        {
+            await _context.AddAsync(new RentalVehicle
+            {
+                VehicleID = rv.VehicleID,
+                From = rv.From,
+                To = rv.To,
+                RentalStatusID = rv.RentalStatusID,
+                CreationDate = DateTime.Now,
+                IsActive = true,
+                RentalFromLocationId = rv.RentalFromLocationId,
+                RentalToLocationId = rv.RentalToLocationId,
+                ApplicationUserID = rv.ApplicationUserID
+            });
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateThis([Bind("RentalVehicleID,VehicleID,From,To,RentalStatusID,CreationDate,IsActive,RentalFromLocationId,RentalToLocationId,ApplicationUserID")] RentalVehicle rentalVehicle, List<DateTime> RentalDate)
@@ -205,44 +221,17 @@ namespace Rental_PI_KF.Controllers
                     if ((i + 1) == RentalDate.Count)
                     {
                         rentalVehicle.To = RentalDate.ElementAt(i).Date;
-                        _context.Add(new RentalVehicle { 
-                        
-                            VehicleID = rentalVehicle.VehicleID,
-                            From = rentalVehicle.From,
-                            To = rentalVehicle.To,
-                            RentalStatusID = rentalVehicle.RentalStatusID,
-                            CreationDate = DateTime.Now,
-                            IsActive = true,
-                        //dodane
-                            RentalFromLocationId = rentalVehicle.RentalFromLocationId,
-                            RentalToLocationId = rentalVehicle.RentalToLocationId,
-                            ApplicationUserID = rentalVehicle.ApplicationUserID
-                            
-                        });
+                        AddRentalVehicle(rentalVehicle);
                         break;
                     }
                     //nastepny dzien rezerwacji to nie kolejny dzien!
-                    //konczymy ta rezerwacje zaczynamy nawa
+                    //konczymy ta rezerwacje zaczynamy nowa
                     if (RentalDate.ElementAt(i).AddDays(1).Date != RentalDate.ElementAt(i + 1).Date)
                     {
                         rentalVehicle.To = RentalDate.ElementAt(i).Date;
-                        _context.Add(new RentalVehicle
-                        {
+                        AddRentalVehicle(rentalVehicle);
 
-                            VehicleID = rentalVehicle.VehicleID,
-                            From = rentalVehicle.From,
-                            To = rentalVehicle.To,
-                            RentalStatusID = rentalVehicle.RentalStatusID,
-                            CreationDate = DateTime.Now,
-                            IsActive = true,
-                            //dodane
-                            RentalFromLocationId = rentalVehicle.RentalFromLocationId,
-                            RentalToLocationId = rentalVehicle.RentalToLocationId,
-                            ApplicationUserID = rentalVehicle.ApplicationUserID
-
-                        });
-
-                        //podanie nowej zawartosci for
+                        //podanie nowej zawartosci from
                         rentalVehicle.From = RentalDate.ElementAt(i + 1).Date;
                     }
                 }

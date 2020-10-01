@@ -179,7 +179,7 @@ namespace Rental_PI_KF.Controllers
                 v.RentalAgencyID = GetUser().RentalAgencyID;
                 _context.Add(v);
 
-                //dodanie zdjecia do sql
+                //dodanie zdjecia do bazy sql
                 v.Image = ImgToSQLAsync(file).Result.ToArray();
 
                 //dodanie wyposazenia i przypisanie pojazdy do elementu wyposazenia
@@ -220,13 +220,11 @@ namespace Rental_PI_KF.Controllers
             ViewData["VehicleModelID"] = new SelectList(_context.VehicleModels, "VehicleModelID", "VehicleModelID", v.VehicleModelID);
             ViewData["WheelDriveID"] = new SelectList(_context.WheelDrives, "WheelDriveID", "WheelDriveID", v.WheelDriveID);
             ViewBag.AirConditioningID = new SelectList(_context.AirConditionings, "AirConditioningID", "Type");
-
-            //dopisane
             ViewBag.ListOfBrads = _context.Brands.ToList();
             sendYear();
             ViewBag.EquipmentsNameList = _context.EquipmentNames;
 
-            return View();
+            return View(v);
         }
 
         //GET: Vehicles/Edit/5
@@ -441,7 +439,6 @@ namespace Rental_PI_KF.Controllers
                 listYear.Add(yearNow--);
             }
             ViewBag.YearOfProduction = new SelectList(listYear);
-
         }
 
         public async Task<IActionResult> Activation(int? id)

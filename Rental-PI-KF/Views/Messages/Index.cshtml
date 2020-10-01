@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<Rental.Data.Data.Rental.Message>
 
 @{
-    //ViewData["Title"] = "Wiadomości nieodczytane";
     ViewData["Title"] = ViewBag.Tite;
 }
 
@@ -24,11 +23,10 @@
                                     @***************************** Wyszukiwanie **********************************@
                                     <div class="row">
                                         <div class="col-sm-12 align-self-center">
-                                            @*Wyszukiwarka*@
                                             @{
                                                 if (@ViewBag.Search != null)
                                                 {
-                                                    <span class="badge badge-pill badge-info">"@ViewBag.Search" <a class="text-white" asp-action="Index">&times;</a></span> @*<span aria-hidden="true">&times;</span>*@
+                                                    <span class="badge badge-pill badge-info">"@ViewBag.Search" <a class="text-white" asp-action="Index">&times;</a></span>
                                                 }
                                             }
                                             <input type="text" name="searchString" class="form-control" placeholder="Wpisz szukaną frazę.." />
@@ -44,9 +42,6 @@
                         </div>
                     </div>
                     <div class="col-12">
-
-
-                       
                             @foreach (var item in Model.OrderByDescending(x => x.StartDate).ThenBy(y => y.AddedDate))
                             {
                                 <div class="row no-gutters rounded shadow-sm mt-2 mb-2
@@ -94,9 +89,6 @@
                                     </div>
                                 </div>
                             }
-                       
-
-
                     </div>
                 </div>
             </div>
